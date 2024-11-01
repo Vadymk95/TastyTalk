@@ -1,3 +1,9 @@
+/* tailwind */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* reset */
 
 /* Box sizing */
