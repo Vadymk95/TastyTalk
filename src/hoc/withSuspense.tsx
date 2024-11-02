@@ -1,5 +1,6 @@
+import { Loader } from '@root/components';
 import { ReactNode, Suspense } from 'react';
 
 export const withSuspense = (element: ReactNode) => (
-    <Suspense fallback={<div>Loading...</div>}>{element}</Suspense>
+    <Suspense fallback={<Loader />}>{element}</Suspense>
 );
