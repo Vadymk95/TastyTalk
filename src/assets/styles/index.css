@@ -1,3 +1,6 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 /* reset */
 @import './reset.css';
 
@@ -6,3 +9,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background-color: theme('colors.background');
+    font-family: theme('fontFamily.sans');
+}
