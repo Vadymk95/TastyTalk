@@ -1,0 +1,15 @@
+.app-container {
+    @apply flex flex-col min-h-screen;
+}
+
+.header {
+    @apply bg-primary text-white py-4;
+}
+
+.main-content {
+    @apply flex-grow p-4;
+}
+
+.footer {
+    @apply bg-neutral-dark text-white py-4;
+}

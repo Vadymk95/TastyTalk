@@ -1,5 +1,11 @@
+import { Navigation } from '@root/components';
 import { FC } from 'react';
 
 export const Header: FC = () => {
-    return <header>Header</header>;
+    return (
+        <header className="header flex justify-between">
+            <div>Logo</div>
+            <Navigation />
+        </header>
+    );
 };

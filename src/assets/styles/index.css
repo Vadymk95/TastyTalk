@@ -3,6 +3,7 @@
 
 /* reset */
 @import './reset.css';
+@import './globals.css';
 
 /* tailwind */
 
