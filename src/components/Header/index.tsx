@@ -13,6 +13,7 @@ export const Header: FC = () => {
                 <Link to={routes.home} className="link">
                     {t('logo')}
                 </Link>
+
                 <Navigation />
             </div>
         </header>

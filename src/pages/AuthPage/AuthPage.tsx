@@ -1,7 +1,14 @@
-import { FC } from 'react';
+import { SignInForm, SignUpForm } from '@root/components';
+import { FC, useState } from 'react';
 
 const AuthPage: FC = () => {
-    return <div>Auth Page</div>;
+    const [isSignIn] = useState(true);
+
+    return (
+        <div className="flex justify-center items-center">
+            {isSignIn ? <SignInForm /> : <SignUpForm />}
+        </div>
+    );
 };
 
 export default AuthPage;

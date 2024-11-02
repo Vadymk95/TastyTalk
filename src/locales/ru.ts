@@ -4,7 +4,8 @@ export const ru = {
             signOut: 'Выйти',
             signIn: 'Войти',
             signUp: 'Регистрация',
-            logo: 'Лого'
+            logo: 'Лого',
+            home: 'На главную'
         }
     }
 };

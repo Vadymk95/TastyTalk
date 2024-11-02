@@ -4,7 +4,8 @@ export const en = {
             signOut: 'Sign Out',
             signIn: 'Sign In',
             signUp: 'Sign Up',
-            logo: 'Logo'
+            logo: 'Logo',
+            home: 'Home'
         }
     }
 };
