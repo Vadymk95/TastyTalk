@@ -1,0 +1,11 @@
+.loader-container {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+.loader {
+    @apply relative w-16 h-16;
+}
+
+.loader-circle {
+    @apply absolute inset-0 border-4 border-primary border-t-secondary rounded-full animate-spin;
+}
