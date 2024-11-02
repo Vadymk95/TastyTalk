@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 export const Main: FC = () => {
     return (
-        <main className="main-content">
+        <main className="main-content container">
             <AppRouter />
         </main>
     );

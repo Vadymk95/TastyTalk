@@ -1,7 +1,10 @@
 export const ru = {
     ru: {
         translation: {
-            welcome: 'Добро пожаловать'
+            signOut: 'Выйти',
+            signIn: 'Войти',
+            signUp: 'Регистрация',
+            logo: 'Лого'
         }
     }
 };
