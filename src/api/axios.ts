@@ -1,10 +1,11 @@
-// src/api/axios.ts
 import axios from 'axios';
 
-const defaultHost = 'http://localhost:3000/api';
+const PORT = process.env.PORT || 3000;
+const DEV_URL = `http://localhost:${PORT}`;
+const defaultHost = `${DEV_URL}/api`;
 
 const axiosInstance = axios.create({
-    baseURL: process.env.VITE_API_URL || defaultHost,
+    baseURL: defaultHost,
     timeout: 10000
 });
 
