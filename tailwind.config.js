@@ -7,19 +7,31 @@ export default {
                 sans: ['Roboto', 'sans-serif']
             },
             colors: {
-                primary: '#1E90FF',
-                secondary: '#FF6347',
-
-                success: '#28a745',
-                error: '#dc3545',
-                warning: '#ffc107',
-
-                background: '#f4f4f9',
-
-                hover: '#1C86EE',
-                active: '#1A78D0',
-                disabled: '#B0B0B0'
+                primary: {
+                    DEFAULT: '#FF6B6B',
+                    dark: '#D45D5D',
+                    light: '#FF8787'
+                },
+                secondary: {
+                    DEFAULT: '#4ECDC4',
+                    dark: '#3EB5B0',
+                    light: '#66D5D1'
+                },
+                accent: {
+                    DEFAULT: '#FFE66D',
+                    dark: '#FFD835',
+                    light: '#FFF18D'
+                },
+                neutral: {
+                    light: '#F7F7F7',
+                    DEFAULT: '#E5E5E5',
+                    dark: '#333333'
+                }
             },
+            backgroundImage: (theme) => ({
+                'gradient-main':
+                    'linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%)'
+            }),
             fontSize: {
                 xs: '0.75rem', // 12px
                 sm: '0.875rem', // 14px

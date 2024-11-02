@@ -11,6 +11,5 @@
 @tailwind utilities;
 
 body {
-    background-color: theme('colors.background');
-    font-family: theme('fontFamily.sans');
+    @apply bg-neutral-light font-sans text-neutral-dark;
 }
