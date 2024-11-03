@@ -14,7 +14,8 @@
 @tailwind utilities;
 
 body {
-    @apply bg-neutral-light font-sans text-neutral-dark;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 10 10'%3E%3Ccircle cx='1' cy='1' r='1' fill='%23e5e5e5'/%3E%3C/svg%3E");
+    @apply font-sans text-neutral-dark;
+    background-image: url('../images/background.jpg');
+    background-size: 800px 800px;
     background-repeat: repeat;
 }

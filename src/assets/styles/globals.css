@@ -16,7 +16,7 @@
 }
 
 .backdrop-bg {
-    @apply backdrop-blur-sm shadow-lg duration-300;
+    @apply backdrop-blur-md shadow-lg bg-white/80 duration-300;
 }
 
 .footer {
