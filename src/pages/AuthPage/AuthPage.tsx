@@ -1,4 +1,4 @@
-import { LoginForm, SignUpForm } from '@root/components';
+import { LoginForm, RegisterForm } from '@root/components';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,6 +6,7 @@ const AuthPage: FC = () => {
     const { t } = useTranslation();
     const [isSignIn, setIsSignIn] = useState(true);
     const handleSignUpAction = () => setIsSignIn(false);
+    const handleSignInAction = () => setIsSignIn(true);
 
     return (
         <div className="auth-form">
@@ -15,7 +16,7 @@ const AuthPage: FC = () => {
             {isSignIn ? (
                 <LoginForm signUpAction={handleSignUpAction} />
             ) : (
-                <SignUpForm />
+                <RegisterForm signInAction={handleSignInAction} />
             )}
         </div>
     );

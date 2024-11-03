@@ -3,5 +3,5 @@ export { Header } from './Header';
 export { LoginForm } from './LoginForm';
 export { Main } from './Main';
 export { Navigation } from './Navigation';
-export { SignUpForm } from './SignUpForm';
+export { RegisterForm } from './RegisterForm';
 export * from './ui';
