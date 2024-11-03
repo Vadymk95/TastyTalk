@@ -1,10 +1,12 @@
 export const en = {
     en: {
         translation: {
+            brand: 'TastyTalks',
             signOut: 'Sign Out',
             signIn: 'Sign In',
             signUp: 'Sign Up',
-            logo: 'Logo',
+            actionSignUp: 'Sign Up',
+            dontHaveAccount: "Don't have an account?",
             home: 'Home',
             email: 'Email',
             password: 'Password',

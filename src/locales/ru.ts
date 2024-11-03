@@ -1,10 +1,12 @@
 export const ru = {
     ru: {
         translation: {
+            brand: 'TastyTalks',
             signOut: 'Выйти',
             signIn: 'Войти',
             signUp: 'Регистрация',
-            logo: 'Лого',
+            actionSignUp: 'Зарегистрироваться',
+            dontHaveAccount: 'У вас еще нет аккаунта?',
             home: 'На главную',
             email: 'Email',
             password: 'Пароль',

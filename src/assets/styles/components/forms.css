@@ -1,0 +1,11 @@
+.auth-form {
+    @apply bg-white shadow-md rounded-lg p-8 lg:p-6 md:!p-4 w-2/5 lg:w-4/5 md:!w-full;
+}
+
+.auth-input-wrapper {
+    @apply flex-col justify-start relative mb-10;
+}
+
+.error-absolute {
+    @apply absolute text-primary text-xs top-20 right-0;
+}

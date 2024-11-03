@@ -9,7 +9,7 @@ export const Main: FC = () => {
 
     return (
         <main
-            className={`main-content container ${isAuthPage ? 'flex-all-center' : ''}`}
+            className={`main-content container ${isAuthPage ? 'flex-all-center duration-300' : 'backdrop-bg'}`}
         >
             <AppRouter />
         </main>

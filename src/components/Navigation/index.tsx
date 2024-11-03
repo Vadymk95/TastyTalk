@@ -13,13 +13,13 @@ export const Navigation: FC = () => {
     return (
         <nav className="flex gap-4">
             {isAuth ? (
-                <Link to={routes.home} className="link">
+                <Link to={routes.home} className="link-primary">
                     {t('signOut')}
                 </Link>
             ) : (
                 <>
                     {showAuthLink && (
-                        <Link to={routes.auth} className="link">
+                        <Link to={routes.auth} className="link-primary">
                             {t('signIn')}
                         </Link>
                     )}
@@ -27,7 +27,7 @@ export const Navigation: FC = () => {
             )}
 
             {showHomeLink && (
-                <Link to={routes.home} className="link">
+                <Link to={routes.home} className="link-primary">
                     {t('home')}
                 </Link>
             )}

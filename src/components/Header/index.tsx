@@ -10,8 +10,8 @@ export const Header: FC = () => {
     return (
         <header className="header">
             <div className="container flex justify-between">
-                <Link to={routes.home} className="link">
-                    {t('logo')}
+                <Link to={routes.home} className="link-primary">
+                    {t('brand')}
                 </Link>
 
                 <Navigation />

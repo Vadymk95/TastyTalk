@@ -1,3 +1,8 @@
+@import './components/buttons.css';
+@import './components/links.css';
+@import './components/inputs.css';
+@import './components/forms.css';
+
 .app-container {
     @apply flex flex-col min-h-screen;
 }
@@ -10,61 +15,14 @@
     @apply flex-grow p-4;
 }
 
+.backdrop-bg {
+    @apply backdrop-blur-sm shadow-lg duration-300;
+}
+
 .footer {
     @apply bg-neutral-dark text-white p-4 w-full mt-auto  shadow-custom-dark;
 }
 
 .container {
     @apply max-w-7xl px-4 mx-auto;
-}
-
-/* Button Styles */
-.btn-primary {
-    @apply bg-primary text-white font-semibold py-2 px-4 rounded transition duration-200;
-}
-
-.btn-primary:hover {
-    @apply bg-primary-dark;
-}
-
-.btn-secondary {
-    @apply bg-secondary text-white font-semibold py-2 px-4 rounded transition duration-200;
-}
-
-.btn-secondary:hover {
-    @apply bg-secondary-dark;
-}
-
-.btn-disabled {
-    @apply bg-neutral text-neutral-dark cursor-not-allowed opacity-50;
-}
-
-/* Input Styles */
-.input-primary {
-    @apply w-full p-3 border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200;
-}
-
-.input-primary:hover {
-    @apply border-secondary-light bg-neutral;
-}
-
-.input-primary:focus {
-    @apply border-secondary-light ring-2 ring-secondary-light outline-none bg-neutral-light;
-}
-
-.input-error {
-    @apply border-primary text-primary;
-}
-
-.input-disabled {
-    @apply bg-neutral text-neutral cursor-not-allowed opacity-50;
-}
-
-/* Link Styles */
-.link {
-    @apply text-neutral-light font-medium transition duration-200;
-}
-
-.link:hover {
-    @apply text-accent-dark;
 }

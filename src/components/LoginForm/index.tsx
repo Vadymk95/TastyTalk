@@ -1,4 +1,4 @@
-import { Button, Input } from '@root/components/ui';
+import { Button, Input, Link } from '@root/components/ui';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,11 @@ type LoginFormValues = {
     password: string;
 };
 
-export const LoginForm: FC = () => {
+type LoginFormProps = {
+    signUpAction: () => void;
+};
+
+export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     const { t } = useTranslation();
     const handleLoginSubmit = (values: LoginFormValues) => {
         console.log('Данные формы:', values);
@@ -51,7 +55,14 @@ export const LoginForm: FC = () => {
                         label={t('password')}
                     />
 
-                    <div className="flex justify-end">
+                    <div className="flex justify-between items-center">
+                        <div className="inline-flex gap-2">
+                            <span>{t('dontHaveAccount')}</span>
+                            <Link variant="secondary" onClick={signUpAction}>
+                                {t('actionSignUp')}
+                            </Link>
+                        </div>
+
                         <Button type="submit">{t('signIn')}</Button>
                     </div>
                 </Form>
