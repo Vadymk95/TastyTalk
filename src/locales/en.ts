@@ -22,7 +22,8 @@ export const en = {
             enterYourEmail: 'Enter your email',
             enterYourName: 'Enter your name',
             enterYourLastName: 'Enter your last name',
-            haveAccount: 'Already have an account?'
+            haveAccount: 'Already have an account?',
+            allRights: '© 2024 TastyTalks. All rights reserved.'
         }
     }
 };

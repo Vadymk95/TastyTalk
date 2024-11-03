@@ -22,7 +22,8 @@ export const ru = {
             enterYourEmail: 'Введите ваш email',
             enterYourName: 'Введите ваше имя',
             enterYourLastName: 'Введите вашу фамилию',
-            haveAccount: 'Уже есть аккаунт?'
+            haveAccount: 'Уже есть аккаунт?',
+            allRights: '© 2024 TastyTalks. Все права защищены.'
         }
     }
 };
