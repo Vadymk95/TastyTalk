@@ -34,7 +34,7 @@ export const Input: FC<InputProps> = ({
 
             {isRequired && (
                 <ErrorMessage
-                    name="email"
+                    name={name}
                     component="div"
                     className="error-absolute"
                 />
