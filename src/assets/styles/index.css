@@ -12,10 +12,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-    @apply font-sans text-neutral-dark;
-    background-image: url('../images/background.jpg');
-    background-size: 800px 800px;
-    background-repeat: repeat;
-}

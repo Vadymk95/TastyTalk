@@ -3,24 +3,27 @@
 @import './components/inputs.css';
 @import './components/forms.css';
 
+body {
+    @apply font-sans text-neutral-dark;
+    background-image: url('../images/background.jpg');
+    background-size: 550px 550px;
+    background-repeat: repeat;
+}
+
 .app-container {
     @apply flex flex-col min-h-screen;
 }
 
 .header {
-    @apply bg-primary text-white p-4 w-full  shadow-custom-light;
+    @apply bg-primary text-white p-4 w-full shadow-custom-light;
 }
 
 .main-content {
     @apply flex-grow p-4;
 }
 
-.backdrop-bg {
-    @apply backdrop-blur-md shadow-lg bg-white/80 duration-300;
-}
-
 .footer {
-    @apply bg-neutral-dark text-white p-4 w-full mt-auto  shadow-custom-dark;
+    @apply bg-neutral-dark text-white p-4 w-full mt-auto shadow-custom-dark;
 }
 
 .container {

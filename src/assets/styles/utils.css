@@ -1,3 +1,28 @@
 .flex-all-center {
     @apply flex justify-center items-center;
 }
+
+.backdrop-bg {
+    @apply backdrop-blur-md shadow-lg bg-white/80 duration-300;
+}
+
+.backdrop-bg::before,
+.backdrop-bg::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
+}
+
+.backdrop-bg::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
+}
+
+.backdrop-bg::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+}

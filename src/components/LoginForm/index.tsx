@@ -55,15 +55,27 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                         label={t('password')}
                     />
 
-                    <div className="flex justify-between items-center">
-                        <div className="inline-flex gap-2">
-                            <span>{t('dontHaveAccount')}</span>
-                            <Link variant="secondary" onClick={signUpAction}>
-                                {t('actionSignUp')}
-                            </Link>
-                        </div>
+                    <div>
+                        <Button
+                            size="large"
+                            className="w-full mb-10"
+                            type="submit"
+                        >
+                            {t('signIn')}
+                        </Button>
 
-                        <Button type="submit">{t('signIn')}</Button>
+                        <div className="text-center">
+                            <span>
+                                {t('dontHaveAccount')}{' '}
+                                <Link
+                                    className="underline"
+                                    variant="secondary"
+                                    onClick={signUpAction}
+                                >
+                                    {t('actionSignUp')}
+                                </Link>
+                            </span>
+                        </div>
                     </div>
                 </Form>
             )}
