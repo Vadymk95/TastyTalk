@@ -50,12 +50,12 @@ export default {
                 '7xl': '4.5rem' // 72px
             },
             screens: {
-                '2xl': { max: '1536px' },
-                xl: { max: '1280px' },
-                lg: { max: '1024px' },
-                md: { max: '768px' },
+                xs: { max: '480px' },
                 sm: { max: '640px' },
-                xs: { max: '480px' }
+                md: { max: '768px' },
+                lg: { max: '1024px' },
+                xl: { max: '1280px' },
+                '2xl': { max: '1536px' }
             },
             spacing: {
                 1: '0.25rem', // 4px
