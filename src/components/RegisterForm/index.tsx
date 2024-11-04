@@ -26,10 +26,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             .email(t('emailNotValid'))
             .required(t('requiredField')),
         firstName: Yup.string()
-            .email(t('firstNameMinLength'))
+            .min(2, t('firstNameMinLength'))
             .required(t('requiredField')),
         lastName: Yup.string()
-            .email(t('lastNameMinLength'))
+            .min(2, t('lastNameMinLength'))
             .required(t('requiredField')),
         password: Yup.string()
             .min(6, t('passwordMinLength'))

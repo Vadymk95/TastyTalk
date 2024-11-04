@@ -1,10 +1,10 @@
 import js from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
-import tseslint from 'typescript-eslint';
 
 export default [
     {
@@ -34,7 +34,8 @@ export default [
                 { allowConstantExport: true }
             ],
             'prettier/prettier': 'error',
-            indent: ['error', 4]
+            indent: ['error', 4],
+            '@typescript-eslint/no-explicit-any': 'off'
         },
         settings: {
             react: {

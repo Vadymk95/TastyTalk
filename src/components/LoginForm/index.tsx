@@ -1,4 +1,5 @@
 import { Button, Input, Link } from '@root/components/ui';
+import { useAuthStore } from '@root/store/authStore';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,8 +16,14 @@ type LoginFormProps = {
 
 export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     const { t } = useTranslation();
-    const handleLoginSubmit = (values: LoginFormValues) => {
-        console.log('Данные формы:', values);
+    const { signInWithEmail, signInWithGoogle, loading } = useAuthStore();
+
+    const handleLoginSubmit = async (values: LoginFormValues) => {
+        await signInWithEmail(values.email, values.password);
+    };
+
+    const handleGoogleLogin = async () => {
+        await signInWithGoogle();
     };
 
     const LoginSchema = Yup.object().shape({
@@ -37,6 +44,26 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
         >
             {() => (
                 <Form>
+                    <div className="mb-10">
+                        <Button
+                            size="large"
+                            variant="secondary"
+                            className="w-full flex-all-center gap-4"
+                            type="button"
+                            onClick={handleGoogleLogin}
+                            disabled={loading}
+                        >
+                            <img
+                                src="../../../public/google_logo.png"
+                                className="w-6 h-6"
+                                alt="google"
+                            />
+                            {t('signInWithGoogle')}
+                        </Button>
+                    </div>
+
+                    <div className="divider" />
+
                     <Input
                         className="auth-input-wrapper"
                         name="email"
@@ -60,8 +87,9 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                             size="large"
                             className="w-full mb-10"
                             type="submit"
+                            disabled={loading}
                         >
-                            {t('signIn')}
+                            {loading ? t('loading') : t('signIn')}
                         </Button>
 
                         <div className="text-center">

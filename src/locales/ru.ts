@@ -15,15 +15,17 @@ export const ru = {
             requiredField: 'Это поле обязательно',
             emailNotValid: 'Email не валидный',
             passwordMinLength: 'Пароль должен быть не менее 6 символов',
-            firstNameMinLength: 'Имя должно быть не менее 1 символа',
-            lastNameMinLength: 'Фамилия должна быть не менее 1 символа',
+            firstNameMinLength: 'Имя должно быть не менее 2 символа',
+            lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
             firstName: 'Имя',
             lastName: 'Фамилия',
             enterYourEmail: 'Введите ваш email',
             enterYourName: 'Введите ваше имя',
             enterYourLastName: 'Введите вашу фамилию',
             haveAccount: 'Уже есть аккаунт?',
-            allRights: '© 2024 TastyTalks. Все права защищены.'
+            allRights: '© 2024 TastyTalks. Все права защищены.',
+            loading: 'Загрузка...',
+            signInWithGoogle: 'Войти через Google'
         }
     }
 };

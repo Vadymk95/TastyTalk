@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PORT = process.env.PORT || 3000;
+const PORT = import.meta.env.VITE_PORT || 3000;
 const DEV_URL = `http://localhost:${PORT}`;
 const defaultHost = `${DEV_URL}/api`;
 
