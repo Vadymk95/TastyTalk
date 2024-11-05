@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -25,7 +25,8 @@ type RegisterFormProps = {
 export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     const { t } = useTranslation();
     const navigation = useNavigate();
-    const { registerWithEmailAndProfile, error, clearError } = useAuthStore();
+    const { registerWithEmailAndProfile, error, clearError, loading } =
+        useAuthStore();
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
     );
@@ -63,6 +64,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             .oneOf([Yup.ref('password')], t('RegisterForm.passwordsMustMatch'))
             .required(t('RegisterForm.requiredField'))
     });
+
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
 
     return (
         <Formik
@@ -129,6 +134,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             size="large"
                             className={`w-full ${error ? 'mb-5' : 'mb-10'}`}
                             type="submit"
+                            disabled={loading}
                         >
                             {t('RegisterForm.signUp')}
                         </Button>
