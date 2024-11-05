@@ -1,8 +1,9 @@
-import { withSuspense } from '@root/hoc/withSuspense';
-import { AuthPage, HomePage, NotFoundPage } from '@root/pages/';
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { routes } from './routes';
+
+import { withSuspense } from '@root/hoc';
+import { AuthPage, HomePage, NotFoundPage } from '@root/pages/';
+import { routes } from '@root/router/routes';
 
 export const AppRouter: FC = () => {
     return (
