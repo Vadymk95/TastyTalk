@@ -11,7 +11,7 @@ export const Header: FC = () => {
         <header className="header">
             <div className="container flex justify-between">
                 <Link to={routes.home} className="link-primary">
-                    {t('brand')}
+                    {t('Header.brand')}
                 </Link>
 
                 <Navigation />

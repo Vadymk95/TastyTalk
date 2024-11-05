@@ -100,7 +100,9 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                             type="submit"
                             disabled={loading}
                         >
-                            {loading ? t('loading') : t('signIn')}
+                            {loading
+                                ? t('General.loading')
+                                : t('LoginForm.signIn')}
                         </Button>
 
                         {error && (
@@ -111,13 +113,13 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
 
                         <div className="text-center">
                             <span>
-                                {t('dontHaveAccount')}{' '}
+                                {t('LoginForm.dontHaveAccount')}{' '}
                                 <Link
                                     className="underline"
                                     variant="secondary"
                                     onClick={signUpAction}
                                 >
-                                    {t('actionSignUp')}
+                                    {t('LoginForm.actionSignUp')}
                                 </Link>
                             </span>
                         </div>

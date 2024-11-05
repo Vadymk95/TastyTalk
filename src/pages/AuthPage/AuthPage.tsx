@@ -11,7 +11,7 @@ const AuthPage: FC = () => {
     return (
         <div className="auth-form">
             <h2 className="text-center text-2xl mb-8">
-                {t(isSignIn ? 'signInToAccount' : 'signUp')}
+                {t(isSignIn ? 'AuthPage.signInToAccount' : 'AuthPage.signUp')}
             </h2>
             {isSignIn ? (
                 <LoginForm signUpAction={handleSignUpAction} />

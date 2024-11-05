@@ -1,17 +1,25 @@
 export const ru = {
     ru: {
         translation: {
-            brand: 'TastyTalks',
-            signOut: 'Выйти',
-            signIn: 'Войти',
-            signUp: 'Регистрация',
-            actionSignUp: 'Зарегистрироваться',
+            Header: {
+                brand: 'TastyTalks',
+                signOut: 'Выйти',
+                signIn: 'Войти',
+                home: 'На главную'
+            },
+            AuthPage: {
+                signInToAccount: 'Войти в свой аккаунт',
+                signUp: 'Регистрация'
+            },
+            LoginForm: {
+                actionSignUp: 'Зарегистрироваться',
+                signIn: 'Войти',
+                dontHaveAccount: 'У вас еще нет аккаунта?'
+            },
+            RegisterForm: {},
             actionSignIn: 'Войти',
-            dontHaveAccount: 'У вас еще нет аккаунта?',
-            home: 'На главную',
             email: 'Email',
             password: 'Пароль',
-            signInToAccount: 'Войти в свой аккаунт',
             requiredField: 'Это поле обязательно',
             emailNotValid: 'Email не валидный',
             passwordMinLength: 'Пароль должен быть не менее 6 символов',
@@ -23,7 +31,6 @@ export const ru = {
             enterYourName: 'Введите ваше имя',
             enterYourLastName: 'Введите вашу фамилию',
             haveAccount: 'Уже есть аккаунт?',
-            loading: 'Загрузка...',
             signInWithGoogle: 'Войти через Google',
             error: 'Ошибка:',
             somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
@@ -37,6 +44,9 @@ export const ru = {
                 wrongPassword: 'Неверный пароль.',
                 invalidCredential: 'Предоставлены неверные учетные данные.',
                 popupClosedByUser: 'Процесс входа отменен пользователем.'
+            },
+            General: {
+                loading: 'Загрузка...'
             }
         }
     }
