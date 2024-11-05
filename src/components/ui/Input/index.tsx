@@ -1,5 +1,7 @@
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field } from 'formik';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 type InputProps = {
     name: string;
@@ -18,19 +20,40 @@ export const Input: FC<InputProps> = ({
     placeholder,
     className
 }) => {
+    const [isPasswordVisible, setPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!isPasswordVisible);
+    };
+
+    const isPasswordType = type === 'password';
+
     return (
-        <div className={className || ''}>
+        <div className={`${className || ''} relative`}>
             <label>
                 {label}
                 {isRequired && <span className="text-primary">*</span>}
             </label>
 
-            <Field
-                className="input-primary"
-                name={name}
-                type={type}
-                placeholder={placeholder || ''}
-            />
+            <div className="relative">
+                <Field
+                    className="input-primary"
+                    name={name}
+                    type={isPasswordType && isPasswordVisible ? 'text' : type}
+                    placeholder={placeholder || ''}
+                />
+                {isPasswordType && (
+                    <span
+                        onClick={togglePasswordVisibility}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-secondary"
+                    >
+                        <FontAwesomeIcon
+                            size="xl"
+                            icon={isPasswordVisible ? faEye : faEyeSlash}
+                        />
+                    </span>
+                )}
+            </div>
 
             {isRequired && (
                 <ErrorMessage
