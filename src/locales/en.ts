@@ -11,6 +11,9 @@ export const en = {
                 signInToAccount: 'Sign in to your account',
                 signUp: 'Sign Up'
             },
+            PersonalInfoPage: {
+                deleteAccount: 'Delete Account'
+            },
             LoginForm: {
                 actionSignUp: 'Sign Up',
                 signIn: 'Sign In',

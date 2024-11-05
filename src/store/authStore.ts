@@ -1,21 +1,29 @@
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import {
     createUserWithEmailAndPassword,
+    deleteUser,
+    EmailAuthProvider,
     onAuthStateChanged,
+    reauthenticateWithCredential,
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
+    updateProfile,
     User
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { create } from 'zustand';
 
 interface AuthState {
     user: User | null;
     loading: boolean;
     error: string | null;
-    signInWithEmail: (email: string, password: string) => Promise<void>;
-    signInWithGoogle: () => Promise<void>;
+    signInWithEmail: (
+        email: string,
+        password: string,
+        handleRedirectToMainPage: () => void
+    ) => Promise<void>;
+    signInWithGoogle: (handleRedirectToMainPage: () => void) => Promise<void>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
@@ -23,6 +31,8 @@ interface AuthState {
         firstName: string,
         lastName: string
     ) => Promise<void>;
+    deleteUserAccount: (email: string, password: string) => Promise<void>;
+    reauthenticateUser: (email: string, password: string) => Promise<void>;
     setLoading: (value: boolean) => void;
     setError: (error: string | null) => void;
     clearError: () => void;
@@ -40,7 +50,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     setError: (error) => set({ error }),
     clearError: () => set({ error: null }),
 
-    signInWithEmail: async (email, password) => {
+    signInWithEmail: async (email, password, handleRedirectToMainPage) => {
         set({ loading: true });
         try {
             set({ error: null });
@@ -50,6 +60,8 @@ export const useAuthStore = create<AuthState>((set) => ({
                 password
             );
             set({ user: userCredential.user, error: null });
+
+            handleRedirectToMainPage();
         } catch (error: any) {
             set({ error: error.message });
         } finally {
@@ -57,12 +69,14 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
 
-    signInWithGoogle: async () => {
+    signInWithGoogle: async (handleRedirectToMainPage) => {
         set({ loading: true });
         try {
             set({ error: null });
             const userCredential = await signInWithPopup(auth, googleProvider);
             set({ user: userCredential.user, error: null });
+
+            handleRedirectToMainPage();
         } catch (error: any) {
             set({ error: error.message });
         } finally {
@@ -98,6 +112,10 @@ export const useAuthStore = create<AuthState>((set) => ({
             );
             const user = userCredential.user;
 
+            await updateProfile(user, {
+                displayName: `${firstName} ${lastName}`
+            });
+            await user.reload();
             await setDoc(doc(db, 'users', user.uid), {
                 email: user.email,
                 firstName,
@@ -109,6 +127,38 @@ export const useAuthStore = create<AuthState>((set) => ({
         } catch (error: any) {
             set({ error: error.message });
         } finally {
+            set({ loading: false });
+        }
+    },
+
+    reauthenticateUser: async (email, password) => {
+        const user = auth.currentUser;
+        if (user) {
+            const credential = EmailAuthProvider.credential(email, password);
+            await reauthenticateWithCredential(user, credential);
+        }
+    },
+
+    deleteUserAccount: async (email, password) => {
+        set({ loading: true });
+        const user = auth.currentUser;
+
+        if (user) {
+            try {
+                await useAuthStore
+                    .getState()
+                    .reauthenticateUser(email, password);
+                await deleteDoc(doc(db, 'users', user.uid));
+                await deleteUser(user);
+
+                set({ user: null, error: null });
+            } catch (error: any) {
+                set({ error: error.message });
+            } finally {
+                set({ loading: false });
+            }
+        } else {
+            set({ error: 'No user is currently signed in.' });
             set({ loading: false });
         }
     }

@@ -11,6 +11,9 @@ export const ru = {
                 signInToAccount: 'Войти в свой аккаунт',
                 signUp: 'Регистрация'
             },
+            PersonalInfoPage: {
+                deleteAccount: 'Удалить учетную запись'
+            },
             LoginForm: {
                 actionSignUp: 'Зарегистрироваться',
                 signIn: 'Войти',

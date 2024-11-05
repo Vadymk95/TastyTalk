@@ -6,8 +6,6 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
     const match = errorMessage.match(/\(([^)]+)\)/);
     const errorCode = match ? match[1] : 'default';
 
-    console.log('errorCode', errorCode);
-
     const errorMessages: Record<string, string> = {
         'auth/popup-closed-by-user': t('AuthErrors.popupClosedByUser'),
         'auth/invalid-email': t('AuthErrors.invalidEmail'),
