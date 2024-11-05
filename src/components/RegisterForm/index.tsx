@@ -1,11 +1,13 @@
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { ErrorCard } from '@root/components';
 import { Button, Input, Link } from '@root/components/ui';
 import { useGetAuthErrorMessage } from '@root/hooks';
+import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
 type RegisterFormValues = {
@@ -21,6 +23,7 @@ type RegisterFormProps = {
 
 export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     const { t } = useTranslation();
+    const navigation = useNavigate();
     const { registerWithEmailAndProfile, error, clearError } = useAuthStore();
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
@@ -35,6 +38,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 values.firstName,
                 values.lastName
             );
+
+            navigation(routes.home);
         } catch (error) {
             console.error('Registration failed:', error);
         }

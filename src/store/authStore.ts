@@ -1,6 +1,7 @@
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import {
     createUserWithEmailAndPassword,
+    onAuthStateChanged,
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
@@ -25,12 +26,15 @@ interface AuthState {
     setLoading: (value: boolean) => void;
     setError: (error: string | null) => void;
     clearError: () => void;
+    setUser: (user: User | null) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     loading: false,
     error: null,
+
+    setUser: (user) => set({ user }),
 
     setLoading: (value) => set({ loading: value }),
     setError: (error) => set({ error }),
@@ -109,3 +113,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     }
 }));
+
+onAuthStateChanged(auth, (user) => {
+    useAuthStore.getState().setUser(user);
+});
