@@ -1,9 +1,12 @@
-import { Button, Input, Link } from '@root/components/ui';
+import { ErrorCard } from '@root/components';
+import { Button, Image, Input, Link } from '@root/components/ui';
 import { useAuthStore } from '@root/store/authStore';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+
+import googleLogo from '@root/assets/images/google_logo.png';
 
 type LoginFormValues = {
     email: string;
@@ -16,7 +19,8 @@ type LoginFormProps = {
 
 export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     const { t } = useTranslation();
-    const { signInWithEmail, signInWithGoogle, loading } = useAuthStore();
+    const { signInWithEmail, signInWithGoogle, loading, error } =
+        useAuthStore();
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
         await signInWithEmail(values.email, values.password);
@@ -53,10 +57,10 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                             onClick={handleGoogleLogin}
                             disabled={loading}
                         >
-                            <img
-                                src="../../../public/google_logo.png"
-                                className="w-6 h-6"
-                                alt="google"
+                            <Image
+                                src={googleLogo}
+                                className="w-6 h-6 text-xs flex-all-center"
+                                alt="google-icon"
                             />
                             {t('signInWithGoogle')}
                         </Button>
@@ -85,12 +89,18 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                     <div>
                         <Button
                             size="large"
-                            className="w-full mb-10"
+                            className={`w-full ${error ? 'mb-7' : 'mb-10'}`}
                             type="submit"
                             disabled={loading}
                         >
                             {loading ? t('loading') : t('signIn')}
                         </Button>
+
+                        {error && (
+                            <div className="mb-10">
+                                <ErrorCard errorMessage={error} />
+                            </div>
+                        )}
 
                         <div className="text-center">
                             <span>

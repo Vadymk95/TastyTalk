@@ -1,4 +1,5 @@
-export { Button } from './Button/index';
-export { Input } from './Input/index';
-export { Link } from './Link/index';
-export { Loader } from './Loader/index';
+export { Button } from './Button';
+export { Image } from './Image';
+export { Input } from './Input';
+export { Link } from './Link';
+export { Loader } from './Loader';

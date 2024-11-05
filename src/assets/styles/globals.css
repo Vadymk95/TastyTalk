@@ -2,6 +2,7 @@
 @import './components/links.css';
 @import './components/inputs.css';
 @import './components/forms.css';
+@import './components/cards.css';
 
 body {
     @apply font-sans text-neutral-dark;

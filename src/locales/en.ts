@@ -25,7 +25,9 @@ export const en = {
             haveAccount: 'Already have an account?',
             allRights: '© 2024 TastyTalks. All rights reserved.',
             loading: 'Loading...',
-            signInWithGoogle: 'Sign in with Google'
+            signInWithGoogle: 'Sign in with Google',
+            error: 'Error:',
+            somethingWentWrong: 'Something went wrong, please try again later'
         }
     }
 };

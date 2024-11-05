@@ -25,7 +25,9 @@ export const ru = {
             haveAccount: 'Уже есть аккаунт?',
             allRights: '© 2024 TastyTalks. Все права защищены.',
             loading: 'Загрузка...',
-            signInWithGoogle: 'Войти через Google'
+            signInWithGoogle: 'Войти через Google',
+            error: 'Ошибка:',
+            somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
         }
     }
 };
