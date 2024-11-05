@@ -16,6 +16,7 @@ interface AuthState {
     signOutUser: () => Promise<void>;
     setLoading: (value: boolean) => void;
     setError: (error: string | null) => void;
+    clearError: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -25,10 +26,12 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     setLoading: (value) => set({ loading: value }),
     setError: (error) => set({ error }),
+    clearError: () => set({ error: null }),
 
     signInWithEmail: async (email, password) => {
         set({ loading: true });
         try {
+            set({ error: null });
             const userCredential = await signInWithEmailAndPassword(
                 auth,
                 email,
@@ -45,6 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithGoogle: async () => {
         set({ loading: true });
         try {
+            set({ error: null });
             const userCredential = await signInWithPopup(auth, googleProvider);
             set({ user: userCredential.user, error: null });
         } catch (error: any) {

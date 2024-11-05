@@ -23,11 +23,21 @@ export const en = {
             enterYourName: 'Enter your name',
             enterYourLastName: 'Enter your last name',
             haveAccount: 'Already have an account?',
-            allRights: '© 2024 TastyTalks. All rights reserved.',
             loading: 'Loading...',
             signInWithGoogle: 'Sign in with Google',
             error: 'Error:',
-            somethingWentWrong: 'Something went wrong, please try again later'
+            somethingWentWrong: 'Something went wrong, please try again later',
+            Footer: {
+                allRights: '© 2024 TastyTalks. All rights reserved.'
+            },
+            AuthErrors: {
+                invalidEmail: 'Invalid email address.',
+                userDisabled: 'This account has been disabled.',
+                userNotFound: 'No user found with this email.',
+                wrongPassword: 'Incorrect password.',
+                invalidCredential: 'Invalid credentials provided.',
+                popupClosedByUser: 'Sign in process was canceled by the user.'
+            }
         }
     }
 };

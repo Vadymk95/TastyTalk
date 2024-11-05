@@ -1,10 +1,12 @@
-import { ErrorCard } from '@root/components';
-import { Button, Image, Input, Link } from '@root/components/ui';
-import { useAuthStore } from '@root/store/authStore';
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+
+import { ErrorCard } from '@root/components';
+import { Button, Image, Input, Link } from '@root/components/ui';
+import { useGetAuthErrorMessage } from '@root/hooks';
+import { useAuthStore } from '@root/store/authStore';
 
 import googleLogo from '@root/assets/images/google_logo.png';
 
@@ -19,8 +21,9 @@ type LoginFormProps = {
 
 export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     const { t } = useTranslation();
-    const { signInWithEmail, signInWithGoogle, loading, error } =
+    const { signInWithEmail, signInWithGoogle, loading, error, clearError } =
         useAuthStore();
+    const authError = useGetAuthErrorMessage(error || t('somethingWentWrong'));
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
         await signInWithEmail(values.email, values.password);
@@ -38,6 +41,10 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
             .min(6, t('passwordMinLength'))
             .required(t('requiredField'))
     });
+
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
 
     return (
         <Formik
@@ -98,7 +105,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
 
                         {error && (
                             <div className="mb-10">
-                                <ErrorCard errorMessage={error} />
+                                <ErrorCard errorMessage={authError} />
                             </div>
                         )}
 

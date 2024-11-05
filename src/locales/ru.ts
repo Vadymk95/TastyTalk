@@ -23,11 +23,21 @@ export const ru = {
             enterYourName: 'Введите ваше имя',
             enterYourLastName: 'Введите вашу фамилию',
             haveAccount: 'Уже есть аккаунт?',
-            allRights: '© 2024 TastyTalks. Все права защищены.',
             loading: 'Загрузка...',
             signInWithGoogle: 'Войти через Google',
             error: 'Ошибка:',
-            somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
+            somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
+            Footer: {
+                allRights: '© 2024 TastyTalks. Все права защищены.'
+            },
+            AuthErrors: {
+                invalidEmail: 'Неверный email.',
+                userDisabled: 'Этот аккаунт отключен.',
+                userNotFound: 'Пользователь с таким email не найден.',
+                wrongPassword: 'Неверный пароль.',
+                invalidCredential: 'Предоставлены неверные учетные данные.',
+                popupClosedByUser: 'Процесс входа отменен пользователем.'
+            }
         }
     }
 };

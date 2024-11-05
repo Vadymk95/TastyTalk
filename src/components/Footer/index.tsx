@@ -7,7 +7,9 @@ export const Footer: FC = () => {
     return (
         <footer className="footer">
             <div className="container text-center">
-                <span className="text-sm text-neutral">{t('allRights')}</span>
+                <span className="text-sm text-neutral">
+                    {t('Footer.allRights')}
+                </span>
             </div>
         </footer>
     );
