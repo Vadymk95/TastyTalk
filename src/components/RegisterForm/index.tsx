@@ -23,17 +23,17 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
     const RegisterSchema = Yup.object().shape({
         email: Yup.string()
-            .email(t('emailNotValid'))
-            .required(t('requiredField')),
+            .email(t('RegisterForm.emailNotValid'))
+            .required(t('RegisterForm.requiredField')),
         firstName: Yup.string()
-            .min(2, t('firstNameMinLength'))
-            .required(t('requiredField')),
+            .min(2, t('RegisterForm.firstNameMinLength'))
+            .required(t('RegisterForm.requiredField')),
         lastName: Yup.string()
-            .min(2, t('lastNameMinLength'))
-            .required(t('requiredField')),
+            .min(2, t('RegisterForm.lastNameMinLength'))
+            .required(t('RegisterForm.requiredField')),
         password: Yup.string()
-            .min(6, t('passwordMinLength'))
-            .required(t('requiredField'))
+            .min(6, t('RegisterForm.passwordMinLength'))
+            .required(t('RegisterForm.requiredField'))
     });
 
     return (
@@ -54,27 +54,27 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         className="auth-input-wrapper"
                         name="email"
                         type="email"
-                        placeholder={t('enterYourEmail')}
+                        placeholder={t('RegisterForm.enterYourEmail')}
                         isRequired
-                        label={t('email')}
+                        label={t('RegisterForm.email')}
                     />
 
                     <Input
                         className="auth-input-wrapper"
                         name="firstName"
                         type="text"
-                        placeholder={t('enterYourName')}
+                        placeholder={t('RegisterForm.enterYourName')}
                         isRequired
-                        label={t('firstName')}
+                        label={t('RegisterForm.firstName')}
                     />
 
                     <Input
                         className="auth-input-wrapper"
                         name="lastName"
                         type="text"
-                        placeholder={t('enterYourLastName')}
+                        placeholder={t('RegisterForm.enterYourLastName')}
                         isRequired
-                        label={t('lastName')}
+                        label={t('RegisterForm.lastName')}
                     />
 
                     <Input
@@ -83,7 +83,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         type="password"
                         placeholder="******"
                         isRequired
-                        label={t('password')}
+                        label={t('RegisterForm.password')}
                     />
 
                     <div>
@@ -92,18 +92,18 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             className="w-full mb-10"
                             type="submit"
                         >
-                            {t('signUp')}
+                            {t('RegisterForm.signUp')}
                         </Button>
 
                         <div className="text-center">
                             <span>
-                                {t('haveAccount')}{' '}
+                                {t('RegisterForm.haveAccount')}{' '}
                                 <Link
                                     className="underline"
                                     variant="secondary"
                                     onClick={signInAction}
                                 >
-                                    {t('actionSignIn')}
+                                    {t('RegisterForm.actionSignIn')}
                                 </Link>
                             </span>
                         </div>

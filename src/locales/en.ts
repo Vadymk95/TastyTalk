@@ -14,26 +14,34 @@ export const en = {
             LoginForm: {
                 actionSignUp: 'Sign Up',
                 signIn: 'Sign In',
-                dontHaveAccount: "Don't have an account?"
+                dontHaveAccount: "Don't have an account?",
+                email: 'Email',
+                password: 'Password',
+                requiredField: 'This field is required',
+                emailNotValid: 'Email is not valid',
+                passwordMinLength:
+                    'Password must be at least 6 characters long',
+                signInWithGoogle: 'Sign in with Google'
             },
-            RegisterForm: {},
-            actionSignIn: 'Sign In',
-            email: 'Email',
-            password: 'Password',
-            requiredField: 'This field is required',
-            emailNotValid: 'Email is not valid',
-            passwordMinLength: 'Password must be at least 6 characters long',
-            firstNameMinLength: 'First name must be at least 2 character long',
-            lastNameMinLength: 'Last name must be at least 2 character long',
-            lastName: 'Last Name',
-            firstName: 'First Name',
-            enterYourEmail: 'Enter your email',
-            enterYourName: 'Enter your name',
-            enterYourLastName: 'Enter your last name',
-            haveAccount: 'Already have an account?',
-            signInWithGoogle: 'Sign in with Google',
-            error: 'Error:',
-            somethingWentWrong: 'Something went wrong, please try again later',
+            RegisterForm: {
+                email: 'Email',
+                lastName: 'Last Name',
+                firstName: 'First Name',
+                password: 'Password',
+                actionSignIn: 'Sign In',
+                firstNameMinLength:
+                    'First name must be at least 2 character long',
+                lastNameMinLength:
+                    'Last name must be at least 2 character long',
+                requiredField: 'This field is required',
+                emailNotValid: 'Email is not valid',
+                passwordMinLength:
+                    'Password must be at least 6 characters long',
+                enterYourEmail: 'Enter your email',
+                enterYourName: 'Enter your name',
+                enterYourLastName: 'Enter your last name',
+                haveAccount: 'Already have an account?'
+            },
             Footer: {
                 allRights: '© 2024 TastyTalks. All rights reserved.'
             },
@@ -46,7 +54,10 @@ export const en = {
                 popupClosedByUser: 'Sign in process was canceled by the user.'
             },
             General: {
-                loading: 'Loading...'
+                loading: 'Loading...',
+                error: 'Error:',
+                somethingWentWrong:
+                    'Something went wrong, please try again later'
             }
         }
     }

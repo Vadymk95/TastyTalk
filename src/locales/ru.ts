@@ -14,26 +14,30 @@ export const ru = {
             LoginForm: {
                 actionSignUp: 'Зарегистрироваться',
                 signIn: 'Войти',
-                dontHaveAccount: 'У вас еще нет аккаунта?'
+                dontHaveAccount: 'У вас еще нет аккаунта?',
+                email: 'Email',
+                password: 'Пароль',
+                requiredField: 'Это поле обязательно',
+                emailNotValid: 'Email не валидный',
+                passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                signInWithGoogle: 'Войти через Google'
             },
-            RegisterForm: {},
-            actionSignIn: 'Войти',
-            email: 'Email',
-            password: 'Пароль',
-            requiredField: 'Это поле обязательно',
-            emailNotValid: 'Email не валидный',
-            passwordMinLength: 'Пароль должен быть не менее 6 символов',
-            firstNameMinLength: 'Имя должно быть не менее 2 символа',
-            lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
-            firstName: 'Имя',
-            lastName: 'Фамилия',
-            enterYourEmail: 'Введите ваш email',
-            enterYourName: 'Введите ваше имя',
-            enterYourLastName: 'Введите вашу фамилию',
-            haveAccount: 'Уже есть аккаунт?',
-            signInWithGoogle: 'Войти через Google',
-            error: 'Ошибка:',
-            somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
+            RegisterForm: {
+                email: 'Email',
+                firstName: 'Имя',
+                lastName: 'Фамилия',
+                password: 'Пароль',
+                actionSignIn: 'Войти',
+                firstNameMinLength: 'Имя должно быть не менее 2 символа',
+                lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
+                requiredField: 'Это поле обязательно',
+                emailNotValid: 'Email не валидный',
+                passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                enterYourEmail: 'Введите ваш email',
+                enterYourName: 'Введите ваше имя',
+                enterYourLastName: 'Введите вашу фамилию',
+                haveAccount: 'Уже есть аккаунт?'
+            },
             Footer: {
                 allRights: '© 2024 TastyTalks. Все права защищены.'
             },
@@ -46,7 +50,9 @@ export const ru = {
                 popupClosedByUser: 'Процесс входа отменен пользователем.'
             },
             General: {
-                loading: 'Загрузка...'
+                loading: 'Загрузка...',
+                error: 'Ошибка:',
+                somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
             }
         }
     }

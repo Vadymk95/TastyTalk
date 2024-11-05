@@ -23,7 +23,8 @@ export const ErrorCard: FC<ErrorCardProps> = ({
             />
 
             <span>
-                {t('error')} {errorMessage || t('somethingWentWrong')}
+                {t('General.error')}{' '}
+                {errorMessage || t('General.somethingWentWrong')}
             </span>
         </div>
     );

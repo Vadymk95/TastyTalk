@@ -17,5 +17,5 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'auth/invalid-credential': t('AuthErrors.invalidCredential')
     };
 
-    return errorMessages[errorCode] || t('somethingWentWrong');
+    return errorMessages[errorCode] || t('General.somethingWentWrong');
 };

@@ -23,7 +23,9 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     const { t } = useTranslation();
     const { signInWithEmail, signInWithGoogle, loading, error, clearError } =
         useAuthStore();
-    const authError = useGetAuthErrorMessage(error || t('somethingWentWrong'));
+    const authError = useGetAuthErrorMessage(
+        error || t('General.somethingWentWrong')
+    );
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
         await signInWithEmail(values.email, values.password);
@@ -35,11 +37,11 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()
-            .email(t('emailNotValid'))
-            .required(t('requiredField')),
+            .email(t('LoginForm.emailNotValid'))
+            .required(t('LoginForm.requiredField')),
         password: Yup.string()
-            .min(6, t('passwordMinLength'))
-            .required(t('requiredField'))
+            .min(6, t('LoginForm.passwordMinLength'))
+            .required(t('LoginForm.requiredField'))
     });
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                                 className="w-6 h-6 text-xs flex-all-center"
                                 alt="google-icon"
                             />
-                            {t('signInWithGoogle')}
+                            {t('LoginForm.signInWithGoogle')}
                         </Button>
                     </div>
 
@@ -81,7 +83,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                         type="email"
                         placeholder="example@mail.com"
                         isRequired
-                        label={t('email')}
+                        label={t('LoginForm.email')}
                     />
 
                     <Input
@@ -90,7 +92,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                         type="password"
                         placeholder="******"
                         isRequired
-                        label={t('password')}
+                        label={t('LoginForm.password')}
                     />
 
                     <div>
