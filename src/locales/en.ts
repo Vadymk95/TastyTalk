@@ -1,12 +1,6 @@
 export const en = {
     en: {
         translation: {
-            Header: {
-                brand: 'TastyTalks',
-                signOut: 'Sign Out',
-                signIn: 'Sign In',
-                home: 'Home'
-            },
             AuthPage: {
                 signInToAccount: 'Sign in to your account',
                 signUp: 'Sign Up'
@@ -47,6 +41,17 @@ export const en = {
                 enterYourName: 'Enter your name',
                 enterYourLastName: 'Enter your last name',
                 haveAccount: 'Already have an account?'
+            },
+            NotFoundPage: {
+                notFound: '404',
+                oops: "Oops! The page you're looking for doesn't exist.",
+                goHome: 'Go to Homepage'
+            },
+            Header: {
+                brand: 'TastyTalks',
+                signOut: 'Sign Out',
+                signIn: 'Sign In',
+                home: 'Home'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. All rights reserved.'

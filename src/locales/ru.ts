@@ -1,12 +1,6 @@
 export const ru = {
     ru: {
         translation: {
-            Header: {
-                brand: 'TastyTalks',
-                signOut: 'Выйти',
-                signIn: 'Войти',
-                home: 'На главную'
-            },
             AuthPage: {
                 signInToAccount: 'Войти в свой аккаунт',
                 signUp: 'Регистрация'
@@ -43,6 +37,17 @@ export const ru = {
                 enterYourName: 'Введите ваше имя',
                 enterYourLastName: 'Введите вашу фамилию',
                 haveAccount: 'Уже есть аккаунт?'
+            },
+            NotFoundPage: {
+                notFound: '404',
+                oops: 'Упс! Страница, которую вы ищете, не существует.',
+                goHome: 'На главную'
+            },
+            Header: {
+                brand: 'TastyTalks',
+                signOut: 'Выйти',
+                signIn: 'Войти',
+                home: 'На главную'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. Все права защищены.'
