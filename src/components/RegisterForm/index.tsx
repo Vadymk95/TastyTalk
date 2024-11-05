@@ -1,8 +1,12 @@
-import { Button, Input, Link } from '@root/components/ui';
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+
+import { ErrorCard } from '@root/components';
+import { Button, Input, Link } from '@root/components/ui';
+import { useGetAuthErrorMessage } from '@root/hooks';
+import { useAuthStore } from '@root/store/authStore';
 
 type RegisterFormValues = {
     email: string;
@@ -17,8 +21,23 @@ type RegisterFormProps = {
 
 export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     const { t } = useTranslation();
-    const handleRegisterSubmit = (values: RegisterFormValues) => {
-        console.log('Данные формы:', values);
+    const { registerWithEmailAndProfile, error, clearError } = useAuthStore();
+    const authError = useGetAuthErrorMessage(
+        error || t('General.somethingWentWrong')
+    );
+
+    const handleRegisterSubmit = async (values: RegisterFormValues) => {
+        clearError();
+        try {
+            await registerWithEmailAndProfile(
+                values.email,
+                values.password,
+                values.firstName,
+                values.lastName
+            );
+        } catch (error) {
+            console.error('Registration failed:', error);
+        }
     };
 
     const RegisterSchema = Yup.object().shape({
@@ -89,11 +108,17 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     <div>
                         <Button
                             size="large"
-                            className="w-full mb-10"
+                            className={`w-full ${error ? 'mb-5' : 'mb-10'}`}
                             type="submit"
                         >
                             {t('RegisterForm.signUp')}
                         </Button>
+
+                        {error && (
+                            <div className="mb-10">
+                                <ErrorCard errorMessage={authError} />
+                            </div>
+                        )}
 
                         <div className="text-center">
                             <span>
