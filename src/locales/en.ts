@@ -24,6 +24,7 @@ export const en = {
                 signInWithGoogle: 'Sign in with Google'
             },
             RegisterForm: {
+                signUp: 'Register',
                 email: 'Email',
                 lastName: 'Last Name',
                 firstName: 'First Name',

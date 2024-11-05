@@ -23,6 +23,7 @@ export const ru = {
                 signInWithGoogle: 'Войти через Google'
             },
             RegisterForm: {
+                signUp: 'Регистрация',
                 email: 'Email',
                 firstName: 'Имя',
                 lastName: 'Фамилия',
