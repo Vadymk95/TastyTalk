@@ -89,7 +89,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                     <div>
                         <Button
                             size="large"
-                            className={`w-full ${error ? 'mb-7' : 'mb-10'}`}
+                            className={`w-full ${error ? 'mb-5' : 'mb-10'}`}
                             type="submit"
                             disabled={loading}
                         >
