@@ -14,3 +14,7 @@
 .link-secondary:hover {
     @apply text-secondary-light;
 }
+
+.nav-link {
+    @apply hover:bg-primary-dark duration-200;
+}

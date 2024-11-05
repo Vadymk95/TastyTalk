@@ -14,13 +14,13 @@ export const Navigation: FC = () => {
     const showAuthLink = location.pathname !== routes.auth;
 
     return (
-        <nav className="flex gap-4">
+        <nav className="flex">
             {isAuth ? (
                 <>
                     <Link
                         onClick={signOutUser}
                         to={routes.auth}
-                        className="link-primary"
+                        className="link-primary nav-link p-4"
                     >
                         {t('Header.signOut')}
                     </Link>
@@ -34,7 +34,7 @@ export const Navigation: FC = () => {
                             )
                         }
                         to={routes.home}
-                        className="link-primary"
+                        className="link-primary nav-link p-4"
                     >
                         {t('PersonalInfoPage.deleteAccount')}
                     </Link>
@@ -42,7 +42,10 @@ export const Navigation: FC = () => {
             ) : (
                 <>
                     {showAuthLink && (
-                        <Link to={routes.auth} className="link-primary">
+                        <Link
+                            to={routes.auth}
+                            className="link-primary nav-link p-4"
+                        >
                             {t('Header.signIn')}
                         </Link>
                     )}
@@ -50,7 +53,7 @@ export const Navigation: FC = () => {
             )}
 
             {showHomeLink && (
-                <Link to={routes.home} className="link-primary">
+                <Link to={routes.home} className="link-primary nav-link p-4">
                     {t('Header.home')}
                 </Link>
             )}

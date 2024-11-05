@@ -10,7 +10,7 @@ export const Header: FC = () => {
     return (
         <header className="header">
             <div className="container flex justify-between">
-                <Link to={routes.home} className="link-primary">
+                <Link to={routes.home} className="link-primary nav-link p-4">
                     {t('Header.brand')}
                 </Link>
 

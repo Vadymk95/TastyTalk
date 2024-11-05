@@ -16,7 +16,7 @@ body {
 }
 
 .header {
-    @apply bg-primary text-white p-4 w-full shadow-custom-light;
+    @apply bg-primary text-white w-full shadow-custom-light flex-all-center;
 }
 
 .main-content {
