@@ -40,7 +40,11 @@ export const Input: FC<InputProps> = ({
                     className="input-primary"
                     name={name}
                     type={isPasswordType && isPasswordVisible ? 'text' : type}
-                    placeholder={placeholder || ''}
+                    placeholder={
+                        isPasswordType && isPasswordVisible
+                            ? label
+                            : placeholder
+                    }
                 />
                 {isPasswordType && (
                     <span

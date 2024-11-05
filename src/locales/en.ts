@@ -32,6 +32,7 @@ export const en = {
                 lastName: 'Last Name',
                 firstName: 'First Name',
                 password: 'Password',
+                confirmPassword: 'Confirm Password',
                 actionSignIn: 'Sign In',
                 firstNameMinLength:
                     'First name must be at least 2 character long',
@@ -41,6 +42,7 @@ export const en = {
                 emailNotValid: 'Email is not valid',
                 passwordMinLength:
                     'Password must be at least 6 characters long',
+                passwordsMustMatch: 'Passwords must match',
                 enterYourEmail: 'Enter your email',
                 enterYourName: 'Enter your name',
                 enterYourLastName: 'Enter your last name',

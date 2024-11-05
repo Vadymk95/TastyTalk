@@ -15,6 +15,7 @@ type RegisterFormValues = {
     firstName: string;
     lastName: string;
     password: string;
+    confirmPassword: string;
 };
 
 type RegisterFormProps = {
@@ -57,6 +58,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             .required(t('RegisterForm.requiredField')),
         password: Yup.string()
             .min(6, t('RegisterForm.passwordMinLength'))
+            .required(t('RegisterForm.requiredField')),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password')], t('RegisterForm.passwordsMustMatch'))
             .required(t('RegisterForm.requiredField'))
     });
 
@@ -67,7 +71,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 email: '',
                 firstName: '',
                 lastName: '',
-                password: ''
+                password: '',
+                confirmPassword: ''
             }}
             validationSchema={RegisterSchema}
             onSubmit={(values) => handleRegisterSubmit(values)}
@@ -108,6 +113,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         placeholder="******"
                         isRequired
                         label={t('RegisterForm.password')}
+                    />
+
+                    <Input
+                        className="auth-input-wrapper"
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="******"
+                        isRequired
+                        label={t('RegisterForm.confirmPassword')}
                     />
 
                     <div>
