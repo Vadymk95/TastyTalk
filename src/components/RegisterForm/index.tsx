@@ -132,7 +132,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     <div>
                         <Button
                             size="large"
-                            className={`w-full ${error ? 'mb-5' : 'mb-10'}`}
+                            className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-10 md:mb-5'}`}
                             type="submit"
                             disabled={loading}
                         >
@@ -140,7 +140,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         </Button>
 
                         {error && (
-                            <div className="mb-10">
+                            <div className="mb-10 md:mb-5">
                                 <ErrorCard errorMessage={authError} />
                             </div>
                         )}
