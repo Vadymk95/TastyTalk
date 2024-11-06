@@ -1,4 +1,4 @@
-import { Input } from '@root/components/ui';
+import { ErrorMessage, Field, FieldProps } from 'formik';
 import debounce from 'lodash/debounce';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,10 +18,12 @@ const debouncedCheckAvailability = debounce(
         setIsAvailable: (isAvailable: boolean | null) => void,
         setLoading: (loading: boolean) => void
     ) => {
-        if (!username) {
+        if (username.length < 4) {
             setIsAvailable(null);
+            setLoading(false);
             return;
         }
+
         setLoading(true);
         const available = await checkUsernameAvailability(username);
         setIsAvailable(available);
@@ -42,10 +44,10 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     const [loading, setLoading] = useState(false);
 
     const handleChange = useCallback(
-        (username: string) => {
+        (value: string) => {
             setIsAvailable(null);
             debouncedCheckAvailability(
-                username,
+                value,
                 checkUsernameAvailability,
                 setIsAvailable,
                 setLoading
@@ -61,27 +63,46 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     }, []);
 
     return (
-        <div className={`relative ${className}`}>
-            <Input
-                name={name}
-                type="text"
-                label={label}
-                isRequired={isRequired}
-                placeholder={t('UsernameInput.chooseUsername')}
-                onChange={handleChange}
-            />
+        <div className={`${className || ''} relative`}>
+            <label>
+                {label}
+                {isRequired && <span className="text-primary">*</span>}
+            </label>
+
+            <Field name={name}>
+                {({ field }: FieldProps) => (
+                    <input
+                        className="input-primary"
+                        {...field}
+                        type="text"
+                        placeholder={t('UsernameInput.chooseUsername')}
+                        onChange={(e: any) => {
+                            field.onChange(e);
+                            handleChange(e.target.value);
+                        }}
+                    />
+                )}
+            </Field>
             {loading ? (
-                <span className="text-neutral-500 absolute">
+                <span className="text-neutral-500 username-abosulte">
                     {t('UsernameInput.checking')}
                 </span>
             ) : isAvailable === null ? null : isAvailable ? (
-                <span className="text-secondary absolute">
+                <span className="text-secondary username-abosulte">
                     {t('UsernameInput.available')}
                 </span>
             ) : (
-                <span className="text-primary absolute">
+                <span className="text-primary username-abosulte">
                     {t('UsernameInput.taken')}
                 </span>
+            )}
+
+            {isRequired && (
+                <ErrorMessage
+                    name={name}
+                    component="div"
+                    className="error-absolute"
+                />
             )}
         </div>
     );

@@ -6,6 +6,10 @@
     @apply flex-col justify-start relative mb-8 md:mb-5;
 }
 
+.username-abosulte {
+    @apply absolute top-20 right-0 text-xs;
+}
+
 .error-absolute {
     @apply absolute text-primary text-xs top-20 right-0;
 }

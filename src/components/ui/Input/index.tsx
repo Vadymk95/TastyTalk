@@ -1,7 +1,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field, FieldProps } from 'formik';
-import { ChangeEvent, FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 type InputProps = {
     name: string;
@@ -10,7 +10,6 @@ type InputProps = {
     isRequired: boolean;
     placeholder?: string;
     className?: string;
-    onChange?: (value: string) => void;
 };
 
 export const Input: FC<InputProps> = ({
@@ -19,25 +18,15 @@ export const Input: FC<InputProps> = ({
     label,
     isRequired,
     placeholder,
-    className,
-    onChange
+    className
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
-    const [inputValue, setInputValue] = useState('');
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!isPasswordVisible);
     };
 
     const isPasswordType = type === 'password';
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setInputValue(value);
-        if (onChange) {
-            onChange(value);
-        }
-    };
 
     return (
         <div className={`${className || ''} relative`}>
@@ -62,8 +51,6 @@ export const Input: FC<InputProps> = ({
                                     ? label
                                     : placeholder
                             }
-                            onChange={handleChange}
-                            value={inputValue}
                         />
                     )}
                 </Field>

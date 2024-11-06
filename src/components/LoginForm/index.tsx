@@ -118,7 +118,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                         </Button>
 
                         {error && (
-                            <div className="mb-8 md:mb-5">
+                            <div className="mb-8 md:mb-5 duration-300">
                                 <ErrorCard errorMessage={authError} />
                             </div>
                         )}
