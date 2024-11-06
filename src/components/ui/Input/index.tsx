@@ -1,5 +1,5 @@
-import { ErrorMessage, Field } from 'formik';
-import { FC, useState } from 'react';
+import { ErrorMessage, Field, FieldProps } from 'formik';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,8 @@ type InputProps = {
     isRequired: boolean;
     placeholder?: string;
     className?: string;
+    debounceDelay?: number;
+    onChange?: (value: string) => void;
 };
 
 export const Input: FC<InputProps> = ({
@@ -19,15 +21,38 @@ export const Input: FC<InputProps> = ({
     label,
     isRequired,
     placeholder,
-    className
+    className,
+    debounceDelay = 0,
+    onChange
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
+    const [inputValue, setInputValue] = useState('');
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!isPasswordVisible);
     };
 
     const isPasswordType = type === 'password';
+
+    useEffect(() => {
+        if (debounceDelay > 0 && onChange) {
+            const handler = setTimeout(() => {
+                onChange(inputValue);
+            }, debounceDelay);
+
+            return () => clearTimeout(handler);
+        }
+    }, [inputValue, debounceDelay, onChange]);
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
+
+        // Direct onChange call if no debounce is set
+        if (debounceDelay === 0 && onChange) {
+            onChange(value);
+        }
+    };
 
     return (
         <div className={`${className || ''} relative`}>
@@ -37,16 +62,27 @@ export const Input: FC<InputProps> = ({
             </label>
 
             <div className="relative">
-                <Field
-                    className="input-primary"
-                    name={name}
-                    type={isPasswordType && isPasswordVisible ? 'text' : type}
-                    placeholder={
-                        isPasswordType && isPasswordVisible
-                            ? label
-                            : placeholder
-                    }
-                />
+                <Field name={name}>
+                    {({ field }: FieldProps) => (
+                        <input
+                            {...field}
+                            className="input-primary"
+                            type={
+                                isPasswordType && isPasswordVisible
+                                    ? 'text'
+                                    : type
+                            }
+                            placeholder={
+                                isPasswordType && isPasswordVisible
+                                    ? label
+                                    : placeholder
+                            }
+                            onChange={handleChange}
+                            value={inputValue}
+                        />
+                    )}
+                </Field>
+
                 {isPasswordType && (
                     <span
                         onClick={togglePasswordVisibility}
