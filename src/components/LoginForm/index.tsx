@@ -67,7 +67,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
         >
             {() => (
                 <Form>
-                    <div className="mb-8 md:mb-5">
+                    <div className="mb-8 md:mb-7">
                         <Button
                             size="large"
                             variant="secondary"
@@ -108,7 +108,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                     <div>
                         <Button
                             size="large"
-                            className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-5'}`}
+                            className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
                             type="submit"
                             disabled={loading}
                         >
@@ -118,7 +118,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
                         </Button>
 
                         {error && (
-                            <div className="mb-8 md:mb-5 duration-300">
+                            <div className="mb-8 md:mb-7 duration-300">
                                 <ErrorCard errorMessage={authError} />
                             </div>
                         )}

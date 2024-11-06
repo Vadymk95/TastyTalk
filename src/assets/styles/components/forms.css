@@ -3,7 +3,7 @@
 }
 
 .auth-input-wrapper {
-    @apply flex-col justify-start relative mb-8 md:mb-5;
+    @apply flex-col justify-start relative mb-8 md:mb-7;
 }
 
 .username-abosulte {
