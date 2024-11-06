@@ -1,7 +1,8 @@
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field } from 'formik';
 import { FC, useState } from 'react';
+
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type InputProps = {
     name: string;

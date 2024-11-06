@@ -1,7 +1,8 @@
-import { AppRouter } from '@root/router/AppRouter';
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
-import { routes } from '../../router/routes';
+
+import { AppRouter } from '@root/router/AppRouter';
+import { routes } from '@root/router/routes';
 
 export const Main: FC = () => {
     const location = useLocation();

@@ -1,8 +1,8 @@
+import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC } from 'react';
-
-import { useTranslation } from 'react-i18next';
 
 type ErrorCardProps = {
     errorMessage: string | null;

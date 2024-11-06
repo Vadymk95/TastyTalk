@@ -1,8 +1,9 @@
-import { Navigation } from '@root/components';
-import { routes } from '@root/router/routes';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
+import { Navigation } from '@root/components';
+import { routes } from '@root/router/routes';
 
 export const Header: FC = () => {
     const { t } = useTranslation();

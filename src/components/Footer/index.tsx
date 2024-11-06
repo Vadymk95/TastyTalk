@@ -1,15 +1,18 @@
 import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
+
+import { useAuthStore } from '@root/store/authStore';
+
+import { PrivateFooter, PublicFooter } from './components';
 
 export const Footer: FC = () => {
-    const { t } = useTranslation();
+    const { user } = useAuthStore();
+
+    const isAuth = !!user;
 
     return (
         <footer className="footer">
             <div className="container text-center">
-                <span className="text-sm text-neutral">
-                    {t('Footer.allRights')}
-                </span>
+                {isAuth ? <PrivateFooter /> : <PublicFooter />}
             </div>
         </footer>
     );
