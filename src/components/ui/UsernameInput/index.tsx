@@ -61,7 +61,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     }, []);
 
     return (
-        <div className={className}>
+        <div className={`relative ${className}`}>
             <Input
                 name={name}
                 type="text"
@@ -71,15 +71,17 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 onChange={handleChange}
             />
             {loading ? (
-                <span className="text-gray-500">
+                <span className="text-neutral-500 absolute">
                     {t('UsernameInput.checking')}
                 </span>
             ) : isAvailable === null ? null : isAvailable ? (
-                <span className="text-green-500">
+                <span className="text-secondary absolute">
                     {t('UsernameInput.available')}
                 </span>
             ) : (
-                <span className="text-red-500">{t('UsernameInput.taken')}</span>
+                <span className="text-primary absolute">
+                    {t('UsernameInput.taken')}
+                </span>
             )}
         </div>
     );
