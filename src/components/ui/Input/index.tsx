@@ -1,8 +1,7 @@
-import { ErrorMessage, Field, FieldProps } from 'formik';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ErrorMessage, Field, FieldProps } from 'formik';
+import { ChangeEvent, FC, useState } from 'react';
 
 type InputProps = {
     name: string;
@@ -11,7 +10,6 @@ type InputProps = {
     isRequired: boolean;
     placeholder?: string;
     className?: string;
-    debounceDelay?: number;
     onChange?: (value: string) => void;
 };
 
@@ -22,7 +20,6 @@ export const Input: FC<InputProps> = ({
     isRequired,
     placeholder,
     className,
-    debounceDelay = 0,
     onChange
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -34,22 +31,10 @@ export const Input: FC<InputProps> = ({
 
     const isPasswordType = type === 'password';
 
-    useEffect(() => {
-        if (debounceDelay > 0 && onChange) {
-            const handler = setTimeout(() => {
-                onChange(inputValue);
-            }, debounceDelay);
-
-            return () => clearTimeout(handler);
-        }
-    }, [inputValue, debounceDelay, onChange]);
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setInputValue(value);
-
-        // Direct onChange call if no debounce is set
-        if (debounceDelay === 0 && onChange) {
+        if (onChange) {
             onChange(value);
         }
     };

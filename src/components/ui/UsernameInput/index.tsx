@@ -1,22 +1,39 @@
-import { FC, useState } from 'react';
-
 import { Input } from '@root/components/ui';
+import debounce from 'lodash/debounce';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type UsernameInputProps = {
     name: string;
     label: string;
     isRequired: boolean;
-    debounceDelay?: number;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
     className?: string;
 };
+
+const debouncedCheckAvailability = debounce(
+    async (
+        username: string,
+        checkUsernameAvailability: (username: string) => Promise<boolean>,
+        setIsAvailable: (isAvailable: boolean | null) => void,
+        setLoading: (loading: boolean) => void
+    ) => {
+        if (!username) {
+            setIsAvailable(null);
+            return;
+        }
+        setLoading(true);
+        const available = await checkUsernameAvailability(username);
+        setIsAvailable(available);
+        setLoading(false);
+    },
+    500
+);
 
 export const UsernameInput: FC<UsernameInputProps> = ({
     name,
     label,
     isRequired,
-    debounceDelay = 500,
     checkUsernameAvailability,
     className = ''
 }) => {
@@ -24,29 +41,34 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleUsernameChange = async (username: string) => {
-        if (!username) {
+    const handleChange = useCallback(
+        (username: string) => {
             setIsAvailable(null);
-            return;
-        }
+            debouncedCheckAvailability(
+                username,
+                checkUsernameAvailability,
+                setIsAvailable,
+                setLoading
+            );
+        },
+        [checkUsernameAvailability]
+    );
 
-        setLoading(true);
-        const available = await checkUsernameAvailability(username);
-        setIsAvailable(available);
-        setLoading(false);
-    };
+    useEffect(() => {
+        return () => {
+            debouncedCheckAvailability.cancel();
+        };
+    }, []);
 
     return (
-        <div>
+        <div className={className}>
             <Input
                 name={name}
                 type="text"
                 label={label}
                 isRequired={isRequired}
                 placeholder={t('UsernameInput.chooseUsername')}
-                debounceDelay={debounceDelay}
-                onChange={handleUsernameChange}
-                className={className}
+                onChange={handleChange}
             />
             {loading ? (
                 <span className="text-gray-500">

@@ -112,7 +112,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         label={t('RegisterForm.username')}
                         isRequired
                         checkUsernameAvailability={checkUsernameAvailability}
-                        debounceDelay={500}
                     />
 
                     <Input
