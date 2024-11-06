@@ -23,6 +23,7 @@ export const en = {
             RegisterForm: {
                 signUp: 'Register',
                 email: 'Email',
+                username: 'Username',
                 lastName: 'Last Name',
                 firstName: 'First Name',
                 password: 'Password',
@@ -30,6 +31,7 @@ export const en = {
                 actionSignIn: 'Sign In',
                 firstNameMinLength:
                     'First name must be at least 2 character long',
+                usernameMinLength: 'Username must be at least 4 character long',
                 lastNameMinLength:
                     'Last name must be at least 2 character long',
                 requiredField: 'This field is required',

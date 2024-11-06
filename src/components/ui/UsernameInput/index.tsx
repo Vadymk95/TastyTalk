@@ -9,6 +9,7 @@ type UsernameInputProps = {
     isRequired: boolean;
     debounceDelay?: number;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
+    className?: string;
 };
 
 export const UsernameInput: FC<UsernameInputProps> = ({
@@ -16,7 +17,8 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     label,
     isRequired,
     debounceDelay = 500,
-    checkUsernameAvailability
+    checkUsernameAvailability,
+    className = ''
 }) => {
     const { t } = useTranslation();
     const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
@@ -44,6 +46,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 placeholder={t('UsernameInput.chooseUsername')}
                 debounceDelay={debounceDelay}
                 onChange={handleUsernameChange}
+                className={className}
             />
             {loading ? (
                 <span className="text-gray-500">

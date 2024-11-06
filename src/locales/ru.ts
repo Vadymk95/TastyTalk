@@ -22,12 +22,15 @@ export const ru = {
             RegisterForm: {
                 signUp: 'Регистрация',
                 email: 'Email',
+                username: 'Имя пользователя',
                 firstName: 'Имя',
                 lastName: 'Фамилия',
                 password: 'Пароль',
                 confirmPassword: 'Подтвердите пароль',
                 actionSignIn: 'Войти',
                 firstNameMinLength: 'Имя должно быть не менее 2 символа',
+                usernameMinLength:
+                    'Имя пользователя должно быть не менее 4 символов',
                 lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
                 requiredField: 'Это поле обязательно',
                 emailNotValid: 'Email не валидный',
@@ -66,6 +69,7 @@ export const ru = {
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
             },
             UsernameInput: {
+                username: 'Имя пользователя',
                 chooseUsername: 'Выберите имя пользователя',
                 checking: 'Проверка имени пользователя...',
                 available: 'Имя пользователя доступно',

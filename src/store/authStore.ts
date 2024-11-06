@@ -11,7 +11,15 @@ import {
     updateProfile,
     User
 } from 'firebase/auth';
-import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    query,
+    setDoc,
+    where
+} from 'firebase/firestore';
 import { create } from 'zustand';
 
 interface AuthState {
@@ -27,12 +35,14 @@ interface AuthState {
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
+        username: string,
         password: string,
         firstName: string,
         lastName: string
     ) => Promise<void>;
     deleteUserAccount: (email: string, password: string) => Promise<void>;
     reauthenticateUser: (email: string, password: string) => Promise<void>;
+    checkUsernameAvailability: (username: string) => Promise<boolean>;
     setLoading: (value: boolean) => void;
     setError: (error: string | null) => void;
     clearError: () => void;
@@ -98,6 +108,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     registerWithEmailAndProfile: async (
         email,
+        username,
         password,
         firstName,
         lastName
@@ -118,6 +129,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             await user.reload();
             await setDoc(doc(db, 'users', user.uid), {
                 email: user.email,
+                username,
                 firstName,
                 lastName,
                 createdAt: new Date()
@@ -161,6 +173,15 @@ export const useAuthStore = create<AuthState>((set) => ({
             set({ error: 'No user is currently signed in.' });
             set({ loading: false });
         }
+    },
+
+    checkUsernameAvailability: async (username: string) => {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('username', '==', username));
+
+        const querySnapshot = await getDocs(q);
+
+        return querySnapshot.empty;
     }
 }));
 

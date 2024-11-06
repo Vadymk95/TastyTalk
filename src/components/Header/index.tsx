@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -8,19 +8,24 @@ import { routes } from '@root/router/routes';
 export const Header: FC = () => {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const lastScrollY = useRef(0);
+    const threshold = 10;
 
     const handleScroll = useCallback(() => {
         const currentScrollY = window.scrollY;
 
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            setIsVisible(true);
-        } else {
-            setIsVisible(false);
+        if (Math.abs(currentScrollY - lastScrollY.current) < threshold) {
+            return;
         }
 
-        setLastScrollY(currentScrollY);
-    }, [lastScrollY]);
+        if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+            setIsVisible(false);
+        } else {
+            setIsVisible(true);
+        }
+
+        lastScrollY.current = currentScrollY;
+    }, []);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
