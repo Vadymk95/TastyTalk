@@ -29,5 +29,5 @@ body {
 }
 
 .container {
-    @apply max-w-7xl px-4 mx-auto h-full;
+    @apply max-w-7xl mx-auto h-full;
 }
