@@ -64,6 +64,12 @@ export const ru = {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
+            },
+            UsernameInput: {
+                chooseUsername: 'Выберите имя пользователя',
+                checking: 'Проверка имени пользователя...',
+                available: 'Имя пользователя доступно',
+                taken: 'Имя пользователя занято'
             }
         }
     }

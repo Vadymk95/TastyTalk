@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 
 import { Input } from '@root/components/ui';
+import { useTranslation } from 'react-i18next';
 
 type UsernameInputProps = {
     name: string;
@@ -17,6 +18,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     debounceDelay = 500,
     checkUsernameAvailability
 }) => {
+    const { t } = useTranslation();
     const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -39,16 +41,20 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 type="text"
                 label={label}
                 isRequired={isRequired}
-                placeholder="Choose a username"
+                placeholder={t('UsernameInput.chooseUsername')}
                 debounceDelay={debounceDelay}
                 onChange={handleUsernameChange}
             />
             {loading ? (
-                <span className="text-gray-500">Checking...</span>
+                <span className="text-gray-500">
+                    {t('UsernameInput.checking')}
+                </span>
             ) : isAvailable === null ? null : isAvailable ? (
-                <span className="text-green-500">Username is available</span>
+                <span className="text-green-500">
+                    {t('UsernameInput.available')}
+                </span>
             ) : (
-                <span className="text-red-500">Username is already taken</span>
+                <span className="text-red-500">{t('UsernameInput.taken')}</span>
             )}
         </div>
     );

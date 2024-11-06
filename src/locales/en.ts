@@ -69,6 +69,12 @@ export const en = {
                 error: 'Error:',
                 somethingWentWrong:
                     'Something went wrong, please try again later'
+            },
+            UsernameInput: {
+                chooseUsername: 'Choose a username',
+                checking: 'Checking...',
+                available: 'Username is available',
+                taken: 'Username is already taken'
             }
         }
     }
