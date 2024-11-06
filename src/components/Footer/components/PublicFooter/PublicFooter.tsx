@@ -5,6 +5,8 @@ export const PublicFooter: FC = () => {
     const { t } = useTranslation();
 
     return (
-        <span className="text-sm text-neutral">{t('Footer.allRights')}</span>
+        <p className="text-sm text-neutral text-center p-4">
+            {t('Footer.allRights')}
+        </p>
     );
 };

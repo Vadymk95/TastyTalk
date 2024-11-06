@@ -11,7 +11,7 @@ export const Footer: FC = () => {
 
     return (
         <footer className="footer">
-            <div className="container text-center">
+            <div className="container">
                 {isAuth ? <PrivateFooter /> : <PublicFooter />}
             </div>
         </footer>
