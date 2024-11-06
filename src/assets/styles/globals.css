@@ -25,6 +25,7 @@ body {
 
 .main-content {
     @apply flex-grow p-4 overflow-y-auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .container {
