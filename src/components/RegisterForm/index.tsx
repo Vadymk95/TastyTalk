@@ -108,8 +108,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         >
             {() => (
                 <Form>
-                    <div className="flex justify-between md:block">
-                        <div>
+                    <div className="flex gap-10 md:block">
+                        <div className="w-full">
                             <UsernameInput
                                 validationSchema={usernameValidationSchema}
                                 className="auth-input-wrapper"
@@ -142,7 +142,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             />
                         </div>
 
-                        <div>
+                        <div className="w-full">
                             <Input
                                 className="auth-input-wrapper"
                                 name="email"
