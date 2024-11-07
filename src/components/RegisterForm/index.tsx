@@ -108,59 +108,69 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         >
             {() => (
                 <Form>
-                    <UsernameInput
-                        validationSchema={usernameValidationSchema}
-                        className="auth-input-wrapper"
-                        name="username"
-                        label={t('RegisterForm.username')}
-                        isRequired
-                        checkUsernameAvailability={checkUsernameAvailability}
-                    />
+                    <div className="flex justify-between md:block">
+                        <div>
+                            <UsernameInput
+                                validationSchema={usernameValidationSchema}
+                                className="auth-input-wrapper"
+                                name="username"
+                                label={t('RegisterForm.username')}
+                                isRequired
+                                checkUsernameAvailability={
+                                    checkUsernameAvailability
+                                }
+                            />
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="firstName"
-                        type="text"
-                        placeholder={t('RegisterForm.enterYourName')}
-                        isRequired
-                        label={t('RegisterForm.firstName')}
-                    />
+                            <Input
+                                className="auth-input-wrapper"
+                                name="firstName"
+                                type="text"
+                                placeholder={t('RegisterForm.enterYourName')}
+                                isRequired
+                                label={t('RegisterForm.firstName')}
+                            />
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="lastName"
-                        type="text"
-                        placeholder={t('RegisterForm.enterYourLastName')}
-                        isRequired
-                        label={t('RegisterForm.lastName')}
-                    />
+                            <Input
+                                className="auth-input-wrapper"
+                                name="lastName"
+                                type="text"
+                                placeholder={t(
+                                    'RegisterForm.enterYourLastName'
+                                )}
+                                isRequired
+                                label={t('RegisterForm.lastName')}
+                            />
+                        </div>
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="email"
-                        type="email"
-                        placeholder={t('RegisterForm.enterYourEmail')}
-                        isRequired
-                        label={t('RegisterForm.email')}
-                    />
+                        <div>
+                            <Input
+                                className="auth-input-wrapper"
+                                name="email"
+                                type="email"
+                                placeholder={t('RegisterForm.enterYourEmail')}
+                                isRequired
+                                label={t('RegisterForm.email')}
+                            />
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="password"
-                        type="password"
-                        placeholder="******"
-                        isRequired
-                        label={t('RegisterForm.password')}
-                    />
+                            <Input
+                                className="auth-input-wrapper"
+                                name="password"
+                                type="password"
+                                placeholder="******"
+                                isRequired
+                                label={t('RegisterForm.password')}
+                            />
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="confirmPassword"
-                        type="password"
-                        placeholder="******"
-                        isRequired
-                        label={t('RegisterForm.confirmPassword')}
-                    />
+                            <Input
+                                className="auth-input-wrapper"
+                                name="confirmPassword"
+                                type="password"
+                                placeholder="******"
+                                isRequired
+                                label={t('RegisterForm.confirmPassword')}
+                            />
+                        </div>
+                    </div>
 
                     <div>
                         <Button

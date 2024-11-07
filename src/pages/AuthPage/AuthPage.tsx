@@ -9,7 +9,9 @@ const AuthPage: FC = () => {
     const handleSignInAction = () => setIsSignIn(true);
 
     return (
-        <div className="auth-form">
+        <div
+            className={`auth-form ${isSignIn ? 'auth-form--login' : 'auth-form--register'}`}
+        >
             <h2 className="text-center text-2xl mb-8">
                 {t(isSignIn ? 'AuthPage.signInToAccount' : 'AuthPage.signUp')}
             </h2>

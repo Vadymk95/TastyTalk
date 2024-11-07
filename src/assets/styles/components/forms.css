@@ -1,5 +1,13 @@
 .auth-form {
-    @apply bg-white shadow-md rounded-lg p-8 lg:p-6 md:!p-4 w-2/5 lg:w-4/5 md:!w-full;
+    @apply bg-white shadow-md rounded-lg p-8 lg:p-6 md:!p-4;
+}
+
+.auth-form--login {
+    @apply w-2/5 lg:w-4/5 md:!w-full;
+}
+
+.auth-form--register {
+    @apply w-3/5 lg:w-4/5 sm:!w-full;
 }
 
 .auth-input-wrapper {

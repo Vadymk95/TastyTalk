@@ -16,15 +16,15 @@ body {
 }
 
 .header {
-    @apply bg-primary text-white w-full shadow-custom-light flex-all-center sticky top-0 left-0 right-0 z-10;
+    @apply bg-primary text-white w-full h-[56px] shadow-custom-light flex-all-center sticky top-0 left-0 right-0 z-10;
 }
 
 .footer {
-    @apply bg-neutral-dark text-white w-full shadow-custom-dark flex-all-center fixed bottom-0 left-0 right-0 z-10;
+    @apply bg-neutral-dark text-white w-full h-[56px] shadow-custom-dark flex-all-center fixed bottom-0 left-0 right-0 z-10;
 }
 
 .main-content {
-    @apply flex-grow p-4 overflow-y-auto;
+    @apply flex-grow p-4 overflow-y-auto pt-[56px] -mt-[56px] pb-[56px];
     -webkit-overflow-scrolling: touch;
 }
 
