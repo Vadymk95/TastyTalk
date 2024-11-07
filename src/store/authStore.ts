@@ -116,11 +116,9 @@ export const useAuthStore = create<AuthState>((set) => ({
             const userSnap = await getDoc(userRef);
 
             if (userSnap.exists()) {
-                // Пользователь уже зарегистрирован
                 set({ user, error: null, isRegistered: true });
                 handleRedirectToMainPage(true);
             } else {
-                // Новый пользователь, не зарегистрирован
                 set({ user, error: null, isRegistered: false });
                 handleRedirectToMainPage(false);
             }
