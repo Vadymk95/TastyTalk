@@ -12,7 +12,7 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'auth/user-disabled': t('AuthErrors.userDisabled'),
         'auth/user-not-found': t('AuthErrors.userNotFound'),
         'auth/wrong-password': t('AuthErrors.wrongPassword'),
-        'auth/invalid-credential': t('AuthErrors.invalidCredential'),
+        'auth/invalid-credential': t('AuthErrors.usernameNotFound'),
         'username not found': t('AuthErrors.usernameNotFound')
     };
 
