@@ -26,8 +26,8 @@ interface AuthState {
     user: User | null;
     loading: boolean;
     error: string | null;
-    signInWithEmail: (
-        email: string,
+    signInWithEmailOrUsername: (
+        emailOrUsername: string,
         password: string,
         handleRedirectToMainPage: () => void
     ) => Promise<void>;
@@ -60,10 +60,33 @@ export const useAuthStore = create<AuthState>((set) => ({
     setError: (error) => set({ error }),
     clearError: () => set({ error: null }),
 
-    signInWithEmail: async (email, password, handleRedirectToMainPage) => {
+    signInWithEmailOrUsername: async (
+        emailOrUsername,
+        password,
+        handleRedirectToMainPage
+    ) => {
         set({ loading: true });
         try {
             set({ error: null });
+
+            let email = emailOrUsername;
+
+            if (!/\S+@\S+\.\S+/.test(emailOrUsername)) {
+                const usersRef = collection(db, 'users');
+                const q = query(
+                    usersRef,
+                    where('username', '==', emailOrUsername)
+                );
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const userDoc = querySnapshot.docs[0];
+                    email = userDoc.data().email;
+                } else {
+                    throw new Error('username not found');
+                }
+            }
+
             const userCredential = await signInWithEmailAndPassword(
                 auth,
                 email,

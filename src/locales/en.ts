@@ -12,7 +12,8 @@ export const en = {
                 actionSignUp: 'Sign Up',
                 signIn: 'Sign In',
                 dontHaveAccount: "Don't have an account?",
-                email: 'Email',
+                emailOrUsername: 'Email or Username',
+                emailOrUsernamePlaceholder: 'Enter your email or username',
                 password: 'Password',
                 requiredField: 'This field is required',
                 emailNotValid: 'Email is not valid',
@@ -72,7 +73,8 @@ export const en = {
                 userNotFound: 'No user found with this email.',
                 wrongPassword: 'Incorrect password.',
                 invalidCredential: 'Invalid credentials provided.',
-                popupClosedByUser: 'Sign in process was canceled by the user.'
+                popupClosedByUser: 'Sign in process was canceled by the user.',
+                usernameNotFound: 'Username not found. Please try again.'
             },
             General: {
                 loading: 'Loading...',

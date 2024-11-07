@@ -13,7 +13,7 @@ import { useAuthStore } from '@root/store/authStore';
 import googleLogo from '@root/assets/images/google_logo.png';
 
 type LoginFormValues = {
-    email: string;
+    emailOrUsername: string;
     password: string;
 };
 
@@ -24,16 +24,21 @@ type LoginFormProps = {
 export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { signInWithEmail, signInWithGoogle, loading, error, clearError } =
-        useAuthStore();
+    const {
+        signInWithEmailOrUsername,
+        signInWithGoogle,
+        loading,
+        error,
+        clearError
+    } = useAuthStore();
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
     );
     const handleRedirectToMainPage = () => navigate(routes.home);
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
-        await signInWithEmail(
-            values.email,
+        await signInWithEmailOrUsername(
+            values.emailOrUsername,
             values.password,
             handleRedirectToMainPage
         );
@@ -46,9 +51,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     };
 
     const LoginSchema = Yup.object().shape({
-        email: Yup.string()
-            .email(t('LoginForm.emailNotValid'))
-            .required(t('LoginForm.requiredField')),
+        emailOrUsername: Yup.string().required(t('LoginForm.requiredField')),
         password: Yup.string()
             .min(6, t('LoginForm.passwordMinLength'))
             .required(t('LoginForm.requiredField'))
@@ -61,7 +64,7 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
     return (
         <Formik
             preventDefault
-            initialValues={{ email: '', password: '' }}
+            initialValues={{ emailOrUsername: '', password: '' }}
             validationSchema={LoginSchema}
             onSubmit={(values) => handleLoginSubmit(values)}
         >
@@ -89,11 +92,11 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
 
                     <Input
                         className="auth-input-wrapper"
-                        name="email"
-                        type="email"
-                        placeholder="example@mail.com"
+                        name="emailOrUsername"
+                        type="text"
+                        placeholder={t('LoginForm.emailOrUsernamePlaceholder')}
                         isRequired
-                        label={t('LoginForm.email')}
+                        label={t('LoginForm.emailOrUsername')}
                     />
 
                     <Input

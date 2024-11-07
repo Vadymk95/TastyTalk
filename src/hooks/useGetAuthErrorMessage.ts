@@ -4,7 +4,7 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
     const { t } = useTranslation();
 
     const match = errorMessage.match(/\(([^)]+)\)/);
-    const errorCode = match ? match[1] : 'default';
+    const errorCode = match ? match[1] : errorMessage;
 
     const errorMessages: Record<string, string> = {
         'auth/popup-closed-by-user': t('AuthErrors.popupClosedByUser'),
@@ -12,7 +12,8 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'auth/user-disabled': t('AuthErrors.userDisabled'),
         'auth/user-not-found': t('AuthErrors.userNotFound'),
         'auth/wrong-password': t('AuthErrors.wrongPassword'),
-        'auth/invalid-credential': t('AuthErrors.invalidCredential')
+        'auth/invalid-credential': t('AuthErrors.invalidCredential'),
+        'username not found': t('AuthErrors.usernameNotFound')
     };
 
     return errorMessages[errorCode] || t('General.somethingWentWrong');

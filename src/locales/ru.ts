@@ -12,7 +12,9 @@ export const ru = {
                 actionSignUp: 'Зарегистрироваться',
                 signIn: 'Войти',
                 dontHaveAccount: 'У вас еще нет аккаунта?',
-                email: 'Email',
+                emailOrUsername: 'Email или имя пользователя',
+                emailOrUsernamePlaceholder:
+                    'Введите ваш email или имя пользователя',
                 password: 'Пароль',
                 requiredField: 'Это поле обязательно',
                 emailNotValid: 'Email не валидный',
@@ -69,7 +71,9 @@ export const ru = {
                 userNotFound: 'Пользователь с таким email не найден.',
                 wrongPassword: 'Неверный пароль.',
                 invalidCredential: 'Предоставлены неверные учетные данные.',
-                popupClosedByUser: 'Процесс входа отменен пользователем.'
+                popupClosedByUser: 'Процесс входа отменен пользователем.',
+                usernameNotFound:
+                    'Имя пользователя не найдено. Пожалуйста, попробуйте снова.'
             },
             General: {
                 loading: 'Загрузка...',
