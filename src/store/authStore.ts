@@ -50,7 +50,7 @@ interface AuthState {
     setLoading: (value: boolean) => void;
     setError: (error: string | null) => void;
     clearError: () => void;
-    setUser: (user: User | null, isRegistered?: boolean) => void; // Обновляем setUser для установки isRegistered
+    setUser: (user: User | null, isRegistered?: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
