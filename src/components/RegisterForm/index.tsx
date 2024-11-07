@@ -31,8 +31,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         checkUsernameAvailability,
         error,
         clearError,
-        loading
+        loading,
+        user,
+        isRegistered
     } = useAuthStore();
+    const isTemporaryUser = !!user && !isRegistered;
+
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
     );
@@ -91,7 +95,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         username: '',
         firstName: '',
         lastName: '',
-        email: '',
+        email: isTemporaryUser ? user?.email || '' : '',
         password: '',
         confirmPassword: ''
     };
@@ -147,6 +151,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 className="auth-input-wrapper"
                                 name="email"
                                 type="email"
+                                disabled={isTemporaryUser}
                                 placeholder={t('RegisterForm.enterYourEmail')}
                                 isRequired
                                 label={t('RegisterForm.email')}
@@ -189,16 +194,20 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         )}
 
                         <div className="text-center">
-                            <span>
-                                {t('RegisterForm.haveAccount')}{' '}
-                                <Link
-                                    className="underline"
-                                    variant="secondary"
-                                    onClick={signInAction}
-                                >
-                                    {t('RegisterForm.actionSignIn')}
-                                </Link>
-                            </span>
+                            {isTemporaryUser ? (
+                                <span>{t('RegisterForm.registerFinish')}</span>
+                            ) : (
+                                <span>
+                                    {t('RegisterForm.haveAccount')}
+                                    <Link
+                                        className="underline"
+                                        variant="secondary"
+                                        onClick={signInAction}
+                                    >
+                                        {t('RegisterForm.actionSignIn')}
+                                    </Link>
+                                </span>
+                            )}
                         </div>
                     </div>
                 </Form>

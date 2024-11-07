@@ -49,7 +49,8 @@ export const ru = {
                 enterYourEmail: 'Введите ваш email',
                 enterYourName: 'Введите ваше имя',
                 enterYourLastName: 'Введите вашу фамилию',
-                haveAccount: 'Уже есть аккаунт?'
+                haveAccount: 'Уже есть аккаунт?',
+                registerFinish: 'Завершите процесс регистрации'
             },
             NotFoundPage: {
                 notFound: '404',
@@ -60,7 +61,8 @@ export const ru = {
                 brand: 'TastyTalks',
                 signOut: 'Выйти',
                 signIn: 'Войти',
-                home: 'На главную'
+                home: 'На главную',
+                registerFinish: 'Завершить регистрацию'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. Все права защищены.'

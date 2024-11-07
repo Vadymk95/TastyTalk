@@ -2,15 +2,21 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { useAuthStore } from '@root/store/authStore';
 import { routes } from '@root/router/routes';
+import { useAuthStore } from '@root/store/authStore';
 
 export const PrivateNavigation: FC = () => {
     const { t } = useTranslation();
-    const { signOutUser, deleteUserAccount } = useAuthStore();
+    const { isRegistered, signOutUser, deleteUserAccount } = useAuthStore();
 
     return (
         <>
+            {!isRegistered && (
+                <Link to={routes.auth} className="link-primary nav-link p-4">
+                    {t('Header.registerFinish')}
+                </Link>
+            )}
+
             <Link
                 onClick={signOutUser}
                 to={routes.auth}

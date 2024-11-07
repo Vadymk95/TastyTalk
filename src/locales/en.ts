@@ -51,7 +51,8 @@ export const en = {
                 enterYourEmail: 'Enter your email',
                 enterYourName: 'Enter your name',
                 enterYourLastName: 'Enter your last name',
-                haveAccount: 'Already have an account?'
+                haveAccount: 'Already have an account?',
+                registerFinish: 'Finish your registration process'
             },
             NotFoundPage: {
                 notFound: '404',
@@ -62,7 +63,8 @@ export const en = {
                 brand: 'TastyTalks',
                 signOut: 'Sign Out',
                 signIn: 'Sign In',
-                home: 'Home'
+                home: 'Home',
+                registerFinish: 'Finish Registration'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. All rights reserved.'

@@ -10,6 +10,7 @@ type InputProps = {
     isRequired: boolean;
     placeholder?: string;
     className?: string;
+    disabled?: boolean;
 };
 
 export const Input: FC<InputProps> = ({
@@ -17,8 +18,9 @@ export const Input: FC<InputProps> = ({
     type,
     label,
     isRequired,
-    placeholder,
-    className
+    placeholder = '',
+    className = '',
+    disabled = false
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -51,6 +53,7 @@ export const Input: FC<InputProps> = ({
                                     ? label
                                     : placeholder
                             }
+                            disabled={disabled}
                         />
                     )}
                 </Field>

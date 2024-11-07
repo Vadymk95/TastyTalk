@@ -18,10 +18,10 @@ type LoginFormValues = {
 };
 
 type LoginFormProps = {
-    signUpAction: () => void;
+    setIsSignIn: (value: boolean) => void;
 };
 
-export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
+export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const {
@@ -31,10 +31,20 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
         error,
         clearError
     } = useAuthStore();
+
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
     );
-    const handleRedirectToMainPage = () => navigate(routes.home);
+
+    const signUpAction = () => setIsSignIn(false);
+
+    const handleRedirectToMainPage = (shouldRedirectHome = true): void => {
+        if (shouldRedirectHome) {
+            navigate(routes.home);
+        } else {
+            setIsSignIn(false);
+        }
+    };
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
         await signInWithEmailOrUsername(
@@ -46,8 +56,6 @@ export const LoginForm: FC<LoginFormProps> = ({ signUpAction }) => {
 
     const handleGoogleLogin = async () => {
         await signInWithGoogle(handleRedirectToMainPage);
-
-        if (!error) navigate(routes.home);
     };
 
     const LoginSchema = Yup.object().shape({

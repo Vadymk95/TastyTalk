@@ -9,7 +9,7 @@ interface PublicRouteProps {
 }
 
 export const PublicRoute: FC<PublicRouteProps> = ({ element }) => {
-    const user = useAuthStore((state) => state.user);
+    const { user, isRegistered } = useAuthStore();
 
-    return user ? <Navigate to={routes.home} /> : element;
+    return user && isRegistered ? <Navigate to={routes.home} /> : element;
 };

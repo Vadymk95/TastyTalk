@@ -15,6 +15,7 @@ import {
     collection,
     deleteDoc,
     doc,
+    getDoc,
     getDocs,
     query,
     setDoc,
@@ -26,12 +27,15 @@ interface AuthState {
     user: User | null;
     loading: boolean;
     error: string | null;
+    isRegistered: boolean;
     signInWithEmailOrUsername: (
         emailOrUsername: string,
         password: string,
         handleRedirectToMainPage: () => void
     ) => Promise<void>;
-    signInWithGoogle: (handleRedirectToMainPage: () => void) => Promise<void>;
+    signInWithGoogle: (
+        handleRedirectToMainPage: (shouldRedirectHome: boolean) => void
+    ) => Promise<void>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
@@ -46,15 +50,16 @@ interface AuthState {
     setLoading: (value: boolean) => void;
     setError: (error: string | null) => void;
     clearError: () => void;
-    setUser: (user: User | null) => void;
+    setUser: (user: User | null, isRegistered?: boolean) => void; // Обновляем setUser для установки isRegistered
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     loading: false,
     error: null,
+    isRegistered: false,
 
-    setUser: (user) => set({ user }),
+    setUser: (user, isRegistered = false) => set({ user, isRegistered }),
 
     setLoading: (value) => set({ loading: value }),
     setError: (error) => set({ error }),
@@ -92,7 +97,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 email,
                 password
             );
-            set({ user: userCredential.user, error: null });
+            set({ user: userCredential.user, error: null, isRegistered: true });
 
             handleRedirectToMainPage();
         } catch (error: any) {
@@ -105,11 +110,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithGoogle: async (handleRedirectToMainPage) => {
         set({ loading: true });
         try {
-            set({ error: null });
             const userCredential = await signInWithPopup(auth, googleProvider);
-            set({ user: userCredential.user, error: null });
+            const user = userCredential.user;
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
 
-            handleRedirectToMainPage();
+            if (userSnap.exists()) {
+                // Пользователь уже зарегистрирован
+                set({ user, error: null, isRegistered: true });
+                handleRedirectToMainPage(true);
+            } else {
+                // Новый пользователь, не зарегистрирован
+                set({ user, error: null, isRegistered: false });
+                handleRedirectToMainPage(false);
+            }
         } catch (error: any) {
             set({ error: error.message });
         } finally {
@@ -121,7 +135,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ loading: true });
         try {
             await signOut(auth);
-            set({ user: null, error: null });
+            set({ user: null, error: null, isRegistered: false });
         } catch (error: any) {
             set({ error: error.message });
         } finally {
@@ -158,7 +172,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 createdAt: new Date()
             });
 
-            set({ user, error: null });
+            set({ user, error: null, isRegistered: true });
         } catch (error: any) {
             set({ error: error.message });
         } finally {
@@ -186,7 +200,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 await deleteDoc(doc(db, 'users', user.uid));
                 await deleteUser(user);
 
-                set({ user: null, error: null });
+                set({ user: null, error: null, isRegistered: false });
             } catch (error: any) {
                 set({ error: error.message });
             } finally {
@@ -209,5 +223,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 
 onAuthStateChanged(auth, (user) => {
-    useAuthStore.getState().setUser(user);
+    if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        getDoc(userRef).then((docSnapshot) => {
+            const isRegistered = docSnapshot.exists();
+            useAuthStore.getState().setUser(user, isRegistered);
+        });
+    } else {
+        useAuthStore.getState().setUser(null, false);
+    }
 });
