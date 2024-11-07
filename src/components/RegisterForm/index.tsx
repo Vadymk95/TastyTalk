@@ -198,7 +198,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 <span>{t('RegisterForm.registerFinish')}</span>
                             ) : (
                                 <span>
-                                    {t('RegisterForm.haveAccount')}
+                                    {t('RegisterForm.haveAccount')}{' '}
                                     <Link
                                         className="underline"
                                         variant="secondary"
