@@ -2,12 +2,14 @@ import { ErrorMessage, Field, FieldProps } from 'formik';
 import debounce from 'lodash/debounce';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
 
 type UsernameInputProps = {
     name: string;
     label: string;
     isRequired: boolean;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
+    validationSchema: Yup.StringSchema;
     className?: string;
 };
 
@@ -37,6 +39,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     label,
     isRequired,
     checkUsernameAvailability,
+    validationSchema,
     className = ''
 }) => {
     const { t } = useTranslation();
@@ -44,8 +47,15 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     const [loading, setLoading] = useState(false);
 
     const handleChange = useCallback(
-        (value: string) => {
+        async (value: string) => {
             setIsAvailable(null);
+
+            const isValid = await validationSchema.isValid(value);
+            if (!isValid) {
+                setLoading(false);
+                return;
+            }
+
             debouncedCheckAvailability(
                 value,
                 checkUsernameAvailability,
@@ -53,7 +63,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 setLoading
             );
         },
-        [checkUsernameAvailability]
+        [checkUsernameAvailability, validationSchema]
     );
 
     useEffect(() => {
@@ -84,15 +94,15 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 )}
             </Field>
             {loading ? (
-                <span className="text-neutral-500 username-abosulte">
+                <span className="text-neutral-500 username-abosulute">
                     {t('UsernameInput.checking')}
                 </span>
             ) : isAvailable === null ? null : isAvailable ? (
-                <span className="text-secondary username-abosulte">
+                <span className="text-secondary username-abosulute">
                     {t('UsernameInput.available')}
                 </span>
             ) : (
-                <span className="text-primary username-abosulte">
+                <span className="text-primary username-abosulute">
                     {t('UsernameInput.taken')}
                 </span>
             )}

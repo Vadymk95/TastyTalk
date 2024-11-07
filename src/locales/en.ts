@@ -28,6 +28,14 @@ export const en = {
                 firstName: 'First Name',
                 password: 'Password',
                 confirmPassword: 'Confirm Password',
+                usernameInvalid:
+                    'Username can only contain letters, numbers and underscores',
+                usernameMustContainLetter:
+                    'Username must contain at least one letter',
+                firstNameInvalid: 'First name can only contain letters',
+                lastNameInvalid: 'Last name can only contain letters',
+                passwordComplexity:
+                    'Password must contain at least one letter and one number',
                 actionSignIn: 'Sign In',
                 firstNameMinLength:
                     'First name must be at least 2 character long',

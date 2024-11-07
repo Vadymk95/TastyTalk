@@ -6,8 +6,8 @@
     @apply flex-col justify-start relative mb-8 md:mb-7;
 }
 
-.username-abosulte {
-    @apply absolute top-20 right-0 text-xs;
+.username-abosulute {
+    @apply absolute bottom-14 right-0 text-xs;
 }
 
 .error-absolute {

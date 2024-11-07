@@ -11,10 +11,10 @@ import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
 type RegisterFormValues = {
-    email: string;
     username: string;
     firstName: string;
     lastName: string;
+    email: string;
     password: string;
     confirmPassword: string;
 };
@@ -55,20 +55,28 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     };
 
     const RegisterSchema = Yup.object().shape({
-        email: Yup.string()
-            .email(t('RegisterForm.emailNotValid'))
-            .required(t('RegisterForm.requiredField')),
         username: Yup.string()
+            .matches(/^[a-zA-Z0-9_]+$/, t('RegisterForm.usernameInvalid'))
+            .matches(/[a-zA-Z]/, t('RegisterForm.usernameMustContainLetter'))
             .min(4, t('RegisterForm.usernameMinLength'))
             .required(t('RegisterForm.requiredField')),
         firstName: Yup.string()
+            .matches(/^[a-zA-Zа-яА-Я]+$/, t('RegisterForm.firstNameInvalid'))
             .min(2, t('RegisterForm.firstNameMinLength'))
             .required(t('RegisterForm.requiredField')),
         lastName: Yup.string()
+            .matches(/^[a-zA-Zа-яА-Я]+$/, t('RegisterForm.lastNameInvalid'))
             .min(2, t('RegisterForm.lastNameMinLength'))
+            .required(t('RegisterForm.requiredField')),
+        email: Yup.string()
+            .email(t('RegisterForm.emailNotValid'))
             .required(t('RegisterForm.requiredField')),
         password: Yup.string()
             .min(6, t('RegisterForm.passwordMinLength'))
+            .matches(
+                /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/,
+                t('RegisterForm.passwordComplexity')
+            )
             .required(t('RegisterForm.requiredField')),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password')], t('RegisterForm.passwordsMustMatch'))
@@ -80,13 +88,16 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     }, [clearError]);
 
     const initialValues: RegisterFormValues = {
-        email: '',
         username: '',
         firstName: '',
         lastName: '',
+        email: '',
         password: '',
         confirmPassword: ''
     };
+
+    const usernameValidationSchema = RegisterSchema.fields
+        .username as Yup.StringSchema;
 
     return (
         <Formik
@@ -97,16 +108,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         >
             {() => (
                 <Form>
-                    <Input
-                        className="auth-input-wrapper"
-                        name="email"
-                        type="email"
-                        placeholder={t('RegisterForm.enterYourEmail')}
-                        isRequired
-                        label={t('RegisterForm.email')}
-                    />
-
                     <UsernameInput
+                        validationSchema={usernameValidationSchema}
                         className="auth-input-wrapper"
                         name="username"
                         label={t('RegisterForm.username')}
@@ -130,6 +133,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         placeholder={t('RegisterForm.enterYourLastName')}
                         isRequired
                         label={t('RegisterForm.lastName')}
+                    />
+
+                    <Input
+                        className="auth-input-wrapper"
+                        name="email"
+                        type="email"
+                        placeholder={t('RegisterForm.enterYourEmail')}
+                        isRequired
+                        label={t('RegisterForm.email')}
                     />
 
                     <Input

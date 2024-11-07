@@ -27,6 +27,14 @@ export const ru = {
                 lastName: 'Фамилия',
                 password: 'Пароль',
                 confirmPassword: 'Подтвердите пароль',
+                usernameInvalid:
+                    'Имя пользователя может содержать только буквы, цифры и подчеркивания',
+                usernameMustContainLetter:
+                    'Имя пользователя должно содержать хотя бы одну букву',
+                firstNameInvalid: 'Имя может содержать только буквы',
+                lastNameInvalid: 'Фамилия может содержать только буквы',
+                passwordComplexity:
+                    'Пароль должен содержать как минимум одну букву и одну цифру',
                 actionSignIn: 'Войти',
                 firstNameMinLength: 'Имя должно быть не менее 2 символа',
                 usernameMinLength:
