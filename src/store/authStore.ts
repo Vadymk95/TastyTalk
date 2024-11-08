@@ -9,7 +9,8 @@ import {
     signInWithRedirect,
     signOut,
     updateProfile,
-    User
+    User,
+    UserCredential
 } from 'firebase/auth';
 import {
     collection,
@@ -123,17 +124,10 @@ export const useAuthStore = create<AuthState>((set) => ({
                     auth,
                     googleProvider
                 );
-                const user = userCredential.user;
-                const userRef = doc(db, 'users', user.uid);
-                const userSnap = await getDoc(userRef);
-
-                if (userSnap.exists()) {
-                    set({ user, error: null, isRegistered: true });
-                    handleRedirectToMainPage(true);
-                } else {
-                    set({ user, error: null, isRegistered: false });
-                    handleRedirectToMainPage(false);
-                }
+                await processGoogleSignIn(
+                    userCredential,
+                    handleRedirectToMainPage
+                );
             }
         } catch (error: any) {
             set({ error: error.message });
@@ -233,13 +227,29 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
 }));
 
-onAuthStateChanged(auth, (user) => {
+const processGoogleSignIn = async (
+    userCredential: UserCredential,
+    handleRedirectToMainPage: (shouldRedirectHome: boolean) => void
+) => {
+    const user = userCredential.user;
+    const userRef = doc(db, 'users', user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+        useAuthStore.getState().setUser(user, true);
+        handleRedirectToMainPage(true);
+    } else {
+        useAuthStore.getState().setUser(user, false);
+        handleRedirectToMainPage(false);
+    }
+};
+
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         const userRef = doc(db, 'users', user.uid);
-        getDoc(userRef).then((docSnapshot) => {
-            const isRegistered = docSnapshot.exists();
-            useAuthStore.getState().setUser(user, isRegistered);
-        });
+        const userSnap = await getDoc(userRef);
+        const isRegistered = userSnap.exists();
+        useAuthStore.getState().setUser(user, isRegistered);
     } else {
         useAuthStore.getState().setUser(null, false);
     }
