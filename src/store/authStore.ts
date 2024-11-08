@@ -1,4 +1,3 @@
-import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import {
     createUserWithEmailAndPassword,
     deleteUser,
@@ -7,6 +6,7 @@ import {
     reauthenticateWithCredential,
     signInWithEmailAndPassword,
     signInWithPopup,
+    signInWithRedirect,
     signOut,
     updateProfile,
     User
@@ -22,6 +22,9 @@ import {
     where
 } from 'firebase/firestore';
 import { create } from 'zustand';
+
+import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
+import { isMobileDevice } from '@root/helpers';
 
 interface AuthState {
     user: User | null;
@@ -110,7 +113,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithGoogle: async (handleRedirectToMainPage) => {
         set({ loading: true });
         try {
-            const userCredential = await signInWithPopup(auth, googleProvider);
+            const userCredential = isMobileDevice()
+                ? await signInWithRedirect(auth, googleProvider)
+                : await signInWithPopup(auth, googleProvider);
             const user = userCredential.user;
             const userRef = doc(db, 'users', user.uid);
             const userSnap = await getDoc(userRef);
