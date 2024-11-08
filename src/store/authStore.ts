@@ -6,6 +6,7 @@ import {
     reauthenticateWithCredential,
     signInWithEmailAndPassword,
     signInWithPopup,
+    signInWithRedirect,
     signOut,
     updateProfile,
     User,
@@ -117,7 +118,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
         try {
             if (isMobile) {
-                await signInWithPopup(auth, googleProvider);
+                await signInWithRedirect(auth, googleProvider);
             } else {
                 const userCredential = await signInWithPopup(
                     auth,
