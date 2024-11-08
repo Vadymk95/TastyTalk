@@ -112,20 +112,28 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     signInWithGoogle: async (handleRedirectToMainPage) => {
         set({ loading: true });
-        try {
-            const userCredential = isMobileDevice()
-                ? await signInWithRedirect(auth, googleProvider)
-                : await signInWithPopup(auth, googleProvider);
-            const user = userCredential.user;
-            const userRef = doc(db, 'users', user.uid);
-            const userSnap = await getDoc(userRef);
 
-            if (userSnap.exists()) {
-                set({ user, error: null, isRegistered: true });
-                handleRedirectToMainPage(true);
+        const isMobile = isMobileDevice();
+
+        try {
+            if (isMobile) {
+                await signInWithRedirect(auth, googleProvider);
             } else {
-                set({ user, error: null, isRegistered: false });
-                handleRedirectToMainPage(false);
+                const userCredential = await signInWithPopup(
+                    auth,
+                    googleProvider
+                );
+                const user = userCredential.user;
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists()) {
+                    set({ user, error: null, isRegistered: true });
+                    handleRedirectToMainPage(true);
+                } else {
+                    set({ user, error: null, isRegistered: false });
+                    handleRedirectToMainPage(false);
+                }
             }
         } catch (error: any) {
             set({ error: error.message });
