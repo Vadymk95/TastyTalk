@@ -1,8 +1,9 @@
 export { ErrorCard } from './ErrorCard';
 export { Footer } from './Footer';
+export { FooterNavigation } from './FooterNavigation';
 export { Header } from './Header';
+export { HeaderNavigation } from './HeaderNavigation';
 export { LoginForm } from './LoginForm';
 export { Main } from './Main';
-export { Navigation } from './Navigation';
 export { RegisterForm } from './RegisterForm';
 export * from './ui';

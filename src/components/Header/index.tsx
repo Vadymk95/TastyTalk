@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { Navigation } from '@root/components';
+import { HeaderNavigation } from '@root/components';
 import { routes } from '@root/router/routes';
 
 export const Header: FC = () => {
@@ -44,7 +44,7 @@ export const Header: FC = () => {
                     {t('Header.brand')}
                 </Link>
 
-                <Navigation />
+                <HeaderNavigation />
             </div>
         </header>
     );

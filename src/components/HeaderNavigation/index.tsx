@@ -7,7 +7,7 @@ import { useAuthStore } from '@root/store/authStore';
 
 import { PrivateNavigation, PublicNavigation } from './components';
 
-export const Navigation: FC = () => {
+export const HeaderNavigation: FC = () => {
     const location = useLocation();
     const { user } = useAuthStore();
     const { t } = useTranslation();

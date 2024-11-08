@@ -7,7 +7,7 @@ import { useAuthStore } from '@root/store/authStore';
 
 export const PrivateNavigation: FC = () => {
     const { t } = useTranslation();
-    const { isRegistered, signOutUser, deleteUserAccount } = useAuthStore();
+    const { isRegistered, deleteUserAccount } = useAuthStore();
 
     return (
         <>
@@ -16,14 +16,6 @@ export const PrivateNavigation: FC = () => {
                     {t('Header.registerFinish')}
                 </Link>
             )}
-
-            <Link
-                onClick={signOutUser}
-                to={routes.auth}
-                className="link-primary nav-link p-4"
-            >
-                {t('Header.signOut')}
-            </Link>
 
             {/* temporary button */}
             <Link

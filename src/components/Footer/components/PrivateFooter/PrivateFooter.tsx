@@ -1,5 +1,11 @@
 import { FC } from 'react';
 
+import { FooterNavigation } from '@root/components';
+
 export const PrivateFooter: FC = () => {
-    return <div>Private Footer</div>;
+    return (
+        <>
+            <FooterNavigation />
+        </>
+    );
 };
