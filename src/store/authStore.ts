@@ -4,6 +4,7 @@ import {
     EmailAuthProvider,
     onAuthStateChanged,
     reauthenticateWithCredential,
+    sendEmailVerification,
     signInWithEmailAndPassword,
     signInWithPopup,
     signInWithRedirect,
@@ -32,6 +33,8 @@ interface AuthState {
     loading: boolean;
     error: string | null;
     isRegistered: boolean;
+    isEmailVerified: boolean;
+    initialized: boolean;
     signInWithEmailOrUsername: (
         emailOrUsername: string,
         password: string,
@@ -48,6 +51,8 @@ interface AuthState {
         firstName: string,
         lastName: string
     ) => Promise<void>;
+    resendVerificationEmail: () => Promise<void>;
+    checkEmailVerificationStatus: () => Promise<void>;
     deleteUserAccount: (email: string, password: string) => Promise<void>;
     reauthenticateUser: (email: string, password: string) => Promise<void>;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
@@ -62,8 +67,16 @@ export const useAuthStore = create<AuthState>((set) => ({
     loading: false,
     error: null,
     isRegistered: false,
+    initialized: false,
+    isEmailVerified: false,
 
-    setUser: (user, isRegistered = false) => set({ user, isRegistered }),
+    setUser: (user, isRegistered = false) =>
+        set({
+            user,
+            isRegistered,
+            isEmailVerified: user ? user.emailVerified : false,
+            initialized: true
+        }),
 
     setLoading: (value) => set({ loading: value }),
     setError: (error) => set({ error }),
@@ -224,6 +237,31 @@ export const useAuthStore = create<AuthState>((set) => ({
         const querySnapshot = await getDocs(q);
 
         return querySnapshot.empty;
+    },
+
+    resendVerificationEmail: async () => {
+        const user = auth.currentUser;
+        if (user && !user.emailVerified) {
+            await sendEmailVerification(user);
+        } else {
+            throw new Error(
+                'No user is currently signed in or email is already verified.'
+            );
+        }
+    },
+
+    checkEmailVerificationStatus: async () => {
+        const user = auth.currentUser;
+        if (user) {
+            await user.reload();
+            if (user.emailVerified) {
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                const isRegistered = userSnap.exists() && user.emailVerified;
+                await user.reload();
+                set({ user, isRegistered });
+            }
+        }
     }
 }));
 

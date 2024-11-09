@@ -1,8 +1,13 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { PublicRoute, withSuspense } from '@root/hoc';
-import { AuthPage, HomePage, NotFoundPage } from '@root/pages/';
+import { PrivateRoute, PublicRoute, withSuspense } from '@root/hoc';
+import {
+    AuthPage,
+    EmailVerificationPage,
+    HomePage,
+    NotFoundPage
+} from '@root/pages/';
 import { routes } from '@root/router/routes';
 
 export const AppRouter: FC = () => {
@@ -12,6 +17,14 @@ export const AppRouter: FC = () => {
             <Route
                 path={routes.auth}
                 element={<PublicRoute element={withSuspense(<AuthPage />)} />}
+            />
+            <Route
+                path={routes.emailVerification}
+                element={
+                    <PrivateRoute
+                        element={withSuspense(<EmailVerificationPage />)}
+                    />
+                }
             />
             <Route
                 path={routes.notFound}

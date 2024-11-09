@@ -54,6 +54,13 @@ export const en = {
                 haveAccount: 'Already have an account?',
                 registerFinish: 'Finish your registration process'
             },
+            EmailVerificationPage: {
+                title: 'Confirm your email address',
+                text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
+                goToHome: 'Go to Homepage',
+                resendEmailText: 'Didn’t receive the email?',
+                resendEmail: 'Resend Email'
+            },
             NotFoundPage: {
                 notFound: '404',
                 oops: "Oops! The page you're looking for doesn't exist.",

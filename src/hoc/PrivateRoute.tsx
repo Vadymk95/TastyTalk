@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
+import { Loader } from '@root/components';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore'; // Импорт вашего Zustand стора
 
@@ -9,7 +10,16 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
-    const user = useAuthStore((state) => state.user);
+    const location = useLocation();
+    const { user, initialized, isEmailVerified } = useAuthStore();
+
+    if (!initialized) {
+        return <Loader />;
+    }
+
+    if (location.pathname === routes.emailVerification && isEmailVerified) {
+        return <Navigate to={routes.home} />;
+    }
 
     return user ? element : <Navigate to={routes.auth} />;
 };

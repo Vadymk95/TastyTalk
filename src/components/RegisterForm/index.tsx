@@ -52,7 +52,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 values.lastName
             );
 
-            navigation(routes.home);
+            navigation(routes.emailVerification);
         } catch (error) {
             console.error('Registration failed:', error);
         }
