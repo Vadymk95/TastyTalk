@@ -6,7 +6,7 @@
 
 body {
     @apply font-sans text-neutral-dark;
-    background-image: url('../images/background.jpg');
+    background-image: url('@root/assets/images/background.jpg');
     background-size: 450px 450px;
     background-repeat: repeat;
 }
