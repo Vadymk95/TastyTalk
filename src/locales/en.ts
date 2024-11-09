@@ -76,7 +76,8 @@ export const en = {
                 registerFinish: 'Finish Registration'
             },
             Footer: {
-                allRights: '© 2024 TastyTalks. All rights reserved.'
+                allRights: '© 2024 TastyTalks. All rights reserved.',
+                profile: 'Your Profile'
             },
             AuthErrors: {
                 invalidEmail: 'Invalid email address.',

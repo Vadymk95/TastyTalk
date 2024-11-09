@@ -12,13 +12,8 @@ export const FooterNavigation: FC = () => {
     return (
         <nav className="flex justify-end">
             {isRegistered ? (
-                //temporarily solution
-                <Link
-                    onClick={signOutUser}
-                    to={routes.auth}
-                    className="link-primary nav-link p-4"
-                >
-                    {t('Header.signOut')}
+                <Link to={routes.profile} className="link-primary nav-link p-4">
+                    {t('Footer.profile')}
                 </Link>
             ) : (
                 <Link

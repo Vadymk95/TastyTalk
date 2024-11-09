@@ -6,7 +6,8 @@ import {
     AuthPage,
     EmailVerificationPage,
     HomePage,
-    NotFoundPage
+    NotFoundPage,
+    ProfilePage
 } from '@root/pages/';
 import { routes } from '@root/router/routes';
 
@@ -24,6 +25,12 @@ export const AppRouter: FC = () => {
                     <PrivateRoute
                         element={withSuspense(<EmailVerificationPage />)}
                     />
+                }
+            />
+            <Route
+                path={routes.profile}
+                element={
+                    <PrivateRoute element={withSuspense(<ProfilePage />)} />
                 }
             />
             <Route

@@ -74,7 +74,8 @@ export const ru = {
                 registerFinish: 'Завершить регистрацию'
             },
             Footer: {
-                allRights: '© 2024 TastyTalks. Все права защищены.'
+                allRights: '© 2024 TastyTalks. Все права защищены.',
+                profile: 'Ваш профиль'
             },
             AuthErrors: {
                 invalidEmail: 'Неверный email.',
