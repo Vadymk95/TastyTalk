@@ -25,9 +25,9 @@ body {
 }
 
 .main-content {
-    @apply flex-grow p-4 overflow-y-auto pt-[72px] -mt-[56px] pb-[72px];
+    @apply flex-grow p-4 overflow-y-auto pt-[72px] -mt-[56px];
     -webkit-overflow-scrolling: touch;
-    padding-bottom: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
 .container {
