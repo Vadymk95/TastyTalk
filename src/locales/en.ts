@@ -59,7 +59,9 @@ export const en = {
                 text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
                 goToHome: 'Go to Homepage',
                 resendEmailText: 'Didn’t receive the email?',
-                resendEmail: 'Resend Email'
+                resendEmail: 'Resend Email',
+                emailSent: 'Email has been sent',
+                emailSendError: 'Error sending email'
             },
             NotFoundPage: {
                 notFound: '404',
