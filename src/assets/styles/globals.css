@@ -24,7 +24,7 @@ body {
 }
 
 .main-content {
-    @apply flex-grow p-4 overflow-y-auto pt-[56px] -mt-[56px] pb-[56px];
+    @apply flex-grow p-4 overflow-y-auto pt-[72px] -mt-[56px] pb-[72px];
     -webkit-overflow-scrolling: touch;
 }
 
