@@ -7,7 +7,7 @@ export const routes = {
     auth: '/auth',
     emailVerification: '/email-verification',
     profile: '/profile',
-    settings: 'profile/settings',
+    settings: '/profile/settings',
     greeting: '/greeting',
     notFound: '*'
 };
