@@ -37,12 +37,9 @@ interface AuthState {
     initialized: boolean;
     signInWithEmailOrUsername: (
         emailOrUsername: string,
-        password: string,
-        handleRedirectAfterLogin: () => void
-    ) => Promise<void>;
-    signInWithGoogle: (
-        handleRedirectAfterLogin: (shouldRedirectHome: boolean) => void
-    ) => Promise<void>;
+        password: string
+    ) => Promise<boolean>;
+    signInWithGoogle: () => Promise<boolean>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
@@ -83,9 +80,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     clearError: () => set({ error: null }),
 
     signInWithEmailOrUsername: async (
-        emailOrUsername,
-        password,
-        handleRedirectAfterLogin
+        emailOrUsername: string,
+        password: string
     ) => {
         set({ loading: true });
         try {
@@ -105,7 +101,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                     const userDoc = querySnapshot.docs[0];
                     email = userDoc.data().email;
                 } else {
-                    throw new Error('username not found');
+                    throw new Error('Пользователь с таким именем не найден');
                 }
             }
 
@@ -116,15 +112,16 @@ export const useAuthStore = create<AuthState>((set) => ({
             );
             set({ user: userCredential.user, error: null, isRegistered: true });
 
-            handleRedirectAfterLogin();
+            return true;
         } catch (error: any) {
             set({ error: error.message });
+            return false;
         } finally {
             set({ loading: false });
         }
     },
 
-    signInWithGoogle: async (handleRedirectAfterLogin) => {
+    signInWithGoogle: async () => {
         set({ loading: true });
 
         const isMobile = isMobileDevice();
@@ -132,18 +129,17 @@ export const useAuthStore = create<AuthState>((set) => ({
         try {
             if (isMobile) {
                 await signInWithRedirect(auth, googleProvider);
+                return true;
             } else {
                 const userCredential = await signInWithPopup(
                     auth,
                     googleProvider
                 );
-                await processGoogleSignIn(
-                    userCredential,
-                    handleRedirectAfterLogin
-                );
+                return await processGoogleSignIn(userCredential);
             }
         } catch (error: any) {
             set({ error: error.message });
+            return false;
         } finally {
             set({ loading: false });
         }
@@ -266,19 +262,18 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 
 const processGoogleSignIn = async (
-    userCredential: UserCredential,
-    handleRedirectToMainPage: (shouldRedirectHome: boolean) => void
-) => {
+    userCredential: UserCredential
+): Promise<boolean> => {
     const user = userCredential.user;
     const userRef = doc(db, 'users', user.uid);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
         useAuthStore.getState().setUser(user, true);
-        handleRedirectToMainPage(true);
+        return true;
     } else {
         useAuthStore.getState().setUser(user, false);
-        handleRedirectToMainPage(false);
+        return false;
     }
 };
 

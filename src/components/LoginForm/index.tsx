@@ -49,15 +49,18 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     };
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
-        await signInWithEmailOrUsername(
+        const shouldRedirect = await signInWithEmailOrUsername(
             values.emailOrUsername,
-            values.password,
-            handleRedirectAfterLogin
+            values.password
         );
+
+        handleRedirectAfterLogin(shouldRedirect);
     };
 
     const handleGoogleLogin = async () => {
-        await signInWithGoogle(handleRedirectAfterLogin);
+        const shouldRedirect = await signInWithGoogle();
+
+        handleRedirectAfterLogin(shouldRedirect);
     };
 
     const LoginSchema = Yup.object().shape({
