@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { GreetingCard } from '@root/components/ui';
-import { useAuthStore } from '@root/store/authStore';
 import { routes } from '@root/router/routes';
+import { useAuthStore } from '@root/store/authStore';
 
 const GreetingPage: FC = () => {
     const { t } = useTranslation();
@@ -25,7 +25,7 @@ const GreetingPage: FC = () => {
                 {isEmailVerified ? (
                     <>
                         <GreetingCard
-                            to="/recipes"
+                            to={routes.recipes}
                             title={t('GreetingPage.recipes')}
                         />
                         <GreetingCard
@@ -33,22 +33,22 @@ const GreetingPage: FC = () => {
                             title={t('GreetingPage.mealPlans')}
                         />
                         <GreetingCard
-                            to="/create-recipe"
+                            to={routes.recipesCreate}
                             title={t('GreetingPage.createRecipe')}
                         />
                         <GreetingCard
-                            to="/create-plan"
+                            to={routes.mealsPlanCreate}
                             title={t('GreetingPage.createPlan')}
                         />
                     </>
                 ) : (
                     <>
                         <GreetingCard
-                            to="/recipes"
+                            to={routes.recipes}
                             title={t('GreetingPage.recipes')}
                         />
                         <GreetingCard
-                            to="/meal-plans"
+                            to={routes.mealsPlan}
                             title={t('GreetingPage.mealPlans')}
                         />
                     </>

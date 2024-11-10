@@ -13,7 +13,6 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const location = useLocation();
     const { user, initialized, isEmailVerified } = useAuthStore();
     const protectedRoutes = [
-        routes.emailVerification,
         routes.mealsPlanCreate,
         routes.recipesCreate,
         routes.settings
@@ -23,7 +22,11 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
         return <Loader />;
     }
 
-    if (protectedRoutes.includes(location.pathname) && isEmailVerified) {
+    if (location.pathname === routes.emailVerification && isEmailVerified) {
+        return <Navigate to={routes.home} />;
+    }
+
+    if (protectedRoutes.includes(location.pathname) && !isEmailVerified) {
         return <Navigate to={routes.home} />;
     }
 
