@@ -66,11 +66,10 @@ export const en = {
             GreetingPage: {
                 welcome: 'Welcome!',
                 description: 'Choose where you want to go:',
-                recipes: 'Recipes',
-                mealPlans: 'Meal Plans',
-                createRecipe: 'Create Recipe',
-                createPlan: 'Create Plan',
-                goTo: 'Go to'
+                recipes: 'View recipes',
+                mealPlans: 'View meal plans',
+                createRecipe: 'Create a recipe',
+                createPlan: 'Create a meal plan'
             },
             ProfilePage: {
                 settings: 'Profile Settings'

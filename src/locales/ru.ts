@@ -64,11 +64,10 @@ export const ru = {
             GreetingPage: {
                 welcome: 'Добро пожаловать!',
                 description: 'Выберите, куда хотите перейти:',
-                recipes: 'Рецепты',
-                mealPlans: 'Планы питания',
-                createRecipe: 'Создать рецепт',
-                createPlan: 'Создать план',
-                goTo: 'Перейти к'
+                recipes: 'Посмотреть рецепты',
+                mealPlans: 'Посмотреть планы питания',
+                createRecipe: 'Создать новый рецепт',
+                createPlan: 'Создать новый план питания'
             },
             ProfilePage: {
                 settings: 'Настройки профиля'
