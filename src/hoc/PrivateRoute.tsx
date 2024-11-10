@@ -15,6 +15,7 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const protectedRoutes = [
         routes.mealsPlanCreate,
         routes.recipesCreate,
+        routes.profile,
         routes.settings
     ];
 
