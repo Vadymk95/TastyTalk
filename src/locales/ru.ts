@@ -61,6 +61,15 @@ export const ru = {
                 emailSent: 'Письмо отправлено',
                 emailSendError: 'Ошибка отправки письма'
             },
+            GreetingPage: {
+                welcome: 'Добро пожаловать!',
+                description: 'Выберите, куда хотите перейти:',
+                recipes: 'Рецепты',
+                mealPlans: 'Планы питания',
+                createRecipe: 'Создать рецепт',
+                createPlan: 'Создать план',
+                goTo: 'Перейти к'
+            },
             NotFoundPage: {
                 notFound: '404',
                 oops: 'Упс! Страница, которую вы ищете, не существует.',

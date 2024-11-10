@@ -63,6 +63,15 @@ export const en = {
                 emailSent: 'Email has been sent',
                 emailSendError: 'Error sending email'
             },
+            GreetingPage: {
+                welcome: 'Welcome!',
+                description: 'Choose where you want to go:',
+                recipes: 'Recipes',
+                mealPlans: 'Meal Plans',
+                createRecipe: 'Create Recipe',
+                createPlan: 'Create Plan',
+                goTo: 'Go to'
+            },
             NotFoundPage: {
                 notFound: '404',
                 oops: "Oops! The page you're looking for doesn't exist.",

@@ -12,12 +12,18 @@ interface PrivateRouteProps {
 export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const location = useLocation();
     const { user, initialized, isEmailVerified } = useAuthStore();
+    const protectedRoutes = [
+        routes.emailVerification,
+        routes.mealsPlanCreate,
+        routes.recipesCreate,
+        routes.settings
+    ];
 
     if (!initialized) {
         return <Loader />;
     }
 
-    if (location.pathname === routes.emailVerification && isEmailVerified) {
+    if (protectedRoutes.includes(location.pathname) && isEmailVerified) {
         return <Navigate to={routes.home} />;
     }
 
