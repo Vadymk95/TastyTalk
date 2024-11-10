@@ -8,7 +8,7 @@ import { useAuthStore } from '@root/store/authStore';
 export const FooterNavigation: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { isEmailVerified, signOutUser } = useAuthStore();
+    const { isRegistered, signOutUser } = useAuthStore();
 
     const handleSignOut = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -18,7 +18,7 @@ export const FooterNavigation: FC = () => {
 
     return (
         <nav className="flex justify-end">
-            {isEmailVerified ? (
+            {isRegistered ? (
                 <Link to={routes.profile} className="link-primary nav-link p-4">
                     {t('Footer.profile')}
                 </Link>

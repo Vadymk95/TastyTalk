@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 import { Loader } from '@root/components';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store/authStore'; // Импорт вашего Zustand стора
+import { useAuthStore } from '@root/store/authStore';
 
 interface PrivateRouteProps {
     element: ReactNode;
@@ -11,12 +11,11 @@ interface PrivateRouteProps {
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const location = useLocation();
-    const { user, initialized, isEmailVerified } = useAuthStore();
-    const protectedRoutes = [
+    const { user, initialized, isRegistered, isEmailVerified } = useAuthStore();
+    const protectedRoutesForRegistered = [routes.profile, routes.settings];
+    const protectedRoutesForVerified = [
         routes.mealsPlanCreate,
-        routes.recipesCreate,
-        routes.profile,
-        routes.settings
+        routes.recipesCreate
     ];
 
     if (!initialized) {
@@ -27,7 +26,17 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
         return <Navigate to={routes.home} />;
     }
 
-    if (protectedRoutes.includes(location.pathname) && !isEmailVerified) {
+    if (
+        protectedRoutesForRegistered.includes(location.pathname) &&
+        !isRegistered
+    ) {
+        return <Navigate to={routes.home} />;
+    }
+
+    if (
+        protectedRoutesForVerified.includes(location.pathname) &&
+        !isEmailVerified
+    ) {
         return <Navigate to={routes.home} />;
     }
 

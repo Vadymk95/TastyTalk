@@ -11,7 +11,7 @@ const GreetingPage: FC = () => {
 
     //bg-gradient-main
     return (
-        <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-center justify-center w-4/5 bg-gradient-main p-8">
             <h1 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center">
                 {t('GreetingPage.welcome')}
             </h1>

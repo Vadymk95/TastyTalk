@@ -25,10 +25,10 @@ body {
 }
 
 .main-content {
-    @apply flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto;
+    @apply flex-grow p-4 overflow-y-auto;
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
 .container {
-    @apply max-w-7xl mx-auto h-full;
+    @apply max-w-7xl h-full mx-auto;
 }
