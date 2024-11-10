@@ -38,8 +38,8 @@ interface AuthState {
     signInWithEmailOrUsername: (
         emailOrUsername: string,
         password: string
-    ) => Promise<boolean>;
-    signInWithGoogle: () => Promise<boolean>;
+    ) => Promise<boolean | null>;
+    signInWithGoogle: () => Promise<boolean | null>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
@@ -115,7 +115,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             return true;
         } catch (error: any) {
             set({ error: error.message });
-            return false;
+            return null;
         } finally {
             set({ loading: false });
         }
@@ -139,7 +139,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             }
         } catch (error: any) {
             set({ error: error.message });
-            return false;
+            return null;
         } finally {
             set({ loading: false });
         }

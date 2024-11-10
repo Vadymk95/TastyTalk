@@ -54,11 +54,15 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
             values.password
         );
 
+        if (shouldRedirect === null) return;
+
         handleRedirectAfterLogin(shouldRedirect);
     };
 
     const handleGoogleLogin = async () => {
         const shouldRedirect = await signInWithGoogle();
+
+        if (shouldRedirect === null) return;
 
         handleRedirectAfterLogin(shouldRedirect);
     };

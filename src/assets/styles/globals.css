@@ -12,7 +12,7 @@ body {
 }
 
 .app-container {
-    @apply flex flex-col min-h-screen;
+    @apply flex flex-col min-h-screen h-full;
 }
 
 .header {
@@ -25,8 +25,7 @@ body {
 }
 
 .main-content {
-    @apply flex-grow p-4 overflow-y-auto pt-[72px] -mt-[56px];
-    -webkit-overflow-scrolling: touch;
+    @apply flex-grow flex flex-col items-center justify-center p-4 overflow-y-auto;
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 

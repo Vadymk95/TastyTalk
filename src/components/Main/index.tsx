@@ -13,7 +13,7 @@ export const Main: FC = () => {
 
     return (
         <main
-            className={`main-content container h-ful ${shouldDisplayCenter ? 'flex-all-center duration-300' : 'backdrop-bg'}`}
+            className={`main-content container h-full ${shouldDisplayCenter ? 'flex-all-center duration-300' : 'backdrop-bg'}`}
         >
             <AppRouter />
         </main>

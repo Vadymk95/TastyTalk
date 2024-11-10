@@ -9,8 +9,9 @@ const GreetingPage: FC = () => {
     const { t } = useTranslation();
     const { isEmailVerified } = useAuthStore();
 
+    //bg-gradient-main
     return (
-        <div className="flex flex-col items-center justify-center bg-gradient-main">
+        <div className="flex flex-col items-center justify-center w-full">
             <h1 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center">
                 {t('GreetingPage.welcome')}
             </h1>

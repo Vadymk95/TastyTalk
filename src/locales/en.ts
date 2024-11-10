@@ -91,7 +91,8 @@ export const en = {
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. All rights reserved.',
-                profile: 'Your Profile'
+                profile: 'Your Profile',
+                signOut: 'Sign Out'
             },
             AuthErrors: {
                 invalidEmail: 'Invalid email address.',
