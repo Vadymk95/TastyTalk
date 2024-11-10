@@ -72,6 +72,12 @@ export const en = {
                 createPlan: 'Create Plan',
                 goTo: 'Go to'
             },
+            ProfilePage: {
+                settings: 'Profile Settings'
+            },
+            ProfileSettingsPage: {
+                signOut: 'Sign Out'
+            },
             NotFoundPage: {
                 notFound: '404',
                 oops: "Oops! The page you're looking for doesn't exist.",

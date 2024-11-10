@@ -70,6 +70,12 @@ export const ru = {
                 createPlan: 'Создать план',
                 goTo: 'Перейти к'
             },
+            ProfilePage: {
+                settings: 'Настройки профиля'
+            },
+            ProfileSettingsPage: {
+                signOut: 'Выйти'
+            },
             NotFoundPage: {
                 notFound: '404',
                 oops: 'Упс! Страница, которую вы ищете, не существует.',
