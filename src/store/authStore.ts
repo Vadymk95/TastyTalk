@@ -38,10 +38,10 @@ interface AuthState {
     signInWithEmailOrUsername: (
         emailOrUsername: string,
         password: string,
-        handleRedirectToMainPage: () => void
+        handleRedirectAfterLogin: () => void
     ) => Promise<void>;
     signInWithGoogle: (
-        handleRedirectToMainPage: (shouldRedirectHome: boolean) => void
+        handleRedirectAfterLogin: (shouldRedirectHome: boolean) => void
     ) => Promise<void>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
@@ -85,7 +85,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithEmailOrUsername: async (
         emailOrUsername,
         password,
-        handleRedirectToMainPage
+        handleRedirectAfterLogin
     ) => {
         set({ loading: true });
         try {
@@ -116,7 +116,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             );
             set({ user: userCredential.user, error: null, isRegistered: true });
 
-            handleRedirectToMainPage();
+            handleRedirectAfterLogin();
         } catch (error: any) {
             set({ error: error.message });
         } finally {
@@ -124,7 +124,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
 
-    signInWithGoogle: async (handleRedirectToMainPage) => {
+    signInWithGoogle: async (handleRedirectAfterLogin) => {
         set({ loading: true });
 
         const isMobile = isMobileDevice();
@@ -139,7 +139,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 );
                 await processGoogleSignIn(
                     userCredential,
-                    handleRedirectToMainPage
+                    handleRedirectAfterLogin
                 );
             }
         } catch (error: any) {

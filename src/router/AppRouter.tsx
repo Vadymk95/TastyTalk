@@ -5,6 +5,7 @@ import { PrivateRoute, PublicRoute, withSuspense } from '@root/hoc';
 import {
     AuthPage,
     EmailVerificationPage,
+    GreetingPage,
     HomePage,
     NotFoundPage,
     ProfilePage
@@ -15,10 +16,12 @@ export const AppRouter: FC = () => {
     return (
         <Routes>
             <Route path={routes.home} element={<HomePage />} />
+
             <Route
                 path={routes.auth}
                 element={<PublicRoute element={withSuspense(<AuthPage />)} />}
             />
+
             <Route
                 path={routes.emailVerification}
                 element={
@@ -27,12 +30,21 @@ export const AppRouter: FC = () => {
                     />
                 }
             />
+
+            <Route
+                path={routes.greeting}
+                element={
+                    <PrivateRoute element={withSuspense(<GreetingPage />)} />
+                }
+            />
+
             <Route
                 path={routes.profile}
                 element={
                     <PrivateRoute element={withSuspense(<ProfilePage />)} />
                 }
             />
+
             <Route
                 path={routes.notFound}
                 element={withSuspense(<NotFoundPage />)}

@@ -3,5 +3,6 @@ export const routes = {
     auth: '/auth',
     emailVerification: '/email-verification',
     profile: '/profile',
+    greeting: '/greeting',
     notFound: '*'
 };

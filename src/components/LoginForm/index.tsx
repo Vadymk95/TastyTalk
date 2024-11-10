@@ -38,9 +38,11 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
 
     const signUpAction = () => setIsSignIn(false);
 
-    const handleRedirectToMainPage = (shouldRedirectHome = true): void => {
-        if (shouldRedirectHome) {
-            navigate(routes.home);
+    const handleRedirectAfterLogin = (
+        shouldRedirectAfterLogin = true
+    ): void => {
+        if (shouldRedirectAfterLogin) {
+            navigate(routes.greeting);
         } else {
             setIsSignIn(false);
         }
@@ -50,12 +52,12 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
         await signInWithEmailOrUsername(
             values.emailOrUsername,
             values.password,
-            handleRedirectToMainPage
+            handleRedirectAfterLogin
         );
     };
 
     const handleGoogleLogin = async () => {
-        await signInWithGoogle(handleRedirectToMainPage);
+        await signInWithGoogle(handleRedirectAfterLogin);
     };
 
     const LoginSchema = Yup.object().shape({
