@@ -13,9 +13,10 @@ export const Main: FC = () => {
     ];
     const shouldDisplayCenter = centeredPages.includes(location.pathname);
 
+    //backdrop-bg bg-gradient-main
     return (
         <main
-            className={`main-content container ${shouldDisplayCenter ? 'flex-all-center duration-300' : 'backdrop-bg'}`}
+            className={`main-content container ${shouldDisplayCenter ? 'flex-all-center duration-300' : 'bg-gradient-main'}`}
         >
             <AppRouter />
         </main>

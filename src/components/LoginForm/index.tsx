@@ -125,7 +125,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                         label={t('LoginForm.password')}
                     />
 
-                    <div>
+                    <section>
                         <Button
                             size="large"
                             className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
@@ -155,7 +155,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                                 </Link>
                             </span>
                         </div>
-                    </div>
+                    </section>
                 </Form>
             )}
         </Formik>

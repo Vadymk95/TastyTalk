@@ -112,7 +112,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         >
             {() => (
                 <Form>
-                    <div className="flex gap-10 md:block">
+                    <section className="flex gap-10 md:block">
                         <div className="w-full">
                             <UsernameInput
                                 validationSchema={usernameValidationSchema}
@@ -175,9 +175,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 label={t('RegisterForm.confirmPassword')}
                             />
                         </div>
-                    </div>
+                    </section>
 
-                    <div>
+                    <section>
                         <Button
                             size="large"
                             className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
@@ -209,7 +209,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 </span>
                             )}
                         </div>
-                    </div>
+                    </section>
                 </Form>
             )}
         </Formik>
