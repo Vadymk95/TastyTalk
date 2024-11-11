@@ -3,6 +3,7 @@
 @import './components/inputs.css';
 @import './components/forms.css';
 @import './components/cards.css';
+@import './components/plates.css';
 
 body {
     @apply font-sans text-neutral-dark;

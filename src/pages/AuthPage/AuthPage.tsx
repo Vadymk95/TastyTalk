@@ -14,7 +14,7 @@ const AuthPage: FC = () => {
 
     return (
         <div
-            className={`auth-form ${signInCondition ? 'auth-form--login' : 'auth-form--register'}`}
+            className={`plate ${signInCondition ? 'auth-form--login' : 'auth-form--register'}`}
         >
             <h2 className="text-center text-2xl mb-8">
                 {t(

@@ -11,17 +11,17 @@ const GreetingPage: FC = () => {
 
     //bg-gradient-main
     return (
-        <div className="flex flex-col items-center justify-center w-4/5 bg-gradient-main p-8">
-            <h1 className="text-3xl md:text-4xl font-semibold text-white mb-6 text-center">
+        <div className="plate flex-all-center flex-col sm:w-full">
+            <h1 className="text-3xl md:text-4xl font-semibold mb-6 text-center">
                 {t('GreetingPage.welcome')}
             </h1>
 
-            <p className="text-lg text-neutral-light text-center mb-8 max-w-md">
+            <p className="text-lg text-center mb-8 max-w-md">
                 {t('GreetingPage.description')}
             </p>
 
             <div
-                className={`grid gap-4 w-full max-w-lg ${isEmailVerified ? 'grid-cols-2' : 'grid-cols-1'}`}
+                className={`grid gap-4 w-full max-w-lg grid-cols-2 sm:grid-cols-1`}
             >
                 {isEmailVerified ? (
                     <>
