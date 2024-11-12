@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -21,6 +21,7 @@ type EditProfileFormValues = {
 
 export const EditProfileForm: FC = () => {
     const { t } = useTranslation();
+    const [showSuccess, setShowSuccess] = useState(false);
     const {
         userProfile,
         loading,
@@ -59,8 +60,15 @@ export const EditProfileForm: FC = () => {
         error || t('General.somethingWentWrong')
     );
 
-    const onSubmit = (values: EditProfileFormValues) => {
-        editProfile(values);
+    const onSubmit = async (values: EditProfileFormValues) => {
+        const success = await editProfile(values);
+        if (success) {
+            setShowSuccess(true);
+
+            setTimeout(() => {
+                setShowSuccess(false);
+            }, 3000);
+        }
     };
 
     useEffect(() => {
@@ -121,9 +129,13 @@ export const EditProfileForm: FC = () => {
                             </Button>
                         </div>
 
-                        <SuccessCard
-                            successMessage={t('EditProfileForm.successMessage')}
-                        />
+                        {showSuccess && (
+                            <SuccessCard
+                                successMessage={t(
+                                    'EditProfileForm.successMessage'
+                                )}
+                            />
+                        )}
 
                         {error && <ErrorCard errorMessage={editProfileError} />}
                     </div>

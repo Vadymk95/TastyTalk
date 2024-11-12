@@ -49,7 +49,7 @@ interface AuthState {
     isRegistered: boolean;
     isEmailVerified: boolean;
     initialized: boolean;
-    editProfile: (profileData: UpdateProfileData) => Promise<void>;
+    editProfile: (profileData: UpdateProfileData) => Promise<boolean>;
     changePassword: (
         currentPassword: string,
         newPassword: string
@@ -281,7 +281,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
 
-    editProfile: async (profileData: UpdateProfileData) => {
+    editProfile: async (profileData: UpdateProfileData): Promise<boolean> => {
         set({ loading: true });
         try {
             set({ error: null });
@@ -323,12 +323,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
                 await user.reload();
                 set({ user: auth.currentUser });
+
+                return true;
             } else {
-                throw new Error('Пользователь не авторизован');
+                throw new Error('No user is currently signed in.');
             }
         } catch (error: any) {
             console.error('Edit Profile Error:', error);
             set({ error: error.message });
+            return false;
         } finally {
             set({ loading: false });
         }
