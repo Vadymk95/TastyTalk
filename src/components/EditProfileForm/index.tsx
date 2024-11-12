@@ -53,13 +53,12 @@ export const EditProfileForm: FC = () => {
         error || t('General.somethingWentWrong')
     );
 
+    const onSubmit = (values: EditProfileFormValues) => {
+        console.log('Form Values:', values);
+    };
+
     return (
-        <Formik
-            initialValues={initialValues}
-            onSubmit={(values) => {
-                console.log('Form Values:', values);
-            }}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {() => (
                 <Form className="plate">
                     <h2 className="text-xl font-semibold text-primary mb-4">
