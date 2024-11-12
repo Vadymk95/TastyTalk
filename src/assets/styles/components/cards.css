@@ -1,5 +1,5 @@
 .card {
-    @apply rounded-lg shadow-custom-light p-2 text-sm;
+    @apply rounded-lg shadow-custom-light p-2 text-sm duration-300;
 }
 
 .card-error {

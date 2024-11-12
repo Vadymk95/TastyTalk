@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -21,8 +21,14 @@ type EditProfileFormValues = {
 
 export const EditProfileForm: FC = () => {
     const { t } = useTranslation();
-    const { userProfile, loading, error, checkUsernameAvailability } =
-        useAuthStore();
+    const [showSuccess, setShowSuccess] = useState(false);
+    const {
+        userProfile,
+        loading,
+        error,
+        checkUsernameAvailability,
+        clearError
+    } = useAuthStore();
 
     const EditProfileSchema = Yup.object().shape({
         username: Yup.string()
@@ -55,7 +61,13 @@ export const EditProfileForm: FC = () => {
 
     const onSubmit = (values: EditProfileFormValues) => {
         console.log('Form Values:', values);
+        //test
+        setShowSuccess((prev) => !prev);
     };
+
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
 
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -105,10 +117,15 @@ export const EditProfileForm: FC = () => {
                             </Button>
                         </div>
 
-                        <SuccessCard
-                            successMessage={t('EditProfileForm.successMessage')}
-                        />
-                        <ErrorCard errorMessage={editProfileError} />
+                        {showSuccess && (
+                            <SuccessCard
+                                successMessage={t(
+                                    'EditProfileForm.successMessage'
+                                )}
+                            />
+                        )}
+
+                        {error && <ErrorCard errorMessage={editProfileError} />}
                     </div>
                 </Form>
             )}
