@@ -9,6 +9,7 @@ import {
     signInWithPopup,
     signInWithRedirect,
     signOut,
+    updatePassword,
     updateProfile,
     User,
     UserCredential
@@ -28,6 +29,12 @@ import { create } from 'zustand';
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import { isMobileDevice } from '@root/helpers';
 
+interface UpdateProfileData {
+    firstName?: string;
+    lastName?: string;
+    username?: string;
+}
+
 interface AuthState {
     user: User | null;
     loading: boolean;
@@ -35,6 +42,11 @@ interface AuthState {
     isRegistered: boolean;
     isEmailVerified: boolean;
     initialized: boolean;
+    updateProfile: (profileData: UpdateProfileData) => Promise<void>;
+    changePassword: (
+        currentPassword: string,
+        newPassword: string
+    ) => Promise<void>;
     signInWithEmailOrUsername: (
         emailOrUsername: string,
         password: string
@@ -59,7 +71,7 @@ interface AuthState {
     setUser: (user: User | null, isRegistered?: boolean) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
     user: null,
     loading: false,
     error: null,
@@ -257,6 +269,119 @@ export const useAuthStore = create<AuthState>((set) => ({
                 await user.reload();
                 set({ user, isRegistered });
             }
+        }
+    },
+
+    updateProfile: async (profileData: UpdateProfileData) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+            const user = auth.currentUser;
+            if (user) {
+                const updates: any = {};
+
+                if (profileData.firstName || profileData.lastName) {
+                    const displayName =
+                        `${profileData.firstName || ''} ${profileData.lastName || ''}`.trim();
+                    await updateProfile(user, { displayName });
+                    updates.displayName = displayName;
+                }
+
+                if (
+                    profileData.username ||
+                    profileData.firstName ||
+                    profileData.lastName
+                ) {
+                    const userRef = doc(db, 'users', user.uid);
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        const firestoreData: any = {};
+
+                        if (profileData.username) {
+                            const isAvailable =
+                                await get().checkUsernameAvailability(
+                                    profileData.username
+                                );
+                            if (!isAvailable) {
+                                throw new Error(
+                                    'The username is already taken'
+                                );
+                            }
+                            firestoreData.username = profileData.username;
+                        }
+
+                        if (profileData.firstName) {
+                            firestoreData.firstName = profileData.firstName;
+                        }
+
+                        if (profileData.lastName) {
+                            firestoreData.lastName = profileData.lastName;
+                        }
+
+                        await setDoc(userRef, firestoreData, { merge: true });
+                    } else {
+                        const firestoreData: any = {};
+                        if (profileData.username) {
+                            const isAvailable =
+                                await get().checkUsernameAvailability(
+                                    profileData.username
+                                );
+                            if (!isAvailable) {
+                                throw new Error(
+                                    'The username is already taken'
+                                );
+                            }
+                            firestoreData.username = profileData.username;
+                        }
+
+                        if (profileData.firstName) {
+                            firestoreData.firstName = profileData.firstName;
+                        }
+
+                        if (profileData.lastName) {
+                            firestoreData.lastName = profileData.lastName;
+                        }
+
+                        await setDoc(
+                            doc(db, 'users', user.uid),
+                            firestoreData,
+                            { merge: true }
+                        );
+                    }
+                }
+
+                await user.reload();
+                set({ user: auth.currentUser });
+            } else {
+                throw new Error('Пользователь не авторизован');
+            }
+        } catch (error: any) {
+            set({ error: error.message });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    changePassword: async (currentPassword: string, newPassword: string) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+            const user = auth.currentUser;
+            if (user && user.email) {
+                const credential = EmailAuthProvider.credential(
+                    user.email,
+                    currentPassword
+                );
+                await reauthenticateWithCredential(user, credential);
+
+                await updatePassword(user, newPassword);
+            } else {
+                throw new Error('No user is currently signed in.');
+            }
+        } catch (error: any) {
+            set({ error: error.message });
+        } finally {
+            set({ loading: false });
         }
     }
 }));

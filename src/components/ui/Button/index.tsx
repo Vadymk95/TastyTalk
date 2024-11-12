@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary';
+    variant?: 'primary' | 'secondary' | 'accent';
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
     className?: string;
@@ -15,8 +15,6 @@ export const Button: FC<ButtonProps> = ({
     children,
     ...props
 }) => {
-    const variantStyle =
-        variant === 'secondary' ? 'btn-secondary' : 'btn-primary';
     const disabledStyle = disabled ? 'btn-disabled' : '';
 
     const sizeStyle = {
@@ -27,7 +25,7 @@ export const Button: FC<ButtonProps> = ({
 
     return (
         <button
-            className={`${variantStyle} ${disabledStyle} ${sizeStyle[size]} ${className}`}
+            className={`btn-${variant} ${disabledStyle} ${sizeStyle[size]} ${className}`}
             disabled={disabled}
             {...props}
         >

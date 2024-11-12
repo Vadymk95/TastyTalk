@@ -73,7 +73,41 @@ export const ru = {
                 settings: 'Настройки профиля'
             },
             ProfileSettingsPage: {
-                signOut: 'Выйти'
+                firstName: 'Имя',
+                lastName: 'Фамилия',
+                username: 'Имя пользователя',
+                usernameInvalid:
+                    'Имя пользователя может содержать только буквы, цифры и подчеркивания',
+                usernameMustContainLetter:
+                    'Имя пользователя должно содержать хотя бы одну букву',
+                firstNameInvalid: 'Имя может содержать только буквы',
+                lastNameInvalid: 'Фамилия может содержать только буквы',
+                firstNameMinLength: 'Имя должно быть не менее 2 символа',
+                usernameMinLength:
+                    'Имя пользователя должно быть не менее 4 символов',
+                lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
+                requiredField: 'Это поле обязательно',
+                title: 'Настройки профиля',
+                personalInfo: 'Личная информация',
+                infoDescription:
+                    'Обновите свое имя, фамилию и имя пользователя',
+                save: 'Сохранить изменения',
+                changeLanguageTitle: 'Изменить язык',
+                changeLanguageDescription: 'Измените язык интерфейса на другой',
+                changeLanguageButton: 'Изменить язык',
+                logOut: 'Выйти',
+                logOutDescription: 'Выйдите из своего аккаунта',
+                logOutButton: 'Выйти',
+                support: 'Поддержка',
+                supportDescription:
+                    'Свяжитесь с нами, если у вас возникли проблемы',
+                contactSupport: 'Связаться с поддержкой',
+                changePassword: 'Изменить пароль',
+                passwordDescription: 'Измените пароль для вашей учетной записи',
+                changePasswordButton: 'Изменить пароль',
+                deleteAccount: 'Удалить учетную запись',
+                deleteDescription: 'Удалите свою учетную запись навсегда',
+                deleteButton: 'Удалить учетную запись'
             },
             NotFoundPage: {
                 notFound: '404',

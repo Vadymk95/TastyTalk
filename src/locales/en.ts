@@ -75,7 +75,44 @@ export const en = {
                 settings: 'Profile Settings'
             },
             ProfileSettingsPage: {
-                signOut: 'Sign Out'
+                firstName: 'First Name',
+                lastName: 'Last Name',
+                username: 'Username',
+                usernameInvalid:
+                    'Username can only contain letters, numbers and underscores',
+                usernameMustContainLetter:
+                    'Username must contain at least one letter',
+                firstNameInvalid: 'First name can only contain letters',
+                lastNameInvalid: 'Last name can only contain letters',
+                firstNameMinLength:
+                    'First name must be at least 2 character long',
+                usernameMinLength: 'Username must be at least 4 character long',
+                lastNameMinLength:
+                    'Last name must be at least 2 character long',
+                requiredField: 'This field is required',
+                title: 'Edit Profile',
+                personalInfo: 'Personal Information',
+                infoDescription: 'Update your name, last name, and username',
+                save: 'Save Changes',
+                changeLanguageTitle: 'Change Language',
+                changeLanguageDescription:
+                    'Select your preferred language for the app',
+                changeLanguageButton: 'Change Language',
+                logOut: 'Log Out',
+                logOutDescription: 'Log out of your account on this device',
+                logOutButton: 'Log Out',
+                support: 'Support',
+                supportDescription:
+                    'If you have any questions or issues, contact support',
+                contactSupport: 'Contact Support',
+                changePassword: 'Change Password',
+                passwordDescription:
+                    'Update your password to keep your account secure',
+                changePasswordButton: 'Change Password',
+                deleteAccount: 'Delete Account',
+                deleteDescription:
+                    'Permanently delete your account. This action cannot be undone.',
+                deleteButton: 'Delete Account'
             },
             NotFoundPage: {
                 notFound: '404',

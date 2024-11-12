@@ -56,7 +56,7 @@ const ProfileSettingsPage: FC = () => {
     return (
         <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto">
             <h1 className="text-3xl lg:text-4xl font-semibold text-white mb-8 sm:mb-4">
-                {t('ProfileSettingsPage.title', 'Edit Profile')}
+                {t('ProfileSettingsPage.title')}
             </h1>
 
             <Formik
@@ -69,16 +69,10 @@ const ProfileSettingsPage: FC = () => {
                     <Form className="w-full space-y-8">
                         <section className="plate">
                             <h2 className="text-xl font-semibold text-primary mb-4">
-                                {t(
-                                    'ProfileSettingsPage.personalInfo',
-                                    'Personal Information'
-                                )}
+                                {t('ProfileSettingsPage.personalInfo')}
                             </h2>
                             <p className="text-sm text-neutral-dark mb-4">
-                                {t(
-                                    'ProfileSettingsPage.infoDescription',
-                                    'Update your name, last name, and username'
-                                )}
+                                {t('ProfileSettingsPage.infoDescription')}
                             </p>
 
                             <div className="space-y-8">
@@ -87,13 +81,9 @@ const ProfileSettingsPage: FC = () => {
                                     isRequired
                                     name="firstName"
                                     placeholder={t(
-                                        'ProfileSettingsPage.firstName',
-                                        'First Name'
+                                        'ProfileSettingsPage.firstName'
                                     )}
-                                    label={t(
-                                        'ProfileSettingsPage.firstName',
-                                        'First Name'
-                                    )}
+                                    label={t('ProfileSettingsPage.firstName')}
                                 />
 
                                 <Input
@@ -101,13 +91,9 @@ const ProfileSettingsPage: FC = () => {
                                     name="lastName"
                                     type="text"
                                     placeholder={t(
-                                        'ProfileSettingsPage.lastName',
-                                        'Last Name'
+                                        'ProfileSettingsPage.lastName'
                                     )}
-                                    label={t(
-                                        'ProfileSettingsPage.lastName',
-                                        'Last Name'
-                                    )}
+                                    label={t('ProfileSettingsPage.lastName')}
                                 />
 
                                 <UsernameInput
@@ -117,20 +103,16 @@ const ProfileSettingsPage: FC = () => {
                                     validationSchema={usernameValidationSchema}
                                     isRequired
                                     name="username"
-                                    label={t(
-                                        'ProfileSettingsPage.username',
-                                        'Username'
-                                    )}
+                                    label={t('ProfileSettingsPage.username')}
                                 />
 
                                 <div className="flex justify-end">
                                     <Button
-                                        className="px-8"
-                                        size="large"
+                                        variant="secondary"
                                         type="submit"
                                         disabled={loading}
                                     >
-                                        {t('ProfileSettingsPage.save', 'Save')}
+                                        {t('ProfileSettingsPage.save')}
                                     </Button>
                                 </div>
                             </div>
@@ -138,79 +120,63 @@ const ProfileSettingsPage: FC = () => {
 
                         <section className="plate">
                             <h2 className="text-xl font-semibold text-primary mb-4">
-                                {t('ProfileSettingsPage.logOut', 'Log Out')}
+                                {t('ProfileSettingsPage.changeLanguageTitle')}
                             </h2>
                             <p className="text-sm text-neutral-dark mb-4">
                                 {t(
-                                    'ProfileSettingsPage.logOutDescription',
-                                    'Log out of your account on this device'
+                                    'ProfileSettingsPage.changeLanguageDescription'
                                 )}
+                            </p>
+                            <Button variant="accent">
+                                {t('ProfileSettingsPage.changeLanguageButton')}
+                            </Button>
+                        </section>
+
+                        <section className="plate">
+                            <h2 className="text-xl font-semibold text-primary mb-4">
+                                {t('ProfileSettingsPage.logOut')}
+                            </h2>
+                            <p className="text-sm text-neutral-dark mb-4">
+                                {t('ProfileSettingsPage.logOutDescription')}
                             </p>
                             <Button variant="secondary">
-                                {t(
-                                    'ProfileSettingsPage.logOutButton',
-                                    'Log Out'
-                                )}
+                                {t('ProfileSettingsPage.logOutButton')}
                             </Button>
                         </section>
 
                         <section className="plate">
                             <h2 className="text-xl font-semibold text-primary mb-4">
-                                {t('ProfileSettingsPage.support', 'Support')}
+                                {t('ProfileSettingsPage.support')}
                             </h2>
                             <p className="text-sm text-neutral-dark mb-4">
-                                {t(
-                                    'ProfileSettingsPage.supportDescription',
-                                    'If you have any questions or issues, contact support'
-                                )}
+                                {t('ProfileSettingsPage.supportDescription')}
+                            </p>
+                            <Button variant="accent">
+                                {t('ProfileSettingsPage.contactSupport')}
+                            </Button>
+                        </section>
+
+                        <section className="plate">
+                            <h2 className="text-xl font-semibold text-primary mb-4">
+                                {t('ProfileSettingsPage.changePassword')}
+                            </h2>
+                            <p className="text-sm text-neutral-dark mb-4">
+                                {t('ProfileSettingsPage.passwordDescription')}
                             </p>
                             <Button variant="secondary">
-                                {t(
-                                    'ProfileSettingsPage.contactSupport',
-                                    'Contact Support'
-                                )}
+                                {t('ProfileSettingsPage.changePasswordButton')}
                             </Button>
                         </section>
 
                         <section className="plate">
                             <h2 className="text-xl font-semibold text-primary mb-4">
-                                {t(
-                                    'ProfileSettingsPage.changePassword',
-                                    'Change Password'
-                                )}
+                                {t('ProfileSettingsPage.deleteAccount')}
                             </h2>
                             <p className="text-sm text-neutral-dark mb-4">
-                                {t(
-                                    'ProfileSettingsPage.passwordDescription',
-                                    'Update your password to keep your account secure'
-                                )}
+                                {t('ProfileSettingsPage.deleteDescription')}
                             </p>
                             <Button>
-                                {t(
-                                    'ProfileSettingsPage.changePasswordButton',
-                                    'Change Password'
-                                )}
-                            </Button>
-                        </section>
-
-                        <section className="plate">
-                            <h2 className="text-xl font-semibold text-primary mb-4">
-                                {t(
-                                    'ProfileSettingsPage.deleteAccount',
-                                    'Delete Account'
-                                )}
-                            </h2>
-                            <p className="text-sm text-neutral-dark mb-4">
-                                {t(
-                                    'ProfileSettingsPage.deleteDescription',
-                                    'Permanently delete your account. This action cannot be undone.'
-                                )}
-                            </p>
-                            <Button>
-                                {t(
-                                    'ProfileSettingsPage.deleteButton',
-                                    'Delete Account'
-                                )}
+                                {t('ProfileSettingsPage.deleteButton')}
                             </Button>
                         </section>
                     </Form>
