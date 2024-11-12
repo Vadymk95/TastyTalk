@@ -7,7 +7,7 @@ import { useAuthStore } from '@root/store/authStore';
 
 export const PrivateNavigation: FC = () => {
     const { t } = useTranslation();
-    const { isRegistered, deleteUserAccount } = useAuthStore();
+    const { isRegistered } = useAuthStore();
 
     return (
         <>
@@ -16,17 +16,6 @@ export const PrivateNavigation: FC = () => {
                     {t('Header.registerFinish')}
                 </Link>
             )}
-
-            {/* temporary button */}
-            <Link
-                onClick={() =>
-                    deleteUserAccount('jo_buyer@mailinator.com', 'Passw0rd')
-                }
-                to={routes.home}
-                className="link-primary nav-link p-4"
-            >
-                {t('PersonalInfoPage.deleteAccount')}
-            </Link>
         </>
     );
 };
