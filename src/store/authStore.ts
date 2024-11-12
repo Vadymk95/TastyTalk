@@ -49,7 +49,7 @@ interface AuthState {
     isRegistered: boolean;
     isEmailVerified: boolean;
     initialized: boolean;
-    updateProfile: (profileData: UpdateProfileData) => Promise<void>;
+    editProfile: (profileData: UpdateProfileData) => Promise<void>;
     changePassword: (
         currentPassword: string,
         newPassword: string
@@ -281,15 +281,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
 
-    updateProfile: async (profileData: UpdateProfileData) => {
+    editProfile: async (profileData: UpdateProfileData) => {
         set({ loading: true });
         try {
             set({ error: null });
             const user = auth.currentUser;
             if (user) {
                 const userRef = doc(db, 'users', user.uid);
-
                 const firestoreUpdates: Partial<UserProfile> = {};
+                const currentUsername = get().userProfile?.username;
 
                 if (profileData.firstName || profileData.lastName) {
                     const displayName =
@@ -299,7 +299,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.lastName = profileData.lastName || '';
                 }
 
-                if (profileData.username) {
+                if (
+                    profileData.username &&
+                    profileData.username !== currentUsername
+                ) {
                     const isAvailable = await get().checkUsernameAvailability(
                         profileData.username
                     );
@@ -324,6 +327,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 throw new Error('Пользователь не авторизован');
             }
         } catch (error: any) {
+            console.error('Edit Profile Error:', error);
             set({ error: error.message });
         } finally {
             set({ loading: false });

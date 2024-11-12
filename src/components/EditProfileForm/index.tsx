@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -21,13 +21,13 @@ type EditProfileFormValues = {
 
 export const EditProfileForm: FC = () => {
     const { t } = useTranslation();
-    const [showSuccess, setShowSuccess] = useState(false);
     const {
         userProfile,
         loading,
         error,
         checkUsernameAvailability,
-        clearError
+        clearError,
+        editProfile
     } = useAuthStore();
 
     const EditProfileSchema = Yup.object().shape({
@@ -60,9 +60,7 @@ export const EditProfileForm: FC = () => {
     );
 
     const onSubmit = (values: EditProfileFormValues) => {
-        console.log('Form Values:', values);
-        //test
-        setShowSuccess((prev) => !prev);
+        editProfile(values);
     };
 
     useEffect(() => {
@@ -70,7 +68,12 @@ export const EditProfileForm: FC = () => {
     }, [clearError]);
 
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+            preventDefault
+            validationSchema={EditProfileSchema}
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+        >
             {() => (
                 <Form className="plate">
                     <h2 className="text-xl font-semibold text-primary mb-4">
@@ -82,6 +85,7 @@ export const EditProfileForm: FC = () => {
 
                     <div className="space-y-8">
                         <Input
+                            className="auth-input-wrapper"
                             type="text"
                             isRequired
                             name="firstName"
@@ -117,13 +121,9 @@ export const EditProfileForm: FC = () => {
                             </Button>
                         </div>
 
-                        {showSuccess && (
-                            <SuccessCard
-                                successMessage={t(
-                                    'EditProfileForm.successMessage'
-                                )}
-                            />
-                        )}
+                        <SuccessCard
+                            successMessage={t('EditProfileForm.successMessage')}
+                        />
 
                         {error && <ErrorCard errorMessage={editProfileError} />}
                     </div>
