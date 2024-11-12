@@ -52,6 +52,27 @@ export const ru = {
                 haveAccount: 'Уже есть аккаунт?',
                 registerFinish: 'Завершите процесс регистрации'
             },
+            EditProfileForm: {
+                firstName: 'Имя',
+                lastName: 'Фамилия',
+                username: 'Имя пользователя',
+                usernameInvalid:
+                    'Имя пользователя может содержать только буквы, цифры и подчеркивания',
+                usernameMustContainLetter:
+                    'Имя пользователя должно содержать хотя бы одну букву',
+                firstNameInvalid: 'Имя может содержать только буквы',
+                lastNameInvalid: 'Фамилия может содержать только буквы',
+                firstNameMinLength: 'Имя должно быть не менее 2 символа',
+                usernameMinLength:
+                    'Имя пользователя должно быть не менее 4 символов',
+                lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
+                requiredField: 'Это поле обязательно',
+                personalInfo: 'Личная информация',
+                infoDescription:
+                    'Обновите свое имя, фамилию и имя пользователя',
+                save: 'Сохранить изменения',
+                successMessage: 'Изменения сохранены'
+            },
             EmailVerificationPage: {
                 title: 'Подтвердите свой адрес электронной почты',
                 text: 'На вашу электронную почту отправлено письмо. Пожалуйста, подтвердите его, чтобы завершить регистрацию.',
@@ -73,25 +94,7 @@ export const ru = {
                 settings: 'Настройки профиля'
             },
             ProfileSettingsPage: {
-                firstName: 'Имя',
-                lastName: 'Фамилия',
-                username: 'Имя пользователя',
-                usernameInvalid:
-                    'Имя пользователя может содержать только буквы, цифры и подчеркивания',
-                usernameMustContainLetter:
-                    'Имя пользователя должно содержать хотя бы одну букву',
-                firstNameInvalid: 'Имя может содержать только буквы',
-                lastNameInvalid: 'Фамилия может содержать только буквы',
-                firstNameMinLength: 'Имя должно быть не менее 2 символа',
-                usernameMinLength:
-                    'Имя пользователя должно быть не менее 4 символов',
-                lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
-                requiredField: 'Это поле обязательно',
                 title: 'Настройки профиля',
-                personalInfo: 'Личная информация',
-                infoDescription:
-                    'Обновите свое имя, фамилию и имя пользователя',
-                save: 'Сохранить изменения',
                 changeLanguageTitle: 'Изменить язык',
                 changeLanguageDescription: 'Измените язык интерфейса на другой',
                 changeLanguageButton: 'Изменить язык',

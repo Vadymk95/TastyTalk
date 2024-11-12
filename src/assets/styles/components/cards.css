@@ -5,3 +5,7 @@
 .card-error {
     @apply bg-primary/30 text-primary;
 }
+
+.card-success {
+    @apply bg-secondary/30 text-secondary;
+}

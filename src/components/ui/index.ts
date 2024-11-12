@@ -1,7 +1,9 @@
 export { Button } from './Button';
+export { ErrorCard } from './ErrorCard';
 export { GreetingCard } from './GreetingCard';
 export { Image } from './Image';
 export { Input } from './Input';
 export { Link } from './Link';
 export { Loader } from './Loader';
+export { SuccessCard } from './SuccessCard';
 export { UsernameInput } from './UsernameInput';

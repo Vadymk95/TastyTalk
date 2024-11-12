@@ -35,8 +35,15 @@ interface UpdateProfileData {
     username?: string;
 }
 
+interface UserProfile {
+    firstName: string;
+    lastName: string;
+    username: string;
+}
+
 interface AuthState {
     user: User | null;
+    userProfile: UserProfile | null;
     loading: boolean;
     error: string | null;
     isRegistered: boolean;
@@ -73,6 +80,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
     user: null,
+    userProfile: null,
     loading: false,
     error: null,
     isRegistered: false,
@@ -84,7 +92,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             user,
             isRegistered,
             isEmailVerified: user ? user.emailVerified : false,
-            initialized: true
+            initialized: true,
+            userProfile: null
         }),
 
     setLoading: (value) => set({ loading: value }),
@@ -278,76 +287,35 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             set({ error: null });
             const user = auth.currentUser;
             if (user) {
-                const updates: any = {};
+                const userRef = doc(db, 'users', user.uid);
+
+                const firestoreUpdates: Partial<UserProfile> = {};
 
                 if (profileData.firstName || profileData.lastName) {
                     const displayName =
                         `${profileData.firstName || ''} ${profileData.lastName || ''}`.trim();
                     await updateProfile(user, { displayName });
-                    updates.displayName = displayName;
+                    firestoreUpdates.firstName = profileData.firstName || '';
+                    firestoreUpdates.lastName = profileData.lastName || '';
                 }
 
-                if (
-                    profileData.username ||
-                    profileData.firstName ||
-                    profileData.lastName
-                ) {
-                    const userRef = doc(db, 'users', user.uid);
-                    const userSnap = await getDoc(userRef);
-                    if (userSnap.exists()) {
-                        const firestoreData: any = {};
-
-                        if (profileData.username) {
-                            const isAvailable =
-                                await get().checkUsernameAvailability(
-                                    profileData.username
-                                );
-                            if (!isAvailable) {
-                                throw new Error(
-                                    'The username is already taken'
-                                );
-                            }
-                            firestoreData.username = profileData.username;
-                        }
-
-                        if (profileData.firstName) {
-                            firestoreData.firstName = profileData.firstName;
-                        }
-
-                        if (profileData.lastName) {
-                            firestoreData.lastName = profileData.lastName;
-                        }
-
-                        await setDoc(userRef, firestoreData, { merge: true });
-                    } else {
-                        const firestoreData: any = {};
-                        if (profileData.username) {
-                            const isAvailable =
-                                await get().checkUsernameAvailability(
-                                    profileData.username
-                                );
-                            if (!isAvailable) {
-                                throw new Error(
-                                    'The username is already taken'
-                                );
-                            }
-                            firestoreData.username = profileData.username;
-                        }
-
-                        if (profileData.firstName) {
-                            firestoreData.firstName = profileData.firstName;
-                        }
-
-                        if (profileData.lastName) {
-                            firestoreData.lastName = profileData.lastName;
-                        }
-
-                        await setDoc(
-                            doc(db, 'users', user.uid),
-                            firestoreData,
-                            { merge: true }
-                        );
+                if (profileData.username) {
+                    const isAvailable = await get().checkUsernameAvailability(
+                        profileData.username
+                    );
+                    if (!isAvailable) {
+                        throw new Error('Этот юзернейм уже занят');
                     }
+                    firestoreUpdates.username = profileData.username;
+                }
+
+                if (Object.keys(firestoreUpdates).length > 0) {
+                    await setDoc(userRef, firestoreUpdates, { merge: true });
+                }
+
+                const updatedUserSnap = await getDoc(userRef);
+                if (updatedUserSnap.exists()) {
+                    set({ userProfile: updatedUserSnap.data() as UserProfile });
                 }
 
                 await user.reload();
@@ -407,8 +375,15 @@ onAuthStateChanged(auth, async (user) => {
         const userRef = doc(db, 'users', user.uid);
         const userSnap = await getDoc(userRef);
         const isRegistered = userSnap.exists();
+        const userProfile = isRegistered
+            ? (userSnap.data() as UserProfile)
+            : null;
         useAuthStore.getState().setUser(user, isRegistered);
+        if (userProfile) {
+            useAuthStore.setState({ userProfile });
+        }
     } else {
         useAuthStore.getState().setUser(null, false);
+        useAuthStore.setState({ userProfile: null });
     }
 });

@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { ErrorCard } from '@root/components';
-import { Button, Image, Input, Link } from '@root/components/ui';
+import { Button, ErrorCard, Image, Input, Link } from '@root/components/ui';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';

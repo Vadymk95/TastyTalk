@@ -1,4 +1,4 @@
-export { ErrorCard } from './ErrorCard';
+export { EditProfileForm } from './EditProfileForm';
 export { Footer } from './Footer';
 export { FooterNavigation } from './FooterNavigation';
 export { Header } from './Header';

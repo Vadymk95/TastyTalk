@@ -54,6 +54,27 @@ export const en = {
                 haveAccount: 'Already have an account?',
                 registerFinish: 'Finish your registration process'
             },
+            EditProfileForm: {
+                firstName: 'First Name',
+                lastName: 'Last Name',
+                username: 'Username',
+                usernameInvalid:
+                    'Username can only contain letters, numbers and underscores',
+                usernameMustContainLetter:
+                    'Username must contain at least one letter',
+                firstNameInvalid: 'First name can only contain letters',
+                lastNameInvalid: 'Last name can only contain letters',
+                firstNameMinLength:
+                    'First name must be at least 2 character long',
+                usernameMinLength: 'Username must be at least 4 character long',
+                lastNameMinLength:
+                    'Last name must be at least 2 character long',
+                requiredField: 'This field is required',
+                personalInfo: 'Personal Information',
+                infoDescription: 'Update your name, last name, and username',
+                save: 'Save Changes',
+                successMessage: 'Profile updated successfully'
+            },
             EmailVerificationPage: {
                 title: 'Confirm your email address',
                 text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
@@ -75,25 +96,7 @@ export const en = {
                 settings: 'Profile Settings'
             },
             ProfileSettingsPage: {
-                firstName: 'First Name',
-                lastName: 'Last Name',
-                username: 'Username',
-                usernameInvalid:
-                    'Username can only contain letters, numbers and underscores',
-                usernameMustContainLetter:
-                    'Username must contain at least one letter',
-                firstNameInvalid: 'First name can only contain letters',
-                lastNameInvalid: 'Last name can only contain letters',
-                firstNameMinLength:
-                    'First name must be at least 2 character long',
-                usernameMinLength: 'Username must be at least 4 character long',
-                lastNameMinLength:
-                    'Last name must be at least 2 character long',
-                requiredField: 'This field is required',
                 title: 'Edit Profile',
-                personalInfo: 'Personal Information',
-                infoDescription: 'Update your name, last name, and username',
-                save: 'Save Changes',
                 changeLanguageTitle: 'Change Language',
                 changeLanguageDescription:
                     'Select your preferred language for the app',
