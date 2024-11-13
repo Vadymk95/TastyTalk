@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode, useEffect, useRef } from 'react';
 
 import { Button } from '@root/components/ui';
 
@@ -22,14 +22,25 @@ export const Modal: FC<ModalProps> = ({
     confirmText,
     cancelText
 }) => {
+    const scrollYRef = useRef(0);
+
     useEffect(() => {
         if (isOpen) {
-            document.body.style.overflow = 'hidden';
+            scrollYRef.current = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollYRef.current}px`;
+            document.body.style.width = '100%';
         } else {
-            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, scrollYRef.current);
         }
+
         return () => {
-            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
         };
     }, [isOpen]);
 
