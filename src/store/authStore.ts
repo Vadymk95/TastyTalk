@@ -53,7 +53,7 @@ interface AuthState {
     changePassword: (
         currentPassword: string,
         newPassword: string
-    ) => Promise<void>;
+    ) => Promise<boolean>;
     signInWithEmailOrUsername: (
         emailOrUsername: string,
         password: string
@@ -353,11 +353,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 await reauthenticateWithCredential(user, credential);
 
                 await updatePassword(user, newPassword);
+                return true;
             } else {
                 throw new Error('No user is currently signed in.');
             }
         } catch (error: any) {
             set({ error: error.message });
+            return false;
         } finally {
             set({ loading: false });
         }

@@ -12,7 +12,13 @@ type DeleteAccountFormValues = {
     confirmPassword: string;
 };
 
-export const DeleteAccountForm: FC = () => {
+interface DeleteAccountFormProps {
+    handleCloseModal: () => void;
+}
+
+export const DeleteAccountForm: FC<DeleteAccountFormProps> = ({
+    handleCloseModal
+}) => {
     const { t } = useTranslation();
     const { deleteUserAccount, loading, error, clearError } = useAuthStore();
     const [showSuccess, setShowSuccess] = useState(false);
@@ -46,6 +52,11 @@ export const DeleteAccountForm: FC = () => {
                 setShowSuccess(false);
             }, 3000);
         }
+    };
+
+    const handleClose = () => {
+        handleCloseModal();
+        clearError();
     };
 
     return (
@@ -99,7 +110,7 @@ export const DeleteAccountForm: FC = () => {
                             <Button
                                 variant="secondary"
                                 type="button"
-                                onClick={() => clearError()} // Обработчик для закрытия формы или очистки
+                                onClick={handleClose}
                             >
                                 {t('Forms.DeleteAccountForm.cancel', 'Cancel')}
                             </Button>

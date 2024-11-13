@@ -149,6 +149,21 @@ export const ru = {
                     save: 'Сохранить изменения',
                     successMessage: 'Изменения сохранены'
                 },
+                ChangePasswordForm: {
+                    description:
+                        'Введите ваш текущий пароль и выберите новый пароль.',
+                    currentPassword: 'Текущий пароль',
+                    newPassword: 'Новый пароль',
+                    confirmNewPassword: 'Подтвердите новый пароль',
+                    passwordMinLength:
+                        'Пароль должен быть не менее 6 символов.',
+                    passwordsMustMatch: 'Пароли должны совпадать.',
+                    requiredField: 'Это поле обязательно',
+                    cancel: 'Отмена',
+                    change: 'Изменить пароль',
+                    successMessage:
+                        'Ваш пароль успешно изменен. Пожалуйста, войдите снова.'
+                },
                 DeleteAccountForm: {
                     description:
                         'Вы уверены, что хотите удалить свою учетную запись? Это действие нельзя отменить.',
@@ -176,6 +191,9 @@ export const ru = {
                     advertisingTitle: 'Реклама',
                     advertisingDescription:
                         'Для вопросов о рекламе, свяжитесь с нами'
+                },
+                ChangePasswordModal: {
+                    title: 'Изменить пароль'
                 },
                 DeleteAccountModal: {
                     title: 'Удалить учетную запись'

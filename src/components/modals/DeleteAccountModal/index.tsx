@@ -18,7 +18,9 @@ export const DeleteAccountModal: FC = () => {
             onClose={handleCloseDeleteAccountModal}
             title={t('Modals.DeleteAccountModal.title')}
         >
-            <DeleteAccountForm />
+            <DeleteAccountForm
+                handleCloseModal={handleCloseDeleteAccountModal}
+            />
         </Modal>
     );
 };

@@ -1,9 +1,12 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
+import { ChangePasswordForm } from '@root/components/forms';
 import { Modal } from '@root/components/ui';
 import { useModalStore } from '@root/store';
 
 export const ChangePasswordModal: FC = () => {
+    const { t } = useTranslation();
     const { isModalOpen, closeModal } = useModalStore();
     const isChangePasswordModalOpen = isModalOpen.changePassword;
 
@@ -13,9 +16,11 @@ export const ChangePasswordModal: FC = () => {
         <Modal
             isOpen={isChangePasswordModalOpen}
             onClose={handleCloseChangePasswordModal}
-            title="Change Password Modal"
+            title={t('Modals.ChangePasswordModal.title')}
         >
-            <p>Content for the Change Password modal</p>
+            <ChangePasswordForm
+                handleCloseModal={handleCloseChangePasswordModal}
+            />
         </Modal>
     );
 };

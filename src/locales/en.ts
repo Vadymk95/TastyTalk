@@ -156,6 +156,21 @@ export const en = {
                     save: 'Save Changes',
                     successMessage: 'Profile updated successfully'
                 },
+                ChangePasswordForm: {
+                    description:
+                        'Enter your current password and choose a new password.',
+                    currentPassword: 'Current Password',
+                    newPassword: 'New Password',
+                    confirmNewPassword: 'Confirm New Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long.',
+                    passwordsMustMatch: 'Passwords must match.',
+                    requiredField: 'This field is required.',
+                    cancel: 'Cancel',
+                    change: 'Change Password',
+                    successMessage:
+                        'Your password has been successfully changed.'
+                },
                 DeleteAccountForm: {
                     description:
                         'Please confirm your email and password to delete your account. This action cannot be undone.',
@@ -184,6 +199,9 @@ export const en = {
                     advertisingTitle: 'Advertising Inquiries',
                     advertisingDescription:
                         'If you are interested in advertising opportunities, please reach out to us at:'
+                },
+                ChangePasswordModal: {
+                    title: 'Change Password'
                 },
                 DeleteAccountModal: {
                     title: 'Delete Account'
