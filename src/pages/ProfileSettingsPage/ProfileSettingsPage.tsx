@@ -1,16 +1,34 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { EditProfileForm } from '@root/components/forms';
+import {
+    ChangePasswordModal,
+    DeleteAccountModal,
+    SupportModal
+} from '@root/components/modals';
 import { Button } from '@root/components/ui';
-import { useAuthStore } from '@root/store/authStore';
-import { EditProfileForm } from '@root/components';
+import { useAuthStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
     const { t } = useTranslation();
     const { signOutUser } = useAuthStore();
+    const { openModal } = useModalStore();
+
+    const handleSupportClick = () => {
+        openModal('support');
+    };
+
+    const handleChangePasswordClick = () => {
+        openModal('changePassword');
+    };
+
+    const handleDeleteClick = () => {
+        openModal('deleteAccount');
+    };
 
     return (
-        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto space-y-8">
+        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8">
             <h1 className="text-3xl lg:text-4xl font-semibold text-white">
                 {t('ProfileSettingsPage.title')}
             </h1>
@@ -50,7 +68,7 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.supportDescription')}
                 </p>
-                <Button variant="accent">
+                <Button onClick={handleSupportClick} variant="accent">
                     {t('ProfileSettingsPage.contactSupport')}
                 </Button>
             </section>
@@ -62,7 +80,7 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.passwordDescription')}
                 </p>
-                <Button variant="secondary">
+                <Button onClick={handleChangePasswordClick} variant="secondary">
                     {t('ProfileSettingsPage.changePasswordButton')}
                 </Button>
             </section>
@@ -74,8 +92,14 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.deleteDescription')}
                 </p>
-                <Button>{t('ProfileSettingsPage.deleteButton')}</Button>
+                <Button onClick={handleDeleteClick}>
+                    {t('ProfileSettingsPage.deleteButton')}
+                </Button>
             </section>
+
+            <SupportModal />
+            <ChangePasswordModal />
+            <DeleteAccountModal />
         </div>
     );
 };

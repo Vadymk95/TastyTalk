@@ -5,5 +5,6 @@ export { Image } from './Image';
 export { Input } from './Input';
 export { Link } from './Link';
 export { Loader } from './Loader';
+export { Modal } from './Modal';
 export { SuccessCard } from './SuccessCard';
 export { UsernameInput } from './UsernameInput';

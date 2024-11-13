@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { LoginForm, RegisterForm } from '@root/components';
+import { LoginForm, RegisterForm } from '@root/components/forms';
 import { useAuthStore } from '@root/store/authStore';
 
 const AuthPage: FC = () => {

@@ -7,11 +7,11 @@
 @import './components/scrollbar.css';
 
 html {
-    overflow-y: scroll;
+    @apply h-full overflow-y-scroll;
 }
 
 body {
-    @apply font-sans text-neutral-dark;
+    @apply font-sans text-neutral-dark h-full;
     background-image: url('@root/assets/images/background.jpg');
     background-size: 450px 450px;
     background-repeat: repeat;
