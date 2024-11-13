@@ -33,18 +33,30 @@ export const EditProfileForm: FC = () => {
 
     const EditProfileSchema = Yup.object().shape({
         username: Yup.string()
-            .matches(/^[a-zA-Z0-9_]+$/, t('EditProfileForm.usernameInvalid'))
-            .matches(/[a-zA-Z]/, t('EditProfileForm.usernameMustContainLetter'))
-            .min(4, t('EditProfileForm.usernameMinLength'))
-            .required(t('EditProfileForm.requiredField')),
+            .matches(
+                /^[a-zA-Z0-9_]+$/,
+                t('Forms.EditProfileForm.usernameInvalid')
+            )
+            .matches(
+                /[a-zA-Z]/,
+                t('Forms.EditProfileForm.usernameMustContainLetter')
+            )
+            .min(4, t('Forms.EditProfileForm.usernameMinLength'))
+            .required(t('Forms.EditProfileForm.requiredField')),
         firstName: Yup.string()
-            .matches(/^[a-zA-Zа-яА-Я]+$/, t('EditProfileForm.firstNameInvalid'))
-            .min(2, t('EditProfileForm.firstNameMinLength'))
-            .required(t('EditProfileForm.requiredField')),
+            .matches(
+                /^[a-zA-Zа-яА-Я]+$/,
+                t('Forms.EditProfileForm.firstNameInvalid')
+            )
+            .min(2, t('Forms.EditProfileForm.firstNameMinLength'))
+            .required(t('Forms.EditProfileForm.requiredField')),
         lastName: Yup.string()
-            .matches(/^[a-zA-Zа-яА-Я]+$/, t('EditProfileForm.lastNameInvalid'))
-            .min(2, t('EditProfileForm.lastNameMinLength'))
-            .required(t('EditProfileForm.requiredField'))
+            .matches(
+                /^[a-zA-Zа-яА-Я]+$/,
+                t('Forms.EditProfileForm.lastNameInvalid')
+            )
+            .min(2, t('Forms.EditProfileForm.lastNameMinLength'))
+            .required(t('Forms.EditProfileForm.requiredField'))
     });
 
     const initialValues: EditProfileFormValues = {
@@ -85,10 +97,10 @@ export const EditProfileForm: FC = () => {
             {() => (
                 <Form className="plate">
                     <h2 className="text-xl font-semibold text-primary mb-4">
-                        {t('EditProfileForm.personalInfo')}
+                        {t('Forms.EditProfileForm.personalInfo')}
                     </h2>
                     <p className="text-sm text-neutral-dark mb-4">
-                        {t('EditProfileForm.infoDescription')}
+                        {t('Forms.EditProfileForm.infoDescription')}
                     </p>
 
                     <div className="space-y-8">
@@ -97,16 +109,16 @@ export const EditProfileForm: FC = () => {
                             type="text"
                             isRequired
                             name="firstName"
-                            placeholder={t('EditProfileForm.firstName')}
-                            label={t('EditProfileForm.firstName')}
+                            placeholder={t('Forms.EditProfileForm.firstName')}
+                            label={t('Forms.EditProfileForm.firstName')}
                         />
 
                         <Input
                             isRequired
                             name="lastName"
                             type="text"
-                            placeholder={t('EditProfileForm.lastName')}
-                            label={t('EditProfileForm.lastName')}
+                            placeholder={t('Forms.EditProfileForm.lastName')}
+                            label={t('Forms.EditProfileForm.lastName')}
                         />
 
                         <UsernameInput
@@ -116,7 +128,7 @@ export const EditProfileForm: FC = () => {
                             validationSchema={usernameValidationSchema}
                             isRequired
                             name="username"
-                            label={t('EditProfileForm.username')}
+                            label={t('Forms.EditProfileForm.username')}
                         />
 
                         <div className="flex justify-end">
@@ -125,14 +137,14 @@ export const EditProfileForm: FC = () => {
                                 type="submit"
                                 disabled={loading}
                             >
-                                {t('EditProfileForm.save')}
+                                {t('Forms.EditProfileForm.save')}
                             </Button>
                         </div>
 
                         {showSuccess && (
                             <SuccessCard
                                 successMessage={t(
-                                    'EditProfileForm.successMessage'
+                                    'Forms.EditProfileForm.successMessage'
                                 )}
                             />
                         )}

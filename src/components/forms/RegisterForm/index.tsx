@@ -65,31 +65,43 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
     const RegisterSchema = Yup.object().shape({
         username: Yup.string()
-            .matches(/^[a-zA-Z0-9_]+$/, t('RegisterForm.usernameInvalid'))
-            .matches(/[a-zA-Z]/, t('RegisterForm.usernameMustContainLetter'))
-            .min(4, t('RegisterForm.usernameMinLength'))
-            .required(t('RegisterForm.requiredField')),
+            .matches(/^[a-zA-Z0-9_]+$/, t('Forms.RegisterForm.usernameInvalid'))
+            .matches(
+                /[a-zA-Z]/,
+                t('Forms.RegisterForm.usernameMustContainLetter')
+            )
+            .min(4, t('Forms.RegisterForm.usernameMinLength'))
+            .required(t('Forms.RegisterForm.requiredField')),
         firstName: Yup.string()
-            .matches(/^[a-zA-Zа-яА-Я]+$/, t('RegisterForm.firstNameInvalid'))
-            .min(2, t('RegisterForm.firstNameMinLength'))
-            .required(t('RegisterForm.requiredField')),
+            .matches(
+                /^[a-zA-Zа-яА-Я]+$/,
+                t('Forms.RegisterForm.firstNameInvalid')
+            )
+            .min(2, t('Forms.RegisterForm.firstNameMinLength'))
+            .required(t('Forms.RegisterForm.requiredField')),
         lastName: Yup.string()
-            .matches(/^[a-zA-Zа-яА-Я]+$/, t('RegisterForm.lastNameInvalid'))
-            .min(2, t('RegisterForm.lastNameMinLength'))
-            .required(t('RegisterForm.requiredField')),
+            .matches(
+                /^[a-zA-Zа-яА-Я]+$/,
+                t('Forms.RegisterForm.lastNameInvalid')
+            )
+            .min(2, t('Forms.RegisterForm.lastNameMinLength'))
+            .required(t('Forms.RegisterForm.requiredField')),
         email: Yup.string()
-            .email(t('RegisterForm.emailNotValid'))
-            .required(t('RegisterForm.requiredField')),
+            .email(t('Forms.RegisterForm.emailNotValid'))
+            .required(t('Forms.RegisterForm.requiredField')),
         password: Yup.string()
-            .min(6, t('RegisterForm.passwordMinLength'))
+            .min(6, t('Forms.RegisterForm.passwordMinLength'))
             .matches(
                 /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/,
-                t('RegisterForm.passwordComplexity')
+                t('Forms.RegisterForm.passwordComplexity')
             )
-            .required(t('RegisterForm.requiredField')),
+            .required(t('Forms.RegisterForm.requiredField')),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password')], t('RegisterForm.passwordsMustMatch'))
-            .required(t('RegisterForm.requiredField'))
+            .oneOf(
+                [Yup.ref('password')],
+                t('Forms.RegisterForm.passwordsMustMatch')
+            )
+            .required(t('Forms.RegisterForm.requiredField'))
     });
 
     useEffect(() => {
@@ -123,7 +135,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 validationSchema={usernameValidationSchema}
                                 className="auth-input-wrapper"
                                 name="username"
-                                label={t('RegisterForm.username')}
+                                label={t('Forms.RegisterForm.username')}
                                 isRequired
                                 checkUsernameAvailability={
                                     checkUsernameAvailability
@@ -134,9 +146,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 className="auth-input-wrapper"
                                 name="firstName"
                                 type="text"
-                                placeholder={t('RegisterForm.enterYourName')}
+                                placeholder={t(
+                                    'Forms.RegisterForm.enterYourName'
+                                )}
                                 isRequired
-                                label={t('RegisterForm.firstName')}
+                                label={t('Forms.RegisterForm.firstName')}
                             />
 
                             <Input
@@ -144,10 +158,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 name="lastName"
                                 type="text"
                                 placeholder={t(
-                                    'RegisterForm.enterYourLastName'
+                                    'Forms.RegisterForm.enterYourLastName'
                                 )}
                                 isRequired
-                                label={t('RegisterForm.lastName')}
+                                label={t('Forms.RegisterForm.lastName')}
                             />
                         </div>
 
@@ -157,9 +171,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 name="email"
                                 type="email"
                                 disabled={isTemporaryUser}
-                                placeholder={t('RegisterForm.enterYourEmail')}
+                                placeholder={t(
+                                    'Forms.RegisterForm.enterYourEmail'
+                                )}
                                 isRequired
-                                label={t('RegisterForm.email')}
+                                label={t('Forms.RegisterForm.email')}
                             />
 
                             <Input
@@ -168,7 +184,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 type="password"
                                 placeholder="******"
                                 isRequired
-                                label={t('RegisterForm.password')}
+                                label={t('Forms.RegisterForm.password')}
                             />
 
                             <Input
@@ -177,7 +193,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 type="password"
                                 placeholder="******"
                                 isRequired
-                                label={t('RegisterForm.confirmPassword')}
+                                label={t('Forms.RegisterForm.confirmPassword')}
                             />
                         </div>
                     </section>
@@ -189,7 +205,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             type="submit"
                             disabled={loading}
                         >
-                            {t('RegisterForm.signUp')}
+                            {t('Forms.RegisterForm.signUp')}
                         </Button>
 
                         {error && (
@@ -200,16 +216,18 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
                         <div className="text-center">
                             {isTemporaryUser ? (
-                                <span>{t('RegisterForm.registerFinish')}</span>
+                                <span>
+                                    {t('Forms.RegisterForm.registerFinish')}
+                                </span>
                             ) : (
                                 <span>
-                                    {t('RegisterForm.haveAccount')}{' '}
+                                    {t('Forms.RegisterForm.haveAccount')}{' '}
                                     <Link
                                         className="underline"
                                         variant="secondary"
                                         onClick={signInAction}
                                     >
-                                        {t('RegisterForm.actionSignIn')}
+                                        {t('Forms.RegisterForm.actionSignIn')}
                                     </Link>
                                 </span>
                             )}

@@ -69,7 +69,7 @@ interface AuthState {
     ) => Promise<void>;
     resendVerificationEmail: () => Promise<void>;
     checkEmailVerificationStatus: () => Promise<void>;
-    deleteUserAccount: (email: string, password: string) => Promise<void>;
+    deleteUserAccount: (email: string, password: string) => Promise<boolean>;
     reauthenticateUser: (email: string, password: string) => Promise<void>;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
     setLoading: (value: boolean) => void;
@@ -236,14 +236,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 await deleteUser(user);
 
                 set({ user: null, error: null, isRegistered: false });
+                return true;
             } catch (error: any) {
                 set({ error: error.message });
+                return false;
             } finally {
                 set({ loading: false });
             }
         } else {
             set({ error: 'No user is currently signed in.' });
             set({ loading: false });
+            return false;
         }
     },
 

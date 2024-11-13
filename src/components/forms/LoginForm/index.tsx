@@ -67,10 +67,12 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     };
 
     const LoginSchema = Yup.object().shape({
-        emailOrUsername: Yup.string().required(t('LoginForm.requiredField')),
+        emailOrUsername: Yup.string().required(
+            t('Forms.LoginForm.requiredField')
+        ),
         password: Yup.string()
-            .min(6, t('LoginForm.passwordMinLength'))
-            .required(t('LoginForm.requiredField'))
+            .min(6, t('Forms.LoginForm.passwordMinLength'))
+            .required(t('Forms.LoginForm.requiredField'))
     });
 
     useEffect(() => {
@@ -100,7 +102,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                                 className="w-6 h-6 text-xs flex-all-center"
                                 alt="google-icon"
                             />
-                            {t('LoginForm.signInWithGoogle')}
+                            {t('Forms.LoginForm.signInWithGoogle')}
                         </Button>
                     </div>
 
@@ -110,9 +112,11 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                         className="auth-input-wrapper"
                         name="emailOrUsername"
                         type="text"
-                        placeholder={t('LoginForm.emailOrUsernamePlaceholder')}
+                        placeholder={t(
+                            'Forms.LoginForm.emailOrUsernamePlaceholder'
+                        )}
                         isRequired
-                        label={t('LoginForm.emailOrUsername')}
+                        label={t('Forms.LoginForm.emailOrUsername')}
                     />
 
                     <Input
@@ -121,7 +125,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                         type="password"
                         placeholder="******"
                         isRequired
-                        label={t('LoginForm.password')}
+                        label={t('Forms.LoginForm.password')}
                     />
 
                     <section>
@@ -133,7 +137,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                         >
                             {loading
                                 ? t('General.loading')
-                                : t('LoginForm.signIn')}
+                                : t('Forms.LoginForm.signIn')}
                         </Button>
 
                         {error && (
@@ -144,13 +148,13 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
 
                         <div className="text-center">
                             <span>
-                                {t('LoginForm.dontHaveAccount')}{' '}
+                                {t('Forms.LoginForm.dontHaveAccount')}{' '}
                                 <Link
                                     className="underline"
                                     variant="secondary"
                                     onClick={signUpAction}
                                 >
-                                    {t('LoginForm.actionSignUp')}
+                                    {t('Forms.LoginForm.actionSignUp')}
                                 </Link>
                             </span>
                         </div>

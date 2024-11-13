@@ -5,73 +5,6 @@ export const en = {
                 signInToAccount: 'Sign in to your account',
                 signUp: 'Sign Up'
             },
-            LoginForm: {
-                actionSignUp: 'Sign Up',
-                signIn: 'Sign In',
-                dontHaveAccount: "Don't have an account?",
-                emailOrUsername: 'Email or Username',
-                emailOrUsernamePlaceholder: 'Enter your email or username',
-                password: 'Password',
-                requiredField: 'This field is required',
-                emailNotValid: 'Email is not valid',
-                passwordMinLength:
-                    'Password must be at least 6 characters long',
-                signInWithGoogle: 'Sign in with Google'
-            },
-            RegisterForm: {
-                signUp: 'Register',
-                email: 'Email',
-                username: 'Username',
-                lastName: 'Last Name',
-                firstName: 'First Name',
-                password: 'Password',
-                confirmPassword: 'Confirm Password',
-                usernameInvalid:
-                    'Username can only contain letters, numbers and underscores',
-                usernameMustContainLetter:
-                    'Username must contain at least one letter',
-                firstNameInvalid: 'First name can only contain letters',
-                lastNameInvalid: 'Last name can only contain letters',
-                passwordComplexity:
-                    'Password must contain at least one letter and one number',
-                actionSignIn: 'Sign In',
-                firstNameMinLength:
-                    'First name must be at least 2 character long',
-                usernameMinLength: 'Username must be at least 4 character long',
-                lastNameMinLength:
-                    'Last name must be at least 2 character long',
-                requiredField: 'This field is required',
-                emailNotValid: 'Email is not valid',
-                passwordMinLength:
-                    'Password must be at least 6 characters long',
-                passwordsMustMatch: 'Passwords must match',
-                enterYourEmail: 'Enter your email',
-                enterYourName: 'Enter your name',
-                enterYourLastName: 'Enter your last name',
-                haveAccount: 'Already have an account?',
-                registerFinish: 'Finish your registration process'
-            },
-            EditProfileForm: {
-                firstName: 'First Name',
-                lastName: 'Last Name',
-                username: 'Username',
-                usernameInvalid:
-                    'Username can only contain letters, numbers and underscores',
-                usernameMustContainLetter:
-                    'Username must contain at least one letter',
-                firstNameInvalid: 'First name can only contain letters',
-                lastNameInvalid: 'Last name can only contain letters',
-                firstNameMinLength:
-                    'First name must be at least 2 character long',
-                usernameMinLength: 'Username must be at least 4 character long',
-                lastNameMinLength:
-                    'Last name must be at least 2 character long',
-                requiredField: 'This field is required',
-                personalInfo: 'Personal Information',
-                infoDescription: 'Update your name, last name, and username',
-                save: 'Save Changes',
-                successMessage: 'Profile updated successfully'
-            },
             EmailVerificationPage: {
                 title: 'Confirm your email address',
                 text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
@@ -152,6 +85,94 @@ export const en = {
                 available: 'Username is available',
                 taken: 'Username is already taken'
             },
+            Forms: {
+                LoginForm: {
+                    actionSignUp: 'Sign Up',
+                    signIn: 'Sign In',
+                    dontHaveAccount: "Don't have an account?",
+                    emailOrUsername: 'Email or Username',
+                    emailOrUsernamePlaceholder: 'Enter your email or username',
+                    password: 'Password',
+                    requiredField: 'This field is required',
+                    emailNotValid: 'Email is not valid',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    signInWithGoogle: 'Sign in with Google'
+                },
+                RegisterForm: {
+                    signUp: 'Register',
+                    email: 'Email',
+                    username: 'Username',
+                    lastName: 'Last Name',
+                    firstName: 'First Name',
+                    password: 'Password',
+                    confirmPassword: 'Confirm Password',
+                    usernameInvalid:
+                        'Username can only contain letters, numbers and underscores',
+                    usernameMustContainLetter:
+                        'Username must contain at least one letter',
+                    firstNameInvalid: 'First name can only contain letters',
+                    lastNameInvalid: 'Last name can only contain letters',
+                    passwordComplexity:
+                        'Password must contain at least one letter and one number',
+                    actionSignIn: 'Sign In',
+                    firstNameMinLength:
+                        'First name must be at least 2 character long',
+                    usernameMinLength:
+                        'Username must be at least 4 character long',
+                    lastNameMinLength:
+                        'Last name must be at least 2 character long',
+                    requiredField: 'This field is required',
+                    emailNotValid: 'Email is not valid',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    passwordsMustMatch: 'Passwords must match',
+                    enterYourEmail: 'Enter your email',
+                    enterYourName: 'Enter your name',
+                    enterYourLastName: 'Enter your last name',
+                    haveAccount: 'Already have an account?',
+                    registerFinish: 'Finish your registration process'
+                },
+                EditProfileForm: {
+                    firstName: 'First Name',
+                    lastName: 'Last Name',
+                    username: 'Username',
+                    usernameInvalid:
+                        'Username can only contain letters, numbers and underscores',
+                    usernameMustContainLetter:
+                        'Username must contain at least one letter',
+                    firstNameInvalid: 'First name can only contain letters',
+                    lastNameInvalid: 'Last name can only contain letters',
+                    firstNameMinLength:
+                        'First name must be at least 2 character long',
+                    usernameMinLength:
+                        'Username must be at least 4 character long',
+                    lastNameMinLength:
+                        'Last name must be at least 2 character long',
+                    requiredField: 'This field is required',
+                    personalInfo: 'Personal Information',
+                    infoDescription:
+                        'Update your name, last name, and username',
+                    save: 'Save Changes',
+                    successMessage: 'Profile updated successfully'
+                },
+                DeleteAccountForm: {
+                    description:
+                        'Please confirm your email and password to delete your account. This action cannot be undone.',
+                    email: 'Email',
+                    password: 'Password',
+                    confirmPassword: 'Confirm Password',
+                    invalidEmail: 'Please enter a valid email address.',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long.',
+                    passwordsMustMatch: 'Passwords must match.',
+                    requiredField: 'This field is required.',
+                    cancel: 'Cancel',
+                    delete: 'Delete',
+                    successMessage:
+                        'Your account has been successfully deleted.'
+                }
+            },
             Modals: {
                 SupportModal: {
                     title: 'Support & Contact Us',
@@ -163,6 +184,9 @@ export const en = {
                     advertisingTitle: 'Advertising Inquiries',
                     advertisingDescription:
                         'If you are interested in advertising opportunities, please reach out to us at:'
+                },
+                DeleteAccountModal: {
+                    title: 'Delete Account'
                 }
             }
         }
