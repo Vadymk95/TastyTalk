@@ -7,4 +7,5 @@ export { Link } from './Link';
 export { Loader } from './Loader';
 export { Modal } from './Modal';
 export { SuccessCard } from './SuccessCard';
+export { Select } from './Select';
 export { UsernameInput } from './UsernameInput';

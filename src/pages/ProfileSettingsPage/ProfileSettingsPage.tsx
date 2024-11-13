@@ -7,7 +7,8 @@ import {
     DeleteAccountModal,
     SupportModal
 } from '@root/components/modals';
-import { Button } from '@root/components/ui';
+import { Button, Select } from '@root/components/ui';
+import { languages } from '@root/constants/languages';
 import { useAuthStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
@@ -27,6 +28,12 @@ const ProfileSettingsPage: FC = () => {
         openModal('deleteAccount');
     };
 
+    const handleSelect = (option: string) => {
+        const selectedLang = languages.find((lang) => lang.name === option);
+
+        console.log('Selected:', selectedLang);
+    };
+
     return (
         <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8">
             <h1 className="text-3xl lg:text-4xl font-semibold text-white">
@@ -44,9 +51,13 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.changeLanguageDescription')}
                 </p>
-                <Button variant="accent">
-                    {t('ProfileSettingsPage.changeLanguageButton')}
-                </Button>
+
+                <Select
+                    options={languages.map((lang) => lang.name)}
+                    placeholder={t('ProfileSettingsPage.changeLanguageButton')}
+                    searchable={true}
+                    onSelect={handleSelect}
+                />
             </section>
 
             <section className="plate w-full">

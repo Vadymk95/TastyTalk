@@ -1,6 +1,5 @@
-/* Button Styles */
 .btn-primary {
-    @apply bg-primary text-white font-semibold rounded-lg transition duration-200;
+    @apply bg-primary text-white font-semibold rounded-lg transition duration-200 cursor-pointer;
 }
 
 .btn-primary:hover {

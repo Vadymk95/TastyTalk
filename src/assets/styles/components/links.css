@@ -1,4 +1,3 @@
-/* Link Styles */
 .link-primary {
     @apply text-neutral-light font-medium transition duration-200 cursor-pointer;
 }

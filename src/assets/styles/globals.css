@@ -5,6 +5,7 @@
 @import './components/cards.css';
 @import './components/plates.css';
 @import './components/scrollbar.css';
+@import './components/select.css';
 
 html {
     @apply h-full overflow-y-scroll;

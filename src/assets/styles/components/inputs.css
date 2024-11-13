@@ -1,4 +1,3 @@
-/* Input Styles */
 .input-primary {
     @apply w-full p-3 border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200;
 }
