@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Button, Link } from '@root/components/ui';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store/authStore';
+import { useAuthStore } from '@root/store';
 
 const EmailVerificationPage: FC = () => {
     const { t } = useTranslation();

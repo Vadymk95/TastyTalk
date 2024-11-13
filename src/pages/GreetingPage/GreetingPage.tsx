@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { GreetingCard } from '@root/components/ui';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store/authStore';
+import { useAuthStore } from '@root/store';
 
 const GreetingPage: FC = () => {
     const { t } = useTranslation();

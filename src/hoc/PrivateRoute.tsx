@@ -1,9 +1,9 @@
 import { FC, ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { Loader } from '@root/components';
+import { Loader } from '@root/components/ui';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store/authStore';
+import { useAuthStore } from '@root/store';
 
 interface PrivateRouteProps {
     element: ReactNode;

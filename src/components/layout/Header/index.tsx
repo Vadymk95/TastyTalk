@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { HeaderNavigation } from '@root/components';
+import { HeaderNavigation } from '@root/components/common';
 import { routes } from '@root/router/routes';
 
 export const Header: FC = () => {
