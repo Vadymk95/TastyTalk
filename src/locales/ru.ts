@@ -147,6 +147,19 @@ export const ru = {
                 checking: 'Проверка имени пользователя...',
                 available: 'Имя пользователя доступно',
                 taken: 'Имя пользователя занято'
+            },
+            Modals: {
+                SupportModal: {
+                    title: 'Поддержка и контакты',
+                    description:
+                        'Если у вас есть вопросы или проблемы, свяжитесь с нами',
+                    contactTitle: 'Связаться с нами',
+                    contactDescription:
+                        'Для общих вопросов и предложений, свяжитесь с нами',
+                    advertisingTitle: 'Реклама',
+                    advertisingDescription:
+                        'Для вопросов о рекламе, свяжитесь с нами'
+                }
             }
         }
     }

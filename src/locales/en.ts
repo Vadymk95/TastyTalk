@@ -151,6 +151,19 @@ export const en = {
                 checking: 'Checking...',
                 available: 'Username is available',
                 taken: 'Username is already taken'
+            },
+            Modals: {
+                SupportModal: {
+                    title: 'Support & Contact Us',
+                    description:
+                        'If you have any questions or need assistance, please reach out to us through one of the following contact options.',
+                    contactTitle: 'General Inquiries',
+                    contactDescription:
+                        'For general questions or feedback, please contact us at:',
+                    advertisingTitle: 'Advertising Inquiries',
+                    advertisingDescription:
+                        'If you are interested in advertising opportunities, please reach out to us at:'
+                }
             }
         }
     }

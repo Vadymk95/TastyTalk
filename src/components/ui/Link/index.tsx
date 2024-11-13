@@ -4,7 +4,7 @@ interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
     children: ReactNode;
     href?: string;
     className?: string;
-    variant?: 'primary' | 'secondary';
+    variant?: 'primary' | 'secondary' | 'thirtiary' | 'accent';
 }
 
 export const Link: FC<LinkProps> = ({

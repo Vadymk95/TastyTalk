@@ -15,6 +15,22 @@
     @apply text-secondary-light;
 }
 
+.link-thirtiary {
+    @apply text-secondary-light font-medium transition duration-200 cursor-pointer;
+}
+
+.link-thirtiary:hover {
+    @apply text-primary-light;
+}
+
+.link-accent {
+    @apply text-accent-light font-medium transition duration-200 cursor-pointer;
+}
+
+.link-accent:hover {
+    @apply text-accent-dark;
+}
+
 .nav-link {
     @apply hover:bg-primary-dark duration-200;
 }
