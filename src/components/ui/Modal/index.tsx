@@ -42,7 +42,7 @@ export const Modal: FC<ModalProps> = ({
                         initial={{ y: '-100vh', opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: '-100vh', opacity: 0 }}
-                        transition={{ type: 'spring', stiffness: 100 }}
+                        transition={{ ease: 'easeInOut', duration: 0.4 }}
                     >
                         <Button
                             variant="close"
