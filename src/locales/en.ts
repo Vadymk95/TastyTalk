@@ -73,12 +73,6 @@ export const en = {
                 popupClosedByUser: 'Sign in process was canceled by the user.',
                 usernameNotFound: 'Username not found. Please try again.'
             },
-            General: {
-                loading: 'Loading...',
-                error: 'Error:',
-                somethingWentWrong:
-                    'Something went wrong, please try again later'
-            },
             UsernameInput: {
                 chooseUsername: 'Choose a username',
                 checking: 'Checking...',
@@ -153,6 +147,17 @@ export const en = {
                     personalInfo: 'Personal Information',
                     infoDescription:
                         'Update your name, last name, and username',
+                    additionalInfo: 'Additional Information',
+                    profileImage: 'Upload Profile Image',
+                    bio: 'About You',
+                    bioMaxLength: 'Maximum 200 characters allowed',
+                    country: 'Country',
+                    selectCountry: 'Select your country',
+                    socialLinks: 'Social Media Links',
+                    socialLink1: 'Social Link 1',
+                    socialLink2: 'Social Link 2',
+                    socialLink3: 'Social Link 3',
+                    maxSocialLinks: 'You can add up to 3 social links',
                     save: 'Save Changes',
                     successMessage: 'Profile updated successfully'
                 },
@@ -206,6 +211,14 @@ export const en = {
                 DeleteAccountModal: {
                     title: 'Delete Account'
                 }
+            },
+            General: {
+                loading: 'Loading...',
+                error: 'Error:',
+                somethingWentWrong:
+                    'Something went wrong, please try again later',
+                profilePreview: 'Profile preview',
+                uploadProfilePicture: 'Upload Profile Picture'
             }
         }
     }

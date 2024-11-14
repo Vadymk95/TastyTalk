@@ -9,3 +9,5 @@ export { Modal } from './Modal';
 export { SuccessCard } from './SuccessCard';
 export { Select } from './Select';
 export { UsernameInput } from './UsernameInput';
+export { Textarea } from './Textarea';
+export { FileUpload } from './FileUpload';

@@ -6,6 +6,8 @@
 @import './components/plates.css';
 @import './components/scrollbar.css';
 @import './components/select.css';
+@import './components/textareas.css';
+@import './components/fileupload.css';
 
 html {
     @apply h-full overflow-y-scroll;

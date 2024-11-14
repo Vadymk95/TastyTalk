@@ -27,18 +27,26 @@ import {
 import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
-import { isMobileDevice } from '@root/helpers';
+import { isMobileDevice, uploadFileToStorage } from '@root/helpers';
 
 interface UpdateProfileData {
     firstName?: string;
     lastName?: string;
     username?: string;
+    bio?: string;
+    country?: string;
+    socialLinks?: string[];
+    profileImage?: File | null;
 }
 
 interface UserProfile {
     firstName: string;
     lastName: string;
     username: string;
+    bio?: string;
+    country?: string;
+    socialLinks?: string[];
+    profileImageUrl?: string;
 }
 
 interface AuthState {
@@ -302,6 +310,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.lastName = profileData.lastName || '';
                 }
 
+                // Проверка и обновление username
                 if (
                     profileData.username &&
                     profileData.username !== currentUsername
@@ -315,10 +324,34 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.username = profileData.username;
                 }
 
+                // Дополнительные поля профиля
+                if (profileData.bio) {
+                    firestoreUpdates.bio = profileData.bio;
+                }
+
+                if (profileData.country) {
+                    firestoreUpdates.country = profileData.country;
+                }
+
+                if (profileData.socialLinks) {
+                    firestoreUpdates.socialLinks = profileData.socialLinks;
+                }
+
+                // Загрузка фото профиля, если оно было выбрано
+                if (profileData.profileImage) {
+                    const imageUrl = await uploadFileToStorage(
+                        user.uid,
+                        profileData.profileImage
+                    );
+                    firestoreUpdates.profileImageUrl = imageUrl;
+                }
+
+                // Обновление данных в Firestore
                 if (Object.keys(firestoreUpdates).length > 0) {
                     await setDoc(userRef, firestoreUpdates, { merge: true });
                 }
 
+                // Обновление локального состояния
                 const updatedUserSnap = await getDoc(userRef);
                 if (updatedUserSnap.exists()) {
                     set({ userProfile: updatedUserSnap.data() as UserProfile });

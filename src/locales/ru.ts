@@ -71,11 +71,6 @@ export const ru = {
                 usernameNotFound:
                     'Имя пользователя не найдено. Пожалуйста, попробуйте снова.'
             },
-            General: {
-                loading: 'Загрузка...',
-                error: 'Ошибка:',
-                somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
-            },
             UsernameInput: {
                 username: 'Имя пользователя',
                 chooseUsername: 'Выберите имя пользователя',
@@ -146,6 +141,17 @@ export const ru = {
                     personalInfo: 'Личная информация',
                     infoDescription:
                         'Обновите свое имя, фамилию и имя пользователя',
+                    additionalInfo: 'Дополнительная информация',
+                    profileImage: 'Загрузить фото профиля',
+                    bio: 'О себе',
+                    bioMaxLength: 'Максимум 200 символов',
+                    country: 'Страна',
+                    selectCountry: 'Выберите страну',
+                    socialLinks: 'Социальные сети',
+                    socialLink1: 'Социальная ссылка 1',
+                    socialLink2: 'Социальная ссылка 2',
+                    socialLink3: 'Социальная ссылка 3',
+                    maxSocialLinks: 'Максимум 3 ссылки',
                     save: 'Сохранить изменения',
                     successMessage: 'Изменения сохранены'
                 },
@@ -198,6 +204,13 @@ export const ru = {
                 DeleteAccountModal: {
                     title: 'Удалить учетную запись'
                 }
+            },
+            General: {
+                loading: 'Загрузка...',
+                error: 'Ошибка:',
+                somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
+                profilePreview: 'Превью профиля',
+                uploadProfilePicture: 'Загрузить фото профиля'
             }
         }
     }

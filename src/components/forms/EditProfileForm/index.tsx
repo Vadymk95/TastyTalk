@@ -1,4 +1,4 @@
-import { Form, Formik } from 'formik';
+import { FieldArray, Form, Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -6,8 +6,10 @@ import * as Yup from 'yup';
 import {
     Button,
     ErrorCard,
+    FileUpload,
     Input,
     SuccessCard,
+    Textarea,
     UsernameInput
 } from '@root/components/ui';
 import { useGetAuthErrorMessage } from '@root/hooks';
@@ -17,6 +19,10 @@ type EditProfileFormValues = {
     username: string;
     firstName: string;
     lastName: string;
+    bio: string;
+    country: string;
+    socialLinks: string[];
+    profileImage: File | null;
 };
 
 export const EditProfileForm: FC = () => {
@@ -30,6 +36,15 @@ export const EditProfileForm: FC = () => {
         clearError,
         editProfile
     } = useAuthStore();
+
+    const countries = [
+        'USA',
+        'Canada',
+        'Germany',
+        'France',
+        'Russia',
+        'Ukraine'
+    ];
 
     const EditProfileSchema = Yup.object().shape({
         username: Yup.string()
@@ -56,13 +71,23 @@ export const EditProfileForm: FC = () => {
                 t('Forms.EditProfileForm.lastNameInvalid')
             )
             .min(2, t('Forms.EditProfileForm.lastNameMinLength'))
-            .required(t('Forms.EditProfileForm.requiredField'))
+            .required(t('Forms.EditProfileForm.requiredField')),
+        bio: Yup.string().max(200, t('Forms.EditProfileForm.bioMaxLength')),
+        country: Yup.string(),
+        socialLinks: Yup.array()
+            .of(Yup.string().url(t('Forms.EditProfileForm.invalidLink')))
+            .max(3, t('Forms.EditProfileForm.maxSocialLinks')),
+        profileImage: Yup.mixed().nullable()
     });
 
     const initialValues: EditProfileFormValues = {
         username: userProfile?.username || '',
         firstName: userProfile?.firstName || '',
-        lastName: userProfile?.lastName || ''
+        lastName: userProfile?.lastName || '',
+        bio: userProfile?.bio || '',
+        country: userProfile?.country || '',
+        socialLinks: userProfile?.socialLinks || ['', '', ''],
+        profileImage: null
     };
 
     const usernameValidationSchema = EditProfileSchema.fields
@@ -94,7 +119,7 @@ export const EditProfileForm: FC = () => {
             initialValues={initialValues}
             onSubmit={onSubmit}
         >
-            {() => (
+            {({ setFieldValue }) => (
                 <Form className="plate">
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('Forms.EditProfileForm.personalInfo')}
@@ -104,6 +129,17 @@ export const EditProfileForm: FC = () => {
                     </p>
 
                     <div className="space-y-8">
+                        <div className="profile-image-section">
+                            <label className="block text-sm font-medium text-gray-700">
+                                {t('Forms.EditProfileForm.profileImage')}
+                            </label>
+                            <FileUpload
+                                onFileSelect={(file) =>
+                                    setFieldValue('profileImage', file)
+                                }
+                            />
+                        </div>
+
                         <Input
                             className="auth-input-wrapper"
                             type="text"
@@ -129,6 +165,66 @@ export const EditProfileForm: FC = () => {
                             isRequired
                             name="username"
                             label={t('Forms.EditProfileForm.username')}
+                        />
+
+                        <h3 className="text-lg font-medium text-primary mt-8">
+                            {t('Forms.EditProfileForm.additionalInfo')}
+                        </h3>
+
+                        <Textarea
+                            name="bio"
+                            placeholder={t('Forms.EditProfileForm.bio')}
+                            label={t('Forms.EditProfileForm.bio')}
+                            maxLength={200}
+                        />
+
+                        {/* Add ui select !!!!!!!!!!! */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                {t('Forms.EditProfileForm.country')}
+                            </label>
+                            <select
+                                name="country"
+                                className="input-primary"
+                                onChange={(e) =>
+                                    setFieldValue('country', e.target.value)
+                                }
+                            >
+                                <option value="">
+                                    {t('Forms.EditProfileForm.selectCountry')}
+                                </option>
+                                {countries.map((country) => (
+                                    <option key={country} value={country}>
+                                        {country}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <FieldArray
+                            name="socialLinks"
+                            render={() => (
+                                <div className="social-links">
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        {t('Forms.EditProfileForm.socialLinks')}
+                                    </label>
+                                    {initialValues.socialLinks.map(
+                                        (_, index) => (
+                                            <Input
+                                                className="mb-4"
+                                                key={index}
+                                                name={`socialLinks.${index}`}
+                                                placeholder={t(
+                                                    `Forms.EditProfileForm.socialLink${index + 1}`
+                                                )}
+                                                type="text"
+                                                label={''}
+                                                isRequired={false}
+                                            />
+                                        )
+                                    )}
+                                </div>
+                            )}
                         />
 
                         <div className="flex justify-end">

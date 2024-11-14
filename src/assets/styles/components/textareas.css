@@ -1,0 +1,19 @@
+.textarea-wrapper {
+    @apply mb-6;
+}
+
+.textarea-primary {
+    @apply w-full p-3 border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200 resize-none;
+}
+
+.textarea-primary:hover {
+    @apply border-secondary-light bg-neutral;
+}
+
+.textarea-primary:focus {
+    @apply border-secondary-light ring-2 ring-secondary-light outline-none bg-neutral-light;
+}
+
+.textarea-error {
+    @apply border-primary text-primary;
+}
