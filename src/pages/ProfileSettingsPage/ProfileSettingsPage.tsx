@@ -9,12 +9,13 @@ import {
 } from '@root/components/modals';
 import { Button, Select } from '@root/components/ui';
 import { languages } from '@root/constants/languages';
-import { useAuthStore, useModalStore } from '@root/store';
+import { useAuthStore, useLanguageStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
     const { t } = useTranslation();
     const { signOutUser } = useAuthStore();
     const { openModal } = useModalStore();
+    const { setLanguage } = useLanguageStore();
 
     const handleSupportClick = () => {
         openModal('support');
@@ -28,10 +29,9 @@ const ProfileSettingsPage: FC = () => {
         openModal('deleteAccount');
     };
 
-    const handleSelect = (option: string) => {
+    const handleSelect = async (option: string) => {
         const selectedLang = languages.find((lang) => lang.name === option);
-
-        console.log('Selected:', selectedLang);
+        await setLanguage(selectedLang?.code || 'en');
     };
 
     return (
