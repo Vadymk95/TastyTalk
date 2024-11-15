@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Button } from '@root/components/ui';
 
 type SelectProps = {
     options: string[];
     placeholder: string;
+    value?: string;
     searchable?: boolean;
     resetable?: boolean;
     disabled?: boolean;
@@ -15,6 +16,7 @@ type SelectProps = {
 export const Select: FC<SelectProps> = ({
     options,
     placeholder,
+    value,
     searchable = false,
     resetable = false,
     disabled = false,
@@ -22,7 +24,9 @@ export const Select: FC<SelectProps> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [selectedOption, setSelectedOption] = useState<string | null>(
+        value || null
+    );
 
     const toggleDropdown = () => !disabled && setIsOpen((prev) => !prev);
 
@@ -42,12 +46,17 @@ export const Select: FC<SelectProps> = ({
         option.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    useEffect(() => {
+        setSelectedOption(value || null);
+    }, [value]);
+
     return (
         <div className="select-container">
             <Button
                 className={`select ${disabled ? 'select-disabled' : ''}`}
                 onClick={toggleDropdown}
                 disabled={disabled}
+                type="button"
             >
                 <span className="truncate-text">
                     {selectedOption || placeholder}

@@ -8,10 +8,12 @@ import {
     ErrorCard,
     FileUpload,
     Input,
+    Select,
     SuccessCard,
     Textarea,
     UsernameInput
 } from '@root/components/ui';
+import { countries } from '@root/constants/countries';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { useAuthStore } from '@root/store/authStore';
 
@@ -36,15 +38,6 @@ export const EditProfileForm: FC = () => {
         clearError,
         editProfile
     } = useAuthStore();
-
-    const countries = [
-        'USA',
-        'Canada',
-        'Germany',
-        'France',
-        'Russia',
-        'Ukraine'
-    ];
 
     const EditProfileSchema = Yup.object().shape({
         username: Yup.string()
@@ -178,27 +171,21 @@ export const EditProfileForm: FC = () => {
                             maxLength={200}
                         />
 
-                        {/* Add ui select !!!!!!!!!!! */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 {t('Forms.EditProfileForm.country')}
                             </label>
-                            <select
-                                name="country"
-                                className="input-primary"
-                                onChange={(e) =>
-                                    setFieldValue('country', e.target.value)
+
+                            <Select
+                                value={initialValues.country}
+                                options={countries}
+                                placeholder={t(
+                                    'Forms.EditProfileForm.selectCountry'
+                                )}
+                                onSelect={(option) =>
+                                    setFieldValue('country', option)
                                 }
-                            >
-                                <option value="">
-                                    {t('Forms.EditProfileForm.selectCountry')}
-                                </option>
-                                {countries.map((country) => (
-                                    <option key={country} value={country}>
-                                        {country}
-                                    </option>
-                                ))}
-                            </select>
+                            />
                         </div>
 
                         <FieldArray
