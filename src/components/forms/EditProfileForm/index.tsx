@@ -23,7 +23,7 @@ type EditProfileFormValues = {
     lastName: string;
     bio: string;
     country: string;
-    socialLinks: string[];
+    socialLinks: { name: string; url: string }[];
     profileImage: File | null;
 };
 
@@ -68,8 +68,17 @@ export const EditProfileForm: FC = () => {
         bio: Yup.string().max(200, t('Forms.EditProfileForm.bioMaxLength')),
         country: Yup.string(),
         socialLinks: Yup.array()
-            .of(Yup.string().url(t('Forms.EditProfileForm.invalidLink')))
-            .max(3, t('Forms.EditProfileForm.maxSocialLinks')),
+            .of(
+                Yup.object().shape({
+                    name: Yup.string().required(
+                        t('Forms.EditProfileForm.linkNameRequired')
+                    ),
+                    url: Yup.string()
+                        .url(t('Forms.EditProfileForm.invalidLink'))
+                        .required(t('Forms.EditProfileForm.linkRequired'))
+                })
+            )
+            .max(5, t('Forms.EditProfileForm.maxSocialLinks')),
         profileImage: Yup.mixed().nullable()
     });
 
@@ -79,7 +88,11 @@ export const EditProfileForm: FC = () => {
         lastName: userProfile?.lastName || '',
         bio: userProfile?.bio || '',
         country: userProfile?.country || '',
-        socialLinks: userProfile?.socialLinks || ['', '', ''],
+        socialLinks: userProfile?.socialLinks || [
+            { name: '', url: '' },
+            { name: '', url: '' },
+            { name: '', url: '' }
+        ],
         profileImage: null
     };
 
@@ -112,7 +125,7 @@ export const EditProfileForm: FC = () => {
             initialValues={initialValues}
             onSubmit={onSubmit}
         >
-            {({ setFieldValue }) => (
+            {({ setFieldValue, values }) => (
                 <Form className="plate">
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('Forms.EditProfileForm.personalInfo')}
@@ -184,26 +197,69 @@ export const EditProfileForm: FC = () => {
 
                         <FieldArray
                             name="socialLinks"
-                            render={() => (
+                            render={(arrayHelpers) => (
                                 <div className="social-links">
-                                    <label>
+                                    <label className="block">
                                         {t('Forms.EditProfileForm.socialLinks')}
                                     </label>
-                                    {initialValues.socialLinks.map(
-                                        (_, index) => (
+                                    {values.socialLinks.map((link, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex items-center gap-4 mb-4"
+                                        >
                                             <Input
-                                                className="mb-4"
-                                                key={index}
-                                                name={`socialLinks.${index}`}
-                                                placeholder={t(
-                                                    `Forms.EditProfileForm.socialLink${index + 1}`
-                                                )}
                                                 type="text"
-                                                label={''}
-                                                isRequired={false}
+                                                name={`socialLinks.${index}.name`}
+                                                placeholder={t(
+                                                    'Forms.EditProfileForm.linkNamePlaceholder'
+                                                )}
+                                                label={t(
+                                                    'Forms.EditProfileForm.linkName'
+                                                )}
+                                                isRequired
+                                                className="flex-1"
+                                                size="small"
                                             />
-                                        )
-                                    )}
+                                            <Input
+                                                type="text"
+                                                name={`socialLinks.${index}.url`}
+                                                placeholder={t(
+                                                    'Forms.EditProfileForm.linkPlaceholder'
+                                                )}
+                                                label={t(
+                                                    'Forms.EditProfileForm.link'
+                                                )}
+                                                isRequired
+                                                className="flex-1"
+                                                size="small"
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="close"
+                                                onClick={() =>
+                                                    arrayHelpers.remove(index)
+                                                }
+                                            >
+                                                &times;
+                                            </Button>
+                                        </div>
+                                    ))}
+                                    <Button
+                                        type="button"
+                                        size="small"
+                                        disabled={
+                                            values.socialLinks.length >= 5
+                                        }
+                                        onClick={() =>
+                                            arrayHelpers.push({
+                                                name: '',
+                                                url: ''
+                                            })
+                                        }
+                                        className="mt-2"
+                                    >
+                                        {t('Forms.EditProfileForm.addLink')}
+                                    </Button>
                                 </div>
                             )}
                         />

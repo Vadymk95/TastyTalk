@@ -35,7 +35,7 @@ interface UpdateProfileData {
     username?: string;
     bio?: string;
     country?: string;
-    socialLinks?: string[];
+    socialLinks?: { name: string; url: string }[];
     profileImage?: File | null;
 }
 
@@ -45,7 +45,7 @@ interface UserProfile {
     username: string;
     bio?: string;
     country?: string;
-    socialLinks?: string[];
+    socialLinks?: { name: string; url: string }[];
     profileImageUrl?: string;
 }
 

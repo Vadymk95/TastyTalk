@@ -1,5 +1,5 @@
 .input-primary {
-    @apply w-full p-3 border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200;
+    @apply w-full border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200;
 }
 
 .input-primary:hover {
@@ -16,4 +16,28 @@
 
 .input-disabled {
     @apply bg-neutral text-neutral cursor-not-allowed opacity-50;
+}
+
+.input-small {
+    @apply text-sm py-1 px-2;
+}
+
+.input-medium {
+    @apply text-base p-3;
+}
+
+.input-large {
+    @apply text-lg py-3 px-6;
+}
+
+.label-small {
+    @apply text-sm;
+}
+
+.label-medium {
+    @apply text-base;
+}
+
+.label-large {
+    @apply text-lg;
 }

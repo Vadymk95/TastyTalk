@@ -11,6 +11,7 @@ type InputProps = {
     placeholder?: string;
     className?: string;
     disabled?: boolean;
+    size?: 'small' | 'medium' | 'large';
 };
 
 export const Input: FC<InputProps> = ({
@@ -20,7 +21,8 @@ export const Input: FC<InputProps> = ({
     isRequired,
     placeholder = '',
     className = '',
-    disabled = false
+    disabled = false,
+    size = 'medium'
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -29,10 +31,20 @@ export const Input: FC<InputProps> = ({
     };
 
     const isPasswordType = type === 'password';
+    const sizeInputStyle = {
+        small: 'input-small',
+        medium: 'input-medium',
+        large: 'input-large'
+    };
+    const sizeLabelStyle = {
+        small: 'label-small',
+        medium: 'label-medium',
+        large: 'label-large'
+    };
 
     return (
         <div className={`${className || ''} relative`}>
-            <label>
+            <label className={sizeLabelStyle[size]}>
                 {label}
                 {isRequired && <span className="text-primary">*</span>}
             </label>
@@ -42,7 +54,7 @@ export const Input: FC<InputProps> = ({
                     {({ field }: FieldProps) => (
                         <input
                             {...field}
-                            className="input-primary"
+                            className={`input-primary ${sizeInputStyle[size]}`}
                             type={
                                 isPasswordType && isPasswordVisible
                                     ? 'text'

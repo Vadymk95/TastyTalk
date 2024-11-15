@@ -11,6 +11,7 @@ type UsernameInputProps = {
     checkUsernameAvailability: (username: string) => Promise<boolean>;
     validationSchema: Yup.StringSchema;
     className?: string;
+    size?: 'small' | 'medium' | 'large';
 };
 
 const debouncedCheckAvailability = debounce(
@@ -40,11 +41,23 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     isRequired,
     checkUsernameAvailability,
     validationSchema,
-    className = ''
+    className = '',
+    size = 'medium'
 }) => {
     const { t } = useTranslation();
     const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
     const [loading, setLoading] = useState(false);
+
+    const sizeInputStyle = {
+        small: 'input-small',
+        medium: 'input-medium',
+        large: 'input-large'
+    };
+    const sizeLabelStyle = {
+        small: 'label-small',
+        medium: 'label-medium',
+        large: 'label-large'
+    };
 
     const handleChange = useCallback(
         async (value: string) => {
@@ -74,7 +87,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
 
     return (
         <div className={`${className || ''} relative`}>
-            <label>
+            <label className={sizeLabelStyle[size]}>
                 {label}
                 {isRequired && <span className="text-primary">*</span>}
             </label>
@@ -82,7 +95,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
             <Field name={name}>
                 {({ field }: FieldProps) => (
                     <input
-                        className="input-primary"
+                        className={`input-primary ${sizeInputStyle[size]}`}
                         {...field}
                         type="text"
                         placeholder={t('UsernameInput.chooseUsername')}
