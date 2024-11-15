@@ -23,7 +23,7 @@
 }
 
 .btn-close {
-    @apply border border-neutral-dark text-neutral-dark rounded-full p-1 transition duration-200;
+    @apply border border-neutral-dark text-neutral-dark rounded-full p-1 transition duration-200 leading-[initial];
 }
 
 .btn-close:hover {

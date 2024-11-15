@@ -199,7 +199,7 @@ export const EditProfileForm: FC = () => {
                             name="socialLinks"
                             render={(arrayHelpers) => (
                                 <div className="social-links">
-                                    <label className="block">
+                                    <label className="block mb-2 text-primary">
                                         {t('Forms.EditProfileForm.socialLinks')}
                                     </label>
                                     {values.socialLinks.map((link, index) => (
@@ -217,31 +217,36 @@ export const EditProfileForm: FC = () => {
                                                     'Forms.EditProfileForm.linkName'
                                                 )}
                                                 isRequired
-                                                className="flex-1"
                                                 size="small"
                                             />
-                                            <Input
-                                                type="text"
-                                                name={`socialLinks.${index}.url`}
-                                                placeholder={t(
-                                                    'Forms.EditProfileForm.linkPlaceholder'
-                                                )}
-                                                label={t(
-                                                    'Forms.EditProfileForm.link'
-                                                )}
-                                                isRequired
-                                                className="flex-1"
-                                                size="small"
-                                            />
-                                            <Button
-                                                type="button"
-                                                variant="close"
-                                                onClick={() =>
-                                                    arrayHelpers.remove(index)
-                                                }
-                                            >
-                                                &times;
-                                            </Button>
+                                            <div className="flex items-end flex-1">
+                                                <Input
+                                                    type="text"
+                                                    name={`socialLinks.${index}.url`}
+                                                    placeholder={t(
+                                                        'Forms.EditProfileForm.linkPlaceholder'
+                                                    )}
+                                                    label={t(
+                                                        'Forms.EditProfileForm.link'
+                                                    )}
+                                                    isRequired
+                                                    className="flex-1 mr-2"
+                                                    size="small"
+                                                />
+                                                <Button
+                                                    type="button"
+                                                    className="text-xl"
+                                                    size="small"
+                                                    variant="close"
+                                                    onClick={() =>
+                                                        arrayHelpers.remove(
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    &times;
+                                                </Button>
+                                            </div>
                                         </div>
                                     ))}
                                     <Button
