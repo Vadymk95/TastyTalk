@@ -25,9 +25,8 @@ export const FileUpload: FC<FileUploadProps> = ({ onFileSelect }) => {
 
     return (
         <div className="file-upload">
-            <label className="file-upload-label">
-                {t('General.uploadProfilePicture')}
-            </label>
+            <label>{t('General.uploadProfilePicture')}</label>
+
             {preview && (
                 <Image
                     src={preview}
@@ -35,6 +34,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onFileSelect }) => {
                     className="file-upload-preview"
                 />
             )}
+
             <input
                 type="file"
                 accept="image/*"

@@ -2,10 +2,6 @@
     @apply mb-6;
 }
 
-.file-upload-label {
-    @apply block text-sm font-medium text-gray-700 mb-2;
-}
-
 .file-input {
     @apply input-primary;
 }

@@ -139,10 +139,7 @@ export const ru = {
                     lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
                     requiredField: 'Это поле обязательно',
                     personalInfo: 'Личная информация',
-                    infoDescription:
-                        'Обновите свое имя, фамилию и имя пользователя',
                     additionalInfo: 'Дополнительная информация',
-                    profileImage: 'Загрузить фото профиля',
                     bio: 'О себе',
                     bioMaxLength: 'Максимум 200 символов',
                     country: 'Страна',

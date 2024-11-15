@@ -117,15 +117,9 @@ export const EditProfileForm: FC = () => {
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('Forms.EditProfileForm.personalInfo')}
                     </h2>
-                    <p className="text-sm text-neutral-dark mb-4">
-                        {t('Forms.EditProfileForm.infoDescription')}
-                    </p>
 
                     <div className="space-y-8">
                         <div className="profile-image-section">
-                            <label className="block text-sm font-medium text-gray-700">
-                                {t('Forms.EditProfileForm.profileImage')}
-                            </label>
                             <FileUpload
                                 onFileSelect={(file) =>
                                     setFieldValue('profileImage', file)
@@ -172,7 +166,7 @@ export const EditProfileForm: FC = () => {
                         />
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">
+                            <label className="block">
                                 {t('Forms.EditProfileForm.country')}
                             </label>
 
@@ -192,7 +186,7 @@ export const EditProfileForm: FC = () => {
                             name="socialLinks"
                             render={() => (
                                 <div className="social-links">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label>
                                         {t('Forms.EditProfileForm.socialLinks')}
                                     </label>
                                     {initialValues.socialLinks.map(

@@ -145,10 +145,7 @@ export const en = {
                         'Last name must be at least 2 character long',
                     requiredField: 'This field is required',
                     personalInfo: 'Personal Information',
-                    infoDescription:
-                        'Update your name, last name, and username',
                     additionalInfo: 'Additional Information',
-                    profileImage: 'Upload Profile Image',
                     bio: 'About You',
                     bioMaxLength: 'Maximum 200 characters allowed',
                     country: 'Country',

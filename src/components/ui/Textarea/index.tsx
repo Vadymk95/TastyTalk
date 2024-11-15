@@ -24,12 +24,10 @@ export const Textarea: FC<TextareaProps> = ({
 
     return (
         <div className="textarea-wrapper">
-            <label
-                htmlFor={name}
-                className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor={name} className="block">
                 {label}
             </label>
+
             <textarea
                 id={name}
                 {...field}
@@ -37,11 +35,13 @@ export const Textarea: FC<TextareaProps> = ({
                 className={`textarea-primary ${meta.touched && meta.error ? 'textarea-error' : ''}`}
                 onChange={handleChange}
             />
+
             {maxLength && (
                 <div className="text-xs text-gray-500 mt-1">
                     {field.value.length}/{maxLength}
                 </div>
             )}
+
             {meta.touched && meta.error && (
                 <div className="text-red-500 text-xs mt-1">{meta.error}</div>
             )}
