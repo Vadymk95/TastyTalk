@@ -27,7 +27,7 @@ import {
 import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
-import { isMobileDevice, uploadFileToStorage } from '@root/helpers';
+import { convertFileToBase64, isMobileDevice } from '@root/helpers';
 
 interface UpdateProfileData {
     firstName?: string;
@@ -36,7 +36,7 @@ interface UpdateProfileData {
     bio?: string;
     country?: string;
     socialLinks?: { name: string; url: string }[];
-    profileImage?: File | null;
+    profileImage?: File | null | string;
 }
 
 interface UserProfile {
@@ -46,7 +46,7 @@ interface UserProfile {
     bio?: string;
     country?: string;
     socialLinks?: { name: string; url: string }[];
-    profileImage?: string;
+    profileImage?: string | null | File;
 }
 
 interface AuthState {
@@ -337,13 +337,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.socialLinks = profileData.socialLinks;
                 }
 
-                // Загрузка фото профиля, если оно было выбрано
+                // Преобразование файла в Base64
                 if (profileData.profileImage) {
-                    const imageUrl = await uploadFileToStorage(
-                        user.uid,
-                        profileData.profileImage
-                    );
-                    firestoreUpdates.profileImage = imageUrl;
+                    if (profileData.profileImage instanceof File) {
+                        const base64Image = await convertFileToBase64(
+                            profileData.profileImage
+                        );
+                        firestoreUpdates.profileImage = base64Image;
+                    }
                 }
 
                 // Обновление данных в Firestore

@@ -9,14 +9,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface PhotoUploadProps {
     onFileSelect: (file: File | null) => void;
     className?: string;
+    src: string | null;
 }
 
 export const PhotoUpload: FC<PhotoUploadProps> = ({
     onFileSelect,
-    className
+    className,
+    src = null
 }) => {
     const { t } = useTranslation();
-    const [preview, setPreview] = useState<string | null>(null);
+    const [preview, setPreview] = useState<string | null>(src);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {

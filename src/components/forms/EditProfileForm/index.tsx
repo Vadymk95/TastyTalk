@@ -6,8 +6,8 @@ import * as Yup from 'yup';
 import {
     Button,
     ErrorCard,
-    PhotoUpload,
     Input,
+    PhotoUpload,
     Select,
     SuccessCard,
     Textarea,
@@ -24,7 +24,7 @@ type EditProfileFormValues = {
     bio: string;
     country: string;
     socialLinks: { name: string; url: string }[];
-    profileImage: File | null;
+    profileImage: File | null | string;
 };
 
 export const EditProfileForm: FC = () => {
@@ -93,7 +93,7 @@ export const EditProfileForm: FC = () => {
             { name: '', url: '' },
             { name: '', url: '' }
         ],
-        profileImage: null
+        profileImage: userProfile?.profileImage || null
     };
 
     const usernameValidationSchema = EditProfileSchema.fields
@@ -134,6 +134,7 @@ export const EditProfileForm: FC = () => {
                     <section className="inline-flex sm:flex-col w-full items-center gap-8">
                         <div>
                             <PhotoUpload
+                                src={values.profileImage as string}
                                 onFileSelect={(file) =>
                                     setFieldValue('profileImage', file)
                                 }
