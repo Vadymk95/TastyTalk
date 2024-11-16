@@ -43,7 +43,7 @@ export const Input: FC<InputProps> = ({
     };
 
     return (
-        <div className={`${className || ''} relative`}>
+        <div className={`relative ${className || ''}`}>
             <label className={sizeLabelStyle[size]}>
                 {label}
                 {isRequired && <span className="text-primary">*</span>}
@@ -87,7 +87,7 @@ export const Input: FC<InputProps> = ({
                 <ErrorMessage
                     name={name}
                     component="div"
-                    className="error-absolute"
+                    className={`error-absolute ${size === 'small' ? 'top-14' : ''}`}
                 />
             )}
         </div>

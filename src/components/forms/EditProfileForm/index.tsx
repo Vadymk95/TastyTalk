@@ -202,13 +202,14 @@ export const EditProfileForm: FC = () => {
                                     <label className="block mb-2 text-primary">
                                         {t('Forms.EditProfileForm.socialLinks')}
                                     </label>
-                                    {values.socialLinks.map((link, index) => (
+                                    {values.socialLinks.map((_, index) => (
                                         <div
                                             key={index}
-                                            className="flex items-center gap-4 mb-4"
+                                            className="flex sm:block items-center gap-4 mb-4"
                                         >
                                             <Input
                                                 type="text"
+                                                className="sm:mr-9 sm:mb-2"
                                                 name={`socialLinks.${index}.name`}
                                                 placeholder={t(
                                                     'Forms.EditProfileForm.linkNamePlaceholder'
