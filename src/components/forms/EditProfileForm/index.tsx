@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import {
     Button,
     ErrorCard,
-    FileUpload,
+    PhotoUpload,
     Input,
     Select,
     SuccessCard,
@@ -133,7 +133,7 @@ export const EditProfileForm: FC = () => {
 
                     <section className="inline-flex sm:flex-col w-full items-center gap-8">
                         <div>
-                            <FileUpload
+                            <PhotoUpload
                                 onFileSelect={(file) =>
                                     setFieldValue('profileImage', file)
                                 }

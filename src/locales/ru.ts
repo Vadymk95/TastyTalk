@@ -207,7 +207,7 @@ export const ru = {
                     title: 'Удалить учетную запись'
                 }
             },
-            FileUpload: {
+            PhotoUpload: {
                 profilePhoto: 'Фото профиля',
                 addPhoto: 'Добавить фото',
                 profilePreview: 'Превью профиля',

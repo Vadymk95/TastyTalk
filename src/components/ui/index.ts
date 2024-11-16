@@ -10,4 +10,4 @@ export { SuccessCard } from './SuccessCard';
 export { Select } from './Select';
 export { UsernameInput } from './UsernameInput';
 export { Textarea } from './Textarea';
-export { FileUpload } from './FileUpload';
+export { PhotoUpload } from './PhotoUpload';

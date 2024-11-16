@@ -6,12 +6,12 @@ import { Image } from '@root/components/ui';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface FileUploadProps {
+interface PhotoUploadProps {
     onFileSelect: (file: File | null) => void;
     className?: string;
 }
 
-export const FileUpload: FC<FileUploadProps> = ({
+export const PhotoUpload: FC<PhotoUploadProps> = ({
     onFileSelect,
     className
 }) => {
@@ -44,7 +44,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                 {preview ? (
                     <Image
                         src={preview}
-                        alt={t('FileUpload.profilePreview')}
+                        alt={t('PhotoUpload.profilePreview')}
                         className="file-upload-preview"
                     />
                 ) : (
@@ -54,13 +54,13 @@ export const FileUpload: FC<FileUploadProps> = ({
                             icon={faCamera}
                             size="xl"
                         />
-                        <p>{t('FileUpload.addPhoto')}</p>
+                        <p>{t('PhotoUpload.addPhoto')}</p>
                     </div>
                 )}
                 <div className="file-upload-overlay group-hover:flex">
                     {preview
-                        ? t('FileUpload.updatePicture')
-                        : t('FileUpload.uploadProfilePicture')}
+                        ? t('PhotoUpload.updatePicture')
+                        : t('PhotoUpload.uploadProfilePicture')}
                 </div>
             </div>
             <input
@@ -71,7 +71,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                 className="file-input"
             />
             <label className="text-center mt-2">
-                {t('FileUpload.profilePhoto')}
+                {t('PhotoUpload.profilePhoto')}
             </label>
         </div>
     );

@@ -214,7 +214,7 @@ export const en = {
                     title: 'Delete Account'
                 }
             },
-            FileUpload: {
+            PhotoUpload: {
                 profilePhoto: 'Profile Photo',
                 addPhoto: 'Add a photo',
                 profilePreview: 'Profile preview',
