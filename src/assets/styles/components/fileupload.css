@@ -1,11 +1,24 @@
 .file-upload {
-    @apply mb-6;
+    @apply flex flex-col;
 }
 
-.file-input {
-    @apply input-primary;
+.file-upload-preview-wrapper {
+    @apply relative w-40 h-40 rounded-full overflow-hidden border border-neutral-dark bg-neutral-light flex items-center justify-center;
+    position: relative;
 }
 
 .file-upload-preview {
-    @apply mb-4 w-20 h-20 rounded-full object-cover;
+    @apply w-full h-full object-cover;
+}
+
+.file-upload-placeholder {
+    @apply text-neutral text-sm;
+}
+
+.file-upload-overlay {
+    @apply absolute top-0 left-0 w-full h-full bg-black/50 text-white text-sm items-center justify-center rounded-full hidden transition duration-200;
+}
+
+.file-input {
+    @apply hidden;
 }

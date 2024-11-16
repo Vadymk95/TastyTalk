@@ -75,6 +75,11 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
             .required(t('Forms.LoginForm.requiredField'))
     });
 
+    const initialValues: LoginFormValues = {
+        emailOrUsername: '',
+        password: ''
+    };
+
     useEffect(() => {
         clearError();
     }, [clearError]);
@@ -82,9 +87,9 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     return (
         <Formik
             preventDefault
-            initialValues={{ emailOrUsername: '', password: '' }}
+            initialValues={initialValues}
             validationSchema={LoginSchema}
-            onSubmit={(values) => handleLoginSubmit(values)}
+            onSubmit={handleLoginSubmit}
         >
             {() => (
                 <Form>
