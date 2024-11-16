@@ -26,7 +26,6 @@ type EditProfileFormValues = {
     socialLinks: { name: string; url: string }[];
     profileImage: File | null;
 };
-//
 
 export const EditProfileForm: FC = () => {
     const { t } = useTranslation();
