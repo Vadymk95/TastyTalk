@@ -46,7 +46,7 @@ interface UserProfile {
     bio?: string;
     country?: string;
     socialLinks?: { name: string; url: string }[];
-    profileImageUrl?: string;
+    profileImage?: string;
 }
 
 interface AuthState {
@@ -343,7 +343,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         user.uid,
                         profileData.profileImage
                     );
-                    firestoreUpdates.profileImageUrl = imageUrl;
+                    firestoreUpdates.profileImage = imageUrl;
                 }
 
                 // Обновление данных в Firestore

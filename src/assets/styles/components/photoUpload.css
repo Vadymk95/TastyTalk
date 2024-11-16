@@ -1,24 +1,24 @@
-.file-upload {
+.photo-upload {
     @apply inline-flex flex-col cursor-pointer;
 }
 
-.file-upload-preview-wrapper {
-    @apply relative w-40 h-40 rounded-full overflow-hidden border border-primary bg-neutral-light flex items-center justify-center;
+.photo-upload-preview-wrapper {
+    @apply relative w-48 h-48 rounded-full overflow-hidden border border-primary bg-neutral-light flex items-center justify-center;
     position: relative;
 }
 
-.file-upload-preview {
+.photo-upload-preview {
     @apply w-full h-full object-cover;
 }
 
-.file-upload-placeholder {
+.photo-upload-placeholder {
     @apply text-neutral text-sm flex flex-col items-center justify-center;
 }
 
-.file-upload-overlay {
+.photo-upload-overlay {
     @apply absolute top-0 left-0 w-full h-full bg-black/50 text-white text-sm items-center justify-center rounded-full hidden transition duration-200;
 }
 
-.file-input {
+.photo-input {
     @apply hidden;
 }

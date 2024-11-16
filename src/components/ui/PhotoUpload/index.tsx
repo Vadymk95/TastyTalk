@@ -37,18 +37,18 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
 
     return (
         <div
-            className={`relative group file-upload ${className}`}
+            className={`relative group photo-upload ${className}`}
             onClick={triggerFileInput}
         >
-            <div className="file-upload-preview-wrapper">
+            <div className="photo-upload-preview-wrapper">
                 {preview ? (
                     <Image
                         src={preview}
                         alt={t('PhotoUpload.profilePreview')}
-                        className="file-upload-preview"
+                        className="photo-upload-preview"
                     />
                 ) : (
-                    <div className="file-upload-placeholder">
+                    <div className="photo-upload-placeholder">
                         <FontAwesomeIcon
                             className="text-4xl"
                             icon={faCamera}
@@ -57,7 +57,7 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
                         <p>{t('PhotoUpload.addPhoto')}</p>
                     </div>
                 )}
-                <div className="file-upload-overlay group-hover:flex">
+                <div className="photo-upload-overlay group-hover:flex">
                     {preview
                         ? t('PhotoUpload.updatePicture')
                         : t('PhotoUpload.uploadProfilePicture')}
@@ -68,7 +68,7 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
                 accept="image/*"
                 ref={inputRef}
                 onChange={handleFileChange}
-                className="file-input"
+                className="photo-input"
             />
             <label className="text-center mt-2">
                 {t('PhotoUpload.profilePhoto')}
