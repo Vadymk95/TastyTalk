@@ -7,5 +7,7 @@ type ImageProps = {
 };
 
 export const Image: FC<ImageProps> = ({ className, src, alt }) => {
-    return <img className={`${className}`} src={src} alt={alt} />;
+    return (
+        <img className={`${className}`} src={src} alt={alt} loading="lazy" />
+    );
 };
