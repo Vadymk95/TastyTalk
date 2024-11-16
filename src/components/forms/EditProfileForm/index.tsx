@@ -131,8 +131,8 @@ export const EditProfileForm: FC = () => {
                         {t('Forms.EditProfileForm.personalInfo')}
                     </h2>
 
-                    <div className="space-y-8">
-                        <div className="profile-image-section">
+                    <section className="inline-flex sm:flex-col w-full items-center gap-8">
+                        <div>
                             <FileUpload
                                 onFileSelect={(file) =>
                                     setFieldValue('profileImage', file)
@@ -140,33 +140,40 @@ export const EditProfileForm: FC = () => {
                             />
                         </div>
 
-                        <Input
-                            className="auth-input-wrapper"
-                            type="text"
-                            isRequired
-                            name="firstName"
-                            placeholder={t('Forms.EditProfileForm.firstName')}
-                            label={t('Forms.EditProfileForm.firstName')}
-                        />
+                        <div className="w-full space-y-4">
+                            <Input
+                                type="text"
+                                isRequired
+                                name="firstName"
+                                placeholder={t(
+                                    'Forms.EditProfileForm.firstName'
+                                )}
+                                label={t('Forms.EditProfileForm.firstName')}
+                            />
 
-                        <Input
-                            isRequired
-                            name="lastName"
-                            type="text"
-                            placeholder={t('Forms.EditProfileForm.lastName')}
-                            label={t('Forms.EditProfileForm.lastName')}
-                        />
+                            <Input
+                                isRequired
+                                name="lastName"
+                                type="text"
+                                placeholder={t(
+                                    'Forms.EditProfileForm.lastName'
+                                )}
+                                label={t('Forms.EditProfileForm.lastName')}
+                            />
 
-                        <UsernameInput
-                            checkUsernameAvailability={
-                                checkUsernameAvailability
-                            }
-                            validationSchema={usernameValidationSchema}
-                            isRequired
-                            name="username"
-                            label={t('Forms.EditProfileForm.username')}
-                        />
+                            <UsernameInput
+                                checkUsernameAvailability={
+                                    checkUsernameAvailability
+                                }
+                                validationSchema={usernameValidationSchema}
+                                isRequired
+                                name="username"
+                                label={t('Forms.EditProfileForm.username')}
+                            />
+                        </div>
+                    </section>
 
+                    <section className="space-y-8">
                         <h3 className="text-lg font-medium text-primary mt-8">
                             {t('Forms.EditProfileForm.additionalInfo')}
                         </h3>
@@ -289,7 +296,7 @@ export const EditProfileForm: FC = () => {
                         )}
 
                         {error && <ErrorCard errorMessage={editProfileError} />}
-                    </div>
+                    </section>
                 </Form>
             )}
         </Formik>

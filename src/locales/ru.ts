@@ -207,12 +207,17 @@ export const ru = {
                     title: 'Удалить учетную запись'
                 }
             },
+            FileUpload: {
+                profilePhoto: 'Фото профиля',
+                addPhoto: 'Добавить фото',
+                profilePreview: 'Превью профиля',
+                uploadProfilePicture: 'Загрузить фото профиля',
+                updatePicture: 'Обновить фото'
+            },
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
-                somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
-                profilePreview: 'Превью профиля',
-                uploadProfilePicture: 'Загрузить фото профиля'
+                somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
             }
         }
     }

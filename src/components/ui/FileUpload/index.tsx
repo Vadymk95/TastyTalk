@@ -3,11 +3,18 @@ import { useTranslation } from 'react-i18next';
 
 import { Image } from '@root/components/ui';
 
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 interface FileUploadProps {
     onFileSelect: (file: File | null) => void;
+    className?: string;
 }
 
-export const FileUpload: FC<FileUploadProps> = ({ onFileSelect }) => {
+export const FileUpload: FC<FileUploadProps> = ({
+    onFileSelect,
+    className
+}) => {
     const { t } = useTranslation();
     const [preview, setPreview] = useState<string | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -29,22 +36,31 @@ export const FileUpload: FC<FileUploadProps> = ({ onFileSelect }) => {
     };
 
     return (
-        <div className="relative group file-upload" onClick={triggerFileInput}>
-            <label>sasaddsasad</label>
+        <div
+            className={`relative group file-upload ${className}`}
+            onClick={triggerFileInput}
+        >
             <div className="file-upload-preview-wrapper">
                 {preview ? (
                     <Image
                         src={preview}
-                        alt={t('General.profilePreview')}
+                        alt={t('FileUpload.profilePreview')}
                         className="file-upload-preview"
                     />
                 ) : (
                     <div className="file-upload-placeholder">
-                        {t('General.uploadPicture')}
+                        <FontAwesomeIcon
+                            className="text-4xl"
+                            icon={faCamera}
+                            size="xl"
+                        />
+                        <p>{t('FileUpload.addPhoto')}</p>
                     </div>
                 )}
                 <div className="file-upload-overlay group-hover:flex">
-                    {t('General.updatePicture')}
+                    {preview
+                        ? t('FileUpload.updatePicture')
+                        : t('FileUpload.uploadProfilePicture')}
                 </div>
             </div>
             <input
@@ -54,6 +70,9 @@ export const FileUpload: FC<FileUploadProps> = ({ onFileSelect }) => {
                 onChange={handleFileChange}
                 className="file-input"
             />
+            <label className="text-center mt-2">
+                {t('FileUpload.profilePhoto')}
+            </label>
         </div>
     );
 };

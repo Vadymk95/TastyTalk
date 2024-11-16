@@ -214,13 +214,18 @@ export const en = {
                     title: 'Delete Account'
                 }
             },
+            FileUpload: {
+                profilePhoto: 'Profile Photo',
+                addPhoto: 'Add a photo',
+                profilePreview: 'Profile preview',
+                uploadProfilePicture: 'Upload Profile Picture',
+                updatePicture: 'Update Picture'
+            },
             General: {
                 loading: 'Loading...',
                 error: 'Error:',
                 somethingWentWrong:
-                    'Something went wrong, please try again later',
-                profilePreview: 'Profile preview',
-                uploadProfilePicture: 'Upload Profile Picture'
+                    'Something went wrong, please try again later'
             }
         }
     }
