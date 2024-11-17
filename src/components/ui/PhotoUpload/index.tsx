@@ -33,16 +33,26 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
             const fileURL = URL.createObjectURL(file);
             setPreview(fileURL);
         } else {
-            handleRemoveFile();
+            setPreview(src);
         }
     };
 
-    const triggerFileInput = () => inputRef.current?.click();
+    const triggerFileInput = () => {
+        if (!preview) inputRef.current?.click();
+    };
+
+    const handleClick = () => {
+        if (preview) {
+            handleRemoveFile();
+        } else {
+            triggerFileInput();
+        }
+    };
 
     return (
         <div
             className={`relative group photo-upload ${className}`}
-            onClick={preview ? handleRemoveFile : triggerFileInput}
+            onClick={handleClick}
         >
             <div className="photo-upload-preview-wrapper">
                 {preview ? (
