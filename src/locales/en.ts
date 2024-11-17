@@ -219,7 +219,7 @@ export const en = {
                 addPhoto: 'Add a photo',
                 profilePreview: 'Profile preview',
                 uploadProfilePicture: 'Upload Profile Picture',
-                updatePicture: 'Update Picture'
+                deleteProfilePicture: 'Delete Profile Picture'
             },
             General: {
                 loading: 'Loading...',

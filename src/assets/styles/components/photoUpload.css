@@ -3,7 +3,7 @@
 }
 
 .photo-upload-preview-wrapper {
-    @apply relative w-48 h-48 rounded-full overflow-hidden border border-primary bg-neutral-light flex items-center justify-center;
+    @apply relative w-48 h-48 rounded-full overflow-hidden border border-primary hover:border-secondary bg-neutral-light flex items-center justify-center;
     position: relative;
 }
 
@@ -11,8 +11,8 @@
     @apply w-full h-full object-cover;
 }
 
-.photo-upload-placeholder {
-    @apply text-neutral text-sm flex flex-col items-center justify-center;
+.photo-placeholder {
+    @apply text-neutral text-sm flex flex-col items-center justify-center gap-2;
 }
 
 .photo-upload-overlay {

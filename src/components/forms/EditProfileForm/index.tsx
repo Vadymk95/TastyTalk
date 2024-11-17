@@ -174,7 +174,7 @@ export const EditProfileForm: FC = () => {
                         </div>
                     </section>
 
-                    <section className="space-y-8">
+                    <section className="space-y-6">
                         <h3 className="text-lg font-medium text-primary mt-8">
                             {t('Forms.EditProfileForm.additionalInfo')}
                         </h3>

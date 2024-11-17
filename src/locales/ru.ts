@@ -212,7 +212,7 @@ export const ru = {
                 addPhoto: 'Добавить фото',
                 profilePreview: 'Превью профиля',
                 uploadProfilePicture: 'Загрузить фото профиля',
-                updatePicture: 'Обновить фото'
+                deleteProfilePicture: 'Удалить фото профиля'
             },
             General: {
                 loading: 'Загрузка...',

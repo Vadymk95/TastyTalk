@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Image } from '@root/components/ui';
 
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface PhotoUploadProps {
@@ -21,6 +21,11 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
     const [preview, setPreview] = useState<string | null>(src);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    const handleRemoveFile = () => {
+        onFileSelect(null);
+        setPreview(null);
+    };
+
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         if (file) {
@@ -28,19 +33,16 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
             const fileURL = URL.createObjectURL(file);
             setPreview(fileURL);
         } else {
-            onFileSelect(null);
-            setPreview(null);
+            handleRemoveFile();
         }
     };
 
-    const triggerFileInput = () => {
-        inputRef.current?.click();
-    };
+    const triggerFileInput = () => inputRef.current?.click();
 
     return (
         <div
             className={`relative group photo-upload ${className}`}
-            onClick={triggerFileInput}
+            onClick={preview ? handleRemoveFile : triggerFileInput}
         >
             <div className="photo-upload-preview-wrapper">
                 {preview ? (
@@ -50,7 +52,7 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
                         className="photo-upload-preview"
                     />
                 ) : (
-                    <div className="photo-upload-placeholder">
+                    <div className="photo-placeholder">
                         <FontAwesomeIcon
                             className="text-4xl"
                             icon={faCamera}
@@ -60,9 +62,25 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
                     </div>
                 )}
                 <div className="photo-upload-overlay group-hover:flex">
-                    {preview
-                        ? t('PhotoUpload.updatePicture')
-                        : t('PhotoUpload.uploadProfilePicture')}
+                    {preview ? (
+                        <div className="photo-placeholder">
+                            <FontAwesomeIcon
+                                className="text-4xl"
+                                icon={faTrash}
+                                size="xl"
+                            />
+                            <p>{t('PhotoUpload.deleteProfilePicture')}</p>
+                        </div>
+                    ) : (
+                        <div className="photo-placeholder">
+                            <FontAwesomeIcon
+                                className="text-4xl"
+                                icon={faCamera}
+                                size="xl"
+                            />
+                            <p>{t('PhotoUpload.uploadProfilePicture')}</p>
+                        </div>
+                    )}
                 </div>
             </div>
             <input

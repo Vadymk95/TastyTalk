@@ -345,6 +345,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         );
                         firestoreUpdates.profileImage = base64Image;
                     }
+                } else {
+                    firestoreUpdates.profileImage = null;
                 }
 
                 // Обновление данных в Firestore
