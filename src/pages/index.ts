@@ -6,5 +6,6 @@ export { GreetingPage } from './GreetingPage';
 export { HomePage } from './HomePage/HomePage';
 export { MealsPlanPage } from './MealsPlanPage';
 export { NotFoundPage } from './NotFoundPage';
+export { PricingPage } from './PricingPage';
 export { ProfilePage } from './ProfilePage';
 export { ProfileSettingsPage } from './ProfileSettingsPage';

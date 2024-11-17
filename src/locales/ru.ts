@@ -37,6 +37,9 @@ export const ru = {
                 supportDescription:
                     'Свяжитесь с нами, если у вас возникли проблемы',
                 contactSupport: 'Связаться с поддержкой',
+                pricing: 'Цены',
+                pricingDescription: 'Посмотреть цены на наши услуги',
+                pricingAction: 'Посмотреть цены',
                 changePassword: 'Изменить пароль',
                 passwordDescription: 'Измените пароль для вашей учетной записи',
                 changePasswordButton: 'Изменить пароль',

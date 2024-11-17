@@ -38,6 +38,10 @@ export const en = {
                 supportDescription:
                     'If you have any questions or issues, contact support',
                 contactSupport: 'Contact Support',
+                pricing: 'Pricing',
+                pricingDescription:
+                    'View our pricing plans and choose the best one for you',
+                pricingAction: 'View Pricing',
                 changePassword: 'Change Password',
                 passwordDescription:
                     'Update your password to keep your account secure',

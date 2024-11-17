@@ -11,6 +11,7 @@ import {
     HomePage,
     MealsPlanPage,
     NotFoundPage,
+    PricingPage,
     ProfilePage,
     ProfileSettingsPage
 } from '@root/pages/';
@@ -24,6 +25,13 @@ export const AppRouter: FC = () => {
             <Route
                 path={routes.auth}
                 element={<PublicRoute element={withSuspense(<AuthPage />)} />}
+            />
+
+            <Route
+                path={routes.pricing}
+                element={
+                    <PublicRoute element={withSuspense(<PricingPage />)} />
+                }
             />
 
             <Route

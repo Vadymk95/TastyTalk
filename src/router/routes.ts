@@ -9,5 +9,6 @@ export const routes = {
     profile: '/profile',
     settings: '/profile/settings',
     greeting: '/greeting',
+    pricing: '/pricing',
     notFound: '*'
 };

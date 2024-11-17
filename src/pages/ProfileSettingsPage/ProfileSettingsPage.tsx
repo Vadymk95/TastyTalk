@@ -5,10 +5,12 @@ import { EditProfileForm } from '@root/components/forms';
 import {
     ChangePasswordModal,
     DeleteAccountModal,
+    PricingModal,
     SupportModal
 } from '@root/components/modals';
 import { Button, Select } from '@root/components/ui';
 import { languages } from '@root/constants/languages';
+import { ModalsEnum } from '@root/constants/modals';
 import { useAuthStore, useLanguageStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
@@ -17,16 +19,8 @@ const ProfileSettingsPage: FC = () => {
     const { openModal } = useModalStore();
     const { setLanguage } = useLanguageStore();
 
-    const handleSupportClick = () => {
-        openModal('support');
-    };
-
-    const handleChangePasswordClick = () => {
-        openModal('changePassword');
-    };
-
-    const handleDeleteClick = () => {
-        openModal('deleteAccount');
+    const handleOpenModal = (modalId: string) => {
+        openModal(modalId);
     };
 
     const handleSelect = async (option: string) => {
@@ -79,8 +73,26 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.supportDescription')}
                 </p>
-                <Button onClick={handleSupportClick} variant="accent">
+                <Button
+                    onClick={() => handleOpenModal(ModalsEnum.Support)}
+                    variant="accent"
+                >
                     {t('ProfileSettingsPage.contactSupport')}
+                </Button>
+            </section>
+
+            <section className="plate w-full">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                    {t('ProfileSettingsPage.pricing')}
+                </h2>
+                <p className="text-sm text-neutral-dark mb-4">
+                    {t('ProfileSettingsPage.pricingDescription')}
+                </p>
+                <Button
+                    onClick={() => handleOpenModal(ModalsEnum.Pricing)}
+                    variant="secondary"
+                >
+                    {t('ProfileSettingsPage.pricingAction')}
                 </Button>
             </section>
 
@@ -91,7 +103,10 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.passwordDescription')}
                 </p>
-                <Button onClick={handleChangePasswordClick} variant="secondary">
+                <Button
+                    onClick={() => handleOpenModal(ModalsEnum.ChangePassword)}
+                    variant="secondary"
+                >
                     {t('ProfileSettingsPage.changePasswordButton')}
                 </Button>
             </section>
@@ -103,7 +118,9 @@ const ProfileSettingsPage: FC = () => {
                 <p className="text-sm text-neutral-dark mb-4">
                     {t('ProfileSettingsPage.deleteDescription')}
                 </p>
-                <Button onClick={handleDeleteClick}>
+                <Button
+                    onClick={() => handleOpenModal(ModalsEnum.DeleteAccount)}
+                >
                     {t('ProfileSettingsPage.deleteButton')}
                 </Button>
             </section>
@@ -111,6 +128,7 @@ const ProfileSettingsPage: FC = () => {
             <SupportModal />
             <ChangePasswordModal />
             <DeleteAccountModal />
+            <PricingModal />
         </div>
     );
 };
