@@ -100,7 +100,7 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
                 onChange={handleFileChange}
                 className="photo-input"
             />
-            <label className="text-center mt-2">
+            <label className="text-center mt-2 text-neutral-dark/60">
                 {t('PhotoUpload.profilePhoto')}
             </label>
         </div>

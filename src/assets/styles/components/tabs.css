@@ -7,11 +7,11 @@
 }
 
 .tab-primary.tab-selected {
-    @apply bg-primary-dark font-bold border-b-2 border-primary-dark hover:bg-primary;
+    @apply bg-primary-dark/80 font-bold border-b-2 border-primary-dark hover:bg-primary;
 }
 
 .tab-primary.tab-unselected {
-    @apply bg-neutral-light text-neutral-dark hover:bg-neutral;
+    @apply bg-neutral-light/40 text-neutral-dark/60 hover:bg-neutral;
 }
 
 .tab-secondary {
@@ -23,15 +23,15 @@
 }
 
 .tab-secondary.tab-selected {
-    @apply bg-secondary-dark font-bold border-b-2 border-secondary-dark hover:bg-secondary;
+    @apply bg-secondary-dark/80 font-bold border-b-2 border-secondary-dark hover:bg-secondary;
 }
 
 .tab-secondary.tab-unselected {
-    @apply bg-neutral-light text-neutral-dark hover:bg-neutral;
+    @apply bg-neutral-light/40 text-neutral-dark/60 hover:bg-neutral;
 }
 
 .tab-accent {
-    @apply bg-accent text-neutral-dark font-medium transition duration-200;
+    @apply bg-accent text-neutral-dark/60 font-medium transition duration-200;
 }
 
 .tab-accent:hover {
@@ -39,11 +39,11 @@
 }
 
 .tab-accent.tab-selected {
-    @apply bg-accent-dark font-bold border-b-2 border-accent-dark hover:bg-accent;
+    @apply bg-accent-dark/80 font-bold border-b-2 border-accent-dark hover:bg-accent;
 }
 
 .tab-accent.tab-unselected {
-    @apply bg-neutral-light text-neutral-dark hover:bg-neutral;
+    @apply bg-neutral-light/40 text-neutral-dark/60 hover:bg-neutral;
 }
 
 .tab-small {

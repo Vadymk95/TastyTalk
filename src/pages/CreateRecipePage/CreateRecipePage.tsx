@@ -18,10 +18,10 @@ const CreateRecipePage: FC = () => {
 
     return (
         <>
-            <h1 className="text-3xl font-bold text-secondary text-center mb-6">
+            <h1 className="text-3xl sm:text-2xl font-bold text-white/90 text-center mb-6">
                 {t(`CreateRecipePage.${withAI ? 'titleAI' : 'title'}`)}
             </h1>
-            <p className="text-center text-neutral/100 mb-8">
+            <p className="text-center text-neutral-dark/60 mb-8">
                 {t(
                     `CreateRecipePage.${currentTab === 'create-recipe-with-ai' ? 'descriptionAI' : 'description'}`
                 )}
