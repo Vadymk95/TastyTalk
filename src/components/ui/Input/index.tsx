@@ -54,7 +54,7 @@ export const Input: FC<InputProps> = ({
                     {({ field }: FieldProps) => (
                         <input
                             {...field}
-                            className={`input-primary ${sizeInputStyle[size]}`}
+                            className={`input-primary ${sizeInputStyle[size]} input`}
                             type={
                                 isPasswordType && isPasswordVisible
                                     ? 'text'

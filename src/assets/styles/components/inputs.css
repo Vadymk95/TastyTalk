@@ -1,5 +1,9 @@
+.input {
+    @apply w-full border rounded-lg transition duration-200 leading-tight shadow-md;
+}
+
 .input-primary {
-    @apply w-full border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200;
+    @apply border-neutral text-secondary-dark bg-neutral-light;
 }
 
 .input-primary:hover {

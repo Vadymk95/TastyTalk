@@ -25,7 +25,7 @@ export const Button: FC<ButtonProps> = ({
 
     return (
         <button
-            className={`btn-${variant} ${disabledStyle} ${sizeStyle[size]} ${className}`}
+            className={`btn-${variant} ${disabledStyle} ${sizeStyle[size]} btn ${className}`}
             disabled={disabled}
             {...props}
         >

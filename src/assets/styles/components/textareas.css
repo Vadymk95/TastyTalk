@@ -3,7 +3,7 @@
 }
 
 .textarea-primary {
-    @apply w-full p-3 border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200 resize-none;
+    @apply w-full p-3 border border-neutral text-secondary-dark bg-neutral-light rounded-lg transition duration-200 resize-none leading-tight shadow-md;
 }
 
 .textarea-primary:hover {

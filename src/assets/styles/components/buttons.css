@@ -1,5 +1,9 @@
+.btn {
+    @apply font-semibold rounded-lg transition duration-200 cursor-pointer leading-tight shadow-md;
+}
+
 .btn-primary {
-    @apply bg-primary text-white font-semibold rounded-lg transition duration-200 cursor-pointer;
+    @apply bg-primary text-white;
 }
 
 .btn-primary:hover {
@@ -11,7 +15,7 @@
 }
 
 .btn-secondary {
-    @apply bg-secondary text-white font-semibold rounded-lg transition duration-200;
+    @apply bg-secondary text-white;
 }
 
 .btn-secondary:hover {
@@ -23,7 +27,7 @@
 }
 
 .btn-accent {
-    @apply bg-accent text-neutral-dark/45 font-semibold rounded-lg transition duration-200;
+    @apply bg-accent text-neutral-dark/45;
 }
 
 .btn-accent:hover {

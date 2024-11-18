@@ -95,7 +95,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
             <Field name={name}>
                 {({ field }: FieldProps) => (
                     <input
-                        className={`input-primary ${sizeInputStyle[size]}`}
+                        className={`input-primary ${sizeInputStyle[size]} input`}
                         {...field}
                         type="text"
                         placeholder={t('UsernameInput.chooseUsername')}
