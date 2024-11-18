@@ -9,15 +9,15 @@ export const Main: FC = () => {
     const centeredPages = [
         routes.auth,
         routes.emailVerification,
-        routes.greeting
+        routes.greeting,
+        routes.recipesCreate
     ];
     const shouldDisplayCenter = centeredPages.includes(location.pathname);
+    const centered = shouldDisplayCenter ? 'flex-all-center duration-300' : '';
 
-    //backdrop-bg bg-gradient-main
+    //bg-styles - backdrop-bg bg-gradient-main
     return (
-        <main
-            className={`main-content container ${shouldDisplayCenter ? 'flex-all-center duration-300' : 'bg-gradient-main'}`}
-        >
+        <main className={`main-content container ${centered}`}>
             <AppRouter />
         </main>
     );

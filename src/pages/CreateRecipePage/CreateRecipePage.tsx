@@ -17,13 +17,13 @@ const CreateRecipePage: FC = () => {
     const withAI = currentTab === 'create-recipe-with-ai';
 
     return (
-        <>
+        <div className="w-full">
             <h1 className="text-3xl sm:text-2xl font-bold text-white/90 text-center mb-6">
                 {t(`CreateRecipePage.${withAI ? 'titleAI' : 'title'}`)}
             </h1>
             <p className="text-center text-neutral-dark/60 mb-8">
                 {t(
-                    `CreateRecipePage.${currentTab === 'create-recipe-with-ai' ? 'descriptionAI' : 'description'}`
+                    `CreateRecipePage.${withAI ? 'descriptionAI' : 'description'}`
                 )}
             </p>
 
@@ -36,7 +36,7 @@ const CreateRecipePage: FC = () => {
             />
 
             <CreateRecipeForm withAI={withAI} />
-        </>
+        </div>
     );
 };
 

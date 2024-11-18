@@ -4,11 +4,13 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Roboto', 'sans-serif']
+                sans: ['Poppins', 'Nunito', 'sans-serif'],
+                heading: ['Poppins', 'sans-serif'],
+                body: ['Nunito', 'sans-serif']
             },
             colors: {
                 primary: {
-                    DEFAULT: '#FF6B6B',
+                    DEFAULT: '#FF7F6B',
                     dark: '#D45D5D',
                     light: '#FF8787'
                 },
@@ -18,7 +20,7 @@ export default {
                     light: '#66D5D1'
                 },
                 accent: {
-                    DEFAULT: '#FFE66D',
+                    DEFAULT: '#FFDB6D',
                     dark: '#FFD835',
                     light: '#FFF18D'
                 },
@@ -34,7 +36,7 @@ export default {
             },
             backgroundImage: (theme) => ({
                 'gradient-main':
-                    'linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%)'
+                    'linear-gradient(135deg, #FF8573 0%, #4ECDC4 100%)'
             }),
             fontSize: {
                 xs: '0.75rem', // 12px

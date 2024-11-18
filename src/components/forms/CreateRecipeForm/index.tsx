@@ -61,7 +61,7 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
 
                         <div className="flex justify-center">
                             <Button
-                                variant="primary"
+                                variant="secondary"
                                 size="large"
                                 type="submit"
                                 disabled={loading}

@@ -16,13 +16,20 @@ html {
 
 body {
     @apply font-sans text-neutral-dark h-full;
-    background-image: url('@root/assets/images/background.jpg');
-    background-size: 450px 450px;
-    background-repeat: repeat;
 }
 
 .app-container {
     @apply flex flex-col min-h-screen h-full;
+}
+
+.app-container--bg {
+    @apply bg-gradient-main;
+}
+
+.app-container--img {
+    background-image: url('@root/assets/images/background.jpg');
+    background-size: 450px 450px;
+    background-repeat: repeat;
 }
 
 .header {
