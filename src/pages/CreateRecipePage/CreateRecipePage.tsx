@@ -29,6 +29,7 @@ const CreateRecipePage: FC = () => {
 
             <Tabs
                 tabs={tabs}
+                variant="secondary"
                 activeTab={currentTab}
                 setActiveTab={setCurrentTab}
                 className="mb-8"

@@ -1,5 +1,5 @@
 .tab-primary {
-    @apply bg-primary text-white font-medium rounded-lg transition duration-200 cursor-pointer;
+    @apply bg-primary text-white font-medium transition duration-200 cursor-pointer;
 }
 
 .tab-primary:hover {
@@ -7,15 +7,15 @@
 }
 
 .tab-primary.tab-selected {
-    @apply bg-primary-dark font-bold border-b-2 border-primary-dark;
+    @apply bg-primary-dark font-bold border-b-2 border-primary-dark hover:bg-primary;
 }
 
 .tab-primary.tab-unselected {
-    @apply bg-neutral-light text-neutral-dark;
+    @apply bg-neutral-light text-neutral-dark hover:bg-neutral;
 }
 
 .tab-secondary {
-    @apply bg-secondary text-white font-medium rounded-lg transition duration-200;
+    @apply bg-secondary text-white font-medium transition duration-200;
 }
 
 .tab-secondary:hover {
@@ -23,15 +23,15 @@
 }
 
 .tab-secondary.tab-selected {
-    @apply bg-secondary-dark font-bold border-b-2 border-secondary-dark;
+    @apply bg-secondary-dark font-bold border-b-2 border-secondary-dark hover:bg-secondary;
 }
 
 .tab-secondary.tab-unselected {
-    @apply bg-neutral-light text-neutral-dark;
+    @apply bg-neutral-light text-neutral-dark hover:bg-neutral;
 }
 
 .tab-accent {
-    @apply bg-accent text-neutral-dark font-medium rounded-lg transition duration-200;
+    @apply bg-accent text-neutral-dark font-medium transition duration-200;
 }
 
 .tab-accent:hover {
@@ -39,11 +39,11 @@
 }
 
 .tab-accent.tab-selected {
-    @apply bg-accent-dark font-bold border-b-2 border-accent-dark;
+    @apply bg-accent-dark font-bold border-b-2 border-accent-dark hover:bg-accent;
 }
 
 .tab-accent.tab-unselected {
-    @apply bg-neutral-light text-neutral-dark;
+    @apply bg-neutral-light text-neutral-dark hover:bg-neutral;
 }
 
 .tab-small {
