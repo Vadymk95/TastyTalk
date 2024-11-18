@@ -1,0 +1,59 @@
+.tab-primary {
+    @apply bg-primary text-white font-medium rounded-lg transition duration-200 cursor-pointer;
+}
+
+.tab-primary:hover {
+    @apply bg-primary-light;
+}
+
+.tab-primary.tab-selected {
+    @apply bg-primary-dark font-bold border-b-2 border-primary-dark;
+}
+
+.tab-primary.tab-unselected {
+    @apply bg-neutral-light text-neutral-dark;
+}
+
+.tab-secondary {
+    @apply bg-secondary text-white font-medium rounded-lg transition duration-200;
+}
+
+.tab-secondary:hover {
+    @apply bg-secondary-light;
+}
+
+.tab-secondary.tab-selected {
+    @apply bg-secondary-dark font-bold border-b-2 border-secondary-dark;
+}
+
+.tab-secondary.tab-unselected {
+    @apply bg-neutral-light text-neutral-dark;
+}
+
+.tab-accent {
+    @apply bg-accent text-neutral-dark font-medium rounded-lg transition duration-200;
+}
+
+.tab-accent:hover {
+    @apply bg-accent-light;
+}
+
+.tab-accent.tab-selected {
+    @apply bg-accent-dark font-bold border-b-2 border-accent-dark;
+}
+
+.tab-accent.tab-unselected {
+    @apply bg-neutral-light text-neutral-dark;
+}
+
+.tab-small {
+    @apply text-sm py-1 px-2;
+}
+
+.tab-medium {
+    @apply text-base py-2 px-4;
+}
+
+.tab-large {
+    @apply text-lg py-3 px-6;
+}

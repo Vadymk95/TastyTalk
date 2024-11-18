@@ -8,6 +8,7 @@
 @import './components/select.css';
 @import './components/textareas.css';
 @import './components/photoUpload.css';
+@import './components/tabs.css';
 
 html {
     @apply h-full overflow-y-scroll;

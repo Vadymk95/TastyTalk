@@ -23,7 +23,8 @@ export const ru = {
                 createPlan: 'Создать новый план питания'
             },
             ProfilePage: {
-                settings: 'Настройки профиля'
+                settings: 'Настройки профиля',
+                createRecipe: 'Создать/Найти рецепт'
             },
             ProfileSettingsPage: {
                 title: 'Настройки профиля',
@@ -46,6 +47,17 @@ export const ru = {
                 deleteAccount: 'Удалить учетную запись',
                 deleteDescription: 'Удалите свою учетную запись навсегда',
                 deleteButton: 'Удалить учетную запись'
+            },
+            CreateRecipePage: {
+                title: 'Вдохните жизнь в свой рецепт',
+                titleAI:
+                    'Позвольте нашему чат-боту вдохновить ваш следующий обед',
+                description:
+                    'Создайте уникальный рецепт сами или доверьтесь нашему чат-боту.',
+                descriptionAI:
+                    'Напишите название блюда или перечислите ингредиенты, и получите персональный рецепт от нашего чат-бота.',
+                tabAI: 'Создать с помощью AI',
+                tabManually: 'Создать вручную'
             },
             NotFoundPage: {
                 notFound: '404',

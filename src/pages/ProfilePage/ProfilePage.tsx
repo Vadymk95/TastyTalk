@@ -10,8 +10,11 @@ const ProfilePage: FC = () => {
     return (
         <div>
             <h1>Profile Page</h1>
-            <Link className="link-secondary p-4" to={routes.settings}>
+            <Link className="link-accent p-4" to={routes.settings}>
                 {t('ProfilePage.settings')}
+            </Link>
+            <Link className="link-accent p-4" to={routes.recipesCreate}>
+                {t('ProfilePage.createRecipe')}
             </Link>
         </div>
     );

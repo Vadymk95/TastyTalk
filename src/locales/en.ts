@@ -23,7 +23,8 @@ export const en = {
                 createPlan: 'Create a meal plan'
             },
             ProfilePage: {
-                settings: 'Profile Settings'
+                settings: 'Profile Settings',
+                createRecipe: 'Create/Find a Recipe'
             },
             ProfileSettingsPage: {
                 title: 'Edit Profile',
@@ -50,6 +51,16 @@ export const en = {
                 deleteDescription:
                     'Permanently delete your account. This action cannot be undone.',
                 deleteButton: 'Delete Account'
+            },
+            CreateRecipePage: {
+                title: 'Bring Your Recipe to Life',
+                titleAI: 'Let Our Chatbot Inspire Your Next Meal',
+                description:
+                    'Craft your own unique recipe or let our chatbot create one for you.',
+                descriptionAI:
+                    'Type the name of a dish or list your ingredients, and get a personalized recipe from our chatbot.',
+                tabAI: 'Create with AI',
+                tabManually: 'Create Manually'
             },
             NotFoundPage: {
                 notFound: '404',
