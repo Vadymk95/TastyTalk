@@ -25,7 +25,7 @@ export const Tab: FC<TabProps> = ({
 
     return (
         <button
-            className={`tab-${variant} ${selectedStyle} ${sizeStyle[size]} ${className}`}
+            className={`tab-${variant} ${selectedStyle} ${sizeStyle[size]} tab ${className}`}
             {...props}
         >
             {children}

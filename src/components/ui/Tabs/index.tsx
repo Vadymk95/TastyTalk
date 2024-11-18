@@ -22,6 +22,7 @@ export const Tabs: FC<TabsProps> = ({
             {tabs.map((tab) => (
                 <Tab
                     key={tab.key}
+                    size="small"
                     variant={variant}
                     isSelected={activeTab === tab.key}
                     onClick={() => setActiveTab(tab.key)}

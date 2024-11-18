@@ -1,5 +1,9 @@
+.tab {
+    @apply transition duration-200 font-medium w-[180px] min-h-[50px];
+}
+
 .tab-primary {
-    @apply bg-primary text-white font-medium transition duration-200 cursor-pointer;
+    @apply bg-primary text-white cursor-pointer;
 }
 
 .tab-primary:hover {
@@ -15,7 +19,7 @@
 }
 
 .tab-secondary {
-    @apply bg-secondary text-white font-medium transition duration-200;
+    @apply bg-secondary text-white;
 }
 
 .tab-secondary:hover {
@@ -31,7 +35,7 @@
 }
 
 .tab-accent {
-    @apply bg-accent text-neutral-dark/60 font-medium transition duration-200;
+    @apply bg-accent text-neutral-dark/60;
 }
 
 .tab-accent:hover {
