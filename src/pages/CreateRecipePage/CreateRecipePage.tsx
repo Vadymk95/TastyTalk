@@ -18,7 +18,7 @@ const CreateRecipePage: FC = () => {
 
     return (
         <div className="w-full">
-            <h1 className="text-3xl sm:text-2xl font-bold text-white/90 text-center mb-6">
+            <h1 className="text-4xl sm:text-2xl font-bold text-white/90 text-center mb-8 shadow-sm font-heading">
                 {t(`CreateRecipePage.${withAI ? 'titleAI' : 'title'}`)}
             </h1>
             <p className="text-center text-neutral-dark/60 mb-8">

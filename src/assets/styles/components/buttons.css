@@ -3,7 +3,11 @@
 }
 
 .btn-primary:hover {
-    @apply bg-primary-dark;
+    @apply bg-primary-dark scale-105;
+}
+
+.btn-primary:active {
+    @apply scale-95 bg-primary;
 }
 
 .btn-secondary {
@@ -11,7 +15,11 @@
 }
 
 .btn-secondary:hover {
-    @apply bg-secondary-dark;
+    @apply bg-secondary-dark scale-105;
+}
+
+.btn-secondary:active {
+    @apply scale-95 bg-secondary;
 }
 
 .btn-accent {
@@ -19,7 +27,11 @@
 }
 
 .btn-accent:hover {
-    @apply bg-accent-dark;
+    @apply bg-accent-dark scale-105;
+}
+
+.btn-accent:active {
+    @apply scale-95 bg-accent;
 }
 
 .btn-close {

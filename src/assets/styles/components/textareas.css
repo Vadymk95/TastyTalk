@@ -10,6 +10,10 @@
     @apply border-secondary-light bg-neutral;
 }
 
+.textarea-primary::placeholder {
+    font-style: italic;
+}
+
 .textarea-primary:focus {
     @apply border-secondary-light ring-2 ring-secondary-light outline-none bg-neutral-light;
 }
