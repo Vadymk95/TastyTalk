@@ -6,16 +6,19 @@ interface TextareaProps {
     label: string;
     maxLength?: number;
     placeholder?: string;
+    size?: 'medium' | 'large';
 }
 
 export const Textarea: FC<TextareaProps> = ({
     name,
     label,
     maxLength,
-    placeholder
+    placeholder,
+    size = 'medium'
 }) => {
     const [field, meta, helpers] = useField(name);
     const { setValue } = helpers;
+    const sizeClass = size === 'large' ? 'textarea-large' : 'textarea-medium';
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         if (maxLength && e.target.value.length > maxLength) return;
@@ -32,18 +35,20 @@ export const Textarea: FC<TextareaProps> = ({
                 id={name}
                 {...field}
                 placeholder={placeholder}
-                className={`textarea-primary ${meta.touched && meta.error ? 'textarea-error' : ''}`}
+                className={`textarea-primary ${sizeClass} ${meta.touched && meta.error ? 'textarea-error' : ''}`}
                 onChange={handleChange}
             />
 
             {maxLength && (
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-gray-500 absolute left-0">
                     {field.value.length}/{maxLength}
                 </div>
             )}
 
             {meta.touched && meta.error && (
-                <div className="text-red-500 text-xs mt-1">{meta.error}</div>
+                <div className="text-primary text-xs absolute right-0">
+                    {meta.error}
+                </div>
             )}
         </div>
     );

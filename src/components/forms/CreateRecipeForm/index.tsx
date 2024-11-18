@@ -21,14 +21,12 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
     const { t } = useTranslation();
     const { loading, error, clearError } = useAuthStore();
 
-    console.log(withAI);
-
     const handleCreateRecipe = async (values: CreateRecipeFormValues) => {
         console.log(values);
     };
 
     const RecipeSchema = Yup.object().shape({
-        query: Yup.string().required(t('Forms.LoginForm.requiredField'))
+        query: Yup.string().required(t('Forms.CreateRecipeForm.requiredField'))
     });
 
     const initialValues = {
@@ -51,8 +49,12 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
                     <section className="flex flex-col gap-6 max-w-xl mx-auto">
                         <Textarea
                             name="query"
-                            placeholder={t('RecipeGenerator.inputPlaceholder')}
-                            label={t('RecipeGenerator.inputLabel')}
+                            size="large"
+                            maxLength={500}
+                            label={t('Forms.CreateRecipeForm.label')}
+                            placeholder={t(
+                                'Forms.CreateRecipeForm.placeholder'
+                            )}
                         />
 
                         {error && <ErrorCard errorMessage={error} />}
@@ -69,7 +71,9 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
                                 ) : (
                                     <p className="inline-flex gap-4 items-center">
                                         <FontAwesomeIcon icon={faUtensils} />
-                                        {t('RecipeGenerator.generateButton')}
+                                        {t(
+                                            `Forms.CreateRecipeForm.${withAI ? 'find' : 'create'}`
+                                        )}
                                         <FontAwesomeIcon icon={faUtensils} />
                                     </p>
                                 )}

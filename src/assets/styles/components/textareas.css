@@ -1,5 +1,5 @@
 .textarea-wrapper {
-    @apply mb-6;
+    @apply mb-6 relative;
 }
 
 .textarea-primary {
@@ -16,4 +16,12 @@
 
 .textarea-error {
     @apply border-primary text-primary;
+}
+
+.textarea-medium {
+    @apply h-[6rem];
+}
+
+.textarea-large {
+    @apply h-[9rem];
 }
