@@ -38,6 +38,10 @@ export const ru = {
                 supportDescription:
                     'Свяжитесь с нами, если у вас возникли проблемы',
                 contactSupport: 'Связаться с поддержкой',
+                rules: 'Правила публикации',
+                rulesDescription:
+                    'Прочитайте правила публикации перед созданием рецепта или плана питания',
+                rulesButton: 'Читать правила',
                 pricing: 'Цены',
                 pricingDescription: 'Посмотреть цены на наши услуги',
                 pricingAction: 'Посмотреть цены',
@@ -228,6 +232,11 @@ export const ru = {
                 },
                 DeleteAccountModal: {
                     title: 'Удалить учетную запись'
+                },
+                RulesModal: {
+                    title: 'Правила публикации',
+                    description:
+                        'Пожалуйста, прочитайте наши правила публикации перед созданием рецепта или плана питания.'
                 }
             },
             PhotoUpload: {

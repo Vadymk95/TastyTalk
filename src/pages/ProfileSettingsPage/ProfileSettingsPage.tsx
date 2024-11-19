@@ -1,13 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ProfileSettingsModals } from '@root/components/common';
 import { EditProfileForm } from '@root/components/forms';
-import {
-    ChangePasswordModal,
-    DeleteAccountModal,
-    PricingModal,
-    SupportModal
-} from '@root/components/modals';
 import { Button, Select } from '@root/components/ui';
 import { languages } from '@root/constants/languages';
 import { ModalsEnum } from '@root/constants/modals';
@@ -113,6 +108,21 @@ const ProfileSettingsPage: FC = () => {
 
             <section className="plate w-full">
                 <h2 className="text-xl font-semibold text-primary mb-4">
+                    {t('ProfileSettingsPage.rules')}
+                </h2>
+                <p className="text-sm text-neutral-dark mb-4">
+                    {t('ProfileSettingsPage.rulesDescription')}
+                </p>
+                <Button
+                    onClick={() => handleOpenModal(ModalsEnum.Rules)}
+                    variant="accent"
+                >
+                    {t('ProfileSettingsPage.rulesButton')}
+                </Button>
+            </section>
+
+            <section className="plate w-full">
+                <h2 className="text-xl font-semibold text-primary mb-4">
                     {t('ProfileSettingsPage.deleteAccount')}
                 </h2>
                 <p className="text-sm text-neutral-dark mb-4">
@@ -125,10 +135,7 @@ const ProfileSettingsPage: FC = () => {
                 </Button>
             </section>
 
-            <SupportModal />
-            <ChangePasswordModal />
-            <DeleteAccountModal />
-            <PricingModal />
+            <ProfileSettingsModals />
         </div>
     );
 };

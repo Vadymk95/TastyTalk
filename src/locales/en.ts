@@ -39,6 +39,10 @@ export const en = {
                 supportDescription:
                     'If you have any questions or issues, contact support',
                 contactSupport: 'Contact Support',
+                rules: 'Community Guidelines',
+                rulesDescription:
+                    'Read our community guidelines before posting content',
+                rulesButton: 'Read Guidelines',
                 pricing: 'Pricing',
                 pricingDescription:
                     'View our pricing plans and choose the best one for you',
@@ -235,6 +239,11 @@ export const en = {
                 },
                 DeleteAccountModal: {
                     title: 'Delete Account'
+                },
+                RulesModal: {
+                    title: 'Community Guidelines',
+                    description:
+                        'Please read the following guidelines carefully before posting any content on our platform:'
                 }
             },
             PhotoUpload: {
