@@ -66,18 +66,6 @@ const ProfileSettingsPage: FC = () => {
 
             <section className="plate w-full">
                 <h2 className="text-xl font-semibold text-primary mb-4">
-                    {t('ProfileSettingsPage.logOut')}
-                </h2>
-                <p className="text-sm text-neutral-dark mb-4">
-                    {t('ProfileSettingsPage.logOutDescription')}
-                </p>
-                <Button onClick={signOutUser}>
-                    {t('ProfileSettingsPage.logOutButton')}
-                </Button>
-            </section>
-
-            <section className="plate w-full">
-                <h2 className="text-xl font-semibold text-primary mb-4">
                     {t('ProfileSettingsPage.changePassword')}
                 </h2>
                 <p className="text-sm text-neutral-dark mb-4">
@@ -118,6 +106,18 @@ const ProfileSettingsPage: FC = () => {
                     variant="accent"
                 >
                     {t('ProfileSettingsPage.rulesButton')}
+                </Button>
+            </section>
+
+            <section className="plate w-full">
+                <h2 className="text-xl font-semibold text-primary mb-4">
+                    {t('ProfileSettingsPage.logOut')}
+                </h2>
+                <p className="text-sm text-neutral-dark mb-4">
+                    {t('ProfileSettingsPage.logOutDescription')}
+                </p>
+                <Button onClick={signOutUser}>
+                    {t('ProfileSettingsPage.logOutButton')}
                 </Button>
             </section>
 
