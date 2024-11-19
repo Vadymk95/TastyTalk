@@ -18,9 +18,7 @@ const NotFoundPage: FC = () => {
     return (
         <div className="flex-all-center">
             <div className="flex flex-col items-center">
-                <h1 className="text-7xl font-bold text-primary mb-2">
-                    {t('NotFoundPage.notFound')}
-                </h1>
+                <h1 className="main-heading">{t('NotFoundPage.notFound')}</h1>
 
                 <p className="text-xl text-center text-neutral-dark mb-5">
                     {t('NotFoundPage.oops')}

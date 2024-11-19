@@ -9,13 +9,15 @@ const ProfilePage: FC = () => {
 
     return (
         <div>
-            <h1>Profile Page</h1>
-            <Link className="link-accent p-4" to={routes.settings}>
-                {t('ProfilePage.settings')}
-            </Link>
-            <Link className="link-accent p-4" to={routes.recipesCreate}>
-                {t('ProfilePage.createRecipe')}
-            </Link>
+            <h1 className="main-heading">Profile Page</h1>
+            <div className="inline-flex">
+                <Link className="link-accent p-4" to={routes.recipesCreate}>
+                    {t('ProfilePage.createRecipe')}
+                </Link>
+                <Link className="link-accent p-4" to={routes.settings}>
+                    {t('ProfilePage.settings')}
+                </Link>
+            </div>
         </div>
     );
 };

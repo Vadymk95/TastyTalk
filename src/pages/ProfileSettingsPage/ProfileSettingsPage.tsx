@@ -25,9 +25,7 @@ const ProfileSettingsPage: FC = () => {
 
     return (
         <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8 sm:gap-y-4">
-            <h1 className="text-3xl lg:text-4xl font-semibold text-white">
-                {t('ProfileSettingsPage.title')}
-            </h1>
+            <h1 className="main-heading">{t('ProfileSettingsPage.title')}</h1>
 
             <section className="w-full">
                 <EditProfileForm />

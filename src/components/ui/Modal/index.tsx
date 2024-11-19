@@ -3,6 +3,9 @@ import { FC, ReactNode, useEffect, useRef } from 'react';
 
 import { Button } from '@root/components/ui';
 
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
@@ -57,10 +60,10 @@ export const Modal: FC<ModalProps> = ({
                     >
                         <Button
                             variant="close"
-                            className="absolute top-4 right-4 text-2xl"
+                            className="absolute top-2 right-2 h-[32px] w-[32px] flex-all-center"
                             onClick={onClose}
                         >
-                            &times;
+                            <FontAwesomeIcon icon={faXmark} size="xl" />
                         </Button>
 
                         {title && (
