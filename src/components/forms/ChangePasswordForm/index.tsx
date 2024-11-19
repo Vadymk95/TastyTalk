@@ -53,6 +53,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
             setShowSuccess(true);
             setTimeout(() => {
                 setShowSuccess(false);
+                handleCloseModal();
             }, 3000);
         }
     };
