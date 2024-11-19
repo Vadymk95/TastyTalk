@@ -16,14 +16,9 @@ const GreetingPage: FC = () => {
     const { t } = useTranslation();
     const { isEmailVerified } = useAuthStore();
 
-    console.log(isEmailVerified);
-
-    //bg-gradient-main
     return (
         <div className="plate flex-all-center flex-col sm:w-full">
-            <h1 className="text-3xl md:text-4xl font-semibold mb-6 text-center">
-                {t('GreetingPage.welcome')}
-            </h1>
+            <h1 className="main-heading-70">{t('GreetingPage.welcome')}</h1>
 
             <p className="text-lg text-center mb-8 max-w-md">
                 {t('GreetingPage.description')}
@@ -46,11 +41,13 @@ const GreetingPage: FC = () => {
                     to={routes.recipesCreate}
                     title={t('GreetingPage.createRecipe')}
                     icon={faFilePen}
+                    disabled={!isEmailVerified}
                 />
                 <GreetingCard
                     to={routes.mealsPlanCreate}
                     title={t('GreetingPage.createPlan')}
                     icon={faFileSignature}
+                    disabled={!isEmailVerified}
                 />
             </div>
         </div>
