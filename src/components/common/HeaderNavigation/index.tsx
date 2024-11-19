@@ -7,6 +7,9 @@ import { useAuthStore } from '@root/store/authStore';
 
 import { PrivateNavigation, PublicNavigation } from './components';
 
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export const HeaderNavigation: FC = () => {
     const location = useLocation();
     const { user } = useAuthStore();
@@ -20,7 +23,8 @@ export const HeaderNavigation: FC = () => {
 
             {showHomeLink && (
                 <Link to={routes.home} className="link-primary nav-link p-4">
-                    {t('Header.home')}
+                    <FontAwesomeIcon className="mr-3" icon={faHouse} />
+                    <span>{t('Header.home')}</span>
                 </Link>
             )}
         </nav>
