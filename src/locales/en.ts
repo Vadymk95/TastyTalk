@@ -257,7 +257,8 @@ export const en = {
                 loading: 'Loading...',
                 error: 'Error:',
                 somethingWentWrong:
-                    'Something went wrong, please try again later'
+                    'Something went wrong, please try again later',
+                notAvailable: 'Not available'
             }
         }
     }

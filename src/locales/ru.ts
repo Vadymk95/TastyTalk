@@ -249,7 +249,8 @@ export const ru = {
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
-                somethingWentWrong: 'Что-то пошло не так, попробуйте позже'
+                somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
+                notAvailable: 'Недоступно'
             }
         }
     }

@@ -5,9 +5,18 @@ import { GreetingCard } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
 
+import {
+    faFilePen,
+    faFileSignature,
+    faNewspaper,
+    faScroll
+} from '@fortawesome/free-solid-svg-icons';
+
 const GreetingPage: FC = () => {
     const { t } = useTranslation();
     const { isEmailVerified } = useAuthStore();
+
+    console.log(isEmailVerified);
 
     //bg-gradient-main
     return (
@@ -21,39 +30,28 @@ const GreetingPage: FC = () => {
             </p>
 
             <div
-                className={`grid gap-4 w-full max-w-lg grid-cols-2 sm:grid-cols-1`}
+                className={`grid gap-4 w-full max-w-2xl sm:max-w-xl grid-cols-2 sm:grid-cols-1`}
             >
-                {isEmailVerified ? (
-                    <>
-                        <GreetingCard
-                            to={routes.recipes}
-                            title={t('GreetingPage.recipes')}
-                        />
-                        <GreetingCard
-                            to={routes.mealsPlan}
-                            title={t('GreetingPage.mealPlans')}
-                        />
-                        <GreetingCard
-                            to={routes.recipesCreate}
-                            title={t('GreetingPage.createRecipe')}
-                        />
-                        <GreetingCard
-                            to={routes.mealsPlanCreate}
-                            title={t('GreetingPage.createPlan')}
-                        />
-                    </>
-                ) : (
-                    <>
-                        <GreetingCard
-                            to={routes.recipes}
-                            title={t('GreetingPage.recipes')}
-                        />
-                        <GreetingCard
-                            to={routes.mealsPlan}
-                            title={t('GreetingPage.mealPlans')}
-                        />
-                    </>
-                )}
+                <GreetingCard
+                    to={routes.recipes}
+                    title={t('GreetingPage.recipes')}
+                    icon={faScroll}
+                />
+                <GreetingCard
+                    to={routes.mealsPlan}
+                    title={t('GreetingPage.mealPlans')}
+                    icon={faNewspaper}
+                />
+                <GreetingCard
+                    to={routes.recipesCreate}
+                    title={t('GreetingPage.createRecipe')}
+                    icon={faFilePen}
+                />
+                <GreetingCard
+                    to={routes.mealsPlanCreate}
+                    title={t('GreetingPage.createPlan')}
+                    icon={faFileSignature}
+                />
             </div>
         </div>
     );
