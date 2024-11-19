@@ -154,6 +154,7 @@ export const en = {
                     firstName: 'First Name',
                     lastName: 'Last Name',
                     username: 'Username',
+                    email: 'Email',
                     usernameInvalid:
                         'Username can only contain letters, numbers and underscores',
                     usernameMustContainLetter:

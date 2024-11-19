@@ -5,9 +5,9 @@ import { FC, useState } from 'react';
 
 type InputProps = {
     name: string;
-    type: string;
+    type?: string;
     label: string;
-    isRequired: boolean;
+    isRequired?: boolean;
     placeholder?: string;
     className?: string;
     disabled?: boolean;
@@ -16,7 +16,7 @@ type InputProps = {
 
 export const Input: FC<InputProps> = ({
     name,
-    type,
+    type = 'text',
     label,
     isRequired,
     placeholder = '',
@@ -54,7 +54,7 @@ export const Input: FC<InputProps> = ({
                     {({ field }: FieldProps) => (
                         <input
                             {...field}
-                            className={`input-primary ${sizeInputStyle[size]} input`}
+                            className={`input-primary ${sizeInputStyle[size]} input ${disabled ? 'bg-neutral pointer-events-none' : ''}`}
                             type={
                                 isPasswordType && isPasswordVisible
                                     ? 'text'

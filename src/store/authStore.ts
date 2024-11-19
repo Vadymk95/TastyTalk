@@ -33,6 +33,7 @@ interface UpdateProfileData {
     firstName?: string;
     lastName?: string;
     username?: string;
+    email?: string;
     bio?: string;
     country?: string;
     socialLinks?: { name: string; url: string }[];
@@ -43,6 +44,7 @@ interface UserProfile {
     firstName: string;
     lastName: string;
     username: string;
+    email: string;
     bio?: string;
     country?: string;
     socialLinks?: { name: string; url: string }[];

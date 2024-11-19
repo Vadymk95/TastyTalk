@@ -24,6 +24,7 @@ type EditProfileFormValues = {
     username: string;
     firstName: string;
     lastName: string;
+    email: string;
     bio: string;
     country: string;
     socialLinks: { name: string; url: string }[];
@@ -82,7 +83,8 @@ export const EditProfileForm: FC = () => {
                 })
             )
             .max(5, t('Forms.EditProfileForm.maxSocialLinks')),
-        profileImage: Yup.mixed().nullable()
+        profileImage: Yup.mixed().nullable(),
+        email: Yup.string()
     });
 
     const initialValues: EditProfileFormValues = {
@@ -96,7 +98,8 @@ export const EditProfileForm: FC = () => {
             { name: '', url: '' },
             { name: '', url: '' }
         ],
-        profileImage: userProfile?.profileImage || null
+        profileImage: userProfile?.profileImage || null,
+        email: userProfile?.email || ''
     };
 
     const usernameValidationSchema = EditProfileSchema.fields
@@ -173,6 +176,12 @@ export const EditProfileForm: FC = () => {
                                 isRequired
                                 name="username"
                                 label={t('Forms.EditProfileForm.username')}
+                            />
+
+                            <Input
+                                name="email"
+                                label={t('Forms.EditProfileForm.email')}
+                                disabled
                             />
                         </div>
                     </section>

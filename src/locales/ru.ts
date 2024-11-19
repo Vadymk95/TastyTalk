@@ -150,6 +150,7 @@ export const ru = {
                     firstName: 'Имя',
                     lastName: 'Фамилия',
                     username: 'Имя пользователя',
+                    email: 'Email',
                     usernameInvalid:
                         'Имя пользователя может содержать только буквы, цифры и подчеркивания',
                     usernameMustContainLetter:
