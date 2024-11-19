@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { DeleteAccountForm } from '@root/components/forms';
 import { Modal } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
 
 export const DeleteAccountModal: FC = () => {
@@ -10,7 +11,8 @@ export const DeleteAccountModal: FC = () => {
     const { isModalOpen, closeModal } = useModalStore();
     const isDeleteAccountModalOpen = isModalOpen.deleteAccount;
 
-    const handleCloseDeleteAccountModal = () => closeModal('deleteAccount');
+    const handleCloseDeleteAccountModal = () =>
+        closeModal(ModalsEnum.DeleteAccount);
 
     return (
         <Modal

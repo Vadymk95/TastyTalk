@@ -44,7 +44,7 @@ interface UserProfile {
     firstName: string;
     lastName: string;
     username: string;
-    email: string;
+    email: string | null;
     bio?: string;
     country?: string;
     socialLinks?: { name: string; url: string }[];
@@ -209,15 +209,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 displayName: `${firstName} ${lastName}`
             });
             await user.reload();
-            await setDoc(doc(db, 'users', user.uid), {
+
+            const userProfile = {
                 email: user.email,
                 username,
                 firstName,
                 lastName,
                 createdAt: new Date()
-            });
+            };
 
-            set({ user, error: null, isRegistered: true });
+            await setDoc(doc(db, 'users', user.uid), userProfile);
+
+            set({
+                user,
+                userProfile,
+                isRegistered: true,
+                error: null
+            });
         } catch (error: any) {
             set({ error: error.message });
         } finally {

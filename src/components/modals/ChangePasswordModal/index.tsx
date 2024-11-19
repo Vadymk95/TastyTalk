@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ChangePasswordForm } from '@root/components/forms';
 import { Modal } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
 
 export const ChangePasswordModal: FC = () => {
@@ -10,7 +11,8 @@ export const ChangePasswordModal: FC = () => {
     const { isModalOpen, closeModal } = useModalStore();
     const isChangePasswordModalOpen = isModalOpen.changePassword;
 
-    const handleCloseChangePasswordModal = () => closeModal('changePassword');
+    const handleCloseChangePasswordModal = () =>
+        closeModal(ModalsEnum.ChangePassword);
 
     return (
         <Modal

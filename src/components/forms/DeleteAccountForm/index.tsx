@@ -51,6 +51,7 @@ export const DeleteAccountForm: FC<DeleteAccountFormProps> = ({
             setTimeout(() => {
                 setShowSuccess(false);
             }, 3000);
+            handleCloseModal();
         }
     };
 

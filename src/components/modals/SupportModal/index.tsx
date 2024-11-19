@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, Modal } from '@root/components/ui';
 import { emails } from '@root/constants/emails';
 import { useModalStore } from '@root/store';
+import { ModalsEnum } from '@root/constants/modals';
 
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +14,7 @@ export const SupportModal: FC = () => {
     const { isModalOpen, closeModal } = useModalStore();
     const isSupportModalOpen = isModalOpen.support;
 
-    const handleCloseSupportModal = () => closeModal('support');
+    const handleCloseSupportModal = () => closeModal(ModalsEnum.Support);
 
     return (
         <Modal

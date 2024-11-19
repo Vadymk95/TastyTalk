@@ -38,7 +38,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         clearError,
         loading,
         user,
-        isRegistered
+        isRegistered,
+        userProfile
     } = useAuthStore();
     const isTemporaryUser = !!user && !isRegistered;
 
@@ -57,7 +58,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 values.lastName
             );
 
-            navigation(routes.emailVerification);
+            const interval = setInterval(() => {
+                if (userProfile) {
+                    clearInterval(interval);
+                    navigation(routes.emailVerification);
+                }
+            }, 100);
         } catch (error) {
             console.error('Registration failed:', error);
         }
