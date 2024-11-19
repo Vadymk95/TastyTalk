@@ -72,7 +72,7 @@ export const en = {
             },
             NotFoundPage: {
                 notFound: '404',
-                oops: "Oops! The page you're looking for doesn't exist.",
+                oops: 'Oops! It looks like this page has vanished like a hot pie. Let’s head back to the main page and find something delicious!',
                 goHome: 'Go to Homepage'
             },
             Header: {

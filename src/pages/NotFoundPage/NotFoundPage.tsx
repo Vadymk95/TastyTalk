@@ -31,7 +31,7 @@ const NotFoundPage: FC = () => {
                 <Image
                     src={notFound}
                     alt={t('NotFoundPage.notFound')}
-                    className="w-1/2 lg:w-3/5 md:!w-4/5 mt-8"
+                    className="w-1/2 lg:w-3/5 md:!w-4/5 mt-8 rounded-lg"
                 />
             </div>
         </div>
