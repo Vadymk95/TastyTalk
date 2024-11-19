@@ -32,6 +32,10 @@ export const ru = {
             },
             ProfileSettingsPage: {
                 title: 'Настройки профиля',
+                resendEmailTitle: 'Отправить письмо с подтверждением',
+                resendEmailDescription:
+                    'Отправьте письмо с подтверждением на ваш email',
+                resendEmailButton: 'Отправить письмо',
                 changeLanguageTitle: 'Изменить язык',
                 changeLanguageDescription: 'Измените язык интерфейса на другой',
                 changeLanguageButton: 'Изменить язык',

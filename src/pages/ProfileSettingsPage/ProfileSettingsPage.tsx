@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ProfileSettingsModals } from '@root/components/common';
@@ -10,7 +10,10 @@ import { useAuthStore, useLanguageStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
     const { t } = useTranslation();
-    const { signOutUser } = useAuthStore();
+    const [isCooldown, setIsCooldown] = useState(false);
+    const [cooldownTime, setCooldownTime] = useState(60);
+    const { signOutUser, resendVerificationEmail, isEmailVerified } =
+        useAuthStore();
     const { openModal } = useModalStore();
     const { setLanguage } = useLanguageStore();
 
@@ -23,6 +26,28 @@ const ProfileSettingsPage: FC = () => {
         await setLanguage(selectedLang?.code || 'en');
     };
 
+    const handleResendEmail = async () => {
+        if (isCooldown) return;
+
+        try {
+            await resendVerificationEmail();
+            setIsCooldown(true);
+            const timer = setInterval(() => {
+                setCooldownTime((prevTime) => {
+                    if (prevTime <= 1) {
+                        clearInterval(timer);
+                        setIsCooldown(false);
+                        setCooldownTime(60);
+                        return 60;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+        } catch (error: any) {
+            console.error('Error when resending the email:', error);
+        }
+    };
+
     return (
         <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8 sm:gap-y-4">
             <h1 className="main-heading">{t('ProfileSettingsPage.title')}</h1>
@@ -30,6 +55,23 @@ const ProfileSettingsPage: FC = () => {
             <section className="w-full">
                 <EditProfileForm />
             </section>
+
+            {!isEmailVerified && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.resendEmailTitle')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.resendEmailDescription')}
+                    </p>
+
+                    <Button disabled={isCooldown} onClick={handleResendEmail}>
+                        {isCooldown
+                            ? `${t('ProfileSettingsPage.resendEmailButton')} (${cooldownTime}s)`
+                            : t('ProfileSettingsPage.resendEmailButton')}
+                    </Button>
+                </section>
+            )}
 
             <section className="plate w-full">
                 <h2 className="text-xl font-semibold text-primary mb-4">
