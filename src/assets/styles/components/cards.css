@@ -11,7 +11,12 @@
 }
 
 .card-greeting {
-    @apply bg-neutral-100 p-10 sm:p-6 gap-2 rounded-lg shadow-custom-light hover:shadow-lg hover:bg-neutral transition duration-300 text-center justify-center flex flex-col items-center;
+    @apply text-center justify-center flex flex-col items-center gap-2 p-10 sm:p-6;
+    @apply bg-neutral-100 rounded-lg shadow-custom-light hover:shadow-lg hover:bg-neutral hover:scale-105 transition duration-300;
+}
+
+.card-greeting:active {
+    @apply scale-95;
 }
 
 .card-greeting--disabled {

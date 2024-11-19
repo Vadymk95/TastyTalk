@@ -28,7 +28,7 @@ export const GreetingCard: FC<GreetingCardProps> = ({
         <Link
             to={to}
             onClick={handlePrevent}
-            className={`card-greeting ${disabled ? 'card-greeting--disabled' : ''}`}
+            className={`card-greeting ${disabled ? 'card-greeting--disabled' : 'hover:scale-105'}`}
         >
             <FontAwesomeIcon
                 className="mr-3 text-neutral-dark/30"
