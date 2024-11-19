@@ -17,6 +17,9 @@ import { countries } from '@root/constants/countries';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { useAuthStore } from '@root/store/authStore';
 
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 type EditProfileFormValues = {
     username: string;
     firstName: string;
@@ -244,7 +247,7 @@ export const EditProfileForm: FC = () => {
                                                 />
                                                 <Button
                                                     type="button"
-                                                    className="text-xl"
+                                                    className="flex-all-center"
                                                     size="small"
                                                     variant="close"
                                                     onClick={() =>
@@ -253,7 +256,10 @@ export const EditProfileForm: FC = () => {
                                                         )
                                                     }
                                                 >
-                                                    &times;
+                                                    <FontAwesomeIcon
+                                                        icon={faXmark}
+                                                        size="xl"
+                                                    />
                                                 </Button>
                                             </div>
                                         </div>
