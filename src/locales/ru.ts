@@ -20,7 +20,11 @@ export const ru = {
                 recipes: 'Посмотреть рецепты',
                 mealPlans: 'Посмотреть планы питания',
                 createRecipe: 'Создать новый рецепт',
-                createPlan: 'Создать новый план питания'
+                createPlan: 'Создать новый план питания',
+                createRecipeTooltip:
+                    'Подтвердите свой email, чтобы создать рецепт',
+                createPlanTooltip:
+                    'Подтвердите свой email, чтобы создать план питания'
             },
             ProfilePage: {
                 settings: 'Настройки профиля',

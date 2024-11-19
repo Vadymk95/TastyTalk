@@ -12,4 +12,5 @@ export { SuccessCard } from './SuccessCard';
 export { Tab } from './Tab';
 export { Tabs } from './Tabs';
 export { Textarea } from './Textarea';
+export { Tooltip } from './Tooltip';
 export { UsernameInput } from './UsernameInput';

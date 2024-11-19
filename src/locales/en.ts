@@ -20,7 +20,11 @@ export const en = {
                 recipes: 'View recipes',
                 mealPlans: 'View meal plans',
                 createRecipe: 'Create a recipe',
-                createPlan: 'Create a meal plan'
+                createPlan: 'Create a meal plan',
+                createRecipeTooltip:
+                    'You need to verify your email to create a recipe',
+                createPlanTooltip:
+                    'You need to verify your email to create a recipe or meal plan'
             },
             ProfilePage: {
                 settings: 'Profile Settings',

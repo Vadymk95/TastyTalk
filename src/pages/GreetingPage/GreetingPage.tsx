@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { GreetingCard } from '@root/components/ui';
+import { GreetingCard, Tooltip } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
 
@@ -32,23 +32,35 @@ const GreetingPage: FC = () => {
                     title={t('GreetingPage.recipes')}
                     icon={faScroll}
                 />
-                <GreetingCard
-                    to={routes.recipesCreate}
-                    title={t('GreetingPage.createRecipe')}
-                    icon={faFilePen}
-                    disabled={!isEmailVerified}
-                />
+                <Tooltip
+                    text={t('GreetingPage.createRecipeTooltip')}
+                    position="top"
+                    shouldShow={!isEmailVerified}
+                >
+                    <GreetingCard
+                        to={routes.recipesCreate}
+                        title={t('GreetingPage.createRecipe')}
+                        icon={faFilePen}
+                        disabled={!isEmailVerified}
+                    />
+                </Tooltip>
                 <GreetingCard
                     to={routes.mealsPlan}
                     title={t('GreetingPage.mealPlans')}
                     icon={faNewspaper}
                 />
-                <GreetingCard
-                    to={routes.mealsPlanCreate}
-                    title={t('GreetingPage.createPlan')}
-                    icon={faFileSignature}
-                    disabled={!isEmailVerified}
-                />
+                <Tooltip
+                    text={t('GreetingPage.createPlanTooltip')}
+                    position="top"
+                    shouldShow={!isEmailVerified}
+                >
+                    <GreetingCard
+                        to={routes.mealsPlanCreate}
+                        title={t('GreetingPage.createPlan')}
+                        icon={faFileSignature}
+                        disabled={!isEmailVerified}
+                    />
+                </Tooltip>
             </div>
         </div>
     );
