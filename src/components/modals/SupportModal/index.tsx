@@ -5,6 +5,9 @@ import { Link, Modal } from '@root/components/ui';
 import { emails } from '@root/constants/emails';
 import { useModalStore } from '@root/store';
 
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export const SupportModal: FC = () => {
     const { t } = useTranslation();
     const { isModalOpen, closeModal } = useModalStore();
@@ -30,10 +33,15 @@ export const SupportModal: FC = () => {
 
                     <Link
                         variant="thirtiary"
-                        className="underline"
+                        className="underline flex items-center"
                         href={`mailto:${emails.support}`}
                     >
-                        {emails.support}
+                        <FontAwesomeIcon
+                            className="mr-3"
+                            size="xl"
+                            icon={faEnvelope}
+                        />
+                        <span>{emails.support}</span>
                     </Link>
                 </section>
 
@@ -46,10 +54,15 @@ export const SupportModal: FC = () => {
 
                     <Link
                         variant="thirtiary"
-                        className="underline"
+                        className="underline flex items-center"
                         href={`mailto:${emails.advertising}`}
                     >
-                        {emails.advertising}
+                        <FontAwesomeIcon
+                            className="mr-3"
+                            size="xl"
+                            icon={faEnvelope}
+                        />
+                        <span>{emails.advertising}</span>
                     </Link>
                 </section>
             </div>
