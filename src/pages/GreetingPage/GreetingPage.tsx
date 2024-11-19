@@ -33,15 +33,15 @@ const GreetingPage: FC = () => {
                     icon={faScroll}
                 />
                 <GreetingCard
-                    to={routes.mealsPlan}
-                    title={t('GreetingPage.mealPlans')}
-                    icon={faNewspaper}
-                />
-                <GreetingCard
                     to={routes.recipesCreate}
                     title={t('GreetingPage.createRecipe')}
                     icon={faFilePen}
                     disabled={!isEmailVerified}
+                />
+                <GreetingCard
+                    to={routes.mealsPlan}
+                    title={t('GreetingPage.mealPlans')}
+                    icon={faNewspaper}
                 />
                 <GreetingCard
                     to={routes.mealsPlanCreate}
