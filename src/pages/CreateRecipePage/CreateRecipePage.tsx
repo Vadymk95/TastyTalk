@@ -21,10 +21,10 @@ const CreateRecipePage: FC = () => {
 
     return (
         <div className="w-full">
-            <h1 className="main-heading">
+            <h1 className="main-heading sm:mb-4">
                 {t(`CreateRecipePage.${withAI ? 'titleAI' : 'title'}`)}
             </h1>
-            <p className="text-center text-neutral-dark/60 mb-8">
+            <p className="text-center text-neutral-dark/60 mb-8 sm:mb-4">
                 {t(
                     `CreateRecipePage.${withAI ? 'descriptionAI' : 'description'}`
                 )}
@@ -35,10 +35,10 @@ const CreateRecipePage: FC = () => {
                 variant="secondary"
                 activeTab={currentTab}
                 setActiveTab={setCurrentTab}
-                className="mb-8"
+                className="mb-8 sm:mb-4"
             />
 
-            <div className="mb-8">
+            <div className="mb-8 sm:mb-4">
                 {withAI ? (
                     <CreateRecipeWithAIForm />
                 ) : (
