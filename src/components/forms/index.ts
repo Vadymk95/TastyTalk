@@ -1,5 +1,6 @@
 export { ChangePasswordForm } from './ChangePasswordForm';
-export { CreateRecipeForm } from './CreateRecipeForm';
+export { CreateRecipeManuallyForm } from './CreateRecipeManuallyForm';
+export { CreateRecipeWithAIForm } from './CreateRecipeWithAIForm';
 export { DeleteAccountForm } from './DeleteAccountForm';
 export { EditProfileForm } from './EditProfileForm';
 export { LoginForm } from './LoginForm';

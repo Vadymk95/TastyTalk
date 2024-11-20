@@ -1,7 +1,10 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { CreateRecipeForm } from '@root/components/forms';
+import {
+    CreateRecipeManuallyForm,
+    CreateRecipeWithAIForm
+} from '@root/components/forms';
 import { Tabs } from '@root/components/ui';
 
 const CreateRecipePage: FC = () => {
@@ -35,7 +38,7 @@ const CreateRecipePage: FC = () => {
                 className="mb-8"
             />
 
-            <CreateRecipeForm withAI={withAI} />
+            {withAI ? <CreateRecipeWithAIForm /> : <CreateRecipeManuallyForm />}
         </div>
     );
 };

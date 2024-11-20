@@ -9,24 +9,22 @@ import { useAuthStore } from '@root/store';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface CreateRecipeFormProps {
-    withAI: boolean;
-}
-
-type CreateRecipeFormValues = {
+type CreateRecipeWithAIFormValues = {
     query: string;
 };
 
-export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
+export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const { loading, error, clearError } = useAuthStore();
 
-    const handleCreateRecipe = async (values: CreateRecipeFormValues) => {
+    const handleCreateRecipe = async (values: CreateRecipeWithAIFormValues) => {
         console.log(values);
     };
 
     const RecipeSchema = Yup.object().shape({
-        query: Yup.string().required(t('Forms.CreateRecipeForm.requiredField'))
+        query: Yup.string().required(
+            t('Forms.CreateRecipeWithAIForm.requiredField')
+        )
     });
 
     const initialValues = {
@@ -51,9 +49,9 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
                             name="query"
                             size="large"
                             maxLength={500}
-                            label={t('Forms.CreateRecipeForm.label')}
+                            label={t('Forms.CreateRecipeWithAIForm.label')}
                             placeholder={t(
-                                'Forms.CreateRecipeForm.placeholder'
+                                'Forms.CreateRecipeWithAIForm.placeholder'
                             )}
                         />
 
@@ -71,9 +69,7 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ withAI }) => {
                                 ) : (
                                     <p className="inline-flex gap-4 items-center">
                                         <FontAwesomeIcon icon={faUtensils} />
-                                        {t(
-                                            `Forms.CreateRecipeForm.${withAI ? 'find' : 'create'}`
-                                        )}
+                                        {t('Forms.CreateRecipeWithAIForm.find')}
                                         <FontAwesomeIcon icon={faUtensils} />
                                     </p>
                                 )}

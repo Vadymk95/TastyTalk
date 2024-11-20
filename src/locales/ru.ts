@@ -215,13 +215,15 @@ export const ru = {
                     successMessage:
                         'Ваша учетная запись успешно удалена. Мы будем скучать по вам!'
                 },
-                CreateRecipeForm: {
+                CreateRecipeWithAIForm: {
                     label: 'Что потребуется для блюда?',
                     placeholder:
                         'Напишите название блюда или перечислите ингредиенты. Например: у меня есть 2 яйца и немного молока, что я могу приготовить с этим?...',
-                    create: 'Создать рецепт',
                     find: 'Найти рецепт',
                     requiredField: 'Это поле обязательно'
+                },
+                CreateRecipeManuallyForm: {
+                    create: 'Создать рецепт'
                 }
             },
             Modals: {

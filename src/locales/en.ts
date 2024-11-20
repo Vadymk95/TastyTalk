@@ -222,13 +222,15 @@ export const en = {
                     successMessage:
                         'Your account has been successfully deleted.'
                 },
-                CreateRecipeForm: {
+                CreateRecipeWithAIForm: {
                     label: 'What do you need for the dish?',
                     placeholder:
                         'Write the name of the dish or list the ingredients. For example: I have 2 eggs and some milk, what can I make with it?...',
-                    create: 'Create Recipe',
                     find: 'Find Recipe',
                     requiredField: 'This field is required.'
+                },
+                CreateRecipeManuallyForm: {
+                    create: 'Create Recipe'
                 }
             },
             Modals: {
