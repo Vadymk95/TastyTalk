@@ -15,7 +15,9 @@ export const Query: FC<QueryProps> = ({ query, className }) => {
             <h2 className="text-2xl font-heading text-primary mb-4">
                 {t('General.yourQueryTitle')}
             </h2>
-            <p className="text-neutral-dark">{query}</p>
+            <p className="text-neutral-dark border p-2 rounded-lg bg-neutral-light">
+                {query}
+            </p>
         </section>
     );
 };

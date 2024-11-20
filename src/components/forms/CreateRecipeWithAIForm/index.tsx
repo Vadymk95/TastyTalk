@@ -4,11 +4,21 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { Query, RecipeViewer } from '@root/components/common';
-import { Button, ErrorCard, Loader, Textarea } from '@root/components/ui';
+import {
+    Button,
+    ErrorCard,
+    Loader,
+    Textarea,
+    Tooltip
+} from '@root/components/ui';
 import { useAuthStore } from '@root/store';
 import { RecipeContext } from '@root/types';
 
-import { faUtensils } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBookmark,
+    faRepeat,
+    faUtensils
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { exampleRecipe } from './example';
@@ -32,13 +42,23 @@ export const CreateRecipeWithAIForm: FC = () => {
         scrollToBottom();
     }, [recipe]);
 
-    const handleCreateRecipe = async (
+    const handleGenerateRecipe = async (
         values: CreateRecipeWithAIFormValues,
         { resetForm }: any
     ) => {
+        // add local storage
         setMessage(values.query);
         setRecipe(exampleRecipe);
         resetForm();
+    };
+
+    const handleClearRecipe = () => {
+        setMessage('');
+        setRecipe(null);
+    };
+
+    const handleSaveRecipe = () => {
+        console.log('Save recipe');
     };
 
     const RecipeSchema = Yup.object().shape({
@@ -58,24 +78,22 @@ export const CreateRecipeWithAIForm: FC = () => {
 
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
-            <>
-                {/* Чат */}
-                <div className="flex-grow overflow-y-auto">
-                    {recipe && message && (
-                        <>
-                            <Query query={message} className="mb-6" />
-                            <RecipeViewer recipe={recipe} />
-                        </>
-                    )}
-                    <div ref={chatEndRef} />
-                </div>
+            <div className="flex-grow overflow-y-auto">
+                {recipe && message && (
+                    <>
+                        <Query query={message} className="mb-6" />
+                        <RecipeViewer recipe={recipe} />
+                    </>
+                )}
+                <div ref={chatEndRef} />
+            </div>
 
-                {/* Форма */}
+            {!message && !recipe ? (
                 <Formik
                     preventDefault
                     initialValues={initialValues}
                     validationSchema={RecipeSchema}
-                    onSubmit={handleCreateRecipe}
+                    onSubmit={handleGenerateRecipe}
                 >
                     {() => (
                         <Form>
@@ -122,7 +140,43 @@ export const CreateRecipeWithAIForm: FC = () => {
                         </Form>
                     )}
                 </Formik>
-            </>
+            ) : (
+                <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
+                    <Tooltip
+                        text={t(
+                            'Forms.CreateRecipeWithAIForm.tryAnotherDescription'
+                        )}
+                    >
+                        <Button
+                            className="flex-all-center gap-3"
+                            onClick={handleClearRecipe}
+                            size="large"
+                        >
+                            <FontAwesomeIcon icon={faRepeat} />
+                            <span>
+                                {t('Forms.CreateRecipeWithAIForm.tryAnother')}
+                            </span>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip
+                        text={t(
+                            'Forms.CreateRecipeWithAIForm.saveRecipeDescription'
+                        )}
+                    >
+                        <Button
+                            className="flex-all-center gap-3"
+                            onClick={handleSaveRecipe}
+                            size="large"
+                            variant="secondary"
+                        >
+                            <FontAwesomeIcon icon={faBookmark} />
+                            <span>
+                                {t('Forms.CreateRecipeWithAIForm.saveRecipe')}
+                            </span>
+                        </Button>
+                    </Tooltip>
+                </div>
+            )}
         </div>
     );
 };

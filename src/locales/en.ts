@@ -229,7 +229,12 @@ export const en = {
                     placeholder:
                         'Write the name of the dish or list the ingredients. For example: I have 2 eggs and some milk, what can I make with it?...',
                     find: 'Find Recipe',
-                    requiredField: 'This field is required.'
+                    requiredField: 'This field is required.',
+                    saveRecipe: 'Save Recipe',
+                    saveRecipeDescription: 'Save the recipe to your profile',
+                    tryAnother: 'Try Another',
+                    tryAnotherDescription:
+                        'Remove current recipe and create a new one with our chatbot'
                 },
                 CreateRecipeManuallyForm: {
                     create: 'Create Recipe'

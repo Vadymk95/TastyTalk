@@ -3,6 +3,16 @@ import { useTranslation } from 'react-i18next';
 
 import { RecipeContext } from '@root/types';
 
+import {
+    faComment,
+    faForwardStep,
+    faPuzzlePiece,
+    faRobot,
+    faScroll,
+    faUser
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 interface RecipeViewerProps {
     recipe: RecipeContext;
 }
@@ -12,17 +22,15 @@ export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe }) => {
 
     return (
         <div className="plate">
-            {/* Заголовок */}
             <h2 className="text-2xl font-heading text-primary mb-4">
-                {recipe.title}
+                <FontAwesomeIcon className="mr-3" icon={faScroll} />
+                <span>{recipe.title}</span>
             </h2>
 
-            {/* Описание */}
             {recipe.description && (
                 <p className="text-neutral-dark mb-4">{recipe.description}</p>
             )}
 
-            {/* Фото превью */}
             {recipe.previewPhoto && typeof recipe.previewPhoto === 'string' && (
                 <img
                     src={recipe.previewPhoto}
@@ -31,10 +39,10 @@ export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe }) => {
                 />
             )}
 
-            {/* Ингредиенты */}
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
-                    {t('RecipeViewer.ingredients')}
+                    <FontAwesomeIcon className="mr-2" icon={faPuzzlePiece} />
+                    <span>{t('RecipeViewer.ingredients')}</span>
                 </h3>
                 <ul className="list-disc pl-5 text-neutral-dark">
                     {recipe.ingredients.map((ingredient, index) => (
@@ -45,10 +53,10 @@ export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe }) => {
                 </ul>
             </div>
 
-            {/* Шаги приготовления */}
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
-                    {t('RecipeViewer.steps')}
+                    <FontAwesomeIcon className="mr-2" icon={faForwardStep} />
+                    <span>{t('RecipeViewer.steps')}</span>
                 </h3>
                 <ol className="list-decimal pl-5 text-neutral-dark">
                     {recipe.steps.map((step, index) => (
@@ -59,11 +67,11 @@ export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe }) => {
                 </ol>
             </div>
 
-            {/* Советы */}
             {recipe.tips && recipe.tips.length > 0 && (
                 <div className="mb-6">
                     <h3 className="text-xl font-heading text-secondary mb-2">
-                        {t('RecipeViewer.tips')}
+                        <FontAwesomeIcon className="mr-2" icon={faComment} />
+                        <span>{t('RecipeViewer.tips')}</span>
                     </h3>
                     <ul className="list-disc pl-5 text-neutral-dark">
                         {recipe.tips.map((tip, index) => (
@@ -75,11 +83,18 @@ export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe }) => {
                 </div>
             )}
 
-            {/* Метка генерации */}
             <div className="text-sm text-neutral-dark italic">
-                {recipe.aiGenerated
-                    ? t('RecipeViewer.generated')
-                    : t('RecipeViewer.user')}
+                {recipe.aiGenerated ? (
+                    <span>
+                        <FontAwesomeIcon className="mr-1" icon={faRobot} />
+                        {t('RecipeViewer.generated')}
+                    </span>
+                ) : (
+                    <span>
+                        <FontAwesomeIcon className="mr-1" icon={faUser} />
+                        {t('RecipeViewer.user')}
+                    </span>
+                )}
             </div>
         </div>
     );

@@ -222,7 +222,12 @@ export const ru = {
                     placeholder:
                         'Напишите название блюда или перечислите ингредиенты. Например: у меня есть 2 яйца и немного молока, что я могу приготовить с этим?...',
                     find: 'Найти рецепт',
-                    requiredField: 'Это поле обязательно'
+                    requiredField: 'Это поле обязательно',
+                    saveRecipe: 'Сохранить рецепт',
+                    saveRecipeDescription: 'Сохранить рецепт в своем профиле',
+                    tryAnother: 'Попробовать другой рецепт',
+                    tryAnotherDescription:
+                        'Удалить текущий рецепт и начать заново'
                 },
                 CreateRecipeManuallyForm: {
                     create: 'Создать рецепт'
