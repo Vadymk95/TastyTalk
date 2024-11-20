@@ -33,6 +33,7 @@ export const CreateRecipeWithAIForm: FC = () => {
     const [message, setMessage] = useState<string>('');
     const [recipe, setRecipe] = useState<RecipeContext | null>(null);
     const chatEndRef = useRef<HTMLDivElement>(null);
+    const showRecipe = recipe && message;
 
     const scrollToBottom = () => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -78,17 +79,56 @@ export const CreateRecipeWithAIForm: FC = () => {
 
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
-            <div className="flex-grow overflow-y-auto">
-                {recipe && message && (
-                    <>
+            {showRecipe ? (
+                <>
+                    <div className="flex-grow overflow-y-auto">
                         <Query query={message} className="mb-6" />
                         <RecipeViewer recipe={recipe} />
-                    </>
-                )}
-                <div ref={chatEndRef} />
-            </div>
 
-            {!message && !recipe ? (
+                        <div ref={chatEndRef} />
+                    </div>
+
+                    <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
+                        <Tooltip
+                            text={t(
+                                'Forms.CreateRecipeWithAIForm.tryAnotherDescription'
+                            )}
+                        >
+                            <Button
+                                className="flex-all-center gap-3"
+                                onClick={handleClearRecipe}
+                                size="large"
+                            >
+                                <FontAwesomeIcon icon={faRepeat} />
+                                <span>
+                                    {t(
+                                        'Forms.CreateRecipeWithAIForm.tryAnother'
+                                    )}
+                                </span>
+                            </Button>
+                        </Tooltip>
+                        <Tooltip
+                            text={t(
+                                'Forms.CreateRecipeWithAIForm.saveRecipeDescription'
+                            )}
+                        >
+                            <Button
+                                className="flex-all-center gap-3"
+                                onClick={handleSaveRecipe}
+                                size="large"
+                                variant="secondary"
+                            >
+                                <FontAwesomeIcon icon={faBookmark} />
+                                <span>
+                                    {t(
+                                        'Forms.CreateRecipeWithAIForm.saveRecipe'
+                                    )}
+                                </span>
+                            </Button>
+                        </Tooltip>
+                    </div>
+                </>
+            ) : (
                 <Formik
                     preventDefault
                     initialValues={initialValues}
@@ -140,42 +180,6 @@ export const CreateRecipeWithAIForm: FC = () => {
                         </Form>
                     )}
                 </Formik>
-            ) : (
-                <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
-                    <Tooltip
-                        text={t(
-                            'Forms.CreateRecipeWithAIForm.tryAnotherDescription'
-                        )}
-                    >
-                        <Button
-                            className="flex-all-center gap-3"
-                            onClick={handleClearRecipe}
-                            size="large"
-                        >
-                            <FontAwesomeIcon icon={faRepeat} />
-                            <span>
-                                {t('Forms.CreateRecipeWithAIForm.tryAnother')}
-                            </span>
-                        </Button>
-                    </Tooltip>
-                    <Tooltip
-                        text={t(
-                            'Forms.CreateRecipeWithAIForm.saveRecipeDescription'
-                        )}
-                    >
-                        <Button
-                            className="flex-all-center gap-3"
-                            onClick={handleSaveRecipe}
-                            size="large"
-                            variant="secondary"
-                        >
-                            <FontAwesomeIcon icon={faBookmark} />
-                            <span>
-                                {t('Forms.CreateRecipeWithAIForm.saveRecipe')}
-                            </span>
-                        </Button>
-                    </Tooltip>
-                </div>
             )}
         </div>
     );
