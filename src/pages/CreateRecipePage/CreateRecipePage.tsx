@@ -38,7 +38,13 @@ const CreateRecipePage: FC = () => {
                 className="mb-8"
             />
 
-            {withAI ? <CreateRecipeWithAIForm /> : <CreateRecipeManuallyForm />}
+            <div className="mb-8">
+                {withAI ? (
+                    <CreateRecipeWithAIForm />
+                ) : (
+                    <CreateRecipeManuallyForm />
+                )}
+            </div>
         </div>
     );
 };
