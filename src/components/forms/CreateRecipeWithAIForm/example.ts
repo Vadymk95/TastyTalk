@@ -39,3 +39,16 @@ export const exampleRecipe: RecipeContext = {
     previewPhoto: 'https://via.placeholder.com/600x400', // Пример ссылки на фото
     aiGenerated: true
 };
+
+export const exampleRecipe2: RecipeContext = {
+    title: 'Омлет с сыром',
+    description: 'Лёгкий и вкусный завтрак за 10 минут.',
+    ingredients: ['2 яйца', '100 мл молока', '50 г сыра'],
+    steps: [
+        'Взбейте яйца с молоком.',
+        'Добавьте тертый сыр.',
+        'Обжарьте на сковороде до готовности.'
+    ],
+    tips: ['Добавьте зелень для аромата.'],
+    aiGenerated: true
+};

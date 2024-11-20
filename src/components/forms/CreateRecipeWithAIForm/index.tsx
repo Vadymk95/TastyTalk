@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { RecipeViewer } from '@root/components/common';
+import { Query, RecipeViewer } from '@root/components/common';
 import { Button, ErrorCard, Loader, Textarea } from '@root/components/ui';
 import { useAuthStore } from '@root/store';
 import { RecipeContext } from '@root/types';
@@ -20,7 +20,7 @@ type CreateRecipeWithAIFormValues = {
 export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const { loading, error, clearError } = useAuthStore();
-    const [messages, setMessages] = useState<string[]>([]);
+    const [message, setMessage] = useState<string>('');
     const [recipe, setRecipe] = useState<RecipeContext | null>(null);
     const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -36,31 +36,9 @@ export const CreateRecipeWithAIForm: FC = () => {
         values: CreateRecipeWithAIFormValues,
         { resetForm }: any
     ) => {
-        // Добавляем сообщение пользователя
-        setMessages((prev) => [...prev, `👤: ${values.query}`]);
-
-        // Добавляем индикатор загрузки
-        setMessages((prev) => [...prev, `🤖:`]);
-
-        // Симулируем ответ бота
-        setTimeout(() => {
-            setMessages((prev) => [...prev.slice(0, -1), `🤖:`]);
-
-            // Обновляем контекст рецепта
-            // setRecipe((prev) => ({
-            //     ...(prev || {
-            //         title: 'Новый рецепт',
-            //         ingredients: [],
-            //         steps: [],
-            //         aiGenerated: true
-            //     }),
-            //     ingredients: [...(prev?.ingredients || []), values.query]
-            // }));
-
-            setRecipe(exampleRecipe);
-
-            resetForm(); // Сбрасываем форму
-        }, 2000);
+        setMessage(values.query);
+        setRecipe(exampleRecipe);
+        resetForm();
     };
 
     const RecipeSchema = Yup.object().shape({
@@ -83,8 +61,11 @@ export const CreateRecipeWithAIForm: FC = () => {
             <>
                 {/* Чат */}
                 <div className="flex-grow overflow-y-auto">
-                    {recipe && (
-                        <RecipeViewer messages={messages} recipe={recipe} />
+                    {recipe && message && (
+                        <>
+                            <Query query={message} className="mb-6" />
+                            <RecipeViewer recipe={recipe} />
+                        </>
                     )}
                     <div ref={chatEndRef} />
                 </div>

@@ -5,21 +5,13 @@ import { RecipeContext } from '@root/types';
 
 interface RecipeViewerProps {
     recipe: RecipeContext;
-    messages: string[];
 }
 
-export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe, messages }) => {
+export const RecipeViewer: FC<RecipeViewerProps> = ({ recipe }) => {
     const { t } = useTranslation();
 
     return (
-        <div className="recipe-viewer p-6 bg-neutral-light rounded-lg shadow-lg">
-            {/* Сообщения */}
-            {messages.map((msg, index) => (
-                <div key={index} className="mb-2">
-                    {msg}
-                </div>
-            ))}
-
+        <div className="plate">
             {/* Заголовок */}
             <h2 className="text-2xl font-heading text-primary mb-4">
                 {recipe.title}

@@ -278,7 +278,8 @@ export const en = {
                 error: 'Error:',
                 somethingWentWrong:
                     'Something went wrong, please try again later',
-                notAvailable: 'Not available'
+                notAvailable: 'Not available',
+                yourQueryTitle: 'Your Query'
             }
         }
     }

@@ -270,7 +270,8 @@ export const ru = {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
-                notAvailable: 'Недоступно'
+                notAvailable: 'Недоступно',
+                yourQueryTitle: 'Ваш запрос'
             }
         }
     }
