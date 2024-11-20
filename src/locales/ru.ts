@@ -217,6 +217,8 @@ export const ru = {
                 },
                 CreateRecipeWithAIForm: {
                     label: 'Что потребуется для блюда?',
+                    tooShort: 'Запрос слишком короткий',
+                    tooLong: 'Запрос слишком длинный',
                     placeholder:
                         'Напишите название блюда или перечислите ингредиенты. Например: у меня есть 2 яйца и немного молока, что я могу приготовить с этим?...',
                     find: 'Найти рецепт',
@@ -256,6 +258,13 @@ export const ru = {
                 profilePreview: 'Превью профиля',
                 uploadProfilePicture: 'Загрузить фото профиля',
                 deleteProfilePicture: 'Удалить фото профиля'
+            },
+            RecipeViewer: {
+                ingredients: 'Ингредиенты:',
+                steps: 'Шаги приготовления:',
+                tips: 'Советы:',
+                generated: 'Создан при помощи чат-бота',
+                user: 'Создан вручную'
             },
             General: {
                 loading: 'Загрузка...',

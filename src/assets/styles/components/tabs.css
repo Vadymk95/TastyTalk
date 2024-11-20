@@ -29,7 +29,7 @@
 }
 
 .tab-secondary.tab-selected {
-    @apply font-bold hover:bg-secondary;
+    @apply font-bold hover:bg-secondary bg-secondary-light/20;
     border-bottom: 2px solid #4ecdc4;
 }
 
