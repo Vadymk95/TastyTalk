@@ -36,7 +36,7 @@ export const exampleRecipe: RecipeContext = {
         'Используйте свежие травы, такие как базилик и петрушка, для украшения перед подачей.',
         'Если хотите сделать лазанью менее калорийной, замените часть сыра на рикотту.'
     ],
-    previewPhoto: 'https://via.placeholder.com/600x400', // Пример ссылки на фото
+    // previewPhoto: 'https://via.placeholder.com/600x400', // Пример ссылки на фото
     aiGenerated: true
 };
 
