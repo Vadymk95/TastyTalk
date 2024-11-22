@@ -85,7 +85,8 @@ export const CreateRecipeWithAIForm: FC = () => {
                         <Query query={message} className="mb-6" />
                         <RecipeViewer recipe={recipe} />
 
-                        <div ref={chatEndRef} />
+                        {/* temporary */}
+                        {/* <div ref={chatEndRef} /> */}
                     </div>
 
                     <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
