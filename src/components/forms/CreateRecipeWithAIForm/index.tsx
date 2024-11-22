@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { Query, RecipeViewer } from '@root/components/common';
+import { Query, RecipeTypingEffect } from '@root/components/common';
 import {
     Button,
     ErrorCard,
@@ -83,7 +83,7 @@ export const CreateRecipeWithAIForm: FC = () => {
                 <>
                     <div className="flex-grow overflow-y-auto">
                         <Query query={message} className="mb-6" />
-                        <RecipeViewer recipe={recipe} />
+                        <RecipeTypingEffect recipe={recipe} />
 
                         {/* temporary */}
                         {/* <div ref={chatEndRef} /> */}

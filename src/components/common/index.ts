@@ -4,4 +4,4 @@ export { Pricing } from './Pricing';
 export { ProfileSettingsModals } from './ProfileSettingsModals';
 export { Query } from './Query';
 export { Recipe } from './Recipe';
-export { RecipeViewer } from './RecipeViewer';
+export { RecipeTypingEffect } from './RecipeTypingEffect';
