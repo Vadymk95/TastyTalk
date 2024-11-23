@@ -1,4 +1,4 @@
-import { RecipeContext } from '@root/types';
+import { RecipeContext, Recipe } from '@root/types';
 
 export const exampleRecipe: RecipeContext = {
     title: 'Лазанья с мясным соусом и сыром',
@@ -51,4 +51,34 @@ export const exampleRecipe2: RecipeContext = {
     ],
     tips: ['Добавьте зелень для аромата.'],
     aiGenerated: true
+};
+
+export const exampleRecipe3: Recipe = {
+    id: '1',
+    title: 'Лёгкий веганский суп',
+    description: 'Простой и вкусный рецепт.',
+    categories: ['soups', 'vegan', 'quick'],
+    previewPhoto: undefined,
+    difficulty: 'easy',
+    cookingTime: 20,
+    ingredients: ['Чечевица', 'Морковь', 'Лук', 'Специи'],
+    steps: [
+        'Нарезать овощи',
+        'Добавить специи',
+        'Сварить суп',
+        'Подать горячим'
+    ],
+    warnings: ['Аллергия на чечевицу'],
+    aiGenerated: true,
+    likes: 0,
+    views: 0,
+    popularity: 0,
+    createdBy: '',
+    visibility: 'private',
+    createdAt: new Date('2024-11-21T10:00:00Z'),
+    updatedAt: undefined,
+    comments: [],
+    reports: [],
+    reposts: 0,
+    videoUrl: 'https://www.youtube.com/watch?v=example'
 };
