@@ -66,7 +66,7 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
                             }}
                             onInit={(typewriter) => {
                                 typewriter
-                                    .typeString(t('RecipeViewer.ingredients'))
+                                    .typeString(t('Recipe.ingredients'))
                                     .start();
                             }}
                         />
@@ -106,7 +106,7 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
                             }}
                             onInit={(typewriter) => {
                                 typewriter
-                                    .typeString(t('RecipeViewer.steps'))
+                                    .typeString(t('Recipe.steps'))
                                     .start();
                             }}
                         />
@@ -140,9 +140,7 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
                                 cursor: ''
                             }}
                             onInit={(typewriter) => {
-                                typewriter
-                                    .typeString(t('RecipeViewer.tips'))
-                                    .start();
+                                typewriter.typeString(t('Recipe.tips')).start();
                             }}
                         />
                     </h3>
@@ -170,7 +168,7 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
             <div className="text-sm text-neutral-dark italic">
                 <span>
                     <FontAwesomeIcon className="mr-1" icon={faRobot} />
-                    {t('RecipeViewer.generated')}
+                    {t('Recipe.generated')}
                 </span>
             </div>
         </div>

@@ -264,10 +264,16 @@ export const ru = {
                 uploadProfilePicture: 'Загрузить фото профиля',
                 deleteProfilePicture: 'Удалить фото профиля'
             },
-            RecipeViewer: {
+            Recipe: {
+                difficulty: 'Сложность:',
+                categories: 'Категории:',
                 ingredients: 'Ингредиенты:',
                 steps: 'Шаги приготовления:',
+                time: 'Время приготовления:',
+                cookingTime:
+                    'Приготовление блюда займет около <b>~{{count}} минут.</b>',
                 tips: 'Советы:',
+                warnings: 'Предостережения:',
                 generated: 'Создан при помощи чат-бота',
                 user: 'Создан вручную'
             },

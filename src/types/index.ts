@@ -27,10 +27,15 @@ export interface Recipe {
     id: string; // Уникальный идентификатор рецепта
     title: string; // Название рецепта
     description?: string; // Описание рецепта
+    previewPhoto?: string | File; // Фото превью (Base64 или URL) или фаил
+    difficulty: Difficulty; // Сложность приготовления
+    categories: string[]; // Категории, к которым относится рецепт
     ingredients: string[]; // Список ингредиентов
     steps: string[]; // Этапы приготовления
+    tips?: string[]; // Советы по приготовлению
+    cookingTime?: number; // Время готовки (в минутах)
     warnings?: string[]; // Предостережения (например, аллергии)
-    previewPhoto?: string; // Фото превью (Base64 или URL)
+    videoUrl?: string; // Ссылка на видео рецепта
     aiGenerated: boolean; // Указывает, создан ли рецепт AI
     likes?: number; // Количество лайков
     views?: number; // Количество просмотров
@@ -41,9 +46,5 @@ export interface Recipe {
     updatedAt?: Date; // Дата последнего обновления
     comments?: Comment[]; // Массив комментариев
     reports?: Report[]; // Жалобы на рецепт
-    difficulty: Difficulty; // Сложность приготовления
-    cookingTime: number; // Время готовки (в минутах)
     reposts?: number; // Количество репостов
-    videoUrl?: string; // Ссылка на видео рецепта
-    categories: string[]; // Категории, к которым относится рецепт
 }

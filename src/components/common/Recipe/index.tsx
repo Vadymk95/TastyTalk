@@ -1,11 +1,15 @@
 import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { RecipeContext } from '@root/types';
+import { DifficultyMap } from '@root/components/common';
+import { Recipe as RecipeType } from '@root/types';
 
 import {
+    faClock,
     faComment,
+    faCubesStacked,
     faForwardStep,
+    faHandDots,
     faPuzzlePiece,
     faRobot,
     faScroll,
@@ -14,7 +18,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface RecipeProps {
-    recipe: RecipeContext;
+    recipe: RecipeType;
 }
 
 export const Recipe: FC<RecipeProps> = ({ recipe }) => {
@@ -26,6 +30,31 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                 <FontAwesomeIcon className="mr-3" icon={faScroll} />
                 <span>{recipe.title}</span>
             </h2>
+
+            {recipe.difficulty && (
+                <div className="mb-6">
+                    <DifficultyMap level={recipe.difficulty} />
+                </div>
+            )}
+
+            <div className="mb-6">
+                <h3 className="text-xl font-heading text-secondary mb-2">
+                    <FontAwesomeIcon className="mr-2" icon={faCubesStacked} />
+                    <span>{t('Recipe.categories')}</span>
+                </h3>
+            </div>
+
+            <div className="mb-6">
+                <h3 className="text-xl font-heading text-secondary mb-2">
+                    <FontAwesomeIcon className="mr-2" icon={faClock} />
+                    <span>{t('Recipe.time')}</span>
+                </h3>
+                <Trans
+                    i18nKey="Recipe.cookingTime"
+                    values={{ count: recipe.cookingTime }}
+                    components={{ b: <b /> }}
+                />
+            </div>
 
             {recipe.description && (
                 <p className="text-neutral-dark mb-4">{recipe.description}</p>
@@ -42,7 +71,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
                     <FontAwesomeIcon className="mr-2" icon={faPuzzlePiece} />
-                    <span>{t('RecipeViewer.ingredients')}</span>
+                    <span>{t('Recipe.ingredients')}</span>
                 </h3>
                 <ul className="list-disc pl-5 text-neutral-dark">
                     {recipe.ingredients.map((ingredient, index) => (
@@ -56,7 +85,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
                     <FontAwesomeIcon className="mr-2" icon={faForwardStep} />
-                    <span>{t('RecipeViewer.steps')}</span>
+                    <span>{t('Recipe.steps')}</span>
                 </h3>
                 <ol className="list-decimal pl-5 text-neutral-dark">
                     {recipe.steps.map((step, index) => (
@@ -71,7 +100,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                 <div className="mb-6">
                     <h3 className="text-xl font-heading text-secondary mb-2">
                         <FontAwesomeIcon className="mr-2" icon={faComment} />
-                        <span>{t('RecipeViewer.tips')}</span>
+                        <span>{t('Recipe.tips')}</span>
                     </h3>
                     <ul className="list-disc pl-5 text-neutral-dark">
                         {recipe.tips.map((tip, index) => (
@@ -83,16 +112,32 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                 </div>
             )}
 
+            {recipe.warnings && recipe.warnings.length > 0 && (
+                <div className="mb-6">
+                    <h3 className="text-xl font-heading text-secondary mb-2">
+                        <FontAwesomeIcon className="mr-2" icon={faHandDots} />
+                        <span>{t('Recipe.warnings')}</span>
+                    </h3>
+                    <ul className="list-disc pl-5 text-neutral-dark">
+                        {recipe.warnings.map((warn, index) => (
+                            <li key={index} className="mb-1">
+                                {warn}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
             <div className="text-sm text-neutral-dark italic">
                 {recipe.aiGenerated ? (
                     <span>
                         <FontAwesomeIcon className="mr-1" icon={faRobot} />
-                        {t('RecipeViewer.generated')}
+                        {t('Recipe.generated')}
                     </span>
                 ) : (
                     <span>
                         <FontAwesomeIcon className="mr-1" icon={faUser} />
-                        {t('RecipeViewer.user')}
+                        {t('Recipe.user')}
                     </span>
                 )}
             </div>
