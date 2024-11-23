@@ -271,6 +271,12 @@ export const ru = {
                 generated: 'Создан при помощи чат-бота',
                 user: 'Создан вручную'
             },
+            Stepper: {
+                back: 'Назад',
+                skip: 'Пропустить',
+                next: 'Далее',
+                submit: 'Завершить'
+            },
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',

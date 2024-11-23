@@ -8,6 +8,7 @@ export { Loader } from './Loader';
 export { Modal } from './Modal';
 export { PhotoUpload } from './PhotoUpload';
 export { Select } from './Select';
+export { Stepper } from './Stepper';
 export { SuccessCard } from './SuccessCard';
 export { Tab } from './Tab';
 export { Tabs } from './Tabs';
