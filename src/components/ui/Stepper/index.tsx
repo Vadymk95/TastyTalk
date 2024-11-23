@@ -1,7 +1,7 @@
 import { FC, JSX, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@root/components/ui';
+import { Button, ProgressBar } from '@root/components/ui';
 
 import {
     faChevronLeft,
@@ -48,12 +48,12 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
 
     return (
         <div className="plate">
-            <div className="relative h-2 mb-6 bg-gray-200 rounded">
-                <div
-                    className="absolute top-0 left-0 h-full bg-gradient-main rounded transition-all"
-                    style={{ width: `${progress}%` }}
-                ></div>
-            </div>
+            <ProgressBar
+                progress={progress}
+                currentStep={currentStep + 1}
+                steps={steps.length}
+                className="mb-6"
+            />
 
             <h2 className="text-xl font-heading text-primary mb-4">
                 {steps[currentStep].title}
