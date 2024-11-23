@@ -47,7 +47,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
     const progress = ((currentStep + 1) / steps.length) * 100;
 
     return (
-        <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <div className="plate">
             <div className="relative h-2 mb-6 bg-gray-200 rounded">
                 <div
                     className="absolute top-0 left-0 h-full bg-gradient-main rounded transition-all"
