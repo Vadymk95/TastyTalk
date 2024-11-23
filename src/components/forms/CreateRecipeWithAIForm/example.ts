@@ -59,7 +59,7 @@ export const exampleRecipe3: Recipe = {
     description: 'Простой и вкусный рецепт.',
     previewPhoto: 'https://via.placeholder.com/600x400',
     difficulty: 'easy',
-    categories: ['soups', 'vegan', 'quick'],
+    categories: ['soups', 'vegan', 'quick', 'italian'],
     cookingTime: 20,
     ingredients: ['Чечевица', 'Морковь', 'Лук', 'Специи'],
     steps: [

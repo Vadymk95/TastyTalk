@@ -1,13 +1,12 @@
 import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
-import { DifficultyMap } from '@root/components/common';
+import { Categories, DifficultyMap } from '@root/components/common';
 import { Recipe as RecipeType } from '@root/types';
 
 import {
     faClock,
     faComment,
-    faCubesStacked,
     faForwardStep,
     faHandDots,
     faPuzzlePiece,
@@ -26,23 +25,28 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
 
     return (
         <div className="plate">
-            <h2 className="text-2xl font-heading text-primary mb-4">
-                <FontAwesomeIcon className="mr-3" icon={faScroll} />
-                <span>{recipe.title}</span>
-            </h2>
+            <div className="flex justify-between sm:flex-wrap">
+                <h2 className="text-2xl font-heading text-primary mb-4">
+                    <FontAwesomeIcon className="mr-3" icon={faScroll} />
+                    <span>{recipe.title}</span>
+                </h2>
+                {recipe.difficulty && (
+                    <DifficultyMap
+                        className="sm:mb-4"
+                        level={recipe.difficulty}
+                    />
+                )}
+            </div>
 
-            {recipe.difficulty && (
-                <div className="mb-6">
-                    <DifficultyMap level={recipe.difficulty} />
-                </div>
-            )}
+            <Categories className="mb-6" list={recipe.categories} />
 
-            <div className="mb-6">
+            {/* <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
                     <FontAwesomeIcon className="mr-2" icon={faCubesStacked} />
                     <span>{t('Recipe.categories')}</span>
                 </h3>
-            </div>
+                <Categories list={recipe.categories} />
+            </div> */}
 
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
@@ -114,7 +118,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
 
             {recipe.warnings && recipe.warnings.length > 0 && (
                 <div className="mb-6">
-                    <h3 className="text-xl font-heading text-secondary mb-2">
+                    <h3 className="text-xl font-heading text-primary mb-2">
                         <FontAwesomeIcon className="mr-2" icon={faHandDots} />
                         <span>{t('Recipe.warnings')}</span>
                     </h3>

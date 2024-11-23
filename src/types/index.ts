@@ -20,6 +20,12 @@ export interface Report {
     createdAt: Date;
 }
 
+export interface Category {
+    id: string;
+    name: string;
+    group: string;
+}
+
 export type Visibility = 'public' | 'private' | 'friends';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 

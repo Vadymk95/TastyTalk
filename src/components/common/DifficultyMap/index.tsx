@@ -8,16 +8,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface DifficultyMapProps {
     level: Difficulty;
+    className?: string;
 }
 
-export const DifficultyMap: FC<DifficultyMapProps> = ({ level }) => {
+export const DifficultyMap: FC<DifficultyMapProps> = ({ level, className }) => {
     const { t } = useTranslation();
-
-    console.log(level);
 
     if (level === 'easy') {
         return (
-            <h3 className="text-xl font-heading mb-2 flex items-center text-secondary gap-2">
+            <h3
+                className={`text-xl font-heading mb-2 flex items-center text-secondary gap-2 ${className}`}
+            >
                 <span>{t('Recipe.difficulty')}</span>
                 <FontAwesomeIcon icon={faFire} />
             </h3>

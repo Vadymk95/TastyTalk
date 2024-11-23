@@ -1,3 +1,4 @@
+export { Categories } from './Categories';
 export { DifficultyMap } from './DifficultyMap';
 export { FooterNavigation } from './FooterNavigation';
 export { HeaderNavigation } from './HeaderNavigation';
