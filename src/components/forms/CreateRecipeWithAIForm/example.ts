@@ -1,7 +1,11 @@
-import { Recipe, RecipeContext } from '@root/types';
+import { Recipe } from '@root/types';
 
-export const exampleRecipe: RecipeContext = {
+export const exampleRecipe: Recipe = {
+    id: '1',
     title: 'Лазанья с мясным соусом и сыром',
+    difficulty: 'easy',
+    categories: ['soups', 'vegan', 'quick', 'italian'],
+    cookingTime: 20,
     description:
         'Классическая итальянская лазанья с сочным мясным соусом, сыром и тонкими слоями пасты. Это блюдо идеально подойдёт для ужина в кругу семьи или друзей.',
     ingredients: [
@@ -36,13 +40,16 @@ export const exampleRecipe: RecipeContext = {
         'Используйте свежие травы, такие как базилик и петрушка, для украшения перед подачей.',
         'Если хотите сделать лазанью менее калорийной, замените часть сыра на рикотту.'
     ],
-    // previewPhoto: 'https://via.placeholder.com/600x400', // Пример ссылки на фото
+    warnings: ['Аллергия на чечевицу'],
     aiGenerated: true
 };
 
-export const exampleRecipe2: RecipeContext = {
-    title: 'Омлет с сыром',
-    description: 'Лёгкий и вкусный завтрак за 10 минут.',
+export const exampleRecipe2: Recipe = {
+    id: '1',
+    title: 'Лазанья с мясным соусом и сыром',
+    difficulty: 'easy',
+    categories: ['soups', 'vegan', 'quick', 'italian'],
+    cookingTime: 20,
     ingredients: ['2 яйца', '100 мл молока', '50 г сыра'],
     steps: [
         'Взбейте яйца с молоком.',

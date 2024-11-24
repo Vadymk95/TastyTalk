@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typewriter from 'typewriter-effect';
 
-import { RecipeContext } from '@root/types';
+import { Recipe } from '@root/types';
 
 import {
     faComment,
@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ScrollIndicator } from '../../ui/ScrollIndicator';
 
 interface RecipeTypingEffectProps {
-    recipe: RecipeContext;
+    recipe: Recipe;
 }
 
 export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {

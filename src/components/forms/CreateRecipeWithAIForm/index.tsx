@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -12,7 +12,7 @@ import {
     Tooltip
 } from '@root/components/ui';
 import { useAuthStore } from '@root/store';
-import { RecipeContext } from '@root/types';
+import { Recipe as RecipeType } from '@root/types';
 
 import {
     faBookmark,
@@ -31,17 +31,8 @@ export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const { loading, error, clearError } = useAuthStore();
     const [message, setMessage] = useState<string>('');
-    const [recipe, setRecipe] = useState<RecipeContext | null>(null);
-    const chatEndRef = useRef<HTMLDivElement>(null);
+    const [recipe, setRecipe] = useState<RecipeType | null>(null);
     const showRecipe = recipe && message;
-
-    const scrollToBottom = () => {
-        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [recipe]);
 
     const handleGenerateRecipe = async (
         values: CreateRecipeWithAIFormValues,
@@ -84,9 +75,6 @@ export const CreateRecipeWithAIForm: FC = () => {
                     <div className="flex-grow overflow-y-auto">
                         <Query query={message} className="mb-6" />
                         <RecipeTypingEffect recipe={recipe} />
-
-                        {/* temporary */}
-                        {/* <div ref={chatEndRef} /> */}
                     </div>
 
                     <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
