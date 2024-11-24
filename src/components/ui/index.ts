@@ -1,3 +1,4 @@
+export { Badge } from './Badge';
 export { Button } from './Button';
 export { ErrorCard } from './ErrorCard';
 export { GreetingCard } from './GreetingCard';
@@ -7,6 +8,7 @@ export { Link } from './Link';
 export { Loader } from './Loader';
 export { Modal } from './Modal';
 export { PhotoUpload } from './PhotoUpload';
+export { ProgressBar } from './ProgressBar';
 export { Select } from './Select';
 export { Stepper } from './Stepper';
 export { SuccessCard } from './SuccessCard';
@@ -15,4 +17,3 @@ export { Tabs } from './Tabs';
 export { Textarea } from './Textarea';
 export { Tooltip } from './Tooltip';
 export { UsernameInput } from './UsernameInput';
-export { ProgressBar } from './ProgressBar';
