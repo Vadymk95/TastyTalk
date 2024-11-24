@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { Query, Recipe, RecipeTypingEffect } from '@root/components/common';
+import { Query, RecipeTypingEffect } from '@root/components/common';
 import {
     Button,
     ErrorCard,
@@ -21,7 +21,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { exampleRecipe, exampleRecipe3 } from './example';
+import { exampleRecipe } from './example';
 
 type CreateRecipeWithAIFormValues = {
     query: string;
@@ -126,9 +126,6 @@ export const CreateRecipeWithAIForm: FC = () => {
                 >
                     {() => (
                         <Form>
-                            <div>
-                                <Recipe recipe={exampleRecipe3} />
-                            </div>
                             <div className="flex flex-col gap-6 max-w-2xl mx-auto">
                                 <Textarea
                                     name="query"

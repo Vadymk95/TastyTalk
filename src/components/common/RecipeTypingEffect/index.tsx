@@ -2,17 +2,19 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import Typewriter from 'typewriter-effect';
 
+import { Categories, DifficultyMap } from '@root/components/common';
+import { ScrollIndicator } from '@root/components/ui';
 import { Recipe } from '@root/types';
 
 import {
     faComment,
     faForwardStep,
+    faHandDots,
     faPuzzlePiece,
     faRobot,
     faScroll
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ScrollIndicator } from '../../ui/ScrollIndicator';
 
 interface RecipeTypingEffectProps {
     recipe: Recipe;
@@ -23,17 +25,26 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
 
     return (
         <div className="plate">
-            <div className="text-2xl font-heading text-primary mb-4 flex items-center">
-                <FontAwesomeIcon className="mr-3" icon={faScroll} />
-                <Typewriter
-                    options={{
-                        delay: 25,
-                        cursor: ''
-                    }}
-                    onInit={(typewriter) => {
-                        typewriter.typeString(recipe.title).start();
-                    }}
-                />
+            <div className="flex justify-between sm:flex-wrap mb-6 gap-4">
+                <div className="text-2xl font-heading text-primary inline-flex items-center gap-3">
+                    <FontAwesomeIcon icon={faScroll} />
+                    <Typewriter
+                        options={{
+                            delay: 25,
+                            cursor: ''
+                        }}
+                        onInit={(typewriter) => {
+                            typewriter.typeString(recipe.title).start();
+                        }}
+                    />
+                </div>
+                {recipe.difficulty && (
+                    <DifficultyMap level={recipe.difficulty} />
+                )}
+            </div>
+
+            <div className="mb-6">
+                <Categories list={recipe.categories} />
             </div>
 
             {recipe.description && (
@@ -54,11 +65,8 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
 
             {recipe.ingredients && recipe.ingredients.length > 0 && (
                 <div className="mb-6">
-                    <div className="text-xl font-heading text-secondary mb-2 flex items-center">
-                        <FontAwesomeIcon
-                            className="mr-3"
-                            icon={faPuzzlePiece}
-                        />
+                    <div className="text-xl font-heading text-secondary mb-2 flex items-center gap-2">
+                        <FontAwesomeIcon icon={faPuzzlePiece} />
                         <Typewriter
                             options={{
                                 delay: 25,
@@ -94,11 +102,8 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
 
             {recipe.steps && recipe.steps.length > 0 && (
                 <div className="mb-6">
-                    <div className="text-xl font-heading text-secondary mb-2 flex items-center">
-                        <FontAwesomeIcon
-                            className="mr-2"
-                            icon={faForwardStep}
-                        />
+                    <div className="text-xl font-heading text-secondary mb-2 flex items-center gap-2">
+                        <FontAwesomeIcon icon={faForwardStep} />
                         <Typewriter
                             options={{
                                 delay: 25,
@@ -132,8 +137,8 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
 
             {recipe.tips && recipe.tips.length > 0 && (
                 <div className="mb-6">
-                    <h3 className="text-xl font-heading text-secondary mb-2 flex items-center">
-                        <FontAwesomeIcon className="mr-2" icon={faComment} />
+                    <h3 className="text-xl font-heading text-secondary mb-2 flex items-center  gap-2">
+                        <FontAwesomeIcon icon={faComment} />
                         <Typewriter
                             options={{
                                 delay: 25,
@@ -155,6 +160,41 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
                                     }}
                                     onInit={(typewriter) => {
                                         typewriter.typeString(tip).start();
+                                    }}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {recipe.warnings && recipe.warnings.length > 0 && (
+                <div className="mb-6">
+                    <h3 className="text-xl font-heading text-primary mb-2 flex items-center  gap-2">
+                        <FontAwesomeIcon icon={faHandDots} />
+                        <Typewriter
+                            options={{
+                                delay: 25,
+                                cursor: ''
+                            }}
+                            onInit={(typewriter) => {
+                                typewriter
+                                    .typeString(t('Recipe.warnings'))
+                                    .start();
+                            }}
+                        />
+                    </h3>
+                    <ul className="list-disc pl-5 text-neutral-dark">
+                        {recipe.warnings.map((warn, index) => (
+                            <li key={index} className="mb-1">
+                                <Typewriter
+                                    key={index}
+                                    options={{
+                                        delay: 10,
+                                        cursor: ''
+                                    }}
+                                    onInit={(typewriter) => {
+                                        typewriter.typeString(warn).start();
                                     }}
                                 />
                             </li>
