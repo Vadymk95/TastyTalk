@@ -11,7 +11,7 @@ export const Tab: FC<TabProps> = ({
     isSelected = false,
     variant = 'primary',
     size = 'medium',
-    className,
+    className = '',
     children,
     ...props
 }) => {

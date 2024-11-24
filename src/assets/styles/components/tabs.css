@@ -1,5 +1,5 @@
 .tab {
-    @apply transition duration-200 font-medium w-[180px] min-h-[60px];
+    @apply transition duration-200 font-medium w-[180px] min-h-[50px];
 }
 
 .tab-primary {
@@ -11,7 +11,7 @@
 }
 
 .tab-primary.tab-selected {
-    @apply font-bold hover:bg-primary;
+    @apply hover:bg-primary;
     border-bottom: 2px solid #ff7f6b;
 }
 
@@ -29,13 +29,13 @@
 }
 
 .tab-secondary.tab-selected {
-    @apply font-bold hover:bg-secondary bg-secondary-light/20;
+    @apply hover:bg-secondary bg-secondary-light/20;
     border-bottom: 2px solid #4ecdc4;
 }
 
 .tab-secondary.tab-unselected {
     @apply text-neutral-dark/60 hover:bg-neutral;
-    border-bottom: 2px solid rgb(247 247 247 / 0.4);
+    border-bottom: 2px solid rgb(247 247 247 / 0.8);
 }
 
 .tab-accent {
@@ -47,7 +47,7 @@
 }
 
 .tab-accent.tab-selected {
-    @apply font-bold hover:bg-accent;
+    @apply hover:bg-accent;
     border-bottom: 2px solid #ffdb6d;
 }
 
