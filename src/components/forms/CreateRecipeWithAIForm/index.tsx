@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -11,8 +11,7 @@ import {
     Textarea,
     Tooltip
 } from '@root/components/ui';
-import { useAuthStore } from '@root/store';
-import { Recipe as RecipeType } from '@root/types';
+import { useAuthStore, useTemporaryRecipeStore } from '@root/store';
 
 import {
     faBookmark,
@@ -30,23 +29,28 @@ type CreateRecipeWithAIFormValues = {
 export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const { loading, error, clearError } = useAuthStore();
-    const [message, setMessage] = useState<string>('');
-    const [recipe, setRecipe] = useState<RecipeType | null>(null);
-    const showRecipe = recipe && message;
+    const {
+        clearRecipe,
+        currentRecipe,
+        setCurrentRecipe,
+        currentQuery,
+        setCurrentQuery,
+        clearQuery
+    } = useTemporaryRecipeStore();
+    const showRecipe = currentRecipe && currentQuery;
 
     const handleGenerateRecipe = async (
         values: CreateRecipeWithAIFormValues,
         { resetForm }: any
     ) => {
-        // add local storage
-        setMessage(values.query);
-        setRecipe(exampleRecipe);
+        setCurrentQuery(values.query);
+        setCurrentRecipe(exampleRecipe);
         resetForm();
     };
 
     const handleClearRecipe = () => {
-        setMessage('');
-        setRecipe(null);
+        clearQuery();
+        clearRecipe();
     };
 
     const handleSaveRecipe = () => {
@@ -73,8 +77,8 @@ export const CreateRecipeWithAIForm: FC = () => {
             {showRecipe ? (
                 <>
                     <div className="flex-grow overflow-y-auto">
-                        <Query query={message} className="mb-6" />
-                        <RecipeTypingEffect recipe={recipe} />
+                        <Query query={currentQuery} className="mb-6" />
+                        <RecipeTypingEffect recipe={currentRecipe} />
                     </div>
 
                     <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
