@@ -25,28 +25,17 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
 
     return (
         <div className="plate">
-            <div className="flex justify-between sm:flex-wrap">
-                <h2 className="text-2xl font-heading text-primary mb-4">
+            <div className="flex justify-between sm:flex-wrap mb-6 gap-4">
+                <h2 className="text-2xl font-heading text-primary">
                     <FontAwesomeIcon className="mr-3" icon={faScroll} />
                     <span>{recipe.title}</span>
                 </h2>
                 {recipe.difficulty && (
-                    <DifficultyMap
-                        className="sm:mb-4"
-                        level={recipe.difficulty}
-                    />
+                    <DifficultyMap level={recipe.difficulty} />
                 )}
             </div>
 
             <Categories className="mb-6" list={recipe.categories} />
-
-            {/* <div className="mb-6">
-                <h3 className="text-xl font-heading text-secondary mb-2">
-                    <FontAwesomeIcon className="mr-2" icon={faCubesStacked} />
-                    <span>{t('Recipe.categories')}</span>
-                </h3>
-                <Categories list={recipe.categories} />
-            </div> */}
 
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">

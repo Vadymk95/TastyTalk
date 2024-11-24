@@ -16,37 +16,37 @@ export const DifficultyMap: FC<DifficultyMapProps> = ({ level, className }) => {
 
     if (level === 'easy') {
         return (
-            <h3
-                className={`text-xl font-heading mb-2 flex items-center text-secondary gap-2 ${className}`}
+            <p
+                className={`flex items-center text-secondary gap-2 ${className}`}
             >
                 <span>{t('Recipe.difficulty')}</span>
                 <FontAwesomeIcon icon={faFire} />
-            </h3>
+            </p>
         );
     }
 
     if (level === 'medium') {
         return (
-            <h3 className="text-xl font-heading mb-2 flex items-center text-accent gap-2">
+            <p className="flex items-center text-accent gap-2">
                 <span>{t('Recipe.difficulty')}</span>
                 <span className="flex items-center gap-0.5">
                     <FontAwesomeIcon icon={faFire} />
                     <FontAwesomeIcon icon={faFire} />
                 </span>
-            </h3>
+            </p>
         );
     }
 
     if (level === 'hard') {
         return (
-            <h3 className="text-xl font-heading mb-2 flex items-center text-primary gap-2">
+            <p className="flex items-center text-primary gap-2">
                 <span>{t('Recipe.difficulty')}</span>
                 <span className="flex items-center gap-0.5">
                     <FontAwesomeIcon icon={faFire} />
                     <FontAwesomeIcon icon={faFire} />
                     <FontAwesomeIcon icon={faFire} />
                 </span>
-            </h3>
+            </p>
         );
     }
 };
