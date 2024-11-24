@@ -229,9 +229,7 @@ export const ru = {
                     tryAnotherDescription:
                         'Удалить текущий рецепт и начать заново'
                 },
-                CreateRecipeManuallyForm: {
-                    create: 'Создать рецепт'
-                }
+                CreateRecipeManuallyForm: {}
             },
             Modals: {
                 SupportModal: {

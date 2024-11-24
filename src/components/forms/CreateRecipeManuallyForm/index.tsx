@@ -57,7 +57,6 @@ export const CreateRecipeManuallyForm: FC = () => {
 
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
-            {t('Forms.CreateRecipeManuallyForm.create')}
             <Stepper steps={steps} />
         </div>
     );

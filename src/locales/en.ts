@@ -236,9 +236,7 @@ export const en = {
                     tryAnotherDescription:
                         'Remove current recipe and create a new one with our chatbot'
                 },
-                CreateRecipeManuallyForm: {
-                    create: 'Create Recipe'
-                }
+                CreateRecipeManuallyForm: {}
             },
             Modals: {
                 SupportModal: {
