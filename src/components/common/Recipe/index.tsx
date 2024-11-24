@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { Categories, DifficultyMap } from '@root/components/common';
+import { Image } from '@root/components/ui';
 import { Recipe as RecipeType } from '@root/types';
 
 import {
@@ -37,6 +38,18 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
 
             <Categories className="mb-6" list={recipe.categories} />
 
+            {recipe.description && (
+                <p className="text-neutral-dark mb-4">{recipe.description}</p>
+            )}
+
+            {recipe.previewPhoto && typeof recipe.previewPhoto === 'string' && (
+                <Image
+                    src={recipe.previewPhoto}
+                    alt={recipe.title}
+                    className="w-full h-auto rounded-lg mb-6"
+                />
+            )}
+
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
                     <FontAwesomeIcon className="mr-2" icon={faClock} />
@@ -48,18 +61,6 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                     components={{ b: <b /> }}
                 />
             </div>
-
-            {recipe.description && (
-                <p className="text-neutral-dark mb-4">{recipe.description}</p>
-            )}
-
-            {recipe.previewPhoto && typeof recipe.previewPhoto === 'string' && (
-                <img
-                    src={recipe.previewPhoto}
-                    alt={recipe.title}
-                    className="w-full h-auto rounded-lg mb-6"
-                />
-            )}
 
             <div className="mb-6">
                 <h3 className="text-xl font-heading text-secondary mb-2">
