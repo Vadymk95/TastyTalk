@@ -1,3 +1,8 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
-export const Step1: FC = () => <div>Шаг 1: Название рецепта</div>;
+export const Step1: FC = () => {
+    const { t } = useTranslation();
+
+    return <div>{t('Stepper.Steps.Recipe.1.description')}</div>;
+};

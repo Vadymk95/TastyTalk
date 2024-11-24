@@ -289,7 +289,59 @@ export const en = {
                 back: 'Back',
                 skip: 'Skip',
                 next: 'Next',
-                submit: 'Finish'
+                submit: 'Finish',
+                Steps: {
+                    Steps: {
+                        Recipe: {
+                            '1': {
+                                title: 'Name Your Recipe and Set the Basics',
+                                description:
+                                    'Step 1: Give your recipe a name and set the basic information, such as the number of servings and cooking time.'
+                            },
+                            '2': {
+                                title: 'Describe Your Recipe',
+                                description:
+                                    'Step 2: Write a brief description of your recipe, including its origin, history, or any other interesting facts.'
+                            },
+                            '3': {
+                                title: 'Upload a Photo',
+                                description:
+                                    'Step 3: Add a photo of your dish to make it more appealing to other users.'
+                            },
+                            '4': {
+                                title: 'List the Ingredients',
+                                description:
+                                    'Step 4: Add all the ingredients needed to prepare your dish.'
+                            },
+                            '5': {
+                                title: 'List the Steps',
+                                description:
+                                    'Step 5: Add all the steps needed to prepare your dish.'
+                            },
+                            '6': {
+                                title: 'Add Tips',
+                                description:
+                                    'Step 6: Add any additional tips or tricks that might help others prepare your dish.'
+                            },
+                            '7': {
+                                title: 'Add Warnings',
+                                description:
+                                    'Step 7: Add any warnings or precautions that others should be aware of when preparing your dish.'
+                            },
+                            '8': {
+                                title: 'Add a Video-link',
+                                description:
+                                    'Step 8: Add a video link(YouTube) to your recipe to show others how to prepare it.'
+                            },
+                            '9': {
+                                title: 'Review and Publish',
+                                description:
+                                    'Step 9: Review your recipe and publish.'
+                            }
+                        }
+                    },
+                    MealPlan: {}
+                }
             },
             General: {
                 loading: 'Loading...',

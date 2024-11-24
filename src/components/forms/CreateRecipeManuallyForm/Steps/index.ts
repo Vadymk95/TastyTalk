@@ -6,3 +6,4 @@ export { Step5 } from './Step5';
 export { Step6 } from './Step6';
 export { Step7 } from './Step7';
 export { Step8 } from './Step8';
+export { Step9 } from './Step9';
