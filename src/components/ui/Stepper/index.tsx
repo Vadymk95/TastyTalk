@@ -69,7 +69,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
                     disabled={currentStep === 0}
                 >
                     <FontAwesomeIcon icon={faChevronLeft} />
-                    <span>{t('Stepper.back')}</span>
+                    <span className="sm:hidden">{t('Stepper.back')}</span>
                 </Button>
 
                 {steps[currentStep].isOptional && (
@@ -78,7 +78,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
                         size="large"
                         onClick={handleSkip}
                     >
-                        <span>{t('Stepper.skip')}</span>
+                        <span className="sm:hidden">{t('Stepper.skip')}</span>
                         <FontAwesomeIcon icon={faForward} />
                     </Button>
                 )}
@@ -91,7 +91,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
                         type="submit"
                     >
                         <FontAwesomeIcon icon={faCircleCheck} />
-                        <span>{t('Stepper.submit')}</span>
+                        <span className="sm:hidden">{t('Stepper.submit')}</span>
                     </Button>
                 ) : (
                     <Button
@@ -100,7 +100,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
                         size="large"
                         onClick={handleNext}
                     >
-                        <span>{t('Stepper.next')}</span>
+                        <span className="sm:hidden">{t('Stepper.next')}</span>
                         <FontAwesomeIcon icon={faChevronRight} />
                     </Button>
                 )}

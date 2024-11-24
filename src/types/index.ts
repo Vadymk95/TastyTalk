@@ -22,14 +22,14 @@ export type Difficulty = 'easy' | 'medium' | 'hard';
 export interface Recipe {
     id: string; // Уникальный идентификатор рецепта
     title: string; // Название рецепта
-    description?: string; // Описание рецепта
-    previewPhoto?: string | File; // Фото превью (Base64 или URL) или фаил
     difficulty: Difficulty; // Сложность приготовления
     categories: string[]; // Категории, к которым относится рецепт
+    cookingTime: number; // Время готовки (в минутах)
+    description?: string; // Описание рецепта
+    previewPhoto?: string | File; // Фото превью (Base64 или URL) или фаил
     ingredients: string[]; // Список ингредиентов
     steps: string[]; // Этапы приготовления
     tips?: string[]; // Советы по приготовлению
-    cookingTime?: number; // Время готовки (в минутах)
     warnings?: string[]; // Предостережения (например, аллергии)
     videoUrl?: string; // Ссылка на видео рецепта
     aiGenerated: boolean; // Указывает, создан ли рецепт AI
