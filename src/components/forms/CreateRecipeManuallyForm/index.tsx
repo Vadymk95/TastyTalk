@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
 
 import { Stepper } from '@root/components/ui';
 
+import { Form, Formik } from 'formik';
 import {
     Step1,
     Step2,
@@ -14,6 +16,10 @@ import {
     Step8,
     Step9
 } from './Steps';
+
+type CreateRecipeManuallyValues = {
+    title: string;
+};
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
@@ -55,9 +61,34 @@ export const CreateRecipeManuallyForm: FC = () => {
         { id: 9, title: t('Stepper.Steps.Recipe.9.title'), content: <Step9 /> }
     ];
 
+    const CreateRecipeManuallySchema = Yup.object().shape({
+        title: Yup.string().required(
+            t('Forms.CreateRecipeManuallyForm.requiredField')
+        )
+    });
+
+    const onSubmit = (values: CreateRecipeManuallyValues) => {
+        console.log(values);
+    };
+
+    const initialValues: CreateRecipeManuallyValues = {
+        title: ''
+    };
+
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
-            <Stepper steps={steps} />
+            <Formik
+                preventDefault
+                validationSchema={CreateRecipeManuallySchema}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+            >
+                {() => (
+                    <Form>
+                        <Stepper steps={steps} />
+                    </Form>
+                )}
+            </Formik>
         </div>
     );
 };

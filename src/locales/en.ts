@@ -236,7 +236,9 @@ export const en = {
                     tryAnotherDescription:
                         'Remove current recipe and create a new one with our chatbot'
                 },
-                CreateRecipeManuallyForm: {}
+                CreateRecipeManuallyForm: {
+                    requiredField: 'This field is required'
+                }
             },
             Modals: {
                 SupportModal: {

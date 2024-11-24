@@ -229,7 +229,9 @@ export const ru = {
                     tryAnotherDescription:
                         'Удалить текущий рецепт и начать заново'
                 },
-                CreateRecipeManuallyForm: {}
+                CreateRecipeManuallyForm: {
+                    requiredField: 'Это поле обязательно'
+                }
             },
             Modals: {
                 SupportModal: {

@@ -62,6 +62,7 @@ export const DeleteAccountForm: FC<DeleteAccountFormProps> = ({
 
     return (
         <Formik
+            preventDefault
             validationSchema={DeleteAccountSchema}
             initialValues={initialValues}
             onSubmit={onSubmit}
