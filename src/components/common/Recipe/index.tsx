@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
-import { Categories, DifficultyMap } from '@root/components/common';
+import { Categories, DifficultyMap, Video } from '@root/components/common';
 import { Image } from '@root/components/ui';
 import { Recipe as RecipeType } from '@root/types';
 
@@ -13,7 +13,8 @@ import {
     faPuzzlePiece,
     faRobot,
     faScroll,
-    faUser
+    faUser,
+    faVideo
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -36,18 +37,22 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                 )}
             </div>
 
-            <Categories className="mb-6" list={recipe.categories} />
+            <div className="mb-6">
+                <Categories list={recipe.categories} />
+            </div>
 
             {recipe.description && (
                 <p className="text-neutral-dark mb-4">{recipe.description}</p>
             )}
 
             {recipe.previewPhoto && typeof recipe.previewPhoto === 'string' && (
-                <Image
-                    src={recipe.previewPhoto}
-                    alt={recipe.title}
-                    className="w-full h-auto rounded-lg mb-6"
-                />
+                <div className="mb-6">
+                    <Image
+                        src={recipe.previewPhoto}
+                        alt={recipe.title}
+                        className="w-full h-auto rounded-lg"
+                    />
+                </div>
             )}
 
             <div className="mb-6">
@@ -103,6 +108,16 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                             </li>
                         ))}
                     </ul>
+                </div>
+            )}
+
+            {recipe.videoUrl && (
+                <div className="mb-6">
+                    <h3 className="text-xl font-heading text-primary mb-2 inline-flex items-center gap-2">
+                        <FontAwesomeIcon icon={faVideo} />
+                        <span>{t('Recipe.video')}</span>
+                    </h3>
+                    <Video videoUrl={recipe.videoUrl} />
                 </div>
             )}
 

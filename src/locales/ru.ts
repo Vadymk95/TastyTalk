@@ -270,6 +270,7 @@ export const ru = {
                 ingredients: 'Ингредиенты:',
                 steps: 'Шаги приготовления:',
                 time: 'Время приготовления:',
+                video: 'Видео',
                 cookingTime:
                     'Приготовление блюда займет около <b>~{{count}} минут.</b>',
                 tips: 'Советы:',
@@ -288,7 +289,8 @@ export const ru = {
                 error: 'Ошибка:',
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
                 notAvailable: 'Недоступно',
-                yourQueryTitle: 'Ваш запрос'
+                yourQueryTitle: 'Ваш запрос',
+                invalidYouTubeUrl: 'Неверная ссылка на YouTube'
             }
         }
     }

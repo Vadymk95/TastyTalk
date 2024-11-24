@@ -7,3 +7,4 @@ export { ProfileSettingsModals } from './ProfileSettingsModals';
 export { Query } from './Query';
 export { Recipe } from './Recipe';
 export { RecipeTypingEffect } from './RecipeTypingEffect';
+export { Video } from './Video';

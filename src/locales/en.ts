@@ -277,6 +277,7 @@ export const en = {
                 ingredients: 'Ingredients:',
                 steps: 'Steps:',
                 time: 'Cooking time:',
+                video: 'Video',
                 cookingTime:
                     'This dish will take about <b>~{{count}} minutes to prepare.</b>',
                 tips: 'Tips:',
@@ -296,7 +297,8 @@ export const en = {
                 somethingWentWrong:
                     'Something went wrong, please try again later',
                 notAvailable: 'Not available',
-                yourQueryTitle: 'Your Query'
+                yourQueryTitle: 'Your Query',
+                invalidYouTubeUrl: 'Invalid YouTube URL'
             }
         }
     }

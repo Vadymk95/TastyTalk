@@ -70,7 +70,7 @@ export const exampleRecipe3: Recipe = {
     ],
     tips: ['Подавать с хлебом'],
     warnings: ['Аллергия на чечевицу'],
-    videoUrl: 'https://www.youtube.com/watch?v=example',
+    videoUrl: 'https://www.youtube.com/watch?v=7oUqRIysbag',
     aiGenerated: true,
     likes: 0,
     views: 0,
