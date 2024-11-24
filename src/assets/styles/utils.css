@@ -45,3 +45,11 @@
 .main-heading-70 {
     @apply text-4xl sm:text-2xl font-bold text-neutral-dark/70 text-center mb-8;
 }
+
+.plate {
+    @apply bg-white text-neutral-dark rounded-lg p-8 lg:p-6 md:!p-4 leading-tight shadow-md;
+}
+
+.video-container {
+    @apply bg-white rounded-lg shadow-md leading-tight overflow-hidden relative;
+}

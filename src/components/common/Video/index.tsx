@@ -17,8 +17,12 @@ export const Video: FC<RecipeProps> = ({ videoUrl }) => {
 
     return (
         <div
-            className="overflow-hidden plate"
-            style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}
+            className="video-container"
+            style={{
+                position: 'relative',
+                paddingBottom: '56.25%',
+                height: 0
+            }}
         >
             <iframe
                 src={`https://www.youtube.com/embed/${videoId}`}
