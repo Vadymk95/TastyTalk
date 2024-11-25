@@ -55,7 +55,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
                 className="mb-6"
             />
 
-            <h2 className="text-xl font-heading text-primary mb-4">
+            <h2 className="text-2xl font-heading text-primary mb-4">
                 {steps[currentStep].title}
             </h2>
 

@@ -11,6 +11,7 @@ type SelectProps = {
     resetable?: boolean;
     disabled?: boolean;
     className?: string;
+    variant?: 'primary' | 'secondary' | 'accent' | 'neutral';
     onSelect: (option: string | null) => void;
 };
 
@@ -22,6 +23,7 @@ export const Select: FC<SelectProps> = ({
     resetable = false,
     disabled = false,
     className = '',
+    variant = 'neutral',
     onSelect
 }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +51,7 @@ export const Select: FC<SelectProps> = ({
     return (
         <div className="select-container">
             <Button
-                className={`select ${disabled ? 'select-disabled' : ''} ${className}`}
+                className={`select-${variant} select ${disabled ? 'select-disabled' : ''} ${className}`}
                 onClick={toggleDropdown}
                 disabled={disabled}
                 type="button"

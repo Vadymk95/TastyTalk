@@ -1,11 +1,7 @@
 /* Select Styles */
 .select {
-    @apply bg-accent text-neutral-dark/45 font-semibold rounded-lg transition duration-200 flex items-center justify-between max-w-[300px] px-4 py-2;
+    @apply font-semibold rounded-lg transition duration-200 flex items-center justify-between max-w-[300px] px-4 py-2;
     @apply overflow-hidden truncate;
-}
-
-.select:hover {
-    @apply bg-accent-dark;
 }
 
 .select-disabled {
@@ -35,4 +31,52 @@
 
 .reset-button {
     @apply mr-2 ml-4 text-neutral-dark/40 text-xl cursor-pointer hover:text-primary transition-colors duration-150 ease-in-out;
+}
+
+.select-primary {
+    @apply bg-primary text-white;
+}
+
+.select-primary:hover {
+    @apply bg-primary-dark scale-105;
+}
+
+.select-primary:active {
+    @apply scale-95 bg-primary;
+}
+
+.select-secondary {
+    @apply bg-secondary text-white;
+}
+
+.select-secondary:hover {
+    @apply bg-secondary-dark scale-105;
+}
+
+.select-secondary:active {
+    @apply scale-95 bg-secondary;
+}
+
+.select-accent {
+    @apply bg-accent text-neutral-dark/45;
+}
+
+.select-accent:hover {
+    @apply bg-accent-dark scale-105;
+}
+
+.select-accent:active {
+    @apply scale-95 bg-accent;
+}
+
+.select-neutral {
+    @apply bg-neutral text-neutral-dark text-neutral-dark/60;
+}
+
+.select-neutral:hover {
+    @apply bg-neutral-dark/20 scale-105;
+}
+
+.select-neutral:active {
+    @apply scale-95 bg-neutral;
 }
