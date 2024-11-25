@@ -1,7 +1,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field, FieldProps } from 'formik';
-import { ChangeEvent, FC, useState } from 'react';
+import { FC, FocusEvent, useState } from 'react';
 
 type InputProps = {
     name: string;
@@ -12,6 +12,7 @@ type InputProps = {
     className?: string;
     disabled?: boolean;
     size?: 'small' | 'medium' | 'large';
+    min?: number;
 };
 
 export const Input: FC<InputProps> = ({
@@ -22,7 +23,8 @@ export const Input: FC<InputProps> = ({
     placeholder = '',
     className = '',
     disabled = false,
-    size = 'medium'
+    size = 'medium',
+    min = 1
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -42,10 +44,19 @@ export const Input: FC<InputProps> = ({
         large: 'label-large'
     };
 
-    const handleNumberInput = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(event.target.value, 10);
-        if (value < 1) {
-            event.target.value = '1';
+    const handleBlur = (
+        event: FocusEvent<HTMLInputElement>,
+        setValue: (value: string) => void
+    ) => {
+        const value = event.target.value;
+
+        // Удаляем ведущие нули и приводим значение к минимальному, если оно пустое
+        if (type === 'number') {
+            if (value === '' || parseInt(value, 10) < min) {
+                setValue(min.toString());
+            } else if (value.startsWith('0')) {
+                setValue(parseInt(value, 10).toString()); // Удаляем ведущие нули
+            }
         }
     };
 
@@ -58,7 +69,7 @@ export const Input: FC<InputProps> = ({
 
             <div className="relative">
                 <Field name={name}>
-                    {({ field }: FieldProps) => (
+                    {({ field, form }: FieldProps) => (
                         <input
                             {...field}
                             className={`input-primary ${sizeInputStyle[size]} input ${
@@ -75,12 +86,19 @@ export const Input: FC<InputProps> = ({
                                     : placeholder
                             }
                             disabled={disabled}
-                            onInput={
+                            onBlur={
                                 type === 'number'
-                                    ? handleNumberInput
+                                    ? (event) =>
+                                          handleBlur(
+                                              event,
+                                              form.setFieldValue.bind(
+                                                  null,
+                                                  name
+                                              )
+                                          )
                                     : undefined
                             }
-                            min={type === 'number' ? 1 : undefined}
+                            min={type === 'number' ? min : undefined}
                         />
                     )}
                 </Field>

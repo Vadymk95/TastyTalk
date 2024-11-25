@@ -34,7 +34,7 @@ export default [
                 { allowConstantExport: true }
             ],
             'prettier/prettier': 'error',
-            indent: ['error', 4],
+            'no-mixed-spaces-and-tabs': 'warn',
             '@typescript-eslint/no-explicit-any': 'off'
         },
         settings: {
