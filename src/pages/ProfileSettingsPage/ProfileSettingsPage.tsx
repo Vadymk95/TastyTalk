@@ -21,8 +21,8 @@ const ProfileSettingsPage: FC = () => {
         openModal(modalId);
     };
 
-    const handleSelect = async (option: string) => {
-        const selectedLang = languages.find((lang) => lang.name === option);
+    const handleSelect = async (value: string | null) => {
+        const selectedLang = languages.find((lang) => lang.code === value);
         await setLanguage(selectedLang?.code || 'en');
     };
 
@@ -47,6 +47,11 @@ const ProfileSettingsPage: FC = () => {
             console.error('Error when resending the email:', error);
         }
     };
+
+    const options = languages.map((lang) => ({
+        label: lang.name,
+        value: lang.code
+    }));
 
     return (
         <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8 sm:gap-y-4">
@@ -82,7 +87,7 @@ const ProfileSettingsPage: FC = () => {
                 </p>
 
                 <Select
-                    options={languages.map((lang) => lang.name)}
+                    options={options}
                     placeholder={t('ProfileSettingsPage.changeLanguageButton')}
                     searchable={true}
                     onSelect={handleSelect}

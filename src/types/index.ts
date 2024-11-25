@@ -44,3 +44,8 @@ export interface Recipe {
     reports?: Report[]; // Жалобы на рецепт
     reposts?: number; // Количество репостов
 }
+
+export type Option = {
+    value: string;
+    label: string;
+};

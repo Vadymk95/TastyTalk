@@ -1,18 +1,17 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
 import { Button } from '@root/components/ui';
+import { Option } from '@root/types';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FC, useState } from 'react';
 
 type SelectProps = {
-    options: string[];
+    options: Option[];
     placeholder: string;
-    value?: string;
+    value?: string | null;
     searchable?: boolean;
     resetable?: boolean;
     disabled?: boolean;
     className?: string;
-    onSelect: (option: string) => void;
+    onSelect: (option: string | null) => void;
 };
 
 export const Select: FC<SelectProps> = ({
@@ -25,34 +24,27 @@ export const Select: FC<SelectProps> = ({
     className = '',
     onSelect
 }) => {
-    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedOption, setSelectedOption] = useState<string | null>(
-        value || null
-    );
+
+    const selectedOption =
+        options.find((option) => option.value === value) || null;
 
     const toggleDropdown = () => !disabled && setIsOpen((prev) => !prev);
 
-    const handleSelect = (option: string) => {
-        setSelectedOption(option);
+    const handleSelect = (optionValue: string) => {
+        onSelect(optionValue);
         setIsOpen(false);
-        onSelect(option);
     };
 
     const handleReset = () => {
-        setSelectedOption(null);
         setSearchQuery('');
-        onSelect('');
+        onSelect(null);
     };
 
     const filteredOptions = options.filter((option) =>
-        option.toLowerCase().includes(searchQuery.toLowerCase())
+        option.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
-    useEffect(() => {
-        setSelectedOption(value || null);
-    }, [value]);
 
     return (
         <div className="select-container">
@@ -63,7 +55,7 @@ export const Select: FC<SelectProps> = ({
                 type="button"
             >
                 <span className="truncate-text">
-                    {selectedOption || placeholder}
+                    {selectedOption?.label || placeholder}
                 </span>
                 <div className="flex items-center">
                     {resetable && selectedOption && (
@@ -93,7 +85,7 @@ export const Select: FC<SelectProps> = ({
                         {searchable && (
                             <input
                                 type="text"
-                                placeholder={t('General.search')}
+                                placeholder="Search..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="select-input"
@@ -101,11 +93,11 @@ export const Select: FC<SelectProps> = ({
                         )}
                         {filteredOptions.map((option) => (
                             <div
-                                key={option}
-                                onClick={() => handleSelect(option)}
+                                key={option.value}
+                                onClick={() => handleSelect(option.value)}
                                 className="select-item"
                             >
-                                {option}
+                                {option.label}
                             </div>
                         ))}
                     </motion.div>

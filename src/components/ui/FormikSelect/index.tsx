@@ -1,9 +1,11 @@
-import { Select as BaseSelect } from '@root/components/ui';
 import { FieldHookConfig, useField } from 'formik';
 import { FC } from 'react';
 
+import { Select as BaseSelect } from '@root/components/ui';
+import { Option } from '@root/types';
+
 type FormikSelectProps = {
-    options: string[];
+    options: Option[];
     placeholder: string;
     searchable?: boolean;
     resetable?: boolean;
@@ -32,7 +34,7 @@ export const FormikSelect: FC<FormikSelectProps> = ({
             resetable={resetable}
             disabled={disabled}
             value={field.value}
-            onSelect={(value) => setValue(value)}
+            onSelect={(value) => setValue(value as string)}
         />
     );
 };

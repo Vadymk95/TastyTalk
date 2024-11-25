@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FormikSelect, Input } from '@root/components/ui';
-import { Difficulty } from '@root/types';
+import { Difficulty, Option } from '@root/types';
 
 import { CreateRecipeManuallyValues } from '..';
 
@@ -15,23 +15,18 @@ export const Step1: FC<StepProps> = ({ formik }) => {
     const { t } = useTranslation();
 
     const selectBgColor = (type: Difficulty | null) => {
-        if (type === t('General.easy'))
-            return 'bg-secondary hover:bg-secondary-light';
-        if (type === t('General.medium'))
-            return 'bg-accent hover:bg-accent-light';
-        if (type === t('General.hard'))
-            return 'bg-primary hover:bg-primary-light';
+        if (type === 'easy') return 'bg-secondary hover:bg-secondary-light';
+        if (type === 'medium') return 'bg-accent hover:bg-accent-light';
+        if (type === 'hard') return 'bg-primary hover:bg-primary-light';
 
         return 'bg-neutral-light hover:bg-neutral';
     };
 
-    const options = [
+    const options: Option[] = [
         { value: 'easy', label: t('General.easy') },
         { value: 'medium', label: t('General.medium') },
         { value: 'hard', label: t('General.hard') }
     ];
-
-    const localizedOptions = options.map((opt) => opt.label);
 
     return (
         <section>
@@ -49,8 +44,7 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                     <FormikSelect
                         className={selectBgColor(formik.values.difficulty)}
                         name="difficulty"
-                        options={localizedOptions}
-                        onBlur={formik.handleBlur}
+                        options={options}
                         placeholder={t(
                             'Forms.CreateRecipeManuallyForm.difficultyPlaceholder'
                         )}
@@ -61,7 +55,7 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                     <p>{t('Forms.CreateRecipeManuallyForm.categories')}</p>
                     <FormikSelect
                         name="categories"
-                        options={['as']}
+                        options={[]}
                         placeholder={t(
                             'Forms.CreateRecipeManuallyForm.categoriesPlaceholder'
                         )}

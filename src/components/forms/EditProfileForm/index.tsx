@@ -6,9 +6,9 @@ import * as Yup from 'yup';
 import {
     Button,
     ErrorCard,
+    FormikSelect,
     Input,
     PhotoUpload,
-    Select,
     SuccessCard,
     Textarea,
     UsernameInput
@@ -120,6 +120,11 @@ export const EditProfileForm: FC = () => {
         }
     };
 
+    const options = countries.map((country) => ({
+        label: country.name,
+        value: country.code
+    }));
+
     useEffect(() => {
         clearError();
     }, [clearError]);
@@ -203,15 +208,13 @@ export const EditProfileForm: FC = () => {
                                 {t('Forms.EditProfileForm.country')}
                             </label>
 
-                            <Select
+                            <FormikSelect
+                                name="country"
                                 value={initialValues.country}
-                                options={countries}
+                                options={options}
                                 placeholder={t(
                                     'Forms.EditProfileForm.selectCountry'
                                 )}
-                                onSelect={(option) =>
-                                    setFieldValue('country', option)
-                                }
                             />
                         </div>
 
