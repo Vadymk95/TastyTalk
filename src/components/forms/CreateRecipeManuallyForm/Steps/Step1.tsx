@@ -25,7 +25,13 @@ export const Step1: FC<StepProps> = ({ formik }) => {
         return 'bg-neutral-light hover:bg-neutral';
     };
 
-    const options = [t('General.easy'), t('General.medium'), t('General.hard')];
+    const options = [
+        { value: 'easy', label: t('General.easy') },
+        { value: 'medium', label: t('General.medium') },
+        { value: 'hard', label: t('General.hard') }
+    ];
+
+    const localizedOptions = options.map((opt) => opt.label);
 
     return (
         <section>
@@ -43,7 +49,8 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                     <FormikSelect
                         className={selectBgColor(formik.values.difficulty)}
                         name="difficulty"
-                        options={options}
+                        options={localizedOptions}
+                        onBlur={formik.handleBlur}
                         placeholder={t(
                             'Forms.CreateRecipeManuallyForm.difficultyPlaceholder'
                         )}

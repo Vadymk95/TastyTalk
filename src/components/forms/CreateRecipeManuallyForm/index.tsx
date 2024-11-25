@@ -14,7 +14,7 @@ import { exampleRecipe } from '../CreateRecipeWithAIForm/example';
 export type CreateRecipeManuallyValues = {
     title: string;
     difficulty: null | Difficulty;
-    categories: string[];
+    categories: null | string[];
     cookingTime: number;
 };
 
@@ -43,7 +43,7 @@ export const CreateRecipeManuallyForm: FC = () => {
     const initialValues: CreateRecipeManuallyValues = {
         title: '',
         difficulty: null,
-        categories: [],
+        categories: null,
         cookingTime: 0
     };
 
