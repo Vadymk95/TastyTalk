@@ -1,6 +1,7 @@
 export { Badge } from './Badge';
 export { Button } from './Button';
 export { ErrorCard } from './ErrorCard';
+export { FormikSelect } from './FormikSelect';
 export { GreetingCard } from './GreetingCard';
 export { Image } from './Image';
 export { Input } from './Input';

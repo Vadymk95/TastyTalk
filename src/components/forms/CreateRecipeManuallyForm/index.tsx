@@ -1,23 +1,37 @@
+import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { Stepper } from '@root/components/ui';
+import { Difficulty } from '@root/types';
 
-import { Form, Formik } from 'formik';
 import { GetAllSteps } from './Steps';
 
-type CreateRecipeManuallyValues = {
+import { Recipe } from '../../common';
+import { exampleRecipe } from '../CreateRecipeWithAIForm/example';
+
+export type CreateRecipeManuallyValues = {
     title: string;
+    difficulty: null | Difficulty;
+    categories: string[];
+    cookingTime: number;
 };
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
 
-    const steps = GetAllSteps();
-
     const CreateRecipeManuallySchema = Yup.object().shape({
         title: Yup.string().required(
+            t('Forms.CreateRecipeManuallyForm.requiredField')
+        ),
+        difficulty: Yup.string().required(
+            t('Forms.CreateRecipeManuallyForm.requiredField')
+        ),
+        categories: Yup.array().required(
+            t('Forms.CreateRecipeManuallyForm.requiredField')
+        ),
+        cookingTime: Yup.number().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
         )
     });
@@ -27,7 +41,10 @@ export const CreateRecipeManuallyForm: FC = () => {
     };
 
     const initialValues: CreateRecipeManuallyValues = {
-        title: ''
+        title: '',
+        difficulty: null,
+        categories: [],
+        cookingTime: 0
     };
 
     return (
@@ -38,9 +55,13 @@ export const CreateRecipeManuallyForm: FC = () => {
                 initialValues={initialValues}
                 onSubmit={onSubmit}
             >
-                {() => (
+                {(formik) => (
                     <Form>
-                        <Stepper steps={steps} />
+                        <Stepper steps={GetAllSteps(formik)} />
+
+                        <div className="mt-12">
+                            <Recipe recipe={exampleRecipe} />
+                        </div>
                     </Form>
                 )}
             </Formik>

@@ -237,7 +237,13 @@ export const en = {
                         'Remove current recipe and create a new one with our chatbot'
                 },
                 CreateRecipeManuallyForm: {
-                    requiredField: 'This field is required'
+                    requiredField: 'This field is required',
+                    title: 'Recipe Title',
+                    difficulty: 'Difficulty',
+                    difficultyPlaceholder: 'Select difficulty',
+                    categories: 'Categories',
+                    categoriesPlaceholder: 'Select categories',
+                    cookingTime: 'Approximate Cooking Time (in minutes)'
                 }
             },
             Modals: {
@@ -350,7 +356,11 @@ export const en = {
                     'Something went wrong, please try again later',
                 notAvailable: 'Not available',
                 yourQueryTitle: 'Your Query',
-                invalidYouTubeUrl: 'Invalid YouTube URL'
+                invalidYouTubeUrl: 'Invalid YouTube URL',
+                easy: 'Easy',
+                medium: 'Medium',
+                hard: 'Hard',
+                search: 'Search...'
             }
         }
     }

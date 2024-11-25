@@ -1,3 +1,4 @@
+import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -11,12 +12,19 @@ import {
     Step8,
     Step9
 } from '.';
+import { CreateRecipeManuallyValues } from '..';
 
-export const GetAllSteps = () => {
+export const GetAllSteps = (
+    formik: FormikProps<CreateRecipeManuallyValues>
+) => {
     const { t } = useTranslation();
 
     const steps = [
-        { id: 1, title: t('Stepper.Steps.Recipe.1.title'), content: <Step1 /> },
+        {
+            id: 1,
+            title: t('Stepper.Steps.Recipe.1.title'),
+            content: <Step1 formik={formik} />
+        },
         {
             id: 2,
             title: t('Stepper.Steps.Recipe.2.title'),

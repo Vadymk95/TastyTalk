@@ -53,3 +53,7 @@
 .video-container {
     @apply bg-white rounded-lg shadow-md leading-tight overflow-hidden relative;
 }
+
+.label {
+    @apply text-neutral-dark/60;
+}

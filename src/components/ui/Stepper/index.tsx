@@ -59,7 +59,7 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
                 {steps[currentStep].title}
             </h2>
 
-            <div className="mb-6">{steps[currentStep].content}</div>
+            <div className="mb-14">{steps[currentStep].content}</div>
 
             <div className="flex justify-between items-center">
                 <Button

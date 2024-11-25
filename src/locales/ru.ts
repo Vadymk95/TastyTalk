@@ -230,7 +230,14 @@ export const ru = {
                         'Удалить текущий рецепт и начать заново'
                 },
                 CreateRecipeManuallyForm: {
-                    requiredField: 'Это поле обязательно'
+                    requiredField: 'Это поле обязательно',
+                    title: 'Название рецепта',
+                    difficulty: 'Сложность приготовления',
+                    difficultyPlaceholder: 'Выберите сложность',
+                    categories: 'Категории',
+                    categoriesPlaceholder: 'Выберите категории',
+                    cookingTime:
+                        'Приблизительное время приготовления (в минутах)'
                 }
             },
             Modals: {
@@ -340,7 +347,11 @@ export const ru = {
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
                 notAvailable: 'Недоступно',
                 yourQueryTitle: 'Ваш запрос',
-                invalidYouTubeUrl: 'Неверная ссылка на YouTube'
+                invalidYouTubeUrl: 'Неверная ссылка на YouTube',
+                easy: 'Легко',
+                medium: 'Средне',
+                hard: 'Сложно',
+                search: 'Поиск...'
             }
         }
     }

@@ -1,7 +1,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field, FieldProps } from 'formik';
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 
 type InputProps = {
     name: string;
@@ -42,6 +42,13 @@ export const Input: FC<InputProps> = ({
         large: 'label-large'
     };
 
+    const handleNumberInput = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(event.target.value, 10);
+        if (value < 1) {
+            event.target.value = '1';
+        }
+    };
+
     return (
         <div className={`relative ${className || ''}`}>
             <label className={`text-neutral-dark/60 ${sizeLabelStyle[size]}`}>
@@ -54,7 +61,9 @@ export const Input: FC<InputProps> = ({
                     {({ field }: FieldProps) => (
                         <input
                             {...field}
-                            className={`input-primary ${sizeInputStyle[size]} input ${disabled ? 'bg-neutral pointer-events-none' : ''}`}
+                            className={`input-primary ${sizeInputStyle[size]} input ${
+                                disabled ? 'bg-neutral pointer-events-none' : ''
+                            }`}
                             type={
                                 isPasswordType && isPasswordVisible
                                     ? 'text'
@@ -66,6 +75,12 @@ export const Input: FC<InputProps> = ({
                                     : placeholder
                             }
                             disabled={disabled}
+                            onInput={
+                                type === 'number'
+                                    ? handleNumberInput
+                                    : undefined
+                            }
+                            min={type === 'number' ? 1 : undefined}
                         />
                     )}
                 </Field>
@@ -87,7 +102,9 @@ export const Input: FC<InputProps> = ({
                 <ErrorMessage
                     name={name}
                     component="div"
-                    className={`error-absolute ${size === 'small' ? 'top-14' : ''}`}
+                    className={`error-absolute ${
+                        size === 'small' ? 'top-14' : ''
+                    }`}
                 />
             )}
         </div>

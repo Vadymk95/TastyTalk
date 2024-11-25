@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@root/components/ui';
 
@@ -10,6 +11,7 @@ type SelectProps = {
     searchable?: boolean;
     resetable?: boolean;
     disabled?: boolean;
+    className?: string;
     onSelect: (option: string) => void;
 };
 
@@ -20,8 +22,10 @@ export const Select: FC<SelectProps> = ({
     searchable = false,
     resetable = false,
     disabled = false,
+    className = '',
     onSelect
 }) => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedOption, setSelectedOption] = useState<string | null>(
@@ -53,7 +57,7 @@ export const Select: FC<SelectProps> = ({
     return (
         <div className="select-container">
             <Button
-                className={`select ${disabled ? 'select-disabled' : ''}`}
+                className={`select ${disabled ? 'select-disabled' : ''} ${className}`}
                 onClick={toggleDropdown}
                 disabled={disabled}
                 type="button"
@@ -89,7 +93,7 @@ export const Select: FC<SelectProps> = ({
                         {searchable && (
                             <input
                                 type="text"
-                                placeholder="Search..."
+                                placeholder={t('General.search')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="select-input"
