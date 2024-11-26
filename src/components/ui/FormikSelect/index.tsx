@@ -11,6 +11,7 @@ type FormikSelectProps = {
     resetable?: boolean;
     disabled?: boolean;
     className?: string;
+    variant?: 'primary' | 'accent' | 'secondary' | 'neutral';
 } & FieldHookConfig<string>;
 
 export const FormikSelect: FC<FormikSelectProps> = ({
@@ -20,6 +21,7 @@ export const FormikSelect: FC<FormikSelectProps> = ({
     resetable = false,
     disabled = false,
     className = '',
+    variant = 'neutral',
     ...props
 }) => {
     const [field, , helpers] = useField(props);
@@ -28,6 +30,7 @@ export const FormikSelect: FC<FormikSelectProps> = ({
     return (
         <BaseSelect
             className={className}
+            variant={variant}
             options={options}
             placeholder={placeholder}
             searchable={searchable}

@@ -15,14 +15,11 @@ export const Step1: FC<StepProps> = ({ formik }) => {
     const { t } = useTranslation();
 
     const selectBgColor = (type: Difficulty | null) => {
-        if (type === 'easy')
-            return 'bg-secondary hover:bg-secondary-light text-neutral-light';
-        if (type === 'medium')
-            return 'bg-accent hover:bg-accent-light text-neutral-dark/60';
-        if (type === 'hard')
-            return 'bg-primary hover:bg-primary-light text-neutral-light';
+        if (type === 'easy') return 'secondary';
+        if (type === 'medium') return 'accent';
+        if (type === 'hard') return 'primary';
 
-        return 'bg-neutral-light hover:bg-neutral text-neutral-dark/60';
+        return 'neutral';
     };
 
     const options: Option[] = [
@@ -45,7 +42,7 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                 <label className="label" htmlFor="difficulty">
                     <p>{t('Forms.CreateRecipeManuallyForm.difficulty')}</p>
                     <FormikSelect
-                        className={selectBgColor(formik.values.difficulty)}
+                        variant={selectBgColor(formik.values.difficulty)}
                         name="difficulty"
                         options={options}
                         placeholder={t(
@@ -59,7 +56,6 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                     <FormikSelect
                         name="categories"
                         options={[]}
-                        className="bg-neutral-light hover:bg-neutral"
                         placeholder={t(
                             'Forms.CreateRecipeManuallyForm.categoriesPlaceholder'
                         )}
