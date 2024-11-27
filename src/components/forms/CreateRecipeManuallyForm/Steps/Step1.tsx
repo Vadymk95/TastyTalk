@@ -1,8 +1,9 @@
-import { FormikProps } from 'formik';
+import { Field, FormikProps } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { FormikSelect, Input } from '@root/components/ui';
+import { FormikMultiSelect, FormikSelect, Input } from '@root/components/ui';
+import { useCategories } from '@root/hooks';
 import { Difficulty, EDifficulty, Option } from '@root/types';
 
 import { CreateRecipeManuallyValues } from '..';
@@ -12,6 +13,7 @@ interface StepProps {
 }
 
 export const Step1: FC<StepProps> = ({ formik }) => {
+    const categories = useCategories();
     const { t } = useTranslation();
 
     const selectBgColor = (type: Difficulty | null) => {
@@ -51,17 +53,12 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                     />
                 </label>
 
-                <label className="label" htmlFor="categories">
-                    <p>{t('Forms.CreateRecipeManuallyForm.categories')}</p>
-                    <FormikSelect
-                        name="categories"
-                        options={[]}
-                        placeholder={t(
-                            'Forms.CreateRecipeManuallyForm.categoriesPlaceholder'
-                        )}
-                        resetable={true}
-                    />
-                </label>
+                <Field
+                    name="categories"
+                    component={FormikMultiSelect}
+                    categories={categories}
+                    maxBadges={5}
+                />
 
                 <Input
                     name="cookingTime"

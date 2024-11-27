@@ -7,12 +7,21 @@ interface BadgeProps {
     text: string;
     categoryColor: string;
     withDelete?: boolean;
+    className?: string;
+    onClick?: () => void;
 }
 
-export const Badge: FC<BadgeProps> = ({ text, categoryColor, withDelete }) => {
+export const Badge: FC<BadgeProps> = ({
+    text,
+    categoryColor,
+    withDelete,
+    className = '',
+    onClick
+}) => {
     return (
         <p
-            className={`inline-flex gap-1 leading-tight shadow-md items-center px-3 sm:px-2 border sm:text-xs py-1 rounded-full text-sm font-medium ${categoryColor}`}
+            onClick={onClick}
+            className={`inline-flex gap-1 leading-tight shadow-md items-center px-3 sm:px-2 border sm:text-xs py-1 rounded-full text-sm font-medium ${categoryColor} ${className}`}
         >
             <span>{text}</span>
             {withDelete && (

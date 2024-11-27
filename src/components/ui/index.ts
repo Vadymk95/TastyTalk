@@ -19,3 +19,4 @@ export { Tabs } from './Tabs';
 export { Textarea } from './Textarea';
 export { Tooltip } from './Tooltip';
 export { UsernameInput } from './UsernameInput';
+export { FormikMultiSelect } from './FormikMultiSelect';
