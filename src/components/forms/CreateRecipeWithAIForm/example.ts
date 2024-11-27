@@ -4,7 +4,7 @@ export const exampleRecipe: Recipe = {
     id: '1',
     title: 'Лазанья с мясным соусом и сыром',
     difficulty: 'easy',
-    categories: ['soups', 'vegan', 'quick', 'italian', 'medium'],
+    categories: ['soups', 'vegan', 'quick', 'italian', 'medium_spicy'],
     cookingTime: 20,
     description:
         'Классическая итальянская лазанья с сочным мясным соусом, сыром и тонкими слоями пасты. Это блюдо идеально подойдёт для ужина в кругу семьи или друзей.',
