@@ -87,7 +87,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
 
     return (
         <div className={`relative ${className || ''}`}>
-            <label className={`text-neutral-dark/60 ${sizeLabelStyle[size]}`}>
+            <label className={`label ${sizeLabelStyle[size]}`}>
                 {label}
                 {isRequired && <span className="text-primary">*</span>}
             </label>

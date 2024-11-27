@@ -243,9 +243,7 @@ export const en = {
                     difficultyPlaceholder: 'Select difficulty',
                     categories: 'Categories',
                     categoriesPlaceholder: 'Select categories',
-                    cookingTime: 'Approximate Cooking Time (in minutes)',
-                    showCategories: 'Show categories',
-                    hideCategories: 'Hide categories'
+                    cookingTime: 'Approximate Cooking Time (in minutes)'
                 }
             },
             Modals: {
@@ -399,9 +397,14 @@ export const en = {
                 },
                 Spiciness: {
                     spicy: 'Spicy',
-                    medium: 'Medium',
+                    medium_spicy: 'Medium',
                     not_spicy: 'Not Spicy'
                 }
+            },
+            MultiSelect: {
+                showCategories: 'Show Categories',
+                hideCategories: 'Hide Categories',
+                chosenCategories: 'Chosen Categories'
             },
             General: {
                 loading: 'Loading...',

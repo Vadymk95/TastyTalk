@@ -62,7 +62,7 @@ export const Input: FC<InputProps> = ({
 
     return (
         <div className={`relative ${className || ''}`}>
-            <label className={`text-neutral-dark/60 ${sizeLabelStyle[size]}`}>
+            <label className={`label ${sizeLabelStyle[size]}`}>
                 {label}
                 {isRequired && <span className="text-primary">*</span>}
             </label>

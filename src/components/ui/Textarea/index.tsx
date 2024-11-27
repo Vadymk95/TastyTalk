@@ -27,7 +27,7 @@ export const Textarea: FC<TextareaProps> = ({
 
     return (
         <div className="textarea-wrapper">
-            <label htmlFor={name} className="block text-neutral-dark/60">
+            <label htmlFor={name} className="block label">
                 {label}
             </label>
 

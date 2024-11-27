@@ -24,7 +24,7 @@ const CreateRecipePage: FC = () => {
             <h1 className="main-heading sm:mb-4">
                 {t(`CreateRecipePage.${withAI ? 'titleAI' : 'title'}`)}
             </h1>
-            <p className="text-center text-neutral-dark/60 mb-8 sm:mb-4">
+            <p className="text-center label mb-8 sm:mb-4">
                 {t(
                     `CreateRecipePage.${withAI ? 'descriptionAI' : 'description'}`
                 )}

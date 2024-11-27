@@ -180,8 +180,8 @@ export const useCategories = (): Category[] => {
             group: 'spiciness'
         },
         {
-            id: 'medium',
-            name: t('Categories.Spiciness.medium'),
+            id: 'medium_spicy',
+            name: t('Categories.Spiciness.medium_spicy'),
             group: 'spiciness'
         },
         {

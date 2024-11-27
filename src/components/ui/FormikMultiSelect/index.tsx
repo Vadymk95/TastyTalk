@@ -25,10 +25,9 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     const { t } = useTranslation();
 
     const [localValue, setLocalValue] = useState<Category[]>([]);
-    const [isOpen, setIsOpen] = useState(false); // Состояние для выпадающего списка
+    const [isOpen, setIsOpen] = useState(false);
     const selectedBadges = controlledValue ?? localValue;
 
-    // Группировка категорий
     const groupedCategories = categories.reduce(
         (acc, category) => {
             if (!acc[category.group]) {
@@ -76,39 +75,45 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
     return (
         <div className="relative">
-            {/* Выбранные бейджи */}
             {!!selectedBadges.length && (
-                <div className="selected-badges flex flex-wrap gap-2 mb-4">
-                    <div className="divider my-0"></div>
-                    {selectedBadges.map((badge) => (
-                        <Badge
-                            key={badge.id}
-                            text={badge.name}
-                            categoryColor={getCategoryColor(badge.group)}
-                            withDelete
-                            className="cursor-pointer hover:scale-105 active:scale-95"
-                            onClick={() => handleRemove(badge)}
-                        />
-                    ))}
-                    <div className="divider my-0"></div>
-                </div>
+                <>
+                    <h4 className="text-sm label">
+                        {t('MultiSelect.chosedCategories')}
+                    </h4>
+                    <div className="selected-badges flex flex-wrap gap-2 mb-4">
+                        <div className="divider my-0"></div>
+                        {selectedBadges.map((badge) => (
+                            <Badge
+                                key={badge.id}
+                                text={badge.name}
+                                categoryColor={getCategoryColor(badge.group)}
+                                withDelete
+                                className="cursor-pointer hover:scale-105 active:scale-95"
+                                onClick={() => handleRemove(badge)}
+                            />
+                        ))}
+                        <div className="divider my-0"></div>
+                    </div>
+                </>
             )}
 
-            {/* Кнопка открытия/закрытия */}
-            {selectedBadges.length !== maxBadges && (
-                <Button
-                    className="relative"
-                    onClick={() => setIsOpen((prev) => !prev)}
-                >
-                    {isOpen
-                        ? t('Forms.CreateRecipeManuallyForm.hideCategories')
-                        : t('Forms.CreateRecipeManuallyForm.showCategories')}
-                </Button>
-            )}
+            <div className="button-container relative mb-2">
+                {selectedBadges.length !== maxBadges ? (
+                    <Button
+                        className="relative"
+                        onClick={() => setIsOpen((prev) => !prev)}
+                    >
+                        {isOpen
+                            ? t('MultiSelect.hideCategories')
+                            : t('MultiSelect.showCategories')}
+                    </Button>
+                ) : (
+                    <div className="invisible-button-placeholder py-2 px-4" />
+                )}
+            </div>
 
-            {/* Выпадающий список */}
             {isOpen && (
-                <div className="plate absolute z-10 top-12 p-2">
+                <div className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg">
                     <div className="categories">
                         {Object.entries(groupedCategories).map(
                             ([groupName, groupCategories]) => {

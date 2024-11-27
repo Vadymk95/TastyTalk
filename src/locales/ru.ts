@@ -237,9 +237,7 @@ export const ru = {
                     categories: 'Категории',
                     categoriesPlaceholder: 'Выберите категории',
                     cookingTime:
-                        'Приблизительное время приготовления (в минутах)',
-                    showCategories: 'Показать категории',
-                    hideCategories: 'Скрыть категории'
+                        'Приблизительное время приготовления (в минутах)'
                 }
             },
             Modals: {
@@ -391,9 +389,14 @@ export const ru = {
                 },
                 Spiciness: {
                     spicy: 'Острое',
-                    medium: 'Средне острое',
+                    medium_spicy: 'Средне острое',
                     not_spicy: 'Не острое'
                 }
+            },
+            MultiSelect: {
+                showCategories: 'Показать категории',
+                hideCategories: 'Скрыть категории',
+                chosedCategories: 'Выбранные категории'
             },
             General: {
                 loading: 'Загрузка...',
