@@ -24,7 +24,6 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     const [localValue, setLocalValue] = useState<Category[]>([]);
     const selectedBadges = controlledValue ?? localValue;
 
-    // Группировка категорий по `group`
     const groupedCategories = categories.reduce(
         (acc, category) => {
             if (!acc[category.group]) {
