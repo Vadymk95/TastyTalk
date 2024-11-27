@@ -102,7 +102,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             {!!selectedBadges.length && (
                 <>
                     <h4 className="text-sm label">
-                        {t('MultiSelect.chosedCategories')}
+                        {t('MultiSelect.chosenCategories')}
                     </h4>
                     <div className="flex flex-wrap gap-2 mb-4">
                         <div className="divider my-0"></div>
@@ -122,6 +122,11 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             )}
 
             <div className="relative mb-2">
+                {!selectedBadges.length && (
+                    <h4 className="label">
+                        {t('MultiSelect.chooseCategories')}
+                    </h4>
+                )}
                 {selectedBadges.length !== maxBadges ? (
                     <Button
                         ref={buttonRef}

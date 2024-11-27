@@ -404,6 +404,7 @@ export const en = {
             MultiSelect: {
                 showCategories: 'Show Categories',
                 hideCategories: 'Hide Categories',
+                chooseCategories: 'Choose Categories',
                 chosenCategories: 'Chosen Categories'
             },
             General: {

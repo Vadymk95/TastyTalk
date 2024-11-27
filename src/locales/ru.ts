@@ -396,7 +396,8 @@ export const ru = {
             MultiSelect: {
                 showCategories: 'Показать категории',
                 hideCategories: 'Скрыть категории',
-                chosedCategories: 'Выбранные категории'
+                chooseCategories: 'Выберите категории',
+                chosenCategories: 'Выбранные категории'
             },
             General: {
                 loading: 'Загрузка...',
