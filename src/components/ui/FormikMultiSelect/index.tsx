@@ -6,6 +6,9 @@ import { Badge, Button } from '@root/components/ui';
 import { getCategoryColor } from '@root/helpers';
 import { Category } from '@root/types';
 
+import { faBook, faBookOpenReader } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 type FormikMultiSelectProps = {
     name?: string;
     value?: Category[];
@@ -100,12 +103,17 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             <div className="button-container relative mb-2">
                 {selectedBadges.length !== maxBadges ? (
                     <Button
-                        className="relative"
+                        className="relative flex items-center gap-2"
                         onClick={() => setIsOpen((prev) => !prev)}
                     >
-                        {isOpen
-                            ? t('MultiSelect.hideCategories')
-                            : t('MultiSelect.showCategories')}
+                        <FontAwesomeIcon
+                            icon={isOpen ? faBook : faBookOpenReader}
+                        />
+                        <span>
+                            {isOpen
+                                ? t('MultiSelect.hideCategories')
+                                : t('MultiSelect.showCategories')}
+                        </span>
                     </Button>
                 ) : (
                     <div className="invisible-button-placeholder py-2 px-4" />
