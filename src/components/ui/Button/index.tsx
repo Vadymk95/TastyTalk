@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'accent' | 'close' | 'neutral';
@@ -7,29 +7,37 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string;
 }
 
-export const Button: FC<ButtonProps> = ({
-    variant = 'primary',
-    size = 'medium',
-    disabled = false,
-    className,
-    children,
-    ...props
-}) => {
-    const disabledStyle = disabled ? 'btn-disabled' : '';
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+    (
+        {
+            variant = 'primary',
+            size = 'medium',
+            disabled = false,
+            className,
+            children,
+            ...props
+        },
+        ref
+    ) => {
+        const disabledStyle = disabled ? 'btn-disabled' : '';
 
-    const sizeStyle = {
-        small: 'btn-small',
-        medium: 'btn-medium',
-        large: 'btn-large'
-    };
+        const sizeStyle = {
+            small: 'btn-small',
+            medium: 'btn-medium',
+            large: 'btn-large'
+        };
 
-    return (
-        <button
-            className={`btn-${variant} ${disabledStyle} ${sizeStyle[size]} btn ${className}`}
-            disabled={disabled}
-            {...props}
-        >
-            {children}
-        </button>
-    );
-};
+        return (
+            <button
+                ref={ref}
+                className={`btn-${variant} ${disabledStyle} ${sizeStyle[size]} btn ${className}`}
+                disabled={disabled}
+                {...props}
+            >
+                {children}
+            </button>
+        );
+    }
+);
+
+Button.displayName = 'Button';

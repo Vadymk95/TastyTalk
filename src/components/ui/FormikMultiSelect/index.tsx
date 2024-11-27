@@ -26,7 +26,9 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     form
 }) => {
     const { t } = useTranslation();
+
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const [localValue, setLocalValue] = useState<Category[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -73,9 +75,11 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Node;
+
             if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target as Node)
+                !dropdownRef.current?.contains(target) &&
+                !buttonRef.current?.contains(target)
             ) {
                 setIsOpen(false);
             }
@@ -94,7 +98,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     }, [maxBadges, selectedBadges.length]);
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative">
             {!!selectedBadges.length && (
                 <>
                     <h4 className="text-sm label">
@@ -120,6 +124,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             <div className="relative mb-2">
                 {selectedBadges.length !== maxBadges ? (
                     <Button
+                        ref={buttonRef}
                         className="relative flex items-center gap-2"
                         onClick={(event) => {
                             event.preventDefault();
@@ -141,7 +146,10 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             </div>
 
             {isOpen && (
-                <div className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg max-h-64 overflow-y-auto">
+                <div
+                    ref={dropdownRef}
+                    className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg max-h-64 overflow-y-auto"
+                >
                     <div className="categories">
                         {Object.entries(groupedCategories).map(
                             ([groupName, groupCategories]) => {
