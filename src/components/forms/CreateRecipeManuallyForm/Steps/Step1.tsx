@@ -3,8 +3,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FormikSelect, Input } from '@root/components/ui';
-import { EDifficulty } from '@root/constants';
-import { Difficulty, Option } from '@root/types';
+import { Difficulty, EDifficulty, Option } from '@root/types';
 
 import { CreateRecipeManuallyValues } from '..';
 

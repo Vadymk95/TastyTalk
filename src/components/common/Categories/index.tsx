@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Badge } from '@root/components/ui';
-import { ECategory } from '@root/constants';
+import { ECategory } from '@root/types';
 import { useCategories } from '@root/hooks';
 
 interface CategoriesProps {
