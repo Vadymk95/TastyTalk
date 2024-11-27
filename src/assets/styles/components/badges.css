@@ -1,0 +1,23 @@
+.dishType {
+    @apply bg-category-dishType text-category-dishTypeText;
+}
+
+.dietaryPreference {
+    @apply bg-category-dietaryPreference text-category-dietaryPreferenceText;
+}
+
+.cookingFeatures {
+    @apply bg-category-cookingFeatures text-category-cookingFeaturesText;
+}
+
+.worldCuisine {
+    @apply bg-category-worldCuisine text-category-worldCuisineText;
+}
+
+.spiciness {
+    @apply bg-category-spiciness text-category-spicinessText;
+}
+
+.badgeDefault {
+    @apply bg-category-defaultBg text-category-defaultText;
+}

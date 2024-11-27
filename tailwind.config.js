@@ -28,6 +28,20 @@ export default {
                     light: '#F7F7F7',
                     DEFAULT: '#E5E5E5',
                     dark: '#333333'
+                },
+                category: {
+                    dishType: '#BFDBFE',
+                    dishTypeText: '#1E40AF',
+                    worldCuisine: '#FECACA',
+                    worldCuisineText: '#B91C1C',
+                    dietaryPreference: '#D1FAE5',
+                    dietaryPreferenceText: '#065F46',
+                    cookingFeatures: '#FEF3C7',
+                    cookingFeaturesText: '#B45309',
+                    spiciness: '#E9D5FF',
+                    spicinessText: '#6B21A8',
+                    defaultBg: '#F3F4F6',
+                    defaultText: '#1F2937'
                 }
             },
             boxShadow: {

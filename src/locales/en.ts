@@ -349,6 +349,51 @@ export const en = {
                     MealPlan: {}
                 }
             },
+            Categories: {
+                DishType: {
+                    breakfast: 'Breakfasts',
+                    soups: 'Soups',
+                    salads: 'Salads',
+                    main_dishes: 'Main Dishes',
+                    side_dishes: 'Side Dishes',
+                    desserts: 'Desserts',
+                    baking: 'Baking',
+                    drinks: 'Drinks',
+                    snacks: 'Snacks',
+                    sauces: 'Sauces and Dips'
+                },
+                WorldCuisine: {
+                    italian: 'Italian Cuisine',
+                    asian: 'Asian Cuisine',
+                    french: 'French Cuisine',
+                    american: 'American Cuisine',
+                    ukrainian: 'Ukrainian Cuisine',
+                    russian: 'Russian Cuisine',
+                    mediterranean: 'Mediterranean Cuisine',
+                    eastern: 'Eastern Cuisine',
+                    latin: 'Latin American Cuisine'
+                },
+                DietaryPreference: {
+                    vegetarian: 'Vegetarian',
+                    vegan: 'Vegan',
+                    gluten_free: 'Gluten-Free',
+                    sugar_free: 'Sugar-Free',
+                    for_allergy_sufferers: 'For Allergy Sufferers',
+                    lent: 'Lenten'
+                },
+                CookingFeatures: {
+                    quick: 'Quick (under 15 minutes)',
+                    budget: 'Budget-Friendly',
+                    beginner_friendly: 'Beginner-Friendly',
+                    kids_friendly: 'Kids-Friendly',
+                    party: 'Party'
+                },
+                Spiciness: {
+                    spicy: 'Spicy',
+                    medium: 'Medium',
+                    not_spicy: 'Not Spicy'
+                }
+            },
             General: {
                 loading: 'Loading...',
                 error: 'Error:',

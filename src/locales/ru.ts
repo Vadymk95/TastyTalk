@@ -341,6 +341,51 @@ export const ru = {
                     MealPlan: {}
                 }
             },
+            Categories: {
+                DishType: {
+                    breakfast: 'Завтраки',
+                    soups: 'Супы',
+                    salads: 'Салаты',
+                    main_dishes: 'Основные блюда',
+                    side_dishes: 'Гарниры',
+                    desserts: 'Десерты',
+                    baking: 'Выпечка',
+                    drinks: 'Напитки',
+                    snacks: 'Закуски',
+                    sauces: 'Соусы и дипы'
+                },
+                WorldCuisine: {
+                    italian: 'Итальянская кухня',
+                    asian: 'Азиатская кухня',
+                    french: 'Французская кухня',
+                    american: 'Американская кухня',
+                    ukrainian: 'Украинская кухня',
+                    russian: 'Русская кухня',
+                    mediterranean: 'Средиземноморская кухня',
+                    eastern: 'Восточная кухня',
+                    latin: 'Латиноамериканская кухня'
+                },
+                DietaryPreference: {
+                    vegetarian: 'Вегетарианское',
+                    vegan: 'Веганское',
+                    gluten_free: 'Безглютеновое',
+                    sugar_free: 'Без сахара',
+                    for_allergy_sufferers: 'Для аллергиков',
+                    lent: 'Постное'
+                },
+                CookingFeatures: {
+                    quick: 'Быстрое (до 15 минут)',
+                    budget: 'Экономичное',
+                    beginner_friendly: 'Для начинающих',
+                    kids_friendly: 'Детское меню',
+                    party: 'Для праздника'
+                },
+                Spiciness: {
+                    spicy: 'Острое',
+                    medium: 'Средне острое',
+                    not_spicy: 'Не острое'
+                }
+            },
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
