@@ -50,12 +50,11 @@ export const Input: FC<InputProps> = ({
     ) => {
         const value = event.target.value;
 
-        // Удаляем ведущие нули и приводим значение к минимальному, если оно пустое
         if (type === 'number') {
             if (value === '' || parseInt(value, 10) < min) {
                 setValue(min.toString());
             } else if (value.startsWith('0')) {
-                setValue(parseInt(value, 10).toString()); // Удаляем ведущие нули
+                setValue(parseInt(value, 10).toString());
             }
         }
     };
