@@ -80,20 +80,23 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
             <div className="categories">
                 {Object.entries(groupedCategories).map(
-                    ([groupName, groupCategories]) => (
-                        <div key={groupName} className="category mb-4">
-                            <h4 className="mb-2">{groupName}</h4>
-                            <div className="badges flex flex-wrap gap-2">
-                                {groupCategories
-                                    .filter(
-                                        (category) =>
-                                            !selectedBadges.some(
-                                                (badge) =>
-                                                    badge.group ===
-                                                    category.group
-                                            )
-                                    )
-                                    .map((badge) => (
+                    ([groupName, groupCategories]) => {
+                        const availableBadges = groupCategories.filter(
+                            (category) =>
+                                !selectedBadges.some(
+                                    (badge) => badge.group === category.group
+                                )
+                        );
+
+                        if (availableBadges.length === 0) {
+                            return null;
+                        }
+
+                        return (
+                            <div key={groupName} className="category mb-4">
+                                <h4 className="mb-2">{groupName}</h4>
+                                <div className="badges flex flex-wrap gap-2">
+                                    {availableBadges.map((badge) => (
                                         <Badge
                                             key={badge.id}
                                             text={badge.name}
@@ -104,9 +107,10 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                                             onClick={() => handleSelect(badge)}
                                         />
                                     ))}
+                                </div>
                             </div>
-                        </div>
-                    )
+                        );
+                    }
                 )}
             </div>
         </div>
