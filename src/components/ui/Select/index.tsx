@@ -1,7 +1,7 @@
 import { Button } from '@root/components/ui';
 import { Option } from '@root/types';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 type SelectProps = {
     options: Option[];
@@ -33,40 +33,50 @@ export const Select: FC<SelectProps> = ({
     const selectedOption =
         options.find((option) => option.value === value) || null;
 
-    const toggleDropdown = () => !disabled && setIsOpen((prev) => !prev);
+    const toggleDropdown = () => {
+        if (!disabled) {
+            setIsOpen((prev) => !prev);
+        }
+    };
 
     const handleSelect = (optionValue: string) => {
         onSelect(optionValue);
         setIsOpen(false);
     };
 
-    const handleReset = () => {
+    const handleReset = (e: React.MouseEvent<HTMLSpanElement>) => {
+        e.stopPropagation();
         setSearchQuery('');
         onSelect(null);
     };
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target as Node)
+        ) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
 
     const filteredOptions = options.filter((option) =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target as Node)
-            ) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
     return (
-        <div className="select-container">
+        <div className="select-container relative" ref={dropdownRef}>
             <Button
                 className={`select-${variant} select ${disabled ? 'select-disabled' : ''} ${className}`}
                 onClick={toggleDropdown}
@@ -95,8 +105,7 @@ export const Select: FC<SelectProps> = ({
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        ref={dropdownRef}
-                        className="select-dropdown"
+                        className="select-dropdown absolute z-10 top-full mt-1 w-full bg-white border rounded shadow-lg"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
@@ -108,14 +117,14 @@ export const Select: FC<SelectProps> = ({
                                 placeholder="Search..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="select-input"
+                                className="select-input p-2 w-full border-b"
                             />
                         )}
                         {filteredOptions.map((option) => (
                             <div
                                 key={option.value}
                                 onClick={() => handleSelect(option.value)}
-                                className="select-item"
+                                className="select-item p-2 hover:bg-gray-100 cursor-pointer"
                             >
                                 {option.label}
                             </div>

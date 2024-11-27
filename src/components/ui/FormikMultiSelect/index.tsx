@@ -121,7 +121,10 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                 {selectedBadges.length !== maxBadges ? (
                     <Button
                         className="relative flex items-center gap-2"
-                        onClick={() => setIsOpen((prev) => !prev)}
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setIsOpen((prev) => !prev);
+                        }}
                     >
                         <FontAwesomeIcon
                             icon={isOpen ? faBook : faBookOpenReader}
