@@ -143,6 +143,16 @@ export const useCategories = (): Category[] => {
             group: 'CookingFeatures'
         },
         {
+            id: 'medium',
+            name: t('Categories.CookingFeatures.medium'),
+            group: 'CookingFeatures'
+        },
+        {
+            id: 'long',
+            name: t('Categories.CookingFeatures.long'),
+            group: 'CookingFeatures'
+        },
+        {
             id: 'budget',
             name: t('Categories.CookingFeatures.budget'),
             group: 'CookingFeatures'

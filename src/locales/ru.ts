@@ -375,6 +375,8 @@ export const ru = {
                 },
                 CookingFeatures: {
                     quick: 'Быстрое (до 15 минут)',
+                    medium: 'Среднее (15-60 минут)',
+                    long: 'Долгое (более 60 минут)',
                     budget: 'Экономичное',
                     beginner_friendly: 'Для начинающих',
                     kids_friendly: 'Детское меню',

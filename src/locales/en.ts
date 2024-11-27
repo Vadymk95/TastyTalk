@@ -383,6 +383,8 @@ export const en = {
                 },
                 CookingFeatures: {
                     quick: 'Quick (under 15 minutes)',
+                    medium: 'Medium (15-60 minutes)',
+                    long: 'Long (over 60 minutes)',
                     budget: 'Budget-Friendly',
                     beginner_friendly: 'Beginner-Friendly',
                     kids_friendly: 'Kids-Friendly',
