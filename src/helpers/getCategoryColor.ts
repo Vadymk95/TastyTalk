@@ -2,11 +2,11 @@ import { ECategory } from '@root/types';
 
 export const getCategoryColor = (group: string): string => {
     const colorClasses: Record<string, string> = {
-        DishType: ECategory.DISH_TYPE,
-        WorldCuisine: ECategory.WORLD_CUISINE,
-        DietaryPreference: ECategory.DIETARY_PREFERENCE,
-        CookingFeatures: ECategory.COOKING_FEATURES,
-        Spiciness: ECategory.SPICINESS
+        dishType: ECategory.DISH_TYPE,
+        worldCuisine: ECategory.WORLD_CUISINE,
+        dietaryPreference: ECategory.DIETARY_PREFERENCE,
+        cookingFeatures: ECategory.COOKING_FEATURES,
+        spiciness: ECategory.SPICINESS
     };
 
     return colorClasses[group] || 'category-default';

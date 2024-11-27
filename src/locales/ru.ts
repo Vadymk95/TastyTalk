@@ -342,6 +342,11 @@ export const ru = {
                 }
             },
             Categories: {
+                dishType: 'Типы блюд',
+                worldCuisine: 'Мировая кухня',
+                dietaryPreference: 'Диетические предпочтения',
+                cookingFeatures: 'Особенности приготовления',
+                spiciness: 'Острота',
                 DishType: {
                     breakfast: 'Завтраки',
                     soups: 'Супы',

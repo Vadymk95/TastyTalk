@@ -9,185 +9,185 @@ export const useCategories = (): Category[] => {
         {
             id: 'breakfast',
             name: t('Categories.DishType.breakfast'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'soups',
             name: t('Categories.DishType.soups'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'salads',
             name: t('Categories.DishType.salads'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'main_dishes',
             name: t('Categories.DishType.main_dishes'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'side_dishes',
             name: t('Categories.DishType.side_dishes'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'desserts',
             name: t('Categories.DishType.desserts'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'baking',
             name: t('Categories.DishType.baking'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'drinks',
             name: t('Categories.DishType.drinks'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'snacks',
             name: t('Categories.DishType.snacks'),
-            group: 'DishType'
+            group: 'dishType'
         },
         {
             id: 'sauces',
             name: t('Categories.DishType.sauces'),
-            group: 'DishType'
+            group: 'dishType'
         },
 
         // World Cuisines
         {
             id: 'italian',
             name: t('Categories.WorldCuisine.italian'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'asian',
             name: t('Categories.WorldCuisine.asian'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'french',
             name: t('Categories.WorldCuisine.french'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'american',
             name: t('Categories.WorldCuisine.american'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'ukrainian',
             name: t('Categories.WorldCuisine.ukrainian'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'russian',
             name: t('Categories.WorldCuisine.russian'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'mediterranean',
             name: t('Categories.WorldCuisine.mediterranean'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'eastern',
             name: t('Categories.WorldCuisine.eastern'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
         {
             id: 'latin',
             name: t('Categories.WorldCuisine.latin'),
-            group: 'WorldCuisine'
+            group: 'worldCuisine'
         },
 
         // Dietary Preferences
         {
             id: 'vegetarian',
             name: t('Categories.DietaryPreference.vegetarian'),
-            group: 'DietaryPreference'
+            group: 'dietaryPreference'
         },
         {
             id: 'vegan',
             name: t('Categories.DietaryPreference.vegan'),
-            group: 'DietaryPreference'
+            group: 'dietaryPreference'
         },
         {
             id: 'gluten_free',
             name: t('Categories.DietaryPreference.gluten_free'),
-            group: 'DietaryPreference'
+            group: 'dietaryPreference'
         },
         {
             id: 'sugar_free',
             name: t('Categories.DietaryPreference.sugar_free'),
-            group: 'DietaryPreference'
+            group: 'dietaryPreference'
         },
         {
             id: 'for_allergy_sufferers',
             name: t('Categories.DietaryPreference.for_allergy_sufferers'),
-            group: 'DietaryPreference'
+            group: 'dietaryPreference'
         },
         {
             id: 'lent',
             name: t('Categories.DietaryPreference.lent'),
-            group: 'DietaryPreference'
+            group: 'dietaryPreference'
         },
 
         // Cooking Features
         {
             id: 'quick',
             name: t('Categories.CookingFeatures.quick'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
         {
             id: 'medium',
             name: t('Categories.CookingFeatures.medium'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
         {
             id: 'long',
             name: t('Categories.CookingFeatures.long'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
         {
             id: 'budget',
             name: t('Categories.CookingFeatures.budget'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
         {
             id: 'beginner_friendly',
             name: t('Categories.CookingFeatures.beginner_friendly'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
         {
             id: 'kids_friendly',
             name: t('Categories.CookingFeatures.kids_friendly'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
         {
             id: 'party',
             name: t('Categories.CookingFeatures.party'),
-            group: 'CookingFeatures'
+            group: 'cookingFeatures'
         },
 
         // Spiciness
         {
             id: 'spicy',
             name: t('Categories.Spiciness.spicy'),
-            group: 'Spiciness'
+            group: 'spiciness'
         },
         {
             id: 'medium',
             name: t('Categories.Spiciness.medium'),
-            group: 'Spiciness'
+            group: 'spiciness'
         },
         {
             id: 'not_spicy',
             name: t('Categories.Spiciness.not_spicy'),
-            group: 'Spiciness'
+            group: 'spiciness'
         }
     ];
 

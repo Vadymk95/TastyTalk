@@ -350,6 +350,11 @@ export const en = {
                 }
             },
             Categories: {
+                dishType: 'Dish Types',
+                worldCuisine: 'World Cuisine',
+                dietaryPreference: 'Dietary Preferences',
+                cookingFeatures: 'Cooking Features',
+                spiciness: 'Spiciness',
                 DishType: {
                     breakfast: 'Breakfasts',
                     soups: 'Soups',

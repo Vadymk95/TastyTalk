@@ -1,5 +1,6 @@
 import { FieldProps } from 'formik';
 import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Badge } from '@root/components/ui';
 import { getCategoryColor } from '@root/helpers';
@@ -21,9 +22,12 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     maxBadges = 4,
     form
 }) => {
+    const { t } = useTranslation();
+
     const [localValue, setLocalValue] = useState<Category[]>([]);
     const selectedBadges = controlledValue ?? localValue;
 
+    // Группировка категорий
     const groupedCategories = categories.reduce(
         (acc, category) => {
             if (!acc[category.group]) {
@@ -65,6 +69,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
     return (
         <div className="multi-select">
+            {/* Выбранные бейджи */}
             <div className="selected-badges flex flex-wrap gap-2 mb-4">
                 {selectedBadges.map((badge) => (
                     <Badge
@@ -78,6 +83,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                 ))}
             </div>
 
+            {/* Список категорий */}
             <div className="categories">
                 {Object.entries(groupedCategories).map(
                     ([groupName, groupCategories]) => {
@@ -92,9 +98,13 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                             return null;
                         }
 
+                        // Используем t() для перевода заголовка
+                        console.log(groupName);
+                        const translatedTitle = t(`Categories.${groupName}`);
+
                         return (
                             <div key={groupName} className="category mb-4">
-                                <h4 className="mb-2">{groupName}</h4>
+                                <h4 className="mb-2">{translatedTitle}</h4>
                                 <div className="badges flex flex-wrap gap-2">
                                     {availableBadges.map((badge) => (
                                         <Badge
