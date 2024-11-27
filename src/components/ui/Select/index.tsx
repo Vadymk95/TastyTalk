@@ -1,7 +1,7 @@
 import { Button } from '@root/components/ui';
 import { Option } from '@root/types';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 type SelectProps = {
     options: Option[];
@@ -28,6 +28,7 @@ export const Select: FC<SelectProps> = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const selectedOption =
         options.find((option) => option.value === value) || null;
@@ -47,6 +48,22 @@ export const Select: FC<SelectProps> = ({
     const filteredOptions = options.filter((option) =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="select-container">
@@ -78,6 +95,7 @@ export const Select: FC<SelectProps> = ({
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
+                        ref={dropdownRef}
                         className="select-dropdown"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}

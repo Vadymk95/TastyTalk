@@ -1,5 +1,5 @@
 import { FieldProps } from 'formik';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, Button } from '@root/components/ui';
@@ -26,6 +26,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     form
 }) => {
     const { t } = useTranslation();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const [localValue, setLocalValue] = useState<Category[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -71,13 +72,29 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     };
 
     useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
         if (selectedBadges.length === maxBadges) {
             setIsOpen(false);
         }
     }, [maxBadges, selectedBadges.length]);
 
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             {!!selectedBadges.length && (
                 <>
                     <h4 className="text-sm label">
@@ -121,7 +138,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             </div>
 
             {isOpen && (
-                <div className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg">
+                <div className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg max-h-64 overflow-y-auto">
                     <div className="categories">
                         {Object.entries(groupedCategories).map(
                             ([groupName, groupCategories]) => {
@@ -153,7 +170,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                                             <div className="divider mx-0"></div>
                                         </div>
 
-                                        <div className="flex flex-wrap gap-2">
+                                        <div className="badges flex flex-wrap gap-2">
                                             {availableBadges.map((badge) => (
                                                 <Badge
                                                     key={badge.id}
