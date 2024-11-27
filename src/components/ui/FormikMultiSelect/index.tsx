@@ -70,18 +70,22 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     return (
         <div className="multi-select">
             {/* Выбранные бейджи */}
-            <div className="selected-badges flex flex-wrap gap-2 mb-4">
-                {selectedBadges.map((badge) => (
-                    <Badge
-                        key={badge.id}
-                        text={badge.name}
-                        categoryColor={getCategoryColor(badge.group)}
-                        withDelete
-                        className="cursor-pointer hover:scale-105 active:scale-95"
-                        onClick={() => handleRemove(badge)}
-                    />
-                ))}
-            </div>
+            {!!selectedBadges.length && (
+                <div className="selected-badges flex flex-wrap gap-2 mb-4">
+                    <div className="divider my-0"></div>
+                    {selectedBadges.map((badge) => (
+                        <Badge
+                            key={badge.id}
+                            text={badge.name}
+                            categoryColor={getCategoryColor(badge.group)}
+                            withDelete
+                            className="cursor-pointer hover:scale-105 active:scale-95"
+                            onClick={() => handleRemove(badge)}
+                        />
+                    ))}
+                    <div className="divider my-0"></div>
+                </div>
+            )}
 
             {/* Список категорий */}
             <div className="categories">
@@ -102,7 +106,13 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
                         return (
                             <div key={groupName} className="category mb-4">
-                                <h4 className="mb-2">{translatedTitle}</h4>
+                                <div className="flex items-center gap-2">
+                                    <h4 className="text-nowrap">
+                                        {translatedTitle}
+                                    </h4>
+                                    <div className="divider mx-0"></div>
+                                </div>
+
                                 <div className="badges flex flex-wrap gap-2">
                                     {availableBadges.map((badge) => (
                                         <Badge
