@@ -2,7 +2,7 @@ import { FieldProps } from 'formik';
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge } from '@root/components/ui';
+import { Badge, Button } from '@root/components/ui';
 import { getCategoryColor } from '@root/helpers';
 import { Category } from '@root/types';
 
@@ -19,12 +19,13 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     value: controlledValue,
     onChange,
     categories,
-    maxBadges = 4,
+    maxBadges = 5,
     form
 }) => {
     const { t } = useTranslation();
 
     const [localValue, setLocalValue] = useState<Category[]>([]);
+    const [isOpen, setIsOpen] = useState(false); // Состояние для выпадающего списка
     const selectedBadges = controlledValue ?? localValue;
 
     // Группировка категорий
@@ -68,7 +69,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     };
 
     return (
-        <div className="multi-select">
+        <div className="relative">
             {/* Выбранные бейджи */}
             {!!selectedBadges.length && (
                 <div className="selected-badges flex flex-wrap gap-2 mb-4">
@@ -87,50 +88,74 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                 </div>
             )}
 
-            {/* Список категорий */}
-            <div className="categories">
-                {Object.entries(groupedCategories).map(
-                    ([groupName, groupCategories]) => {
-                        const availableBadges = groupCategories.filter(
-                            (category) =>
-                                !selectedBadges.some(
-                                    (badge) => badge.group === category.group
-                                )
-                        );
+            {/* Кнопка открытия/закрытия */}
+            {selectedBadges.length !== maxBadges && (
+                <Button
+                    className="relative"
+                    onClick={() => setIsOpen((prev) => !prev)}
+                >
+                    {isOpen
+                        ? t('Forms.CreateRecipeManuallyForm.hideCategories')
+                        : t('Forms.CreateRecipeManuallyForm.showCategories')}
+                </Button>
+            )}
 
-                        if (availableBadges.length === 0) {
-                            return null;
-                        }
+            {/* Выпадающий список */}
+            {isOpen && (
+                <div className="plate absolute z-10 top-12 p-2">
+                    <div className="categories">
+                        {Object.entries(groupedCategories).map(
+                            ([groupName, groupCategories]) => {
+                                const availableBadges = groupCategories.filter(
+                                    (category) =>
+                                        !selectedBadges.some(
+                                            (badge) =>
+                                                badge.group === category.group
+                                        )
+                                );
 
-                        const translatedTitle = t(`Categories.${groupName}`);
+                                if (availableBadges.length === 0) {
+                                    return null;
+                                }
 
-                        return (
-                            <div key={groupName} className="category mb-4">
-                                <div className="flex items-center gap-2">
-                                    <h4 className="text-nowrap">
-                                        {translatedTitle}
-                                    </h4>
-                                    <div className="divider mx-0"></div>
-                                </div>
+                                const translatedTitle = t(
+                                    `Categories.${groupName}`
+                                );
 
-                                <div className="badges flex flex-wrap gap-2">
-                                    {availableBadges.map((badge) => (
-                                        <Badge
-                                            key={badge.id}
-                                            text={badge.name}
-                                            categoryColor={getCategoryColor(
-                                                badge.group
-                                            )}
-                                            className="cursor-pointer hover:scale-105 active:scale-95"
-                                            onClick={() => handleSelect(badge)}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        );
-                    }
-                )}
-            </div>
+                                return (
+                                    <div
+                                        key={groupName}
+                                        className="category mb-4"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <h4 className="text-nowrap">
+                                                {translatedTitle}
+                                            </h4>
+                                            <div className="divider mx-0"></div>
+                                        </div>
+
+                                        <div className="badges flex flex-wrap gap-2">
+                                            {availableBadges.map((badge) => (
+                                                <Badge
+                                                    key={badge.id}
+                                                    text={badge.name}
+                                                    categoryColor={getCategoryColor(
+                                                        badge.group
+                                                    )}
+                                                    className="cursor-pointer hover:scale-105 active:scale-95"
+                                                    onClick={() =>
+                                                        handleSelect(badge)
+                                                    }
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            }
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

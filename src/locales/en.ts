@@ -243,7 +243,9 @@ export const en = {
                     difficultyPlaceholder: 'Select difficulty',
                     categories: 'Categories',
                     categoriesPlaceholder: 'Select categories',
-                    cookingTime: 'Approximate Cooking Time (in minutes)'
+                    cookingTime: 'Approximate Cooking Time (in minutes)',
+                    showCategories: 'Show categories',
+                    hideCategories: 'Hide categories'
                 }
             },
             Modals: {

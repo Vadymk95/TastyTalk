@@ -237,7 +237,9 @@ export const ru = {
                     categories: 'Категории',
                     categoriesPlaceholder: 'Выберите категории',
                     cookingTime:
-                        'Приблизительное время приготовления (в минутах)'
+                        'Приблизительное время приготовления (в минутах)',
+                    showCategories: 'Показать категории',
+                    hideCategories: 'Скрыть категории'
                 }
             },
             Modals: {
