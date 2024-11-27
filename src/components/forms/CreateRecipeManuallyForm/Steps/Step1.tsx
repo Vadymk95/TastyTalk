@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FormikSelect, Input } from '@root/components/ui';
+import { EDifficulty } from '@root/constants';
 import { Difficulty, Option } from '@root/types';
 
 import { CreateRecipeManuallyValues } from '..';
@@ -15,17 +16,17 @@ export const Step1: FC<StepProps> = ({ formik }) => {
     const { t } = useTranslation();
 
     const selectBgColor = (type: Difficulty | null) => {
-        if (type === 'easy') return 'secondary';
-        if (type === 'medium') return 'accent';
-        if (type === 'hard') return 'primary';
+        if (type === EDifficulty.EASY) return 'secondary';
+        if (type === EDifficulty.MEDIUM) return 'accent';
+        if (type === EDifficulty.HARD) return 'primary';
 
         return 'neutral';
     };
 
     const options: Option[] = [
-        { value: 'easy', label: t('General.easy') },
-        { value: 'medium', label: t('General.medium') },
-        { value: 'hard', label: t('General.hard') }
+        { value: EDifficulty.EASY, label: t('General.easy') },
+        { value: EDifficulty.MEDIUM, label: t('General.medium') },
+        { value: EDifficulty.HARD, label: t('General.hard') }
     ];
 
     return (
