@@ -98,8 +98,6 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                             return null;
                         }
 
-                        // Используем t() для перевода заголовка
-                        console.log(groupName);
                         const translatedTitle = t(`Categories.${groupName}`);
 
                         return (
