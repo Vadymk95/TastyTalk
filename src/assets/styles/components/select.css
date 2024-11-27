@@ -70,11 +70,11 @@
 }
 
 .select-neutral {
-    @apply bg-neutral text-neutral-dark text-neutral-dark/60;
+    @apply bg-neutral/30 text-neutral-dark text-neutral-dark/60;
 }
 
 .select-neutral:hover {
-    @apply bg-neutral-dark/20 scale-105;
+    @apply bg-neutral scale-105;
 }
 
 .select-neutral:active {
