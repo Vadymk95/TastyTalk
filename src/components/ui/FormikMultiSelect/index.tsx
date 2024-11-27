@@ -83,7 +83,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                     <h4 className="text-sm label">
                         {t('MultiSelect.chosedCategories')}
                     </h4>
-                    <div className="selected-badges flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-2 mb-4">
                         <div className="divider my-0"></div>
                         {selectedBadges.map((badge) => (
                             <Badge
@@ -100,7 +100,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                 </>
             )}
 
-            <div className="button-container relative mb-2">
+            <div className="relative mb-2">
                 {selectedBadges.length !== maxBadges ? (
                     <Button
                         className="relative flex items-center gap-2"
@@ -153,7 +153,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                                             <div className="divider mx-0"></div>
                                         </div>
 
-                                        <div className="badges flex flex-wrap gap-2">
+                                        <div className="flex flex-wrap gap-2">
                                             {availableBadges.map((badge) => (
                                                 <Badge
                                                     key={badge.id}
