@@ -66,7 +66,6 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
     return (
         <div className="multi-select">
-            {/* Выбранные бейджи */}
             <div className="selected-badges flex flex-wrap gap-2 mb-4">
                 {selectedBadges.map((badge) => (
                     <Badge
@@ -74,13 +73,12 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                         text={badge.name}
                         categoryColor={getCategoryColor(badge.group)}
                         withDelete
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:scale-105 active:scale-95"
                         onClick={() => handleRemove(badge)}
                     />
                 ))}
             </div>
 
-            {/* Список категорий */}
             <div className="categories">
                 {Object.entries(groupedCategories).map(
                     ([groupName, groupCategories]) => (
@@ -103,7 +101,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
                                             categoryColor={getCategoryColor(
                                                 badge.group
                                             )}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer hover:scale-105 active:scale-95"
                                             onClick={() => handleSelect(badge)}
                                         />
                                     ))}

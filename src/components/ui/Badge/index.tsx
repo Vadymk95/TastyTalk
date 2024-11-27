@@ -19,10 +19,7 @@ export const Badge: FC<BadgeProps> = ({
     onClick
 }) => {
     return (
-        <p
-            onClick={onClick}
-            className={`inline-flex gap-1 leading-tight shadow-md items-center px-3 sm:px-2 border sm:text-xs py-1 rounded-full text-sm font-medium ${categoryColor} ${className}`}
-        >
+        <p onClick={onClick} className={`badge ${categoryColor} ${className}`}>
             <span>{text}</span>
             {withDelete && (
                 <FontAwesomeIcon
