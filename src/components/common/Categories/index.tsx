@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Badge } from '@root/components/ui';
+import { ECategory } from '@root/constants';
 import { useCategories } from '@root/hooks';
 
 interface CategoriesProps {
@@ -10,11 +11,11 @@ interface CategoriesProps {
 
 const getCategoryColor = (group: string): string => {
     const colorClasses: Record<string, string> = {
-        DishType: 'dishType',
-        WorldCuisine: 'worldCuisine',
-        DietaryPreference: 'dietaryPreference',
-        CookingFeatures: 'cookingFeatures',
-        Spiciness: 'spiciness'
+        DishType: ECategory.DISH_TYPE,
+        WorldCuisine: ECategory.WORLD_CUISINE,
+        DietaryPreference: ECategory.DIETARY_PREFERENCE,
+        CookingFeatures: ECategory.COOKING_FEATURES,
+        Spiciness: ECategory.SPICINESS
     };
 
     return colorClasses[group] || 'category-default';
