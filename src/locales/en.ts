@@ -243,7 +243,12 @@ export const en = {
                     difficultyPlaceholder: 'Select difficulty',
                     categories: 'Categories',
                     categoriesPlaceholder: 'Select categories',
-                    cookingTime: 'Approximate Cooking Time (in minutes)'
+                    cookingTime: 'Approximate Cooking Time (in minutes)',
+                    description: 'Description',
+                    descriptionPlaceholder:
+                        'Write a brief description of your recipe',
+                    helpText:
+                        'The description helps others understand what makes your recipe special. It could be a personal twist, a family tradition, or just an idea you’d like to share!'
                 }
             },
             Modals: {

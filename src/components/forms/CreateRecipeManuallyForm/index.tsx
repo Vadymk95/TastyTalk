@@ -16,6 +16,7 @@ export type CreateRecipeManuallyValues = {
     difficulty: null | Difficulty;
     categories: null | string[];
     cookingTime: number;
+    description?: string;
 };
 
 export const CreateRecipeManuallyForm: FC = () => {
@@ -33,7 +34,8 @@ export const CreateRecipeManuallyForm: FC = () => {
         ),
         cookingTime: Yup.number().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
-        )
+        ),
+        description: Yup.string()
     });
 
     const onSubmit = (values: CreateRecipeManuallyValues) => {
@@ -44,7 +46,8 @@ export const CreateRecipeManuallyForm: FC = () => {
         title: '',
         difficulty: null,
         categories: null,
-        cookingTime: 0
+        cookingTime: 0,
+        description: ''
     };
 
     return (
