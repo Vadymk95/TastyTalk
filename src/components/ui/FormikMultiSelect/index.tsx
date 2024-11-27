@@ -1,5 +1,5 @@
 import { FieldProps } from 'formik';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, Button } from '@root/components/ui';
@@ -67,6 +67,12 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             form.setFieldValue(name, updatedBadges);
         }
     };
+
+    useEffect(() => {
+        if (selectedBadges.length === maxBadges) {
+            setIsOpen(false);
+        }
+    }, [maxBadges, selectedBadges.length]);
 
     return (
         <div className="relative">
