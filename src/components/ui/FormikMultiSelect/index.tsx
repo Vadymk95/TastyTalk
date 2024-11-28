@@ -17,7 +17,6 @@ type FormikMultiSelectProps = {
 } & Partial<FieldProps>;
 
 export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
-    value: controlledValue,
     onChange,
     categories,
     maxBadges = 5,
@@ -31,7 +30,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
     const [localValue, setLocalValue] = useState<Category[]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const selectedBadges = controlledValue ?? localValue;
+    const selectedBadges = (field?.value as Category[]) ?? localValue;
 
     const groupedCategories = categories.reduce(
         (acc, category) => {
@@ -67,8 +66,8 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             setLocalValue(updatedBadges);
         }
 
-        if (form && name) {
-            form.setFieldValue(name, updatedBadges);
+        if (form && field?.name) {
+            form.setFieldValue(field?.name, updatedBadges);
         }
     };
 
