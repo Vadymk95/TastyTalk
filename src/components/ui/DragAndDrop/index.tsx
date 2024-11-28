@@ -19,7 +19,7 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
     name,
     value,
     onChange,
-    placeholder = 'Перетащите файл сюда или нажмите, чтобы выбрать',
+    placeholder = '',
     accept = {
         'image/*': ['.jpeg', '.jpg', '.png', '.gif']
     },
