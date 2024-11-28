@@ -269,7 +269,11 @@ export const en = {
                     addTip: 'Add Tip',
                     warning: 'Warning',
                     warningPlaceholder: 'Enter warning',
-                    addWarning: 'Add Warning'
+                    addWarning: 'Add Warning',
+                    videoUrl: 'Video URL',
+                    videoUrlPlaceholder: 'https://example.com',
+                    videoUrlPhotoHelpText:
+                        'Add a video link(YouTube) to help users better understand the cooking process. A video makes your recipe clearer and inspires others to try making it!'
                 }
             },
             Modals: {

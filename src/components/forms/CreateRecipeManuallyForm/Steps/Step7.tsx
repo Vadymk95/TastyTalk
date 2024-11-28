@@ -41,7 +41,6 @@ export const Step7: FC<StepProps> = ({ formik }) => {
                                             label={`${t(
                                                 'Forms.CreateRecipeManuallyForm.warning'
                                             )} ${index + 1}`}
-                                            isRequired
                                             className="flex-1 mr-2"
                                             size="small"
                                         />
