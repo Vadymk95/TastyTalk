@@ -1,8 +1,9 @@
 import { FieldProps } from 'formik';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
+import { useTranslation } from 'react-i18next';
 
-import { Image } from '@root/components/ui';
+import { Button, Image } from '@root/components/ui';
 
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,6 +25,7 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
     form,
     field
 }) => {
+    const { t } = useTranslation();
     const [preview, setPreview] = useState<string | null>(null);
 
     useEffect(() => {
@@ -53,6 +55,17 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
         [onChange, form, field]
     );
 
+    const handleReset = (event: MouseEvent) => {
+        event.stopPropagation();
+
+        if (onChange) {
+            onChange(null);
+        }
+        if (form && field?.name) {
+            form.setFieldValue(field?.name, null);
+        }
+    };
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: handleDrop,
         accept,
@@ -71,16 +84,19 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
         >
             <input {...getInputProps()} />
             {field?.value && preview ? (
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center gap-2">
                     <Image
                         src={preview}
                         alt="Preview"
-                        className="w-full max-w-xs rounded-lg mb-2"
+                        className="w-full max-w-xs rounded-lg"
                     />
                     <p className="text-secondary font-medium">
                         {field?.value.name} (
                         {(field?.value.size / 1024).toFixed(2)} KB)
                     </p>
+                    <Button onClick={(event) => handleReset(event)}>
+                        {t('General.removePhoto')}
+                    </Button>
                 </div>
             ) : (
                 <div className="p-4">

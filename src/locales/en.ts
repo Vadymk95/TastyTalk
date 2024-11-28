@@ -427,7 +427,8 @@ export const en = {
                 easy: 'Easy',
                 medium: 'Medium',
                 hard: 'Hard',
-                search: 'Search...'
+                search: 'Search...',
+                removePhoto: 'Remove Photo'
             }
         }
     }

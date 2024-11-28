@@ -418,7 +418,8 @@ export const ru = {
                 easy: 'Легко',
                 medium: 'Средне',
                 hard: 'Сложно',
-                search: 'Поиск...'
+                search: 'Поиск...',
+                removePhoto: 'Удалить фото'
             }
         }
     }
