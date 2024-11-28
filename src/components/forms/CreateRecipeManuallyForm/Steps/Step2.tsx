@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Textarea } from '@root/components/ui';
 
 export const Step2: FC = () => {
@@ -19,14 +17,8 @@ export const Step2: FC = () => {
                     'Forms.CreateRecipeManuallyForm.descriptionPlaceholder'
                 )}
             />
-            <div className="inline-flex gap-2 items-center">
-                <FontAwesomeIcon
-                    size="xl"
-                    className="text-secondary"
-                    icon={faQuestionCircle}
-                />
-                <p>{t('Forms.CreateRecipeManuallyForm.helpText')}</p>
-            </div>
+
+            <p>{t('Forms.CreateRecipeManuallyForm.descriptionHelpText')}</p>
         </section>
     );
 };

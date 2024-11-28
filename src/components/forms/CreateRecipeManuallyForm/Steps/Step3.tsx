@@ -11,11 +11,17 @@ export const Step3: FC = () => {
         <section className="flex flex-col gap-6">
             <h3>{t('Stepper.Steps.Recipe.3.description')}</h3>
 
-            <Field
-                name="photo"
-                component={DragAndDrop}
-                placeholder="Drag and drop a photo here"
-            />
+            <div className="flex items-center justify-center">
+                <Field
+                    name="photo"
+                    component={DragAndDrop}
+                    placeholder={t(
+                        'Forms.CreateRecipeManuallyForm.previewPhotoPlaceholder'
+                    )}
+                />
+            </div>
+
+            <p>{t('Forms.CreateRecipeManuallyForm.previewPhotoHelpText')}</p>
         </section>
     );
 };

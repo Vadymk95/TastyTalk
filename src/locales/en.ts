@@ -247,8 +247,12 @@ export const en = {
                     description: 'Description',
                     descriptionPlaceholder:
                         'Write a brief description of your recipe',
-                    helpText:
-                        'The description helps others understand what makes your recipe special. It could be a personal twist, a family tradition, or just an idea you’d like to share!'
+                    descriptionHelpText:
+                        'The description helps others understand what makes your recipe special. It could be a personal twist, a family tradition, or just an idea you’d like to share!',
+                    previewPhotoPlaceholder:
+                        'Drag and drop a photo here or click to upload',
+                    previewPhotoHelpText:
+                        'Upload a photo that will become the preview for your recipe. It helps others see what the dish looks like and makes your recipe more appealing!'
                 }
             },
             Modals: {

@@ -2,6 +2,9 @@ import { FieldProps } from 'formik';
 import { FC, useCallback } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 type DragAndDropProps = {
     name?: string;
     value?: File | null;
@@ -40,7 +43,7 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: handleDrop,
         accept,
-        multiple: false, // Поддержка одного файла
+        multiple: false,
         disabled
     });
 
@@ -50,7 +53,7 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
             className={`drag-and-drop border-2 border-dashed rounded-md p-4 text-center transition duration-200 ${
                 isDragActive
                     ? 'bg-neutral-light border-secondary'
-                    : 'bg-neutral border-neutral-light'
+                    : 'bg-neutral/30 border-neutral'
             } ${disabled ? 'opacity-50 pointer-events-none' : ''} ${className}`}
         >
             <input {...getInputProps()} />
@@ -59,7 +62,14 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
                     {value.name} ({(value.size / 1024).toFixed(2)} KB)
                 </p>
             ) : (
-                <p className="text-neutral-dark">{placeholder}</p>
+                <div className="p-4">
+                    <p className="label mb-3">{placeholder}</p>
+                    <FontAwesomeIcon
+                        className="text-primary-light"
+                        size="3x"
+                        icon={faImage}
+                    />
+                </div>
             )}
         </div>
     );
