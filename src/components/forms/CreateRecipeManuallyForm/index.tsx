@@ -64,6 +64,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         ingredients: Yup.array()
             .of(Yup.string())
             .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
+            .max(30, t('Forms.CreateRecipeManuallyForm.maxIngredients'))
     });
 
     const onSubmit = (values: CreateRecipeManuallyValues) => {

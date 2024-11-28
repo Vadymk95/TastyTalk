@@ -256,7 +256,8 @@ export const en = {
                     invalidFileType:
                         'Invalid file type. Please upload an image file.',
                     fileTooLarge:
-                        'File is too large. Please upload an image file smaller than 5MB.'
+                        'File is too large. Please upload an image file smaller than 5MB.',
+                    maxIngredients: 'You can add up to 30 ingredients'
                 }
             },
             Modals: {
