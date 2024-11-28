@@ -1,4 +1,4 @@
-import { FieldProps } from 'formik';
+import { ErrorMessage, FieldProps } from 'formik';
 import { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ type DragAndDropProps = {
 export const DragAndDrop: FC<DragAndDropProps> = ({
     onChange,
     placeholder = '',
-    accept = { 'image/*': ['.jpeg', '.jpg', '.png', '.gif'] },
+    accept = { 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] },
     className = '',
     disabled = false,
     form,
@@ -41,6 +41,20 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
         }
     }, [field?.value]);
 
+    const handleReset = useCallback(
+        (event?: MouseEvent) => {
+            if (event) event.stopPropagation();
+
+            if (onChange) {
+                onChange(null);
+            }
+            if (form && field?.name) {
+                form.setFieldValue(field?.name, null);
+            }
+        },
+        [onChange, form, field?.name]
+    );
+
     const handleDrop = useCallback(
         (acceptedFiles: File[]) => {
             const file = acceptedFiles[0];
@@ -51,20 +65,16 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
             if (form && field?.name) {
                 form.setFieldValue(field?.name, file || null);
             }
+
+            const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+
+            if (file.size > MAX_SIZE) {
+                setTimeout(() => handleReset(), 5000);
+                return;
+            }
         },
-        [onChange, form, field]
+        [onChange, form, field?.name, handleReset]
     );
-
-    const handleReset = (event: MouseEvent) => {
-        event.stopPropagation();
-
-        if (onChange) {
-            onChange(null);
-        }
-        if (form && field?.name) {
-            form.setFieldValue(field?.name, null);
-        }
-    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: handleDrop,
@@ -107,6 +117,13 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
                         icon={faImage}
                     />
                 </div>
+            )}
+            {field?.name && (
+                <ErrorMessage
+                    className="mt-2 text-primary"
+                    name={field?.name}
+                    component="div"
+                />
             )}
         </div>
     );

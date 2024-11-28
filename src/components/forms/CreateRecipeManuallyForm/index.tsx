@@ -18,6 +18,7 @@ export type CreateRecipeManuallyValues = {
     cookingTime: number;
     description?: string;
     previewPhoto?: string | File | null;
+    ingredients: string[] | null;
 };
 
 export const CreateRecipeManuallyForm: FC = () => {
@@ -59,7 +60,10 @@ export const CreateRecipeManuallyForm: FC = () => {
                     const file = value as File;
                     return file.size <= 5 * 1024 * 1024;
                 }
-            )
+            ),
+        ingredients: Yup.array()
+            .of(Yup.string())
+            .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
     });
 
     const onSubmit = (values: CreateRecipeManuallyValues) => {
@@ -72,7 +76,8 @@ export const CreateRecipeManuallyForm: FC = () => {
         categories: null,
         cookingTime: 0,
         description: '',
-        previewPhoto: null
+        previewPhoto: null,
+        ingredients: null
     };
 
     return (

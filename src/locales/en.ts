@@ -252,7 +252,11 @@ export const en = {
                     previewPhotoPlaceholder:
                         'Drag and drop a photo here or click to upload',
                     previewPhotoHelpText:
-                        'Upload a photo that will become the preview for your recipe. It helps others see what the dish looks like and makes your recipe more appealing!'
+                        'Upload a photo that will become the preview for your recipe. It helps others see what the dish looks like and makes your recipe more appealing!',
+                    invalidFileType:
+                        'Invalid file type. Please upload an image file.',
+                    fileTooLarge:
+                        'File is too large. Please upload an image file smaller than 5MB.'
                 }
             },
             Modals: {
