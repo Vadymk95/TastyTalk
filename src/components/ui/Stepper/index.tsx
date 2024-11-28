@@ -57,7 +57,7 @@ export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
     const progress = ((currentStep + 1) / steps.length) * 100;
 
     return (
-        <div className="plate relative">
+        <div className="plate">
             <ProgressBar
                 progress={progress}
                 currentStep={currentStep + 1}
@@ -65,18 +65,20 @@ export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
                 className="mb-6"
             />
 
-            <h2 className="text-2xl font-heading text-primary mb-4">
-                {steps[currentStep].title}
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-heading text-primary">
+                    {steps[currentStep].title}
+                </h2>
 
-            {currentStep > 0 && (
-                <Button
-                    className="flex items-center gap-3 absolute top-16 right-4"
-                    onClick={handleReset}
-                >
-                    <FontAwesomeIcon icon={faArrowRotateBack} />
-                </Button>
-            )}
+                {currentStep > 0 && (
+                    <Button
+                        className="flex items-center gap-3"
+                        onClick={handleReset}
+                    >
+                        <FontAwesomeIcon icon={faArrowRotateBack} />
+                    </Button>
+                )}
+            </div>
 
             <div className="mb-14">{steps[currentStep].content}</div>
 
