@@ -10,6 +10,7 @@
 @import './components/tabs.css';
 @import './components/tooltips.css';
 @import './components/badges.css';
+@import './components/dnd.css';
 
 html {
     @apply h-full overflow-y-scroll;

@@ -1,6 +1,8 @@
 export { Badge } from './Badge';
 export { Button } from './Button';
+export { DragAndDrop } from './DragAndDrop';
 export { ErrorCard } from './ErrorCard';
+export { FormikMultiSelect } from './FormikMultiSelect';
 export { FormikSelect } from './FormikSelect';
 export { GreetingCard } from './GreetingCard';
 export { Image } from './Image';
@@ -19,4 +21,3 @@ export { Tabs } from './Tabs';
 export { Textarea } from './Textarea';
 export { Tooltip } from './Tooltip';
 export { UsernameInput } from './UsernameInput';
-export { FormikMultiSelect } from './FormikMultiSelect';

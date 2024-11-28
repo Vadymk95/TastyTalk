@@ -1,0 +1,19 @@
+.drag-and-drop {
+    @apply border-2 border-dashed rounded-md p-4 text-center transition duration-200;
+}
+
+.drag-and-drop:hover {
+    @apply border-secondary-light bg-neutral-light;
+}
+
+.drag-and-drop input {
+    @apply hidden;
+}
+
+.drag-and-drop:focus {
+    @apply ring-2 ring-secondary-light outline-none;
+}
+
+.drag-and-drop:disabled {
+    @apply opacity-50 pointer-events-none;
+}
