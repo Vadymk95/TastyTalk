@@ -4,5 +4,9 @@ import { useTranslation } from 'react-i18next';
 export const Step6: FC = () => {
     const { t } = useTranslation();
 
-    return <div>{t('Stepper.Steps.Recipe.6.description')}</div>;
+    return (
+        <section className="flex flex-col gap-6">
+            <h3>{t('Stepper.Steps.Recipe.6.description')}</h3>
+        </section>
+    );
 };

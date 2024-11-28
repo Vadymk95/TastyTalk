@@ -31,8 +31,8 @@ export const Step1: FC<StepProps> = ({ formik }) => {
     ];
 
     return (
-        <section>
-            <h3 className="mb-6">{t('Stepper.Steps.Recipe.1.description')}</h3>
+        <section className="flex flex-col gap-6">
+            <h3>{t('Stepper.Steps.Recipe.1.description')}</h3>
 
             <div className="flex flex-col gap-6 w-full max-w-md">
                 <Input
