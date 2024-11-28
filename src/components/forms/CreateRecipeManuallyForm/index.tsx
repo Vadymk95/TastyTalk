@@ -19,6 +19,10 @@ export type CreateRecipeManuallyValues = {
     description?: string;
     previewPhoto?: string | File | null;
     ingredients: string[] | null;
+    steps: string[] | null;
+    tips?: string[] | null;
+    warnings?: string[] | null;
+    videoUrl?: string;
 };
 
 export const CreateRecipeManuallyForm: FC = () => {
@@ -64,7 +68,20 @@ export const CreateRecipeManuallyForm: FC = () => {
         ingredients: Yup.array()
             .of(Yup.string())
             .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
-            .max(30, t('Forms.CreateRecipeManuallyForm.maxIngredients'))
+            .max(30, t('Forms.CreateRecipeManuallyForm.maxIngredients')),
+        steps: Yup.array()
+            .of(Yup.string())
+            .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
+            .max(10, t('Forms.CreateRecipeManuallyForm.maxSteps')),
+        tips: Yup.array()
+            .of(Yup.string())
+            .max(10, t('Forms.CreateRecipeManuallyForm.maxTips')),
+        warnings: Yup.array()
+            .of(Yup.string())
+            .max(10, t('Forms.CreateRecipeManuallyForm.maxWarnings')),
+        videoUrl: Yup.string().url(
+            t('Forms.CreateRecipeManuallyForm.invalidUrl')
+        )
     });
 
     const onSubmit = (values: CreateRecipeManuallyValues) => {
@@ -78,7 +95,11 @@ export const CreateRecipeManuallyForm: FC = () => {
         cookingTime: 0,
         description: '',
         previewPhoto: null,
-        ingredients: ['']
+        ingredients: [''],
+        steps: [''],
+        tips: [''],
+        warnings: [''],
+        videoUrl: ''
     };
 
     return (

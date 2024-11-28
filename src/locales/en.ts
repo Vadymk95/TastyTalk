@@ -260,7 +260,16 @@ export const en = {
                     maxIngredients: 'You can add up to 30 ingredients',
                     ingredient: 'Ingredient',
                     ingredientPlaceholder: 'Enter ingredient',
-                    addIngredient: 'Add Ingredient'
+                    addIngredient: 'Add Ingredient',
+                    step: 'Step',
+                    stepPlaceholder: 'Enter Step',
+                    addStep: 'Add Step',
+                    tip: 'Tip',
+                    tipPlaceholder: 'Enter tip',
+                    addTip: 'Add Tip',
+                    warning: 'Warning',
+                    warningPlaceholder: 'Enter warning',
+                    addWarning: 'Add Warning'
                 }
             },
             Modals: {

@@ -254,7 +254,16 @@ export const ru = {
                     maxIngredients: 'Максимум 30 ингредиентов',
                     ingredient: 'Ингредиент',
                     ingredientPlaceholder: 'Введите ингредиент',
-                    addIngredient: 'Добавить ингредиент'
+                    addIngredient: 'Добавить ингредиент',
+                    step: 'Шаг',
+                    stepPlaceholder: 'Введите шаг',
+                    addStep: 'Добавить шаг',
+                    tip: 'Совет',
+                    tipPlaceholder: 'Введите совет',
+                    addTip: 'Добавить совет',
+                    warning: 'Предостережение',
+                    warningPlaceholder: 'Введите предостережение',
+                    addWarning: 'Добавить предостережение'
                 }
             },
             Modals: {

@@ -42,17 +42,21 @@ export const GetAllSteps = (
             title: t('Stepper.Steps.Recipe.4.title'),
             content: <Step4 formik={formik} />
         },
-        { id: 5, title: t('Stepper.Steps.Recipe.5.title'), content: <Step5 /> },
+        {
+            id: 5,
+            title: t('Stepper.Steps.Recipe.5.title'),
+            content: <Step5 formik={formik} />
+        },
         {
             id: 6,
             title: t('Stepper.Steps.Recipe.6.title'),
-            content: <Step6 />,
+            content: <Step6 formik={formik} />,
             isOptional: true
         },
         {
             id: 7,
             title: t('Stepper.Steps.Recipe.7.title'),
-            content: <Step7 />,
+            content: <Step7 formik={formik} />,
             isOptional: true
         },
         {
