@@ -10,7 +10,6 @@ import { faBook, faBookOpenReader } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type FormikMultiSelectProps = {
-    name?: string;
     value?: Category[];
     onChange?: (value: Category[]) => void;
     categories: Category[];
@@ -18,12 +17,12 @@ type FormikMultiSelectProps = {
 } & Partial<FieldProps>;
 
 export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
-    name,
     value: controlledValue,
     onChange,
     categories,
     maxBadges = 5,
-    form
+    form,
+    field
 }) => {
     const { t } = useTranslation();
 
@@ -55,8 +54,8 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             setLocalValue(updatedBadges);
         }
 
-        if (form && name) {
-            form.setFieldValue(name, updatedBadges);
+        if (form && field?.name) {
+            form.setFieldValue(field?.name, updatedBadges);
         }
     };
 

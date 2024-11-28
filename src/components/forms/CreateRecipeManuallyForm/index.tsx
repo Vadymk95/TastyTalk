@@ -30,14 +30,36 @@ export const CreateRecipeManuallyForm: FC = () => {
         difficulty: Yup.string().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
         ),
-        categories: Yup.array().required(
-            t('Forms.CreateRecipeManuallyForm.requiredField')
-        ),
+        categories: Yup.array()
+            .of(Yup.string())
+            .required(t('Forms.CreateRecipeManuallyForm.requiredField')),
         cookingTime: Yup.number().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
         ),
         description: Yup.string(),
         previewPhoto: Yup.mixed()
+            .nullable()
+            .nullable()
+            .test(
+                'fileType',
+                t('Forms.CreateRecipeManuallyForm.invalidFileType'),
+                (value) => {
+                    if (!value) return true;
+                    const file = value as File;
+                    return ['image/jpeg', 'image/png', 'image/gif'].includes(
+                        file.type
+                    );
+                }
+            )
+            .test(
+                'fileSize',
+                t('Forms.CreateRecipeManuallyForm.fileTooLarge'),
+                (value) => {
+                    if (!value) return true;
+                    const file = value as File;
+                    return file.size <= 5 * 1024 * 1024;
+                }
+            )
     });
 
     const onSubmit = (values: CreateRecipeManuallyValues) => {

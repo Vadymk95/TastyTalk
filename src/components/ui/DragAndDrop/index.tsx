@@ -1,13 +1,13 @@
 import { FieldProps } from 'formik';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
+
+import { Image } from '@root/components/ui';
 
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type DragAndDropProps = {
-    name?: string;
-    value?: File | null;
     onChange?: (file: File | null) => void;
     placeholder?: string;
     accept?: Accept;
@@ -16,28 +16,41 @@ type DragAndDropProps = {
 } & Partial<FieldProps>;
 
 export const DragAndDrop: FC<DragAndDropProps> = ({
-    name,
-    value,
     onChange,
     placeholder = '',
-    accept = {
-        'image/*': ['.jpeg', '.jpg', '.png', '.gif']
-    },
+    accept = { 'image/*': ['.jpeg', '.jpg', '.png', '.gif'] },
     className = '',
     disabled = false,
-    form
+    form,
+    field
 }) => {
+    const [preview, setPreview] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (field?.value) {
+            const objectUrl = URL.createObjectURL(field?.value);
+            setPreview(objectUrl);
+
+            return () => {
+                URL.revokeObjectURL(objectUrl);
+            };
+        } else {
+            setPreview(null);
+        }
+    }, [field?.value]);
+
     const handleDrop = useCallback(
         (acceptedFiles: File[]) => {
             const file = acceptedFiles[0];
+
             if (onChange) {
                 onChange(file || null);
             }
-            if (form && name) {
-                form.setFieldValue(name, file || null);
+            if (form && field?.name) {
+                form.setFieldValue(field?.name, file || null);
             }
         },
-        [onChange, form, name]
+        [onChange, form, field]
     );
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -57,10 +70,18 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
             } ${disabled ? 'opacity-50 pointer-events-none' : ''} ${className}`}
         >
             <input {...getInputProps()} />
-            {value ? (
-                <p className="text-secondary font-medium">
-                    {value.name} ({(value.size / 1024).toFixed(2)} KB)
-                </p>
+            {field?.value && preview ? (
+                <div className="flex flex-col items-center">
+                    <Image
+                        src={preview}
+                        alt="Preview"
+                        className="w-full max-w-xs rounded-lg mb-2"
+                    />
+                    <p className="text-secondary font-medium">
+                        {field?.value.name} (
+                        {(field?.value.size / 1024).toFixed(2)} KB)
+                    </p>
+                </div>
             ) : (
                 <div className="p-4">
                     <p className="label mb-3">{placeholder}</p>
