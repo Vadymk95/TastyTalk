@@ -78,7 +78,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         cookingTime: 0,
         description: '',
         previewPhoto: null,
-        ingredients: null
+        ingredients: ['']
     };
 
     return (

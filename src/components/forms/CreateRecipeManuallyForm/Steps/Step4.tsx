@@ -34,12 +34,12 @@ export const Step4: FC<StepProps> = ({ formik }) => {
                                     <div className="flex items-end flex-1">
                                         <Input
                                             type="text"
-                                            name={`socialLinks.${index}.url`}
+                                            name={`ingridients.${index}`}
                                             placeholder={t(
-                                                'Forms.EditProfileForm.linkPlaceholder'
+                                                'Forms.CreateRecipeManuallyForm.ingridientPlaceholder'
                                             )}
                                             label={t(
-                                                'Forms.EditProfileForm.link'
+                                                'Forms.CreateRecipeManuallyForm.ingridient'
                                             )}
                                             isRequired
                                             className="flex-1 mr-2"
@@ -55,6 +55,7 @@ export const Step4: FC<StepProps> = ({ formik }) => {
                                             }
                                         >
                                             <FontAwesomeIcon
+                                                className="text-primary"
                                                 icon={faXmark}
                                                 size="xl"
                                             />
@@ -64,6 +65,7 @@ export const Step4: FC<StepProps> = ({ formik }) => {
                             ))}
                         <Button
                             type="button"
+                            variant="secondary"
                             size="small"
                             disabled={
                                 !!values.ingredients &&
@@ -72,7 +74,7 @@ export const Step4: FC<StepProps> = ({ formik }) => {
                             onClick={() => arrayHelpers.push('')}
                             className="mt-2"
                         >
-                            {t('Forms.EditProfileForm.addLink')}
+                            {t('Forms.CreateRecipeManuallyForm.addIngridient')}
                         </Button>
                     </div>
                 )}

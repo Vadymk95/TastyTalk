@@ -251,7 +251,10 @@ export const ru = {
                         'Неверный тип файла. Пожалуйста, загрузите изображение в формате JPG, JPEG, PNG, WEBP',
                     fileTooLarge:
                         'Файл слишком большой. Максимальный размер файла - 5 МБ',
-                    maxIngredients: 'Максимум 30 ингредиентов'
+                    maxIngredients: 'Максимум 30 ингредиентов',
+                    ingridient: 'Ингредиент',
+                    ingridientPlaceholder: 'Введите ингредиент',
+                    addIngridient: 'Добавить ингредиент'
                 }
             },
             Modals: {
