@@ -252,9 +252,9 @@ export const ru = {
                     fileTooLarge:
                         'Файл слишком большой. Максимальный размер файла - 5 МБ',
                     maxIngredients: 'Максимум 30 ингредиентов',
-                    ingridient: 'Ингредиент',
-                    ingridientPlaceholder: 'Введите ингредиент',
-                    addIngridient: 'Добавить ингредиент'
+                    ingredient: 'Ингредиент',
+                    ingredientPlaceholder: 'Введите ингредиент',
+                    addIngredient: 'Добавить ингредиент'
                 }
             },
             Modals: {

@@ -258,9 +258,9 @@ export const en = {
                     fileTooLarge:
                         'File is too large. Please upload an image file smaller than 5MB.',
                     maxIngredients: 'You can add up to 30 ingredients',
-                    ingridient: 'Ingredient',
-                    ingridientPlaceholder: 'Enter ingredient',
-                    addIngridient: 'Add Ingredient'
+                    ingredient: 'Ingredient',
+                    ingredientPlaceholder: 'Enter ingredient',
+                    addIngredient: 'Add Ingredient'
                 }
             },
             Modals: {

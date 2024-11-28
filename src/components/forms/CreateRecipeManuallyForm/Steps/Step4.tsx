@@ -22,25 +22,25 @@ export const Step4: FC<StepProps> = ({ formik }) => {
             <h3>{t('Stepper.Steps.Recipe.4.description')}</h3>
 
             <FieldArray
-                name="ingridients"
+                name="ingredients"
                 render={(arrayHelpers) => (
                     <div>
                         {values.ingredients &&
                             values.ingredients.map((_, index) => (
                                 <div
                                     key={index}
-                                    className="flex sm:block items-center gap-4 mb-4"
+                                    className="flex sm:block items-center mb-4"
                                 >
-                                    <div className="flex items-end flex-1">
+                                    <div className="flex items-end">
                                         <Input
                                             type="text"
-                                            name={`ingridients.${index}`}
+                                            name={`ingredients.${index}`}
                                             placeholder={t(
-                                                'Forms.CreateRecipeManuallyForm.ingridientPlaceholder'
+                                                'Forms.CreateRecipeManuallyForm.ingredientPlaceholder'
                                             )}
-                                            label={t(
-                                                'Forms.CreateRecipeManuallyForm.ingridient'
-                                            )}
+                                            label={`${t(
+                                                'Forms.CreateRecipeManuallyForm.ingredient'
+                                            )} ${index + 1}`}
                                             isRequired
                                             className="flex-1 mr-2"
                                             size="small"
@@ -74,7 +74,7 @@ export const Step4: FC<StepProps> = ({ formik }) => {
                             onClick={() => arrayHelpers.push('')}
                             className="mt-2"
                         >
-                            {t('Forms.CreateRecipeManuallyForm.addIngridient')}
+                            {t('Forms.CreateRecipeManuallyForm.addIngredient')}
                         </Button>
                     </div>
                 )}
