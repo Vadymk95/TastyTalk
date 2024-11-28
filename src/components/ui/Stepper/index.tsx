@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, ProgressBar } from '@root/components/ui';
 
 import {
+    faArrowRotateBack,
     faChevronLeft,
     faChevronRight,
     faCircleCheck,
@@ -13,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface StepperProps {
     steps: Step[];
+    onReset?: () => void;
 }
 
 interface Step {
@@ -22,7 +24,7 @@ interface Step {
     isOptional?: boolean;
 }
 
-export const Stepper: FC<StepperProps> = ({ steps }) => {
+export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
     const { t } = useTranslation();
     const [currentStep, setCurrentStep] = useState(0);
 
@@ -44,10 +46,18 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
         }
     };
 
+    const handleReset = () => {
+        setCurrentStep(0);
+
+        if (onReset) {
+            onReset();
+        }
+    };
+
     const progress = ((currentStep + 1) / steps.length) * 100;
 
     return (
-        <div className="plate">
+        <div className="plate relative">
             <ProgressBar
                 progress={progress}
                 currentStep={currentStep + 1}
@@ -58,6 +68,15 @@ export const Stepper: FC<StepperProps> = ({ steps }) => {
             <h2 className="text-2xl font-heading text-primary mb-4">
                 {steps[currentStep].title}
             </h2>
+
+            {currentStep > 0 && (
+                <Button
+                    className="flex items-center gap-3 absolute top-16 right-4"
+                    onClick={handleReset}
+                >
+                    <FontAwesomeIcon icon={faArrowRotateBack} />
+                </Button>
+            )}
 
             <div className="mb-14">{steps[currentStep].content}</div>
 
