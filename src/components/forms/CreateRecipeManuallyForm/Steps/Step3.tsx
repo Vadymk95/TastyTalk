@@ -13,7 +13,7 @@ export const Step3: FC = () => {
 
             <div className="flex items-center justify-center">
                 <Field
-                    name="photo"
+                    name="previewPhoto"
                     component={DragAndDrop}
                     placeholder={t(
                         'Forms.CreateRecipeManuallyForm.previewPhotoPlaceholder'
