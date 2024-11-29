@@ -1,7 +1,10 @@
 import { FC, JSX, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ResetStepperModal } from '@root/components/modals';
 import { Button, ProgressBar } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
+import { useModalStore } from '@root/store';
 
 import {
     faArrowRotateBack,
@@ -26,6 +29,7 @@ interface Step {
 
 export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
     const { t } = useTranslation();
+    const { openModal } = useModalStore();
     const [currentStep, setCurrentStep] = useState(0);
 
     const handleNext = () => {
@@ -54,10 +58,12 @@ export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
         }
     };
 
+    const handleOpenModal = () => openModal(ModalsEnum.ResetStepper);
+
     const progress = ((currentStep + 1) / steps.length) * 100;
 
     return (
-        <div className="plate">
+        <div className="plate relative">
             <ProgressBar
                 progress={progress}
                 currentStep={currentStep + 1}
@@ -73,7 +79,7 @@ export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
                 {currentStep > 0 && (
                     <Button
                         className="flex items-center gap-3"
-                        onClick={handleReset}
+                        onClick={handleOpenModal}
                     >
                         <FontAwesomeIcon icon={faArrowRotateBack} />
                     </Button>
@@ -126,6 +132,8 @@ export const Stepper: FC<StepperProps> = ({ steps, onReset }) => {
                     </Button>
                 )}
             </div>
+
+            <ResetStepperModal handleReset={handleReset} />
         </div>
     );
 };

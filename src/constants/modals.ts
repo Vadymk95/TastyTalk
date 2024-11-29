@@ -3,5 +3,6 @@ export enum ModalsEnum {
     ChangePassword = 'changePassword',
     DeleteAccount = 'deleteAccount',
     Pricing = 'pricing',
-    Rules = 'rules'
+    Rules = 'rules',
+    ResetStepper = 'resetStepper'
 }

@@ -112,7 +112,10 @@ export const CreateRecipeManuallyForm: FC = () => {
             >
                 {(formik) => (
                     <Form>
-                        <Stepper steps={GetAllSteps(formik)} />
+                        <Stepper
+                            steps={GetAllSteps(formik)}
+                            onReset={formik.resetForm}
+                        />
 
                         <div className="mt-12">
                             <Recipe recipe={exampleRecipe} />

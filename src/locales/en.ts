@@ -298,6 +298,13 @@ export const en = {
                     title: 'Community Guidelines',
                     description:
                         'Please read the following guidelines carefully before posting any content on our platform:'
+                },
+                ResetStepperModal: {
+                    title: 'Reset Recipe Creation',
+                    description:
+                        'Are you sure you want to reset the recipe creation process? All entered data will be lost.',
+                    reset: 'Reset',
+                    cancel: 'Cancel'
                 }
             },
             PhotoUpload: {

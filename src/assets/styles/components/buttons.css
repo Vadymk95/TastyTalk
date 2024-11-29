@@ -38,6 +38,18 @@
     @apply scale-95 bg-accent;
 }
 
+.btn-neutral {
+    @apply bg-neutral/30 text-neutral-dark text-neutral-dark/60;
+}
+
+.btn-neutral:hover {
+    @apply bg-neutral scale-105;
+}
+
+.btn-neutral:active {
+    @apply scale-95 bg-neutral;
+}
+
 .btn-close {
     @apply border border-neutral-dark text-neutral-dark rounded-full transition duration-200 leading-[initial];
 }
