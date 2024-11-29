@@ -8,9 +8,6 @@ import { Category, Difficulty } from '@root/types';
 
 import { GetAllSteps } from './Steps';
 
-import { Recipe } from '../../common';
-import { exampleRecipe } from '../CreateRecipeWithAIForm/example';
-
 export type CreateRecipeManuallyValues = {
     title: string;
     difficulty: null | Difficulty;
@@ -210,10 +207,6 @@ export const CreateRecipeManuallyForm: FC = () => {
                                 onReset={formik.resetForm}
                                 isStepValid={isStepValid}
                             />
-
-                            <div className="mt-12">
-                                <Recipe recipe={exampleRecipe} />
-                            </div>
                         </Form>
                     );
                 }}
