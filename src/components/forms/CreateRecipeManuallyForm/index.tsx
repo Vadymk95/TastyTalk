@@ -176,26 +176,36 @@ export const CreateRecipeManuallyForm: FC = () => {
                     };
 
                     const getSkippedSteps = (): number[] => {
-                        return Object.entries(stepFieldMapping)
-                            .filter(([, stepData]) => {
-                                const { fields, isOptional } = stepData as {
-                                    fields: Array<
-                                        keyof CreateRecipeManuallyValues
-                                    >;
-                                    isOptional: boolean;
-                                };
+                        return Object.keys(stepFieldMapping)
+                            .map(Number)
+                            .filter((stepIndex) => {
+                                const stepData = stepFieldMapping[stepIndex];
+                                const { fields } = stepData;
 
-                                const isStepValid = fields.every(
-                                    (field) =>
-                                        !formik.errors[field] &&
-                                        formik.values[field] !== null &&
-                                        formik.values[field] !== ''
-                                );
+                                const isStepInvalid = fields.some((field) => {
+                                    const value = formik.values[field];
 
-                                return !isStepValid && !isOptional;
-                            })
-                            .map(([stepIndex]) => Number(stepIndex));
+                                    if (Array.isArray(value)) {
+                                        return (
+                                            value.length === 0 ||
+                                            value.every(
+                                                (item) =>
+                                                    item === '' || item === null
+                                            )
+                                        );
+                                    }
+
+                                    return (
+                                        value === null ||
+                                        value === '' ||
+                                        value === 0
+                                    );
+                                });
+
+                                return isStepInvalid;
+                            });
                     };
+
                     return (
                         <Form>
                             <Stepper
