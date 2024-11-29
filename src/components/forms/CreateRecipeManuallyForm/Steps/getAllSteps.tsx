@@ -12,63 +12,70 @@ import {
     Step8,
     Step9
 } from '.';
-import { CreateRecipeManuallyValues } from '..';
+import { CreateRecipeManuallyValues, StepFieldMapping } from '..';
 
 export const GetAllSteps = (
-    formik: FormikProps<CreateRecipeManuallyValues>
+    formik: FormikProps<CreateRecipeManuallyValues>,
+    stepFieldMapping: StepFieldMapping,
+    getSkippedSteps: () => number[]
 ) => {
     const { t } = useTranslation();
+    const skippedSteps = getSkippedSteps();
 
     const steps = [
         {
             id: 1,
             title: t('Stepper.Steps.Recipe.1.title'),
-            content: <Step1 formik={formik} />
+            content: <Step1 formik={formik} />,
+            isOptional: stepFieldMapping[0].isOptional
         },
         {
             id: 2,
             title: t('Stepper.Steps.Recipe.2.title'),
             content: <Step2 />,
-            isOptional: true
+            isOptional: stepFieldMapping[1].isOptional
         },
         {
             id: 3,
             title: t('Stepper.Steps.Recipe.3.title'),
             content: <Step3 />,
-            isOptional: true
+            isOptional: stepFieldMapping[2].isOptional
         },
         {
             id: 4,
             title: t('Stepper.Steps.Recipe.4.title'),
-            content: <Step4 formik={formik} />
+            content: <Step4 formik={formik} />,
+            isOptional: stepFieldMapping[3].isOptional
         },
         {
             id: 5,
             title: t('Stepper.Steps.Recipe.5.title'),
-            content: <Step5 formik={formik} />
+            content: <Step5 formik={formik} />,
+            isOptional: stepFieldMapping[4].isOptional
         },
         {
             id: 6,
             title: t('Stepper.Steps.Recipe.6.title'),
             content: <Step6 formik={formik} />,
-            isOptional: true
+            isOptional: stepFieldMapping[5].isOptional
         },
         {
             id: 7,
             title: t('Stepper.Steps.Recipe.7.title'),
             content: <Step7 formik={formik} />,
-            isOptional: true
+            isOptional: stepFieldMapping[6].isOptional
         },
         {
             id: 8,
             title: t('Stepper.Steps.Recipe.8.title'),
             content: <Step8 />,
-            isOptional: true
+            isOptional: stepFieldMapping[7].isOptional
         },
         {
             id: 9,
             title: t('Stepper.Steps.Recipe.9.title'),
-            content: <Step9 formik={formik} />
+            content: <Step9 formik={formik} skippedSteps={skippedSteps} />,
+            isOptional: false
         }
     ];
 

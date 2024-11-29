@@ -25,7 +25,10 @@ export type CreateRecipeManuallyValues = {
     videoUrl?: string;
 };
 
-type StepFieldMapping = Record<number, Array<keyof CreateRecipeManuallyValues>>;
+export type StepFieldMapping = Record<
+    number,
+    { fields: Array<keyof CreateRecipeManuallyValues>; isOptional: boolean }
+>;
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
@@ -127,31 +130,83 @@ export const CreateRecipeManuallyForm: FC = () => {
             >
                 {(formik) => {
                     const stepFieldMapping: StepFieldMapping = {
-                        0: ['title', 'difficulty', 'categories', 'cookingTime'],
-                        1: ['description'],
-                        2: ['previewPhoto'],
-                        3: ['ingredients'],
-                        4: ['steps'],
-                        5: ['tips'],
-                        6: ['warnings'],
-                        7: ['videoUrl']
+                        0: {
+                            fields: [
+                                'title',
+                                'difficulty',
+                                'categories',
+                                'cookingTime'
+                            ],
+                            isOptional: false
+                        },
+                        1: { fields: ['description'], isOptional: true },
+                        2: { fields: ['previewPhoto'], isOptional: true },
+                        3: { fields: ['ingredients'], isOptional: false },
+                        4: { fields: ['steps'], isOptional: false },
+                        5: { fields: ['tips'], isOptional: true },
+                        6: { fields: ['warnings'], isOptional: true },
+                        7: { fields: ['videoUrl'], isOptional: true }
                     };
 
                     const isStepValid = (stepIndex: number): boolean => {
-                        const fields = stepFieldMapping[stepIndex] || [];
+                        const stepData = stepFieldMapping[stepIndex];
 
-                        return fields.every(
-                            (field) =>
+                        if (!stepData) {
+                            return false;
+                        }
+
+                        const { fields } = stepData;
+
+                        return fields.every((field) => {
+                            const value = formik.values[field];
+
+                            if (Array.isArray(value)) {
+                                return (
+                                    value.length > 0 &&
+                                    value.every(
+                                        (item) => item !== null && item !== ''
+                                    )
+                                );
+                            }
+
+                            return (
                                 !formik.errors[field] &&
-                                formik.values[field] !== null &&
-                                formik.values[field] !== '' &&
-                                formik.values[field] !== 0
-                        );
+                                value !== null &&
+                                value !== '' &&
+                                value !== 0
+                            );
+                        });
+                    };
+
+                    const getSkippedSteps = (): number[] => {
+                        return Object.entries(stepFieldMapping)
+                            .filter(([, stepData]) => {
+                                const { fields, isOptional } = stepData as {
+                                    fields: Array<
+                                        keyof CreateRecipeManuallyValues
+                                    >;
+                                    isOptional: boolean;
+                                };
+
+                                const isStepValid = fields.every(
+                                    (field) =>
+                                        !formik.errors[field] &&
+                                        formik.values[field] !== null &&
+                                        formik.values[field] !== ''
+                                );
+
+                                return !isStepValid && !isOptional;
+                            })
+                            .map(([stepIndex]) => Number(stepIndex));
                     };
                     return (
                         <Form>
                             <Stepper
-                                steps={GetAllSteps(formik)}
+                                steps={GetAllSteps(
+                                    formik,
+                                    stepFieldMapping,
+                                    getSkippedSteps
+                                )}
                                 onReset={formik.resetForm}
                                 isStepValid={isStepValid}
                             />
