@@ -151,7 +151,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             {isOpen && (
                 <div
                     ref={dropdownRef}
-                    className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg max-h-64 overflow-y-auto"
+                    className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg max-h-56 overflow-y-auto"
                 >
                     <div className="categories">
                         {Object.entries(groupedCategories).map(

@@ -20,11 +20,11 @@ const CreateRecipePage: FC = () => {
     const withAI = currentTab === 'create-recipe-with-ai';
 
     return (
-        <div className="w-full">
-            <h1 className="main-heading sm:mb-4">
+        <div className="w-full flex flex-col pb-8 sm:pb-4 space-y-8 sm:space-y-4">
+            <h1 className="main-heading mb-0">
                 {t(`CreateRecipePage.${withAI ? 'titleAI' : 'title'}`)}
             </h1>
-            <p className="text-center label mb-8 sm:mb-4">
+            <p className="text-center label">
                 {t(
                     `CreateRecipePage.${withAI ? 'descriptionAI' : 'description'}`
                 )}
@@ -35,10 +35,9 @@ const CreateRecipePage: FC = () => {
                 variant="secondary"
                 activeTab={currentTab}
                 setActiveTab={setCurrentTab}
-                className="mb-8 sm:mb-4"
             />
 
-            <div className="mb-8 sm:mb-4">
+            <div>
                 {withAI ? (
                     <CreateRecipeWithAIForm />
                 ) : (
