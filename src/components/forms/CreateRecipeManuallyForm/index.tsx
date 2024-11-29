@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { Stepper } from '@root/components/ui';
-import { Difficulty } from '@root/types';
+import { Category, Difficulty } from '@root/types';
 
 import { GetAllSteps } from './Steps';
 
@@ -14,7 +14,7 @@ import { exampleRecipe } from '../CreateRecipeWithAIForm/example';
 export type CreateRecipeManuallyValues = {
     title: string;
     difficulty: null | Difficulty;
-    categories: null | string[];
+    categories: null | Category[];
     cookingTime: number;
     description?: string;
     previewPhoto?: string | File | null;
@@ -24,6 +24,8 @@ export type CreateRecipeManuallyValues = {
     warnings?: string[] | null;
     videoUrl?: string;
 };
+
+type StepFieldMapping = Record<number, Array<keyof CreateRecipeManuallyValues>>;
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
@@ -36,7 +38,20 @@ export const CreateRecipeManuallyForm: FC = () => {
             t('Forms.CreateRecipeManuallyForm.requiredField')
         ),
         categories: Yup.array()
-            .of(Yup.string())
+            .of(
+                Yup.object().shape({
+                    id: Yup.string().required(
+                        t('Forms.CreateRecipeManuallyForm.requiredField')
+                    ),
+                    name: Yup.string().required(
+                        t('Forms.CreateRecipeManuallyForm.requiredField')
+                    ),
+                    group: Yup.string().required(
+                        t('Forms.CreateRecipeManuallyForm.requiredField')
+                    )
+                })
+            )
+            .nullable()
             .required(t('Forms.CreateRecipeManuallyForm.requiredField')),
         cookingTime: Yup.number().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
@@ -110,18 +125,43 @@ export const CreateRecipeManuallyForm: FC = () => {
                 initialValues={initialValues}
                 onSubmit={onSubmit}
             >
-                {(formik) => (
-                    <Form>
-                        <Stepper
-                            steps={GetAllSteps(formik)}
-                            onReset={formik.resetForm}
-                        />
+                {(formik) => {
+                    const stepFieldMapping: StepFieldMapping = {
+                        0: ['title', 'difficulty', 'categories', 'cookingTime'],
+                        1: ['description'],
+                        2: ['previewPhoto'],
+                        3: ['ingredients'],
+                        4: ['steps'],
+                        5: ['tips'],
+                        6: ['warnings'],
+                        7: ['videoUrl']
+                    };
 
-                        <div className="mt-12">
-                            <Recipe recipe={exampleRecipe} />
-                        </div>
-                    </Form>
-                )}
+                    const isStepValid = (stepIndex: number): boolean => {
+                        const fields = stepFieldMapping[stepIndex] || [];
+
+                        return fields.every(
+                            (field) =>
+                                !formik.errors[field] &&
+                                formik.values[field] !== null &&
+                                formik.values[field] !== '' &&
+                                formik.values[field] !== 0
+                        );
+                    };
+                    return (
+                        <Form>
+                            <Stepper
+                                steps={GetAllSteps(formik)}
+                                onReset={formik.resetForm}
+                                isStepValid={isStepValid}
+                            />
+
+                            <div className="mt-12">
+                                <Recipe recipe={exampleRecipe} />
+                            </div>
+                        </Form>
+                    );
+                }}
             </Formik>
         </div>
     );
