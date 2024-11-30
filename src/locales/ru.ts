@@ -265,6 +265,7 @@ export const ru = {
                     warningPlaceholder: 'Введите предостережение',
                     addWarning: 'Добавить предостережение',
                     videoUrl: 'Ссылка на видео',
+                    invalidUrl: 'Неверная ссылка',
                     videoUrlPlaceholder: 'https://example.com',
                     videoUrlPhotoHelpText:
                         'Добавьте ссылку на видео(YouTube), чтобы пользователи могли лучше понять процесс приготовления. Видео помогает сделать рецепт более понятным и вдохновляет других попробовать его приготовить!'

@@ -15,6 +15,7 @@ export const Step8: FC = () => {
                 placeholder={t(
                     'Forms.CreateRecipeManuallyForm.videoUrlPlaceholder'
                 )}
+                isRequired
                 label={t('Forms.CreateRecipeManuallyForm.videoUrl')}
             />
 

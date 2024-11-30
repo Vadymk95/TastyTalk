@@ -271,6 +271,7 @@ export const en = {
                     warningPlaceholder: 'Enter warning',
                     addWarning: 'Add Warning',
                     videoUrl: 'Video URL',
+                    invalidUrl: 'Invalid URL',
                     videoUrlPlaceholder: 'https://example.com',
                     videoUrlPhotoHelpText:
                         'Add a video link(YouTube) to help users better understand the cooking process. A video makes your recipe clearer and inspires others to try making it!'
