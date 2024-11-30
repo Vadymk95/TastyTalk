@@ -112,8 +112,8 @@ export const CreateRecipeManuallyForm: FC = () => {
         previewPhoto: null,
         ingredients: [''],
         steps: [''],
-        tips: [''],
-        warnings: [''],
+        tips: null,
+        warnings: null,
         videoUrl: ''
     };
 
@@ -217,21 +217,22 @@ export const CreateRecipeManuallyForm: FC = () => {
 
                             if (Array.isArray(value)) {
                                 return (
-                                    value.length > 0 &&
                                     value.some(
                                         (item) =>
                                             item === null ||
                                             (typeof item === 'string' &&
                                                 (item as string).trim() === '')
-                                    ) &&
-                                    formik.errors[field]
+                                    ) ||
+                                    (formik.errors[field] &&
+                                        formik.touched[field])
                                 );
                             }
 
                             return (
                                 value !== null &&
                                 value !== '' &&
-                                formik.errors[field]
+                                formik.errors[field] &&
+                                formik.touched[field]
                             );
                         });
 
