@@ -16,7 +16,18 @@ interface StepProps {
 
 export const Step5: FC<StepProps> = ({ formik, maxSteps }) => {
     const { t } = useTranslation();
-    const { values } = formik;
+    const { values, errors, touched } = formik;
+    const isLastFieldValid = (): boolean => {
+        const steps = values.steps || [];
+
+        if (steps.length === 0) {
+            return true;
+        }
+
+        const lastStep = steps[steps.length - 1] || '';
+
+        return lastStep.trim() !== '' && !(errors.steps && touched.steps);
+    };
 
     return (
         <section className="flex flex-col gap-6">
@@ -66,8 +77,9 @@ export const Step5: FC<StepProps> = ({ formik, maxSteps }) => {
                             variant="secondary"
                             size="small"
                             disabled={
-                                !!values.steps &&
-                                values.steps.length >= maxSteps
+                                (!!values.steps &&
+                                    values.steps.length >= maxSteps) ||
+                                !isLastFieldValid()
                             }
                             onClick={() => arrayHelpers.push('')}
                             className="mt-2"

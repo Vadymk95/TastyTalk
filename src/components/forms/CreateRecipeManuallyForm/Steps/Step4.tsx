@@ -16,7 +16,21 @@ interface StepProps {
 
 export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
     const { t } = useTranslation();
-    const { values } = formik;
+    const { values, errors, touched } = formik;
+    const isLastFieldValid = (): boolean => {
+        const ingredients = values.ingredients || [];
+
+        if (ingredients.length === 0) {
+            return true;
+        }
+
+        const lastIngredient = ingredients[ingredients.length - 1] || '';
+
+        return (
+            lastIngredient.trim() !== '' &&
+            !(errors.ingredients && touched.ingredients)
+        );
+    };
 
     return (
         <section className="flex flex-col gap-6">
@@ -34,7 +48,6 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                 >
                                     <div className="flex items-end">
                                         <Input
-                                            type="text"
                                             name={`ingredients.${index}`}
                                             placeholder={t(
                                                 'Forms.CreateRecipeManuallyForm.ingredientPlaceholder'
@@ -47,7 +60,6 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                             size="small"
                                         />
                                         <Button
-                                            type="button"
                                             className="flex-all-center"
                                             size="small"
                                             variant="close"
@@ -65,12 +77,12 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                 </div>
                             ))}
                         <Button
-                            type="button"
                             variant="secondary"
                             size="small"
                             disabled={
-                                !!values.ingredients &&
-                                values.ingredients.length >= maxSteps
+                                (!!values.ingredients &&
+                                    values.ingredients.length >= maxSteps) ||
+                                !isLastFieldValid()
                             }
                             onClick={() => arrayHelpers.push('')}
                             className="mt-2"
