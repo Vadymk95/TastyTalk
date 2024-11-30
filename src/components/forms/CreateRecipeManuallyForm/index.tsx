@@ -190,7 +190,10 @@ export const CreateRecipeManuallyForm: FC = () => {
                                             value.length === 0 ||
                                             value.every(
                                                 (item) =>
-                                                    item === '' || item === null
+                                                    item !== null &&
+                                                    typeof item === 'string' &&
+                                                    (item as string).trim() ===
+                                                        ''
                                             )
                                         );
                                     }
@@ -206,6 +209,40 @@ export const CreateRecipeManuallyForm: FC = () => {
                             });
                     };
 
+                    const canSkipStep = (stepIndex: number): boolean => {
+                        const stepData = stepFieldMapping[stepIndex];
+                        if (!stepData || !stepData.isOptional) {
+                            return false;
+                        }
+
+                        const { fields } = stepData;
+
+                        const hasInvalidData = fields.some((field) => {
+                            const value = formik.values[field];
+
+                            if (Array.isArray(value)) {
+                                return (
+                                    value.length > 0 &&
+                                    value.some(
+                                        (item) =>
+                                            item === null ||
+                                            (typeof item === 'string' &&
+                                                (item as string).trim() === '')
+                                    ) &&
+                                    formik.errors[field]
+                                );
+                            }
+
+                            return (
+                                value !== null &&
+                                value !== '' &&
+                                formik.errors[field]
+                            );
+                        });
+
+                        return !hasInvalidData;
+                    };
+
                     return (
                         <Form>
                             <Stepper
@@ -216,6 +253,7 @@ export const CreateRecipeManuallyForm: FC = () => {
                                 )}
                                 onReset={formik.resetForm}
                                 isStepValid={isStepValid}
+                                canSkipStep={canSkipStep}
                             />
                         </Form>
                     );

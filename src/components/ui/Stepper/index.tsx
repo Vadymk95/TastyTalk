@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface StepperProps {
     steps: Step[];
     isStepValid: (stepIndex: number) => boolean;
+    canSkipStep: (stepIndex: number) => boolean;
     onReset?: () => void;
 }
 
@@ -28,7 +29,12 @@ interface Step {
     isOptional?: boolean;
 }
 
-export const Stepper: FC<StepperProps> = ({ steps, isStepValid, onReset }) => {
+export const Stepper: FC<StepperProps> = ({
+    steps,
+    isStepValid,
+    canSkipStep,
+    onReset
+}) => {
     const { t } = useTranslation();
     const { openModal } = useModalStore();
     const [currentStep, setCurrentStep] = useState(0);
@@ -105,6 +111,7 @@ export const Stepper: FC<StepperProps> = ({ steps, isStepValid, onReset }) => {
                         className="flex items-center gap-3"
                         size="large"
                         onClick={handleSkip}
+                        disabled={!canSkipStep(currentStep)}
                     >
                         <span className="sm:hidden">{t('Stepper.skip')}</span>
                         <FontAwesomeIcon icon={faForward} />
