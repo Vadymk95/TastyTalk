@@ -117,6 +117,20 @@ export const CreateRecipeManuallyForm: FC = () => {
         videoUrl: ''
     };
 
+    const stepFieldMapping: StepFieldMapping = {
+        0: {
+            fields: ['title', 'difficulty', 'categories', 'cookingTime'],
+            isOptional: false
+        },
+        1: { fields: ['description'], isOptional: true },
+        2: { fields: ['previewPhoto'], isOptional: true },
+        3: { fields: ['ingredients'], isOptional: false },
+        4: { fields: ['steps'], isOptional: false },
+        5: { fields: ['tips'], isOptional: true },
+        6: { fields: ['warnings'], isOptional: true },
+        7: { fields: ['videoUrl'], isOptional: true }
+    };
+
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
             <Formik
@@ -126,25 +140,6 @@ export const CreateRecipeManuallyForm: FC = () => {
                 onSubmit={onSubmit}
             >
                 {(formik) => {
-                    const stepFieldMapping: StepFieldMapping = {
-                        0: {
-                            fields: [
-                                'title',
-                                'difficulty',
-                                'categories',
-                                'cookingTime'
-                            ],
-                            isOptional: false
-                        },
-                        1: { fields: ['description'], isOptional: true },
-                        2: { fields: ['previewPhoto'], isOptional: true },
-                        3: { fields: ['ingredients'], isOptional: false },
-                        4: { fields: ['steps'], isOptional: false },
-                        5: { fields: ['tips'], isOptional: true },
-                        6: { fields: ['warnings'], isOptional: true },
-                        7: { fields: ['videoUrl'], isOptional: true }
-                    };
-
                     const isStepValid = (stepIndex: number): boolean => {
                         const stepData = stepFieldMapping[stepIndex];
 
