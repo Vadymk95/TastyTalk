@@ -7,6 +7,7 @@ interface TextareaProps {
     maxLength?: number;
     placeholder?: string;
     size?: 'medium' | 'large';
+    className?: string;
 }
 
 export const Textarea: FC<TextareaProps> = ({
@@ -14,7 +15,8 @@ export const Textarea: FC<TextareaProps> = ({
     label,
     maxLength,
     placeholder,
-    size = 'medium'
+    size = 'medium',
+    className = ''
 }) => {
     const [field, meta, helpers] = useField(name);
     const { setValue } = helpers;
@@ -26,7 +28,7 @@ export const Textarea: FC<TextareaProps> = ({
     };
 
     return (
-        <div className="textarea-wrapper">
+        <div className={`textarea-wrapper ${className}`}>
             <label htmlFor={name} className="block label">
                 {label}
             </label>

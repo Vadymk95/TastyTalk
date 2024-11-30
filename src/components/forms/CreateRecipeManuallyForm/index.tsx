@@ -87,7 +87,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         steps: Yup.array()
             .of(Yup.string())
             .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
-            .max(10, t('Forms.CreateRecipeManuallyForm.maxSteps')),
+            .max(20, t('Forms.CreateRecipeManuallyForm.maxSteps')),
         tips: Yup.array()
             .of(Yup.string())
             .max(10, t('Forms.CreateRecipeManuallyForm.maxTips')),

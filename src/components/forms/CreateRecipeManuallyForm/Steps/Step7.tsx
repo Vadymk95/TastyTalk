@@ -2,7 +2,7 @@ import { FieldArray, FormikProps } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Input } from '@root/components/ui';
+import { Button, Textarea } from '@root/components/ui';
 
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,9 +31,8 @@ export const Step7: FC<StepProps> = ({ formik }) => {
                                     key={index}
                                     className="flex sm:block items-center mb-4"
                                 >
-                                    <div className="flex items-end">
-                                        <Input
-                                            type="text"
+                                    <div className="flex items-center gap-2 w-full">
+                                        <Textarea
                                             name={`warnings.${index}`}
                                             placeholder={t(
                                                 'Forms.CreateRecipeManuallyForm.warningPlaceholder'
@@ -41,11 +40,10 @@ export const Step7: FC<StepProps> = ({ formik }) => {
                                             label={`${t(
                                                 'Forms.CreateRecipeManuallyForm.warning'
                                             )} ${index + 1}`}
-                                            className="flex-1 mr-2"
-                                            size="small"
+                                            maxLength={200}
+                                            className="flex-1"
                                         />
                                         <Button
-                                            type="button"
                                             className="flex-all-center"
                                             size="small"
                                             variant="close"
@@ -63,7 +61,6 @@ export const Step7: FC<StepProps> = ({ formik }) => {
                                 </div>
                             ))}
                         <Button
-                            type="button"
                             variant="secondary"
                             size="small"
                             disabled={
