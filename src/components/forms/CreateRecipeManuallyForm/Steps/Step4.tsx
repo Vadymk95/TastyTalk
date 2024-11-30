@@ -11,9 +11,10 @@ import { CreateRecipeManuallyValues } from '..';
 
 interface StepProps {
     formik: FormikProps<CreateRecipeManuallyValues>;
+    maxSteps: number;
 }
 
-export const Step4: FC<StepProps> = ({ formik }) => {
+export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
     const { t } = useTranslation();
     const { values } = formik;
 
@@ -69,7 +70,7 @@ export const Step4: FC<StepProps> = ({ formik }) => {
                             size="small"
                             disabled={
                                 !!values.ingredients &&
-                                values.ingredients.length >= 30
+                                values.ingredients.length >= maxSteps
                             }
                             onClick={() => arrayHelpers.push('')}
                             className="mt-2"

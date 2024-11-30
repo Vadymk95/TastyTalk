@@ -44,25 +44,25 @@ export const GetAllSteps = (
         {
             id: 4,
             title: t('Stepper.Steps.Recipe.4.title'),
-            content: <Step4 formik={formik} />,
+            content: <Step4 maxSteps={30} formik={formik} />,
             isOptional: stepFieldMapping[3].isOptional
         },
         {
             id: 5,
             title: t('Stepper.Steps.Recipe.5.title'),
-            content: <Step5 formik={formik} />,
+            content: <Step5 maxSteps={20} formik={formik} />,
             isOptional: stepFieldMapping[4].isOptional
         },
         {
             id: 6,
             title: t('Stepper.Steps.Recipe.6.title'),
-            content: <Step6 formik={formik} />,
+            content: <Step6 maxSteps={10} formik={formik} />,
             isOptional: stepFieldMapping[5].isOptional
         },
         {
             id: 7,
             title: t('Stepper.Steps.Recipe.7.title'),
-            content: <Step7 formik={formik} />,
+            content: <Step7 maxSteps={10} formik={formik} />,
             isOptional: stepFieldMapping[6].isOptional
         },
         {
