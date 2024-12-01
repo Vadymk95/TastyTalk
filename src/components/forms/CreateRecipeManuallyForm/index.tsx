@@ -47,7 +47,6 @@ export const CreateRecipeManuallyForm: FC = () => {
         description: Yup.string(),
         previewPhoto: Yup.mixed()
             .nullable()
-            .nullable()
             .test(
                 'fileType',
                 t('Forms.CreateRecipeManuallyForm.invalidFileType'),
@@ -77,11 +76,29 @@ export const CreateRecipeManuallyForm: FC = () => {
             .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
             .max(20, t('Forms.CreateRecipeManuallyForm.maxSteps')),
         tips: Yup.array()
-            .of(Yup.string())
-            .max(10, t('Forms.CreateRecipeManuallyForm.maxTips')),
+            .of(
+                Yup.string().when('$isStepActive', {
+                    is: (isStepActive: boolean) => isStepActive,
+                    then: (schema) =>
+                        schema.required(
+                            t('Forms.CreateRecipeManuallyForm.requiredField')
+                        ),
+                    otherwise: (schema) => schema
+                })
+            )
+            .nullable(),
         warnings: Yup.array()
-            .of(Yup.string())
-            .max(10, t('Forms.CreateRecipeManuallyForm.maxWarnings')),
+            .of(
+                Yup.string().when('$isStepActive', {
+                    is: (isStepActive: boolean) => isStepActive,
+                    then: (schema) =>
+                        schema.required(
+                            t('Forms.CreateRecipeManuallyForm.requiredField')
+                        ),
+                    otherwise: (schema) => schema
+                })
+            )
+            .nullable(),
         videoUrl: Yup.string()
             .url(t('Forms.CreateRecipeManuallyForm.invalidUrl'))
             .test(
