@@ -215,7 +215,9 @@ export const CreateRecipeManuallyForm: FC = () => {
                                 );
                             }
 
-                            return value !== null && value !== '';
+                            return (
+                                value !== null && value !== '' && value !== 0
+                            );
                         });
 
                         const hasInvalidData = fields.some((field) => {
