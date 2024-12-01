@@ -255,6 +255,13 @@ export const ru = {
                     ingredient: 'Ингредиент',
                     ingredientPlaceholder: 'Введите ингредиент',
                     addIngredient: 'Добавить ингредиент',
+                    ingredientsCategory: 'Категория ингредиентов',
+                    addCategoryIngredients: 'Добавить категорию ингредиентов',
+                    categoryIngredientsPlaceholder:
+                        'Введите категорию ингредиентов',
+                    subIngredientPlaceholder: 'Введите ингредиент',
+                    addSubIngredient: 'Добавить ингредиент в категорию',
+                    subIngredient: 'Ингредиент в категории',
                     step: 'Шаг',
                     stepPlaceholder: 'Введите шаг',
                     maxSteps: 'Максимум 20 шагов',

@@ -33,7 +33,7 @@ export interface Recipe {
     cookingTime: number; // Время готовки (в минутах)
     description?: string | null; // Описание рецепта
     previewPhoto?: string | File | null; // Фото превью (Base64 или URL) или фаил
-    ingredients: Ingredient[]; // Список ингредиентов
+    ingredients: Ingredient[] | null; // Список ингредиентов
     steps: string[]; // Этапы приготовления
     tips?: string[] | null; // Советы по приготовлению
     warnings?: string[] | null; // Предостережения (например, аллергии)
