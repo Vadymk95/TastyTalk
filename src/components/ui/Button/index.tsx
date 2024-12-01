@@ -5,6 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
     className?: string;
+    type: 'button' | 'submit' | 'reset';
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -13,6 +14,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             variant = 'primary',
             size = 'medium',
             disabled = false,
+            type = 'button',
             className,
             children,
             ...props
@@ -29,6 +31,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         return (
             <button
+                type={type}
                 ref={ref}
                 className={`btn-${variant} ${disabledStyle} ${sizeStyle[size]} btn ${className}`}
                 disabled={disabled}
