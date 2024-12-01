@@ -18,6 +18,12 @@ export interface Category {
 
 export type Visibility = 'public' | 'private' | 'friends';
 export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Ingredient =
+    | string
+    | {
+          category: string;
+          categoryIngredients: string[];
+      };
 
 export interface Recipe {
     id: string; // Уникальный идентификатор рецепта
@@ -27,7 +33,7 @@ export interface Recipe {
     cookingTime: number; // Время готовки (в минутах)
     description?: string | null; // Описание рецепта
     previewPhoto?: string | File | null; // Фото превью (Base64 или URL) или фаил
-    ingredients: string[]; // Список ингредиентов
+    ingredients: Ingredient[]; // Список ингредиентов
     steps: string[]; // Этапы приготовления
     tips?: string[] | null; // Советы по приготовлению
     warnings?: string[] | null; // Предостережения (например, аллергии)

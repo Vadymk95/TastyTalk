@@ -26,7 +26,8 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
         const lastIngredient = ingredients[ingredients.length - 1] || '';
 
         return (
-            lastIngredient.trim() !== '' &&
+            typeof lastIngredient === 'string' &&
+            (lastIngredient as string).trim() !== '' &&
             !(errors.ingredients && touched.ingredients)
         );
     };
