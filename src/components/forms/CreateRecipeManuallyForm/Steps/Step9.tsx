@@ -29,7 +29,9 @@ export const Step9: FC<StepProps> = ({ formik, skippedSteps }) => {
                 ))}
             </ul>
 
-            <Button onClick={handleOpenModal}>предпросмотр</Button>
+            <Button onClick={handleOpenModal}>
+                {t('Forms.CreateRecipeManuallyForm.previewRecipe')}
+            </Button>
 
             <RecipePreviewModal recipe={values} />
         </section>
