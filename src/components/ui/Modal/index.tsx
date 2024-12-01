@@ -54,7 +54,7 @@ export const Modal: FC<ModalProps> = ({
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <motion.div
-                        className={`plate sm:max-w-[90%] relative modal-${variant}`}
+                        className={`plate sm:max-w-[90%] relative modal-${variant} border-[1px] border-neutral-dark/70`}
                         initial={{ y: '-100vh', opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: '-100vh', opacity: 0 }}

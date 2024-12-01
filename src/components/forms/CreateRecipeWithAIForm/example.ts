@@ -4,7 +4,13 @@ export const exampleRecipe: Recipe = {
     id: '1',
     title: 'Лазанья с мясным соусом и сыром',
     difficulty: 'easy',
-    categories: ['soups', 'vegan', 'quick', 'italian', 'medium_spicy'],
+    categories: [
+        {
+            id: 'asian',
+            name: 'Азиатская',
+            group: 'worldCuisine'
+        }
+    ],
     cookingTime: 20,
     description:
         'Классическая итальянская лазанья с сочным мясным соусом, сыром и тонкими слоями пасты. Это блюдо идеально подойдёт для ужина в кругу семьи или друзей.',
@@ -48,7 +54,13 @@ export const exampleRecipe2: Recipe = {
     id: '1',
     title: 'Лазанья с мясным соусом и сыром',
     difficulty: 'easy',
-    categories: ['soups', 'vegan', 'quick', 'italian'],
+    categories: [
+        {
+            id: 'asian',
+            name: 'Азиатская кухня',
+            group: 'worldCuisine'
+        }
+    ],
     cookingTime: 20,
     ingredients: ['2 яйца', '100 мл молока', '50 г сыра'],
     steps: [
@@ -66,7 +78,13 @@ export const exampleRecipe3: Recipe = {
     description: 'Простой и вкусный рецепт.',
     previewPhoto: 'https://via.placeholder.com/600x400',
     difficulty: 'easy',
-    categories: ['soups', 'vegan', 'quick', 'italian'],
+    categories: [
+        {
+            id: 'asian',
+            name: 'Азиатская',
+            group: 'worldCuisine'
+        }
+    ],
     cookingTime: 20,
     ingredients: ['Чечевица', 'Морковь', 'Лук', 'Специи'],
     steps: [
