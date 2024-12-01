@@ -45,10 +45,14 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                 <p className="text-neutral-dark mb-4">{recipe.description}</p>
             )}
 
-            {recipe.previewPhoto && typeof recipe.previewPhoto === 'string' && (
-                <div className="mb-6">
+            {recipe.previewPhoto && (
+                <div className="mb-6 max-w-[600px]">
                     <Image
-                        src={recipe.previewPhoto}
+                        src={
+                            typeof recipe.previewPhoto === 'string'
+                                ? recipe.previewPhoto
+                                : URL.createObjectURL(recipe.previewPhoto)
+                        }
                         alt={recipe.title}
                         className="w-full h-auto rounded-lg"
                     />
