@@ -309,7 +309,8 @@ export const en = {
                         'Are you sure you want to reset the recipe creation process? All entered data will be lost.',
                     reset: 'Reset',
                     cancel: 'Cancel'
-                }
+                },
+                RecipePreviewModal: {}
             },
             PhotoUpload: {
                 profilePhoto: 'Profile Photo',

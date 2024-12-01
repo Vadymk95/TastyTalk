@@ -1,0 +1,17 @@
+.modal-primary {
+    h2 {
+        @apply text-primary;
+    }
+}
+
+.modal-secondary {
+    @apply bg-gradient-main;
+
+    & > h2 {
+        @apply text-neutral-light/90;
+    }
+
+    & > button {
+        @apply bg-neutral/50 text-neutral-light;
+    }
+}

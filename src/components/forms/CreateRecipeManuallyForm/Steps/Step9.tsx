@@ -2,7 +2,10 @@ import { FormikProps } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { RecipePreviewModal } from '@root/components/modals';
 import { Button } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
+import { useModalStore } from '@root/store';
 
 import { CreateRecipeManuallyValues } from '..';
 
@@ -12,11 +15,11 @@ interface StepProps {
 }
 
 export const Step9: FC<StepProps> = ({ formik, skippedSteps }) => {
+    const { openModal } = useModalStore();
     const { t } = useTranslation();
     const { values } = formik;
 
-    console.log(values);
-    console.log(skippedSteps);
+    const handleOpenModal = () => openModal(ModalsEnum.RecipePreview);
 
     return (
         <section className="flex flex-col gap-6">
@@ -27,7 +30,9 @@ export const Step9: FC<StepProps> = ({ formik, skippedSteps }) => {
                 ))}
             </ul>
 
-            <Button>предпросмотр</Button>
+            <Button onClick={handleOpenModal}>предпросмотр</Button>
+
+            <RecipePreviewModal recipe={values} />
         </section>
     );
 };

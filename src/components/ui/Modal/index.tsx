@@ -14,6 +14,7 @@ type ModalProps = {
     onConfirm?: () => void;
     confirmText?: string;
     cancelText?: string;
+    variant?: 'primary' | 'secondary';
 };
 
 export const Modal: FC<ModalProps> = ({
@@ -23,7 +24,8 @@ export const Modal: FC<ModalProps> = ({
     children,
     onConfirm,
     confirmText,
-    cancelText
+    cancelText,
+    variant = 'primary'
 }) => {
     const scrollYRef = useRef(0);
 
@@ -52,7 +54,7 @@ export const Modal: FC<ModalProps> = ({
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <motion.div
-                        className="bg-white rounded-lg shadow-custom-light p-6 w-full max-w-lg relative"
+                        className={`plate relative modal-${variant}`}
                         initial={{ y: '-100vh', opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: '-100vh', opacity: 0 }}
@@ -67,23 +69,30 @@ export const Modal: FC<ModalProps> = ({
                         </Button>
 
                         {title && (
-                            <h2 className="text-2xl sm:text-xl font-semibold text-primary mb-4">
+                            <h2 className="text-2xl sm:text-xl font-semibold mb-4">
                                 {title}
                             </h2>
                         )}
 
-                        <div className="mb-6">{children}</div>
+                        <div>{children}</div>
 
-                        <div className="flex justify-end space-x-4">
-                            {cancelText && (
-                                <Button onClick={onClose}>{cancelText}</Button>
-                            )}
-                            {confirmText && (
-                                <Button variant="secondary" onClick={onConfirm}>
-                                    {confirmText}
-                                </Button>
-                            )}
-                        </div>
+                        {(cancelText || confirmText) && (
+                            <div className="flex justify-end space-x-4 mt-4">
+                                {cancelText && (
+                                    <Button onClick={onClose}>
+                                        {cancelText}
+                                    </Button>
+                                )}
+                                {confirmText && (
+                                    <Button
+                                        variant="secondary"
+                                        onClick={onConfirm}
+                                    >
+                                        {confirmText}
+                                    </Button>
+                                )}
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             )}

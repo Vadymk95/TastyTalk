@@ -4,5 +4,6 @@ export enum ModalsEnum {
     DeleteAccount = 'deleteAccount',
     Pricing = 'pricing',
     Rules = 'rules',
-    ResetStepper = 'resetStepper'
+    ResetStepper = 'resetStepper',
+    RecipePreview = 'recipePreview'
 }
