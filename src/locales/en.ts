@@ -341,6 +341,9 @@ export const en = {
                 skip: 'Skip',
                 next: 'Next',
                 submit: 'Finish',
+                completeStep: 'Complete Step',
+                incompleteStep: 'Incomplete Step',
+                step: 'Step',
                 Steps: {
                     Steps: {
                         Recipe: {

@@ -335,6 +335,9 @@ export const ru = {
                 skip: 'Пропустить',
                 next: 'Далее',
                 submit: 'Завершить',
+                completeStep: 'Завершить шаг',
+                incompleteStep: 'Шаг не завершен',
+                step: 'Шаг',
                 Steps: {
                     Recipe: {
                         '1': {
