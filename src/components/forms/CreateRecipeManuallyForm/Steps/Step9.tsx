@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RecipePreviewModal } from '@root/components/modals';
@@ -18,11 +18,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface StepProps {
     formik: FormikProps<RecipeType>;
     skippedSteps: number[];
+    setCurrentStep: Dispatch<SetStateAction<number>>;
 }
 
 const TOTAL_STEPS_WITHOUT_COMPLETED_STEP = 8;
 
-export const Step9: FC<StepProps> = ({ formik, skippedSteps }) => {
+export const Step9: FC<StepProps> = ({
+    formik,
+    skippedSteps,
+    setCurrentStep
+}) => {
     const { openModal } = useModalStore();
     const { t } = useTranslation();
     const { values } = formik;
@@ -95,7 +100,7 @@ export const Step9: FC<StepProps> = ({ formik, skippedSteps }) => {
                             <Button
                                 size="small"
                                 variant={isCompleted ? 'secondary' : 'accent'}
-                                onClick={() => {}}
+                                onClick={() => setCurrentStep(step - 1)}
                                 className="flex items-center gap-2"
                             >
                                 {t(

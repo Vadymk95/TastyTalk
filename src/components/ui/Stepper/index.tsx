@@ -1,4 +1,4 @@
-import { FC, JSX, useState } from 'react';
+import { Dispatch, FC, JSX, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ResetStepperModal } from '@root/components/modals';
@@ -20,6 +20,8 @@ interface StepperProps {
     isStepValid: (stepIndex: number) => boolean;
     canSkipStep: (stepIndex: number) => boolean;
     onReset?: () => void;
+    currentStep: number;
+    setCurrentStep: Dispatch<SetStateAction<number>>;
 }
 
 interface Step {
@@ -33,11 +35,12 @@ export const Stepper: FC<StepperProps> = ({
     steps,
     isStepValid,
     canSkipStep,
-    onReset
+    onReset,
+    currentStep,
+    setCurrentStep
 }) => {
     const { t } = useTranslation();
     const { openModal } = useModalStore();
-    const [currentStep, setCurrentStep] = useState(0);
 
     const handleNext = () => {
         if (currentStep < steps.length - 1) {

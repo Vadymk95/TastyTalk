@@ -1,5 +1,8 @@
 import { FormikProps } from 'formik';
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Recipe as RecipeType } from '@root/types';
 
 import {
     Step1,
@@ -12,12 +15,13 @@ import {
     Step8,
     Step9
 } from '.';
-import { CreateRecipeManuallyValues, StepFieldMapping } from '..';
+import { StepFieldMapping } from '..';
 
 export const GetAllSteps = (
-    formik: FormikProps<CreateRecipeManuallyValues>,
+    formik: FormikProps<RecipeType>,
     stepFieldMapping: StepFieldMapping,
-    getSkippedSteps: () => number[]
+    getSkippedSteps: () => number[],
+    setCurrentStep: Dispatch<SetStateAction<number>>
 ) => {
     const { t } = useTranslation();
     const skippedSteps = getSkippedSteps();
@@ -74,7 +78,13 @@ export const GetAllSteps = (
         {
             id: 9,
             title: t('Stepper.Steps.Recipe.9.title'),
-            content: <Step9 formik={formik} skippedSteps={skippedSteps} />,
+            content: (
+                <Step9
+                    formik={formik}
+                    skippedSteps={skippedSteps}
+                    setCurrentStep={setCurrentStep}
+                />
+            ),
             isOptional: false
         }
     ];

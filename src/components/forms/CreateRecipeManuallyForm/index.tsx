@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -15,6 +15,7 @@ export type StepFieldMapping = Record<
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
+    const [currentStep, setCurrentStep] = useState(0);
 
     const CreateRecipeManuallySchema = Yup.object().shape({
         title: Yup.string().required(
@@ -254,8 +255,11 @@ export const CreateRecipeManuallyForm: FC = () => {
                                 steps={GetAllSteps(
                                     formik,
                                     stepFieldMapping,
-                                    getSkippedSteps
+                                    getSkippedSteps,
+                                    setCurrentStep
                                 )}
+                                currentStep={currentStep}
+                                setCurrentStep={setCurrentStep}
                                 onReset={formik.resetForm}
                                 isStepValid={isStepValid}
                                 canSkipStep={canSkipStep}
