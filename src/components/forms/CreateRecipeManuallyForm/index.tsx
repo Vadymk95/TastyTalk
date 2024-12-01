@@ -211,7 +211,7 @@ export const CreateRecipeManuallyForm: FC = () => {
                                         (item) =>
                                             item !== null &&
                                             typeof item === 'string' &&
-                                            (item as string).trim() === ''
+                                            (item as string).trim() !== ''
                                     )
                                 );
                             }
@@ -221,32 +221,11 @@ export const CreateRecipeManuallyForm: FC = () => {
                             );
                         });
 
-                        const hasInvalidData = fields.some((field) => {
-                            const value = formik.values[field];
-
-                            if (Array.isArray(value)) {
-                                return (
-                                    value.some(
-                                        (item) =>
-                                            item === null ||
-                                            (typeof item === 'string' &&
-                                                (item as string).trim() === '')
-                                    ) ||
-                                    (formik.errors[field] &&
-                                        formik.touched[field])
-                                );
-                            }
-
-                            return (
-                                formik.errors[field] && formik.touched[field]
-                            );
-                        });
-
-                        if (hasEnteredData && hasInvalidData) {
+                        if (hasEnteredData) {
                             return false;
                         }
 
-                        return !hasEnteredData;
+                        return true;
                     };
 
                     return (
