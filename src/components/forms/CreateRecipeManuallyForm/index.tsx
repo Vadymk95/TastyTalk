@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { Stepper } from '@root/components/ui';
+import { extractYouTubeVideoId } from '@root/helpers';
 import { Recipe as RecipeType } from '@root/types';
 
 import { GetAllSteps } from './Steps';
@@ -81,9 +82,16 @@ export const CreateRecipeManuallyForm: FC = () => {
         warnings: Yup.array()
             .of(Yup.string())
             .max(10, t('Forms.CreateRecipeManuallyForm.maxWarnings')),
-        videoUrl: Yup.string().url(
-            t('Forms.CreateRecipeManuallyForm.invalidUrl')
-        )
+        videoUrl: Yup.string()
+            .url(t('Forms.CreateRecipeManuallyForm.invalidUrl'))
+            .test(
+                'isValidYouTubeUrl',
+                t('General.invalidYouTubeUrl'),
+                (value) => {
+                    if (!value) return true;
+                    return !!extractYouTubeVideoId(value);
+                }
+            )
     });
 
     const onSubmit = (values: RecipeType) => {
