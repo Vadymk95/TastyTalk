@@ -63,3 +63,8 @@ export enum ECategory {
     COOKING_FEATURES = 'cookingFeatures',
     SPICINESS = 'spiciness'
 }
+
+export interface StepStatus {
+    step: number;
+    status: 'completed' | 'incompleted';
+}

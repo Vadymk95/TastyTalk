@@ -342,7 +342,9 @@ export const en = {
                 next: 'Next',
                 submit: 'Finish',
                 completeStep: 'Complete Step',
+                checkStep: 'Check Step',
                 incompleteStep: 'Incomplete Step',
+                completed: 'Completed',
                 step: 'Step',
                 Steps: {
                     Steps: {

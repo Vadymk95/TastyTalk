@@ -137,7 +137,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                 </div>
             )}
 
-            <div className="text-sm text-neutral-dark italic">
+            <div className="text-sm label italic">
                 {recipe.aiGenerated ? (
                     <span>
                         <FontAwesomeIcon className="mr-1" icon={faRobot} />
