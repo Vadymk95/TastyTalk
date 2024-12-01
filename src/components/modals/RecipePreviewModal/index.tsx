@@ -5,9 +5,10 @@ import { Recipe } from '@root/components/common';
 import { Modal } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
+import { Recipe as RecipeType } from '@root/types';
 
 type RecipePreviewModalProps = {
-    recipe: any;
+    recipe: RecipeType;
 };
 
 export const RecipePreviewModal: FC<RecipePreviewModalProps> = ({ recipe }) => {
@@ -24,7 +25,7 @@ export const RecipePreviewModal: FC<RecipePreviewModalProps> = ({ recipe }) => {
             onClose={handleCloseRecipePreviewModal}
             title={t('Modals.RecipePreviewModal.title')}
             variant="secondary"
-            cancelText="Закрыть"
+            cancelText={t('General.close')}
         >
             <Recipe recipe={recipe} />
         </Modal>

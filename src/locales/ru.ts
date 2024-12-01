@@ -304,7 +304,9 @@ export const ru = {
                     reset: 'Сбросить',
                     cancel: 'Отмена'
                 },
-                RecipePreviewModal: {}
+                RecipePreviewModal: {
+                    title: 'Просмотр рецепта'
+                }
             },
             PhotoUpload: {
                 profilePhoto: 'Фото профиля',
@@ -444,6 +446,7 @@ export const ru = {
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
+                close: 'Закрыть',
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
                 notAvailable: 'Недоступно',
                 yourQueryTitle: 'Ваш запрос',

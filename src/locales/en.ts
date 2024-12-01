@@ -310,7 +310,9 @@ export const en = {
                     reset: 'Reset',
                     cancel: 'Cancel'
                 },
-                RecipePreviewModal: {}
+                RecipePreviewModal: {
+                    title: 'Recipe Preview'
+                }
             },
             PhotoUpload: {
                 profilePhoto: 'Profile Photo',
@@ -452,6 +454,7 @@ export const en = {
             General: {
                 loading: 'Loading...',
                 error: 'Error:',
+                close: 'Close',
                 somethingWentWrong:
                     'Something went wrong, please try again later',
                 notAvailable: 'Not available',

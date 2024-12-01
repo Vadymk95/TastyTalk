@@ -4,27 +4,13 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { Stepper } from '@root/components/ui';
-import { Category, Difficulty } from '@root/types';
+import { Recipe as RecipeType } from '@root/types';
 
 import { GetAllSteps } from './Steps';
 
-export type CreateRecipeManuallyValues = {
-    title: string;
-    difficulty: null | Difficulty;
-    categories: null | Category[];
-    cookingTime: number;
-    description?: string;
-    previewPhoto?: string | File | null;
-    ingredients: string[] | null;
-    steps: string[] | null;
-    tips?: string[] | null;
-    warnings?: string[] | null;
-    videoUrl?: string;
-};
-
 export type StepFieldMapping = Record<
     number,
-    { fields: Array<keyof CreateRecipeManuallyValues>; isOptional: boolean }
+    { fields: Array<keyof RecipeType>; isOptional: boolean }
 >;
 
 export const CreateRecipeManuallyForm: FC = () => {
@@ -99,11 +85,11 @@ export const CreateRecipeManuallyForm: FC = () => {
         )
     });
 
-    const onSubmit = (values: CreateRecipeManuallyValues) => {
+    const onSubmit = (values: RecipeType) => {
         console.log(values);
     };
 
-    const initialValues: CreateRecipeManuallyValues = {
+    const initialValues: RecipeType = {
         title: '',
         difficulty: null,
         categories: null,
@@ -114,7 +100,9 @@ export const CreateRecipeManuallyForm: FC = () => {
         steps: [''],
         tips: null,
         warnings: null,
-        videoUrl: ''
+        videoUrl: '',
+        id: '',
+        aiGenerated: false
     };
 
     const stepFieldMapping: StepFieldMapping = {

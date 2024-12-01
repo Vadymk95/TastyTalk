@@ -22,16 +22,16 @@ export type Difficulty = 'easy' | 'medium' | 'hard';
 export interface Recipe {
     id: string; // Уникальный идентификатор рецепта
     title: string; // Название рецепта
-    difficulty: Difficulty; // Сложность приготовления
-    categories: string[]; // Категории, к которым относится рецепт
+    difficulty: Difficulty | null; // Сложность приготовления
+    categories: Category[] | null; // Категории, к которым относится рецепт
     cookingTime: number; // Время готовки (в минутах)
-    description?: string; // Описание рецепта
-    previewPhoto?: string | File; // Фото превью (Base64 или URL) или фаил
+    description?: string | null; // Описание рецепта
+    previewPhoto?: string | File | null; // Фото превью (Base64 или URL) или фаил
     ingredients: string[]; // Список ингредиентов
     steps: string[]; // Этапы приготовления
-    tips?: string[]; // Советы по приготовлению
-    warnings?: string[]; // Предостережения (например, аллергии)
-    videoUrl?: string; // Ссылка на видео рецепта
+    tips?: string[] | null; // Советы по приготовлению
+    warnings?: string[] | null; // Предостережения (например, аллергии)
+    videoUrl?: string | null; // Ссылка на видео рецепта
     aiGenerated: boolean; // Указывает, создан ли рецепт AI
     likes?: number; // Количество лайков
     views?: number; // Количество просмотров

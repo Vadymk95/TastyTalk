@@ -6,11 +6,10 @@ import { RecipePreviewModal } from '@root/components/modals';
 import { Button } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
-
-import { CreateRecipeManuallyValues } from '..';
+import { Recipe as RecipeType } from '@root/types';
 
 interface StepProps {
-    formik: FormikProps<CreateRecipeManuallyValues>;
+    formik: FormikProps<RecipeType>;
     skippedSteps: number[];
 }
 
