@@ -200,6 +200,24 @@ export const CreateRecipeManuallyForm: FC = () => {
 
                         const { fields } = stepData;
 
+                        const hasEnteredData = fields.some((field) => {
+                            const value = formik.values[field];
+
+                            if (Array.isArray(value)) {
+                                return (
+                                    value.length > 0 &&
+                                    value.some(
+                                        (item) =>
+                                            item !== null &&
+                                            typeof item === 'string' &&
+                                            (item as string).trim() === ''
+                                    )
+                                );
+                            }
+
+                            return value !== null && value !== '';
+                        });
+
                         const hasInvalidData = fields.some((field) => {
                             const value = formik.values[field];
 
@@ -217,14 +235,15 @@ export const CreateRecipeManuallyForm: FC = () => {
                             }
 
                             return (
-                                value !== null &&
-                                value !== '' &&
-                                formik.errors[field] &&
-                                formik.touched[field]
+                                formik.errors[field] && formik.touched[field]
                             );
                         });
 
-                        return !hasInvalidData;
+                        if (hasEnteredData && hasInvalidData) {
+                            return false;
+                        }
+
+                        return !hasEnteredData;
                     };
 
                     return (
