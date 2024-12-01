@@ -4,12 +4,15 @@ import { useTranslation } from 'react-i18next';
 
 import { FormikMultiSelect, FormikSelect, Input } from '@root/components/ui';
 import { useCategories } from '@root/hooks';
-import { Difficulty, EDifficulty, Option } from '@root/types';
-
-import { CreateRecipeManuallyValues } from '..';
+import {
+    Difficulty,
+    EDifficulty,
+    Option,
+    Recipe as RecipeType
+} from '@root/types';
 
 interface StepProps {
-    formik: FormikProps<CreateRecipeManuallyValues>;
+    formik: FormikProps<RecipeType>;
 }
 
 export const Step1: FC<StepProps> = ({ formik }) => {
