@@ -19,9 +19,11 @@ export const CreateRecipeManuallyForm: FC = () => {
     const [currentStep, setCurrentStep] = useState(0);
 
     const CreateRecipeManuallySchema = Yup.object().shape({
-        title: Yup.string().required(
-            t('Forms.CreateRecipeManuallyForm.requiredField')
-        ),
+        title: Yup.string()
+            .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+            .max(50, t('Forms.CreateRecipeManuallyForm.max'))
+            .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
+            .nullable(),
         difficulty: Yup.string().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
         ),
@@ -44,7 +46,9 @@ export const CreateRecipeManuallyForm: FC = () => {
         cookingTime: Yup.number().required(
             t('Forms.CreateRecipeManuallyForm.requiredField')
         ),
-        description: Yup.string(),
+        description: Yup.string()
+            .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+            .nullable(),
         previewPhoto: Yup.mixed()
             .nullable()
             .test(
@@ -71,52 +75,87 @@ export const CreateRecipeManuallyForm: FC = () => {
             .of(
                 Yup.lazy((value) =>
                     typeof value === 'string'
-                        ? Yup.string().required(
-                              t('Forms.CreateRecipeManuallyForm.requiredField')
-                          )
-                        : Yup.object().shape({
-                              category: Yup.string().required(
+                        ? Yup.string()
+                              .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+                              .max(50, t('Forms.CreateRecipeManuallyForm.max'))
+                              .required(
                                   t(
                                       'Forms.CreateRecipeManuallyForm.requiredField'
                                   )
-                              ),
-                              categoryIngredients: Yup.array().of(
-                                  Yup.string().required(
+                              )
+                        : Yup.object().shape({
+                              category: Yup.string()
+                                  .min(
+                                      3,
+                                      t('Forms.CreateRecipeManuallyForm.min')
+                                  )
+                                  .max(
+                                      50,
+                                      t('Forms.CreateRecipeManuallyForm.max')
+                                  )
+                                  .required(
                                       t(
                                           'Forms.CreateRecipeManuallyForm.requiredField'
                                       )
-                                  )
+                                  ),
+                              categoryIngredients: Yup.array().of(
+                                  Yup.string()
+                                      .min(
+                                          3,
+                                          t(
+                                              'Forms.CreateRecipeManuallyForm.min'
+                                          )
+                                      )
+                                      .max(
+                                          50,
+                                          t(
+                                              'Forms.CreateRecipeManuallyForm.max'
+                                          )
+                                      )
+                                      .required(
+                                          t(
+                                              'Forms.CreateRecipeManuallyForm.requiredField'
+                                          )
+                                      )
                               )
                           })
                 )
             )
             .required(t('Forms.CreateRecipeManuallyForm.requiredField')),
         steps: Yup.array()
-            .of(Yup.string())
+            .of(Yup.string().min(3, t('Forms.CreateRecipeManuallyForm.min')))
             .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
             .max(20, t('Forms.CreateRecipeManuallyForm.maxSteps')),
         tips: Yup.array()
             .of(
-                Yup.string().when('$isStepActive', {
-                    is: (isStepActive: boolean) => isStepActive,
-                    then: (schema) =>
-                        schema.required(
-                            t('Forms.CreateRecipeManuallyForm.requiredField')
-                        ),
-                    otherwise: (schema) => schema
-                })
+                Yup.string()
+                    .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+                    .when('$isStepActive', {
+                        is: (isStepActive: boolean) => isStepActive,
+                        then: (schema) =>
+                            schema.required(
+                                t(
+                                    'Forms.CreateRecipeManuallyForm.requiredField'
+                                )
+                            ),
+                        otherwise: (schema) => schema
+                    })
             )
             .nullable(),
         warnings: Yup.array()
             .of(
-                Yup.string().when('$isStepActive', {
-                    is: (isStepActive: boolean) => isStepActive,
-                    then: (schema) =>
-                        schema.required(
-                            t('Forms.CreateRecipeManuallyForm.requiredField')
-                        ),
-                    otherwise: (schema) => schema
-                })
+                Yup.string()
+                    .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+                    .when('$isStepActive', {
+                        is: (isStepActive: boolean) => isStepActive,
+                        then: (schema) =>
+                            schema.required(
+                                t(
+                                    'Forms.CreateRecipeManuallyForm.requiredField'
+                                )
+                            ),
+                        otherwise: (schema) => schema
+                    })
             )
             .nullable(),
         videoUrl: Yup.string()
@@ -129,6 +168,7 @@ export const CreateRecipeManuallyForm: FC = () => {
                     return !!extractYouTubeVideoId(value);
                 }
             )
+            .nullable()
     });
 
     const onSubmit = (values: RecipeType) => {
@@ -315,6 +355,8 @@ export const CreateRecipeManuallyForm: FC = () => {
 
                         return true;
                     };
+
+                    console.log(formik.errors);
 
                     return (
                         <Form>

@@ -40,6 +40,7 @@ export const Step1: FC<StepProps> = ({ formik }) => {
             <div className="flex flex-col gap-6 w-full max-w-md">
                 <Input
                     name="title"
+                    isRequired
                     label={t('Forms.CreateRecipeManuallyForm.title')}
                     placeholder={t('Forms.CreateRecipeManuallyForm.title')}
                 />

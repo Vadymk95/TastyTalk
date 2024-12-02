@@ -12,6 +12,7 @@ export const Step8: FC = () => {
 
             <Input
                 name="videoUrl"
+                type="url"
                 placeholder={t(
                     'Forms.CreateRecipeManuallyForm.videoUrlPlaceholder'
                 )}

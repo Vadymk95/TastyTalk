@@ -231,6 +231,8 @@ export const ru = {
                 },
                 CreateRecipeManuallyForm: {
                     requiredField: 'Это поле обязательно',
+                    min: 'Минимум 3 символа',
+                    max: 'Максимум 50 символов',
                     title: 'Название рецепта',
                     difficulty: 'Сложность приготовления',
                     difficultyPlaceholder: 'Выберите сложность',

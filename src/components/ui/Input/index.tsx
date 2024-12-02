@@ -1,7 +1,8 @@
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field, FieldProps } from 'formik';
 import { FC, FocusEvent, useState } from 'react';
+
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type InputProps = {
     name: string;
@@ -19,7 +20,7 @@ export const Input: FC<InputProps> = ({
     name,
     type = 'text',
     label,
-    isRequired,
+    isRequired = false,
     placeholder = '',
     className = '',
     disabled = false,
