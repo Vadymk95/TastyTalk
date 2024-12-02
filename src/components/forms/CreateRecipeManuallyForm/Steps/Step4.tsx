@@ -30,19 +30,31 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
             return lastIngredient.trim() !== '';
         }
 
-        if (typeof lastIngredient === 'object') {
+        if (
+            typeof lastIngredient === 'object' &&
+            'category' in lastIngredient &&
+            'categoryIngredients' in lastIngredient
+        ) {
             const { category, categoryIngredients } = lastIngredient;
-            const categoryValid =
-                category &&
-                category.trim() !== '' &&
-                Array.isArray(categoryIngredients);
-            return (
-                !!categoryValid &&
-                categoryIngredients.every((ing) => ing.trim() !== '')
-            );
+            const isCategoryValid = category && category.trim() !== '';
+            const areSubIngredientsValid =
+                Array.isArray(categoryIngredients) &&
+                categoryIngredients.length > 0 &&
+                categoryIngredients.every((subItem) => subItem.trim() !== '');
+            return !!isCategoryValid && areSubIngredientsValid;
         }
 
         return false;
+    };
+
+    const isSubIngredientValid = (
+        category: string,
+        categoryIngredients: string[]
+    ) => {
+        return (
+            category.trim() !== '' &&
+            categoryIngredients.every((ing) => ing.trim() !== '')
+        );
     };
 
     return (
@@ -173,6 +185,12 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                                             <Button
                                                                 variant="secondary"
                                                                 size="small"
+                                                                disabled={
+                                                                    !isSubIngredientValid(
+                                                                        ingredient.category,
+                                                                        ingredient.categoryIngredients
+                                                                    )
+                                                                }
                                                                 onClick={() =>
                                                                     subArrayHelpers.push(
                                                                         ''

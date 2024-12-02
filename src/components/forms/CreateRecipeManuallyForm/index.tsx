@@ -68,9 +68,29 @@ export const CreateRecipeManuallyForm: FC = () => {
                 }
             ),
         ingredients: Yup.array()
-            .of(Yup.string())
-            .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
-            .max(30, t('Forms.CreateRecipeManuallyForm.maxIngredients')),
+            .of(
+                Yup.lazy((value) =>
+                    typeof value === 'string'
+                        ? Yup.string().required(
+                              t('Forms.CreateRecipeManuallyForm.requiredField')
+                          )
+                        : Yup.object().shape({
+                              category: Yup.string().required(
+                                  t(
+                                      'Forms.CreateRecipeManuallyForm.requiredField'
+                                  )
+                              ),
+                              categoryIngredients: Yup.array().of(
+                                  Yup.string().required(
+                                      t(
+                                          'Forms.CreateRecipeManuallyForm.requiredField'
+                                      )
+                                  )
+                              )
+                          })
+                )
+            )
+            .required(t('Forms.CreateRecipeManuallyForm.requiredField')),
         steps: Yup.array()
             .of(Yup.string())
             .required(t('Forms.CreateRecipeManuallyForm.requiredField'))
@@ -167,6 +187,39 @@ export const CreateRecipeManuallyForm: FC = () => {
                             const value = formik.values[field];
 
                             if (Array.isArray(value)) {
+                                if (field === 'ingredients') {
+                                    return value.every((item) => {
+                                        if (typeof item === 'string') {
+                                            return item.trim() !== '';
+                                        } else if (
+                                            typeof item === 'object' &&
+                                            'category' in item &&
+                                            'categoryIngredients' in item
+                                        ) {
+                                            const {
+                                                category,
+                                                categoryIngredients
+                                            } = item;
+                                            const isCategoryValid =
+                                                category &&
+                                                category.trim() !== '';
+                                            const areSubIngredientsValid =
+                                                Array.isArray(
+                                                    categoryIngredients
+                                                ) &&
+                                                categoryIngredients.every(
+                                                    (subItem) =>
+                                                        subItem.trim() !== ''
+                                                );
+                                            return (
+                                                isCategoryValid &&
+                                                areSubIngredientsValid
+                                            );
+                                        }
+                                        return false;
+                                    });
+                                }
+
                                 return (
                                     value.length > 0 &&
                                     value.every(
