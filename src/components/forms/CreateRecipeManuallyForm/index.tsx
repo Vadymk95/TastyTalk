@@ -269,7 +269,8 @@ export const CreateRecipeManuallyForm: FC = () => {
                                     value.length > 0 &&
                                     value.every(
                                         (item) => item !== null && item !== ''
-                                    )
+                                    ) &&
+                                    !formik.errors[field]
                                 );
                             }
 
