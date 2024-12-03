@@ -117,10 +117,15 @@ export const Input: FC<InputProps> = ({
             {isRequired && (
                 <ErrorMessage
                     name={name}
-                    component="div"
-                    className={`error-absolute ${
-                        size === 'small' ? 'top-14' : ''
-                    }`}
+                    render={(msg) =>
+                        typeof msg === 'string' ? (
+                            <div
+                                className={`error-absolute ${size === 'small' ? 'top-13' : ''}`}
+                            >
+                                {msg}
+                            </div>
+                        ) : null
+                    }
                 />
             )}
         </div>

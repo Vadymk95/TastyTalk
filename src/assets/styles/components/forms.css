@@ -15,5 +15,5 @@
 }
 
 .error-absolute {
-    @apply absolute text-primary text-xs top-20 right-0;
+    @apply absolute text-primary text-xs top-18 right-0;
 }
