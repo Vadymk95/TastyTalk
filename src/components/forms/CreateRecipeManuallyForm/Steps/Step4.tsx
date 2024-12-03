@@ -27,7 +27,10 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
         const lastIngredient = ingredients[ingredients.length - 1];
 
         if (typeof lastIngredient === 'string') {
-            return lastIngredient.trim() !== '';
+            return (
+                lastIngredient.trim() !== '' &&
+                !formik.errors.ingredients?.[ingredients.length - 1]
+            );
         }
 
         if (
@@ -36,12 +39,29 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
             'categoryIngredients' in lastIngredient
         ) {
             const { category, categoryIngredients } = lastIngredient;
-            const isCategoryValid = category && category.trim() !== '';
+
+            const isCategoryValid =
+                typeof category === 'string' &&
+                category.trim() !== '' &&
+                !(formik.errors.ingredients?.[ingredients.length - 1] as any)
+                    ?.category;
+
             const areSubIngredientsValid =
                 Array.isArray(categoryIngredients) &&
                 categoryIngredients.length > 0 &&
-                categoryIngredients.every((subItem) => subItem.trim() !== '');
-            return !!isCategoryValid && areSubIngredientsValid;
+                categoryIngredients.every((_, index) => {
+                    return (
+                        typeof categoryIngredients[index] === 'string' &&
+                        categoryIngredients[index].trim() !== '' &&
+                        !(
+                            formik.errors.ingredients?.[
+                                ingredients.length - 1
+                            ] as any
+                        )?.categoryIngredients?.[index]
+                    );
+                });
+
+            return isCategoryValid && areSubIngredientsValid;
         }
 
         return false;

@@ -231,7 +231,10 @@ export const CreateRecipeManuallyForm: FC = () => {
 
                                 return value.every((item) => {
                                     if (typeof item === 'string') {
-                                        return item.trim() !== '';
+                                        return (
+                                            item.trim() !== '' &&
+                                            !formik.errors[field]
+                                        );
                                     } else if (
                                         typeof item === 'object' &&
                                         'category' in item &&
@@ -243,7 +246,8 @@ export const CreateRecipeManuallyForm: FC = () => {
                                         } = item;
                                         const isCategoryValid =
                                             typeof category === 'string' &&
-                                            category.trim() !== '';
+                                            category.trim() !== '' &&
+                                            !formik.errors[field];
                                         const areSubIngredientsValid =
                                             Array.isArray(
                                                 categoryIngredients
@@ -253,7 +257,8 @@ export const CreateRecipeManuallyForm: FC = () => {
                                                 (subItem) =>
                                                     typeof subItem ===
                                                         'string' &&
-                                                    subItem.trim() !== ''
+                                                    subItem.trim() !== '' &&
+                                                    !formik.errors[field]
                                             );
                                         return (
                                             isCategoryValid &&
