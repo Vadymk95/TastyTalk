@@ -69,11 +69,26 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
 
     const isSubIngredientValid = (
         category: string,
-        categoryIngredients: string[]
-    ) => {
+        categoryIngredients: string[],
+        errors: any, // объект ошибок из formik.errors
+        index: number // индекс текущей категории в массиве ingredients
+    ): boolean => {
+        const hasCategoryError =
+            errors?.ingredients?.[index]?.category !== undefined;
+
+        const hasSubIngredientErrors = categoryIngredients.some(
+            (_, subIndex) =>
+                errors?.ingredients?.[index]?.categoryIngredients?.[
+                    subIndex
+                ] !== undefined
+        );
+
         return (
             category.trim() !== '' &&
-            categoryIngredients.every((ing) => ing.trim() !== '')
+            !hasCategoryError &&
+            categoryIngredients.every(
+                (ing) => ing.trim() !== '' && !hasSubIngredientErrors
+            )
         );
     };
 
@@ -206,10 +221,19 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                                                 variant="secondary"
                                                                 size="small"
                                                                 disabled={
-                                                                    !isSubIngredientValid(
-                                                                        ingredient.category,
-                                                                        ingredient.categoryIngredients
-                                                                    )
+                                                                    typeof ingredient ===
+                                                                        'object' &&
+                                                                    'category' in
+                                                                        ingredient &&
+                                                                    'categoryIngredients' in
+                                                                        ingredient
+                                                                        ? !isSubIngredientValid(
+                                                                              ingredient.category,
+                                                                              ingredient.categoryIngredients,
+                                                                              formik.errors,
+                                                                              index
+                                                                          )
+                                                                        : true
                                                                 }
                                                                 onClick={() =>
                                                                     subArrayHelpers.push(
