@@ -210,6 +210,8 @@ export const CreateRecipeManuallyForm: FC = () => {
                 validationSchema={CreateRecipeManuallySchema}
                 initialValues={initialValues}
                 onSubmit={onSubmit}
+                validateOnChange
+                validateOnBlur
             >
                 {(formik) => {
                     const isStepValid = (stepIndex: number): boolean => {

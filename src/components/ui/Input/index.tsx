@@ -47,11 +47,14 @@ export const Input: FC<InputProps> = ({
 
     const handleBlur = (
         event: FocusEvent<HTMLInputElement>,
+        formBlur: (e: FocusEvent<HTMLInputElement>) => void,
         setValue: (value: string) => void
     ) => {
-        const value = event.target.value;
+        formBlur(event);
 
         if (type === 'number') {
+            const value = event.target.value;
+
             if (value === '' || parseInt(value, 10) < min) {
                 setValue(min.toString());
             } else if (value.startsWith('0')) {
@@ -86,17 +89,12 @@ export const Input: FC<InputProps> = ({
                                     : placeholder
                             }
                             disabled={disabled}
-                            onBlur={
-                                type === 'number'
-                                    ? (event) =>
-                                          handleBlur(
-                                              event,
-                                              form.setFieldValue.bind(
-                                                  null,
-                                                  name
-                                              )
-                                          )
-                                    : undefined
+                            onBlur={(event) =>
+                                handleBlur(
+                                    event,
+                                    form.handleBlur,
+                                    form.setFieldValue.bind(null, name)
+                                )
                             }
                             min={type === 'number' ? min : undefined}
                         />
