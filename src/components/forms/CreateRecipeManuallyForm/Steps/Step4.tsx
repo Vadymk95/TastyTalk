@@ -133,7 +133,7 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                             </Button>
                                         </div>
                                     ) : (
-                                        <div className="flex flex-col gap-2">
+                                        <div className="flex flex-col gap-3">
                                             <div className="flex items-end">
                                                 <Input
                                                     name={`ingredients.${index}.category`}
@@ -168,7 +168,7 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
                                             <FieldArray
                                                 name={`ingredients.${index}.categoryIngredients`}
                                                 render={(subArrayHelpers) => (
-                                                    <div className="flex flex-col gap-2">
+                                                    <div className="flex flex-col gap-3">
                                                         {ingredient.categoryIngredients.map(
                                                             (_, subIndex) => (
                                                                 <div

@@ -70,34 +70,52 @@ export const Input: FC<InputProps> = ({
                 {isRequired && <span className="text-primary">*</span>}
             </label>
 
-            <div className="relative">
+            <div>
                 <Field name={name}>
                     {({ field, form }: FieldProps) => (
-                        <input
-                            {...field}
-                            className={`input-primary ${sizeInputStyle[size]} input ${
-                                disabled ? 'bg-neutral pointer-events-none' : ''
-                            }`}
-                            type={
-                                isPasswordType && isPasswordVisible
-                                    ? 'text'
-                                    : type
-                            }
-                            placeholder={
-                                isPasswordType && isPasswordVisible
-                                    ? label
-                                    : placeholder
-                            }
-                            disabled={disabled}
-                            onBlur={(event) =>
-                                handleBlur(
-                                    event,
-                                    form.handleBlur,
-                                    form.setFieldValue.bind(null, name)
-                                )
-                            }
-                            min={type === 'number' ? min : undefined}
-                        />
+                        <div className="relative">
+                            <input
+                                {...field}
+                                className={`input-primary ${sizeInputStyle[size]} input ${
+                                    disabled
+                                        ? 'bg-neutral pointer-events-none'
+                                        : ''
+                                }`}
+                                type={
+                                    isPasswordType && isPasswordVisible
+                                        ? 'text'
+                                        : type
+                                }
+                                placeholder={
+                                    isPasswordType && isPasswordVisible
+                                        ? label
+                                        : placeholder
+                                }
+                                disabled={disabled}
+                                onBlur={(event) =>
+                                    handleBlur(
+                                        event,
+                                        form.handleBlur,
+                                        form.setFieldValue.bind(null, name)
+                                    )
+                                }
+                                min={type === 'number' ? min : undefined}
+                            />
+                            {isRequired && (
+                                <ErrorMessage
+                                    name={name}
+                                    render={(msg) =>
+                                        typeof msg === 'string' ? (
+                                            <div
+                                                className={`error-absolute ${size === 'small' ? 'top-8' : ''}`}
+                                            >
+                                                {msg}
+                                            </div>
+                                        ) : null
+                                    }
+                                />
+                            )}
+                        </div>
                     )}
                 </Field>
 
@@ -113,21 +131,6 @@ export const Input: FC<InputProps> = ({
                     </span>
                 )}
             </div>
-
-            {isRequired && (
-                <ErrorMessage
-                    name={name}
-                    render={(msg) =>
-                        typeof msg === 'string' ? (
-                            <div
-                                className={`error-absolute ${size === 'small' ? 'top-13' : ''}`}
-                            >
-                                {msg}
-                            </div>
-                        ) : null
-                    }
-                />
-            )}
         </div>
     );
 };
