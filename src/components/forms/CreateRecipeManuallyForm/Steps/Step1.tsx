@@ -68,6 +68,7 @@ export const Step1: FC<StepProps> = ({ formik }) => {
                     name="cookingTime"
                     type="number"
                     label={t('Forms.CreateRecipeManuallyForm.cookingTime')}
+                    isRequired
                 />
             </div>
         </section>

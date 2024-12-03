@@ -240,6 +240,8 @@ export const en = {
                     requiredField: 'This field is required',
                     min: 'Minimum 3 characters',
                     max: 'Maximum 50 characters',
+                    invalidCookingTime:
+                        'Please enter a cooking time between 1 and 999.',
                     title: 'Recipe Title',
                     difficulty: 'Difficulty',
                     difficultyPlaceholder: 'Select difficulty',

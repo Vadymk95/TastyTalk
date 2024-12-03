@@ -43,9 +43,12 @@ export const CreateRecipeManuallyForm: FC = () => {
             )
             .nullable()
             .required(t('Forms.CreateRecipeManuallyForm.requiredField')),
-        cookingTime: Yup.number().required(
-            t('Forms.CreateRecipeManuallyForm.requiredField')
-        ),
+        cookingTime: Yup.string()
+            .matches(
+                /^\d{1,3}$/,
+                t('Forms.CreateRecipeManuallyForm.invalidCookingTime')
+            )
+            .required(t('Forms.CreateRecipeManuallyForm.requiredField')),
         description: Yup.string()
             .min(3, t('Forms.CreateRecipeManuallyForm.min'))
             .nullable(),
@@ -356,8 +359,6 @@ export const CreateRecipeManuallyForm: FC = () => {
 
                         return true;
                     };
-
-                    console.log(formik.errors);
 
                     return (
                         <Form>

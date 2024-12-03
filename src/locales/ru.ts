@@ -233,6 +233,7 @@ export const ru = {
                     requiredField: 'Это поле обязательно',
                     min: 'Минимум 3 символа',
                     max: 'Максимум 50 символов',
+                    invalidCookingTime: 'Пожалуйста, введите число от 1 до 999',
                     title: 'Название рецепта',
                     difficulty: 'Сложность приготовления',
                     difficultyPlaceholder: 'Выберите сложность',
