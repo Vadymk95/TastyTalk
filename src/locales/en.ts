@@ -468,6 +468,14 @@ export const en = {
                 chooseCategories: 'Choose Categories',
                 chosenCategories: 'Chosen Categories'
             },
+            ErrorBoundary: {
+                imageAlt: 'Error illustration',
+                title: 'Something went wrong',
+                description:
+                    'We encountered an unexpected error. Please try to refresh the page or go back to the homepage.',
+                reloadButton: 'Reload Page',
+                homeButton: 'Go to Homepage'
+            },
             General: {
                 loading: 'Loading...',
                 error: 'Error:',

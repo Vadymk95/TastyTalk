@@ -5,14 +5,13 @@ import { App } from './App.tsx';
 import './assets/styles/index.css';
 import './i18n';
 
-import { ErrorBoundary, ErrorThrower } from '@root/components/common';
+import { ErrorBoundary } from '@root/components/common';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
             <ErrorBoundary>
                 <App />
-                <ErrorThrower />
             </ErrorBoundary>
         </BrowserRouter>
     </StrictMode>

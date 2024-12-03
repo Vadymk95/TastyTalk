@@ -1,10 +1,16 @@
 import React, { Component, ReactNode } from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { Button } from '@root/components/ui';
+import { Button, Image } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 
-interface ErrorBoundaryProps {
+import errorBoundaryImage from '@root/assets/images/errorBoundary.jpg';
+
+import { faHome, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+interface ErrorBoundaryProps extends WithTranslation {
     children: ReactNode;
 }
 
@@ -13,7 +19,7 @@ interface ErrorBoundaryState {
     error: Error | null;
 }
 
-export class ErrorBoundary extends Component<
+class ErrorBoundaryComponent extends Component<
     ErrorBoundaryProps,
     ErrorBoundaryState
 > {
@@ -39,31 +45,49 @@ export class ErrorBoundary extends Component<
     };
 
     render() {
-        if (this.state.hasError) {
+        const { hasError } = this.state;
+        const { t, children } = this.props;
+
+        if (hasError) {
             return (
-                <div className="flex flex-col items-center justify-center h-screen gap-6">
-                    <h1 className="main-heading text-primary">
-                        Что-то пошло не так
+                <div className="flex flex-col items-center justify-center h-screen gap-6 bg-gradient-to-br from-pink-100 to-red-200 text-center p-6">
+                    <div className="rounded-lg max-w-[600px] overflow-hidden">
+                        <Image
+                            src={errorBoundaryImage}
+                            alt={t('ErrorBoundary.imageAlt')}
+                            className="object-contain"
+                        />
+                    </div>
+                    <h1 className="text-3xl font-bold text-primary">
+                        {t('ErrorBoundary.title')}
                     </h1>
-                    <p>
-                        Мы столкнулись с неожиданной ошибкой. Попробуйте
-                        обновить страницу.
+                    <p className="text-lg text-neutral-dark">
+                        {t('ErrorBoundary.description')}
                     </p>
-                    <div className="gap-x-4 flex">
-                        <Button onClick={this.handleReload}>
-                            Обновить страницу
+                    <div className="gap-8 flex flex-wrap justify-center">
+                        <Button
+                            onClick={this.handleReload}
+                            variant="primary"
+                            size="large"
+                            className="flex items-center gap-2"
+                        >
+                            <FontAwesomeIcon icon={faRotateRight} />
+                            <span>{t('ErrorBoundary.reloadButton')}</span>
                         </Button>
                         <Link
                             to={routes.home}
-                            className="block btn btn-secondary btn-medium"
+                            className="flex btn btn-secondary btn-large items-center gap-2"
                         >
-                            На главную
+                            <FontAwesomeIcon icon={faHome} />
+                            <span>{t('ErrorBoundary.homeButton')}</span>
                         </Link>
                     </div>
                 </div>
             );
         }
 
-        return this.props.children;
+        return children;
     }
 }
+
+export const ErrorBoundary = withTranslation()(ErrorBoundaryComponent);

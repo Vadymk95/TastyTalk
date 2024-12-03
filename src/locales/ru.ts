@@ -460,6 +460,14 @@ export const ru = {
                 chooseCategories: 'Выберите категории',
                 chosenCategories: 'Выбранные категории'
             },
+            ErrorBoundary: {
+                imageAlt: 'Иллюстрация ошибки',
+                title: 'Что-то пошло не так',
+                description:
+                    'Мы столкнулись с неожиданной ошибкой. Попробуйте обновить страницу или вернуться на главную.',
+                reloadButton: 'Обновить страницу',
+                homeButton: 'На главную'
+            },
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
