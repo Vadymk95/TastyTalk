@@ -15,7 +15,7 @@ interface StepProps {
 
 export const Step7: FC<StepProps> = ({ formik, maxSteps }) => {
     const { t } = useTranslation();
-    const { values, errors, touched } = formik;
+    const { values, errors } = formik;
     const isLastFieldValid = (): boolean => {
         const warnings = values.warnings || [];
 
@@ -23,11 +23,9 @@ export const Step7: FC<StepProps> = ({ formik, maxSteps }) => {
             return true;
         }
 
-        const lastWarning = warnings[warnings.length - 1] || '';
+        const lastWarning = warnings[warnings.length - 1];
 
-        return (
-            lastWarning.trim() !== '' && !(errors.warnings && touched.warnings)
-        );
+        return lastWarning.trim() !== '' && !errors.warnings;
     };
 
     return (

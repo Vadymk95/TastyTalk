@@ -67,8 +67,8 @@ export const Step4: FC<StepProps> = ({ formik, maxSteps }) => {
     const isSubIngredientValid = (
         category: string,
         categoryIngredients: string[],
-        errors: any, // объект ошибок из errors
-        index: number // индекс текущей категории в массиве ingredients
+        errors: any,
+        index: number
     ): boolean => {
         const hasCategoryError =
             errors?.ingredients?.[index]?.category !== undefined;
