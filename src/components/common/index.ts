@@ -1,5 +1,7 @@
 export { Categories } from './Categories';
 export { DifficultyMap } from './DifficultyMap';
+export { ErrorBoundary } from './ErrorBoundary';
+export { ErrorThrower } from './ErrorThrower';
 export { FooterNavigation } from './FooterNavigation';
 export { HeaderNavigation } from './HeaderNavigation';
 export { Pricing } from './Pricing';
