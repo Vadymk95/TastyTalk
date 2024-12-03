@@ -177,7 +177,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         title: '',
         difficulty: null,
         categories: null,
-        cookingTime: 0,
+        cookingTime: '',
         description: '',
         previewPhoto: null,
         ingredients: null,

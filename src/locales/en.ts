@@ -248,6 +248,7 @@ export const en = {
                     categories: 'Categories',
                     categoriesPlaceholder: 'Select categories',
                     cookingTime: 'Approximate Cooking Time (in minutes)',
+                    cookingTimePlaceholder: 'Enter cooking time',
                     description: 'Description',
                     descriptionPlaceholder:
                         'Write a brief description of your recipe',

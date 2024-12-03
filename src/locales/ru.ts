@@ -241,6 +241,7 @@ export const ru = {
                     categoriesPlaceholder: 'Выберите категории',
                     cookingTime:
                         'Приблизительное время приготовления (в минутах)',
+                    cookingTimePlaceholder: 'Введите время приготовления',
                     description: 'Описание',
                     descriptionPlaceholder:
                         'Опишите рецепт, чтобы другие пользователи могли понять, почему он уникален или интересен',

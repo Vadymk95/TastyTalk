@@ -30,7 +30,7 @@ export interface Recipe {
     title: string; // Название рецепта
     difficulty: Difficulty | null; // Сложность приготовления
     categories: Category[] | null; // Категории, к которым относится рецепт
-    cookingTime: number; // Время готовки (в минутах)
+    cookingTime: string; // Время готовки (в минутах)
     description?: string | null; // Описание рецепта
     previewPhoto?: string | File | null; // Фото превью (Base64 или URL) или фаил
     ingredients: Ingredient[] | null; // Список ингредиентов
