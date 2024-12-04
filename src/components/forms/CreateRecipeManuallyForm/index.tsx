@@ -16,6 +16,22 @@ export type StepFieldMapping = Record<
     { fields: Array<keyof RecipeType>; isOptional: boolean }
 >;
 
+const defaultFormValues: RecipeType = {
+    title: '',
+    difficulty: null,
+    categories: null,
+    cookingTime: '',
+    description: '',
+    previewPhoto: null,
+    ingredients: null,
+    steps: [''],
+    tips: null,
+    warnings: null,
+    videoUrl: '',
+    id: '',
+    aiGenerated: false
+};
+
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
     const { currentStep, manualFormData, setCurrentStep, resetManualForm } =
@@ -172,25 +188,14 @@ export const CreateRecipeManuallyForm: FC = () => {
             .nullable()
     });
 
-    const onSubmit = (values: RecipeType) => {
+    const onSubmit = (values: RecipeType, { resetForm }: any) => {
         console.log(values);
         resetManualForm();
+        resetForm();
     };
 
     const initialValues: RecipeType = {
-        title: '',
-        difficulty: null,
-        categories: null,
-        cookingTime: '',
-        description: '',
-        previewPhoto: null,
-        ingredients: null,
-        steps: [''],
-        tips: null,
-        warnings: null,
-        videoUrl: '',
-        id: '',
-        aiGenerated: false,
+        ...defaultFormValues,
         ...manualFormData
     };
 
@@ -369,26 +374,8 @@ export const CreateRecipeManuallyForm: FC = () => {
 
                     const onReset = () => {
                         resetManualForm();
-                        formik.resetForm({
-                            values: {
-                                title: '',
-                                difficulty: null,
-                                categories: null,
-                                cookingTime: '',
-                                description: '',
-                                previewPhoto: null,
-                                ingredients: null,
-                                steps: [''],
-                                tips: null,
-                                warnings: null,
-                                videoUrl: '',
-                                id: '',
-                                aiGenerated: false
-                            }
-                        });
+                        formik.resetForm({ values: defaultFormValues });
                     };
-
-                    console.log(formik.values);
 
                     return (
                         <Form>
