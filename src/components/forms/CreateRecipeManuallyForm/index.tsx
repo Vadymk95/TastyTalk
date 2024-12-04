@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { StepperWelcomeModal } from '@root/components/modals';
-import { Stepper } from '@root/components/ui';
+import { Stepper, Loader } from '@root/components/ui';
 import { extractYouTubeVideoId } from '@root/helpers';
 import { routes } from '@root/router/routes';
 import { useRecipeStore, useTemporaryRecipeStore } from '@root/store';
@@ -37,7 +37,7 @@ const defaultFormValues: RecipeType = {
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { addRecipe } = useRecipeStore();
+    const { addRecipe, loading } = useRecipeStore();
     const { currentStep, manualFormData, setCurrentStep, resetManualForm } =
         useTemporaryRecipeStore();
 
@@ -225,7 +225,9 @@ export const CreateRecipeManuallyForm: FC = () => {
     };
 
     return (
-        <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
+        <div className="relative flex flex-col h-full max-w-4xl gap-6 mx-auto">
+            {loading && <Loader />}
+
             <Formik
                 preventDefault
                 validationSchema={CreateRecipeManuallySchema}

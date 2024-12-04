@@ -1,23 +1,13 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { Query, RecipeTypingEffect } from '@root/components/common';
-import {
-    Button,
-    ErrorCard,
-    Loader,
-    Textarea,
-    Tooltip
-} from '@root/components/ui';
+import { Button, Loader, Textarea, Tooltip } from '@root/components/ui';
 import { routes } from '@root/router/routes';
-import {
-    useAuthStore,
-    useRecipeStore,
-    useTemporaryRecipeStore
-} from '@root/store';
+import { useRecipeStore, useTemporaryRecipeStore } from '@root/store';
 
 import {
     faBookmark,
@@ -35,8 +25,7 @@ type CreateRecipeWithAIFormValues = {
 export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { addRecipe } = useRecipeStore();
-    const { loading, error, clearError } = useAuthStore();
+    const { addRecipe, loading } = useRecipeStore();
     const {
         clearRecipe,
         currentRecipe,
@@ -88,10 +77,6 @@ export const CreateRecipeWithAIForm: FC = () => {
     const initialValues = {
         query: ''
     };
-
-    useEffect(() => {
-        clearError();
-    }, [clearError]);
 
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
@@ -163,8 +148,6 @@ export const CreateRecipeWithAIForm: FC = () => {
                                         'Forms.CreateRecipeWithAIForm.placeholder'
                                     )}
                                 />
-
-                                {error && <ErrorCard errorMessage={error} />}
 
                                 <div className="flex justify-center">
                                     <Button

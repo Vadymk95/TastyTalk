@@ -1,4 +1,4 @@
-import { db } from '@root/firebase/firebaseConfig';
+import { auth, db } from '@root/firebase/firebaseConfig';
 import {
     addDoc,
     collection,
@@ -31,6 +31,13 @@ export const useRecipeStore = create<RecipeStoreState>((set) => ({
     addRecipe: async (recipe: Recipe) => {
         set({ loading: true });
         try {
+            // Получение текущего пользователя
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                throw new Error('User is not authenticated.');
+            }
+
+            // Преобразование фото в Base64 (если это файл)
             if (recipe.previewPhoto && recipe.previewPhoto instanceof File) {
                 const base64Image = await convertFileToBase64(
                     recipe.previewPhoto
@@ -38,8 +45,14 @@ export const useRecipeStore = create<RecipeStoreState>((set) => ({
                 recipe.previewPhoto = base64Image;
             }
 
+            const recipeWithUser = {
+                ...recipe,
+                createdBy: currentUser.uid,
+                createdAt: new Date()
+            };
+
             const recipesRef = collection(db, 'recipes');
-            await addDoc(recipesRef, recipe);
+            await addDoc(recipesRef, recipeWithUser);
         } catch (error) {
             console.error('Error adding recipe:', error);
             throw error;
@@ -48,11 +61,17 @@ export const useRecipeStore = create<RecipeStoreState>((set) => ({
         }
     },
 
-    updateRecipe: async (id, updatedData) => {
+    updateRecipe: async (id: string, updatedData: Partial<Recipe>) => {
         set({ loading: true });
         try {
             const recipeRef = doc(db, 'recipes', id);
-            await updateDoc(recipeRef, updatedData);
+
+            const dataWithTimestamp = {
+                ...updatedData,
+                updatedAt: new Date()
+            };
+
+            await updateDoc(recipeRef, dataWithTimestamp);
         } catch (error) {
             console.error('Error updating recipe:', error);
             throw error;
