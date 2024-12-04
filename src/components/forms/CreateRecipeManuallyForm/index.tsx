@@ -27,8 +27,8 @@ const defaultFormValues: RecipeType = {
     previewPhoto: null,
     ingredients: null,
     steps: [''],
-    tips: null,
-    warnings: null,
+    tips: [''],
+    warnings: [''],
     videoUrl: '',
     id: '',
     aiGenerated: false
@@ -156,6 +156,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         tips: Yup.array().of(
             Yup.string()
                 .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+                .nullable()
                 .when('$isStepActive', {
                     is: (isStepActive: boolean) => isStepActive,
                     then: (schema) =>
@@ -169,6 +170,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         warnings: Yup.array().of(
             Yup.string()
                 .min(3, t('Forms.CreateRecipeManuallyForm.min'))
+                .nullable()
                 .when('$isStepActive', {
                     is: (isStepActive: boolean) => isStepActive,
                     then: (schema) =>
