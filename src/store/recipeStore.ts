@@ -11,6 +11,7 @@ import {
 import { create } from 'zustand';
 
 import { Recipe } from '@root/types';
+import { convertFileToBase64 } from '@root/helpers';
 
 interface RecipeStoreState {
     addRecipe: (recipe: Recipe) => Promise<void>;
@@ -21,8 +22,16 @@ interface RecipeStoreState {
 }
 
 export const useRecipeStore = create<RecipeStoreState>(() => ({
-    addRecipe: async (recipe) => {
+    addRecipe: async (recipe: Recipe) => {
         try {
+            // This is a workaround to convert the preview photo to base64. Temporary solution.
+            if (recipe.previewPhoto && recipe.previewPhoto instanceof File) {
+                const base64Image = await convertFileToBase64(
+                    recipe.previewPhoto
+                );
+                recipe.previewPhoto = base64Image;
+            }
+
             const recipesRef = collection(db, 'recipes');
             await addDoc(recipesRef, recipe);
         } catch (error) {

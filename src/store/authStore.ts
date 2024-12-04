@@ -349,6 +349,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
                 // Преобразование файла в Base64
                 if (profileData.profileImage) {
+                    // This is a workaround to convert the profile photo to base64. Temporary solution.
                     if (profileData.profileImage instanceof File) {
                         const base64Image = await convertFileToBase64(
                             profileData.profileImage
