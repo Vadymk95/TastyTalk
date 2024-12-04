@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { StepperWelcomeModal } from '@root/components/modals';
-import { Stepper, Loader } from '@root/components/ui';
+import { Loader, Stepper } from '@root/components/ui';
 import { extractYouTubeVideoId } from '@root/helpers';
 import { routes } from '@root/router/routes';
 import { useRecipeStore, useTemporaryRecipeStore } from '@root/store';
