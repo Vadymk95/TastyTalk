@@ -326,7 +326,11 @@ export const en = {
                     title: 'Recipe Preview'
                 },
                 StepperWelcomeModal: {
-                    title: 'Welcome to the Recipe Creation Process'
+                    title: 'Welcome to the Recipe Creation Process',
+                    description:
+                        'Before you is a step-by-step wizard that will help you create a unique recipe. There are 9 steps in total, some of them are mandatory, while others are optional.',
+                    stepsTitle: 'Steps:',
+                    doNotShowAgain: 'Do not show this message again'
                 }
             },
             PhotoUpload: {

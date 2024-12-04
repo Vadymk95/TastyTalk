@@ -1,5 +1,6 @@
 export { Badge } from './Badge';
 export { Button } from './Button';
+export { Checkbox } from './Checkbox';
 export { DragAndDrop } from './DragAndDrop';
 export { ErrorCard } from './ErrorCard';
 export { FormikMultiSelect } from './FormikMultiSelect';
