@@ -1,12 +1,14 @@
 import { Form, Formik } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { StepperWelcomeModal } from '@root/components/modals';
 import { Stepper } from '@root/components/ui';
 import { extractYouTubeVideoId } from '@root/helpers';
-import { useTemporaryRecipeStore } from '@root/store';
+import { routes } from '@root/router/routes';
+import { useRecipeStore, useTemporaryRecipeStore } from '@root/store';
 import { Recipe as RecipeType } from '@root/types';
 
 import { GetAllSteps } from './Steps';
@@ -34,6 +36,8 @@ const defaultFormValues: RecipeType = {
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const { addRecipe } = useRecipeStore();
     const { currentStep, manualFormData, setCurrentStep, resetManualForm } =
         useTemporaryRecipeStore();
 
@@ -188,10 +192,15 @@ export const CreateRecipeManuallyForm: FC = () => {
             .nullable()
     });
 
-    const onSubmit = (values: RecipeType, { resetForm }: any) => {
-        console.log(values);
-        resetManualForm();
-        resetForm();
+    const onSubmit = async (values: RecipeType, { resetForm }: any) => {
+        try {
+            await addRecipe(values);
+            resetManualForm();
+            resetForm();
+            navigate(routes.profile);
+        } catch (error) {
+            console.error('Failed to add recipe:', error);
+        }
     };
 
     const initialValues: RecipeType = {

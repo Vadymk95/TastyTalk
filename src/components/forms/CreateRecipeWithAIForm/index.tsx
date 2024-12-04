@@ -1,6 +1,7 @@
 import { Form, Formik } from 'formik';
 import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { Query, RecipeTypingEffect } from '@root/components/common';
@@ -11,7 +12,12 @@ import {
     Textarea,
     Tooltip
 } from '@root/components/ui';
-import { useAuthStore, useTemporaryRecipeStore } from '@root/store';
+import { routes } from '@root/router/routes';
+import {
+    useAuthStore,
+    useRecipeStore,
+    useTemporaryRecipeStore
+} from '@root/store';
 
 import {
     faBookmark,
@@ -28,6 +34,8 @@ type CreateRecipeWithAIFormValues = {
 
 export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const { addRecipe } = useRecipeStore();
     const { loading, error, clearError } = useAuthStore();
     const {
         clearRecipe,
@@ -43,9 +51,13 @@ export const CreateRecipeWithAIForm: FC = () => {
         values: CreateRecipeWithAIFormValues,
         { resetForm }: any
     ) => {
-        setCurrentQuery(values.query);
-        setCurrentRecipe(exampleRecipe);
-        resetForm();
+        try {
+            setCurrentQuery(values.query);
+            setCurrentRecipe(exampleRecipe);
+            resetForm();
+        } catch (error) {
+            console.error('Error generating recipe:', error);
+        }
     };
 
     const handleClearRecipe = () => {
@@ -53,8 +65,17 @@ export const CreateRecipeWithAIForm: FC = () => {
         clearRecipe();
     };
 
-    const handleSaveRecipe = () => {
-        console.log('Save recipe');
+    const handleSaveRecipe = async () => {
+        try {
+            if (currentRecipe) {
+                await addRecipe(currentRecipe);
+                clearQuery();
+                clearRecipe();
+                navigate(routes.profile);
+            }
+        } catch (error) {
+            console.error('Error generating recipe:', error);
+        }
     };
 
     const RecipeSchema = Yup.object().shape({
