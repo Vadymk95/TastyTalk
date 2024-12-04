@@ -1,10 +1,26 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import './index.css';
 
-export const Loader: FC = () => {
+interface LoaderProps {
+    fullscreen?: boolean;
+}
+
+export const Loader: FC<LoaderProps> = ({ fullscreen = false }) => {
+    useEffect(() => {
+        if (fullscreen) {
+            document.body.style.overflow = 'hidden';
+        }
+
+        return () => {
+            if (fullscreen) {
+                document.body.style.overflow = '';
+            }
+        };
+    }, [fullscreen]);
+
     return (
-        <div className="loader-container">
+        <div className={`loader-container${fullscreen ? '--fullscreen' : ''}`}>
             <div className="loader">
                 <div className="loader-circle"></div>
             </div>

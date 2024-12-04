@@ -226,7 +226,7 @@ export const CreateRecipeManuallyForm: FC = () => {
 
     return (
         <div className="relative flex flex-col h-full max-w-4xl gap-6 mx-auto">
-            {loading && <Loader />}
+            {loading && <Loader fullscreen />}
 
             <Formik
                 preventDefault

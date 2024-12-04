@@ -1,5 +1,9 @@
 .loader-container {
-    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50;
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+.loader-container--fullscreen {
+    @apply fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50;
 }
 
 .loader {
