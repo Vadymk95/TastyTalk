@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Checkbox, Modal } from '@root/components/ui';
@@ -7,11 +7,27 @@ import { useModalStore } from '@root/store';
 
 export const StepperWelcomeModal: FC = () => {
     const { t } = useTranslation();
-    const { isModalOpen, closeModal } = useModalStore();
+    const { isModalOpen, closeModal, openModal } = useModalStore();
+    const [doNotShowAgain, setDoNotShowAgain] = useState(
+        localStorage.getItem('hideStepperWelcome') === 'true'
+    );
+
+    useEffect(() => {
+        if (!doNotShowAgain) {
+            openModal(ModalsEnum.StepperWelcome);
+        }
+    }, [doNotShowAgain, openModal]);
+
     const isStepperWelcomeModalOpen = isModalOpen.stepperWelcome;
 
-    const handleCloseStepperWelcomeModal = () =>
+    const handleCloseStepperWelcomeModal = () => {
         closeModal(ModalsEnum.StepperWelcome);
+    };
+
+    const handleDoNotShowAgainChange = (checked: boolean) => {
+        setDoNotShowAgain(checked);
+        localStorage.setItem('hideStepperWelcome', checked.toString());
+    };
 
     return (
         <Modal
@@ -43,6 +59,8 @@ export const StepperWelcomeModal: FC = () => {
                 <Checkbox
                     name="doNotShowAgain"
                     label={t('Modals.StepperWelcomeModal.doNotShowAgain')}
+                    checked={doNotShowAgain}
+                    onChange={handleDoNotShowAgainChange}
                 />
             </div>
         </Modal>

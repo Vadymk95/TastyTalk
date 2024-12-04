@@ -1,13 +1,11 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { StepperWelcomeModal } from '@root/components/modals';
 import { Stepper } from '@root/components/ui';
-import { ModalsEnum } from '@root/constants/modals';
 import { extractYouTubeVideoId } from '@root/helpers';
-import { useModalStore } from '@root/store';
 import { Recipe as RecipeType } from '@root/types';
 
 import { GetAllSteps } from './Steps';
@@ -19,7 +17,6 @@ export type StepFieldMapping = Record<
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
-    const { openModal } = useModalStore();
     const [currentStep, setCurrentStep] = useState(0);
 
     const CreateRecipeManuallySchema = Yup.object().shape({
@@ -206,10 +203,6 @@ export const CreateRecipeManuallyForm: FC = () => {
         6: { fields: ['warnings'], isOptional: true },
         7: { fields: ['videoUrl'], isOptional: true }
     };
-
-    useEffect(() => {
-        openModal(ModalsEnum.StepperWelcome);
-    }, [openModal]);
 
     return (
         <div className="flex flex-col h-full max-w-4xl gap-6 mx-auto">
