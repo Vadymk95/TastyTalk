@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { Dispatch, FC, SetStateAction, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RecipePreviewModal } from '@root/components/modals';
@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface StepProps {
     formik: FormikProps<RecipeType>;
     skippedSteps: number[];
-    setCurrentStep: Dispatch<SetStateAction<number>>;
+    setCurrentStep: (step: number) => void;
 }
 
 const TOTAL_STEPS_WITHOUT_COMPLETED_STEP = 8;

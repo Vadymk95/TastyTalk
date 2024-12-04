@@ -1,11 +1,12 @@
 import { Form, Formik } from 'formik';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { StepperWelcomeModal } from '@root/components/modals';
 import { Stepper } from '@root/components/ui';
 import { extractYouTubeVideoId } from '@root/helpers';
+import { useTemporaryRecipeStore } from '@root/store';
 import { Recipe as RecipeType } from '@root/types';
 
 import { GetAllSteps } from './Steps';
@@ -17,7 +18,8 @@ export type StepFieldMapping = Record<
 
 export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
-    const [currentStep, setCurrentStep] = useState(0);
+    const { currentStep, manualFormData, setCurrentStep, resetManualForm } =
+        useTemporaryRecipeStore();
 
     const CreateRecipeManuallySchema = Yup.object().shape({
         title: Yup.string()
@@ -172,6 +174,7 @@ export const CreateRecipeManuallyForm: FC = () => {
 
     const onSubmit = (values: RecipeType) => {
         console.log(values);
+        resetManualForm();
     };
 
     const initialValues: RecipeType = {
@@ -187,7 +190,8 @@ export const CreateRecipeManuallyForm: FC = () => {
         warnings: null,
         videoUrl: '',
         id: '',
-        aiGenerated: false
+        aiGenerated: false,
+        ...manualFormData
     };
 
     const stepFieldMapping: StepFieldMapping = {
@@ -363,6 +367,29 @@ export const CreateRecipeManuallyForm: FC = () => {
                         return true;
                     };
 
+                    const onReset = () => {
+                        resetManualForm();
+                        formik.resetForm({
+                            values: {
+                                title: '',
+                                difficulty: null,
+                                categories: null,
+                                cookingTime: '',
+                                description: '',
+                                previewPhoto: null,
+                                ingredients: null,
+                                steps: [''],
+                                tips: null,
+                                warnings: null,
+                                videoUrl: '',
+                                id: '',
+                                aiGenerated: false
+                            }
+                        });
+                    };
+
+                    console.log(formik.values);
+
                     return (
                         <Form>
                             <Stepper
@@ -374,7 +401,7 @@ export const CreateRecipeManuallyForm: FC = () => {
                                 )}
                                 currentStep={currentStep}
                                 setCurrentStep={setCurrentStep}
-                                onReset={formik.resetForm}
+                                onReset={onReset}
                                 isStepValid={isStepValid}
                                 canSkipStep={canSkipStep}
                             />

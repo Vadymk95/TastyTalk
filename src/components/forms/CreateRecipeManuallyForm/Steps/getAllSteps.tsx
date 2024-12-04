@@ -1,7 +1,8 @@
 import { FormikProps } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useTemporaryRecipeStore } from '@root/store';
 import { Recipe as RecipeType } from '@root/types';
 
 import {
@@ -21,10 +22,15 @@ export const GetAllSteps = (
     formik: FormikProps<RecipeType>,
     stepFieldMapping: StepFieldMapping,
     getSkippedSteps: () => number[],
-    setCurrentStep: Dispatch<SetStateAction<number>>
+    setCurrentStep: (step: number) => void
 ) => {
     const { t } = useTranslation();
+    const { setManualFormData } = useTemporaryRecipeStore();
     const skippedSteps = getSkippedSteps();
+
+    useEffect(() => {
+        setManualFormData(formik.values);
+    }, [formik.values, setManualFormData]);
 
     const steps = [
         {
