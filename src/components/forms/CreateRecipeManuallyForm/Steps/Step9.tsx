@@ -1,12 +1,12 @@
 import { FormikProps } from 'formik';
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RecipePreviewModal } from '@root/components/modals';
 import { Button } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
-import { Recipe as RecipeType, StepStatus } from '@root/types';
+import { EStepStatus, Recipe as RecipeType, StepStatus } from '@root/types';
 
 import {
     faArrowRight,
@@ -28,7 +28,7 @@ export const Step9: FC<StepProps> = ({
     skippedSteps,
     setCurrentStep
 }) => {
-    const { openModal } = useModalStore();
+    const { openModal, closeModal } = useModalStore();
     const { t } = useTranslation();
     const { values } = formik;
 
@@ -41,10 +41,16 @@ export const Step9: FC<StepProps> = ({
             const isSkipped = skippedSteps.includes(stepNumber);
             return {
                 step: stepNumber + 1,
-                status: isSkipped ? 'incompleted' : 'completed'
+                status: isSkipped
+                    ? EStepStatus.INCOMPLETED
+                    : EStepStatus.COMPLETED
             };
         }
     );
+
+    useEffect(() => {
+        return () => closeModal(ModalsEnum.RecipePreview);
+    }, [closeModal]);
 
     return (
         <section className="flex flex-col gap-6">
@@ -52,7 +58,7 @@ export const Step9: FC<StepProps> = ({
 
             <div className="flex flex-col gap-4">
                 {steps.map(({ step, status }) => {
-                    const isCompleted = status === 'completed';
+                    const isCompleted = status === EStepStatus.COMPLETED;
                     const cardStyles = isCompleted
                         ? {
                               container: 'bg-green-100 border-green-200',
@@ -91,7 +97,7 @@ export const Step9: FC<StepProps> = ({
                                     </h4>
                                     <p className="text-sm label">
                                         {t(
-                                            `Stepper.${isCompleted ? 'completed' : 'incompleteStep'}`
+                                            `Stepper.${isCompleted ? EStepStatus.COMPLETED : EStepStatus.INCOMPLETED}`
                                         )}
                                     </p>
                                 </div>

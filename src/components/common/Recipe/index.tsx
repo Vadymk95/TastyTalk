@@ -77,11 +77,39 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                     <span>{t('Recipe.ingredients')}</span>
                 </h3>
                 <ul className="list-disc pl-5 text-neutral-dark">
-                    {recipe.ingredients.map((ingredient, index) => (
-                        <li key={index} className="mb-1">
-                            {ingredient}
-                        </li>
-                    ))}
+                    {recipe.ingredients?.map((ingredient, index) => {
+                        if (typeof ingredient === 'string') {
+                            return (
+                                <li key={index} className="mb-1">
+                                    {ingredient}
+                                </li>
+                            );
+                        } else if (
+                            'category' in ingredient &&
+                            'categoryIngredients' in ingredient
+                        ) {
+                            return (
+                                <li key={index} className="my-4">
+                                    <div className="font-bold text-primary">
+                                        {ingredient.category}:
+                                    </div>
+                                    <ul className="list-disc pl-5">
+                                        {ingredient.categoryIngredients.map(
+                                            (catIngredient, catIndex) => (
+                                                <li
+                                                    key={`${index}-${catIndex}`}
+                                                    className="mb-1"
+                                                >
+                                                    {catIngredient}
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                </li>
+                            );
+                        }
+                        return null;
+                    })}
                 </ul>
             </div>
 

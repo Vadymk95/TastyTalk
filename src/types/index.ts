@@ -62,6 +62,11 @@ export enum EDifficulty {
     HARD = 'hard'
 }
 
+export enum EStepStatus {
+    COMPLETED = 'completed',
+    INCOMPLETED = 'incompleted'
+}
+
 export enum ECategory {
     DISH_TYPE = 'dishType',
     WORLD_CUISINE = 'worldCuisine',
@@ -72,5 +77,5 @@ export enum ECategory {
 
 export interface StepStatus {
     step: number;
-    status: 'completed' | 'incompleted';
+    status: EStepStatus.COMPLETED | EStepStatus.INCOMPLETED;
 }
