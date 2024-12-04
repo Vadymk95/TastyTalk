@@ -5,5 +5,6 @@ export enum ModalsEnum {
     Pricing = 'pricing',
     Rules = 'rules',
     ResetStepper = 'resetStepper',
-    RecipePreview = 'recipePreview'
+    RecipePreview = 'recipePreview',
+    StepperWelcome = 'stepperWelcome'
 }

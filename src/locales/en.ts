@@ -324,6 +324,9 @@ export const en = {
                 },
                 RecipePreviewModal: {
                     title: 'Recipe Preview'
+                },
+                StepperWelcomeModal: {
+                    title: 'Welcome to the Recipe Creation Process'
                 }
             },
             PhotoUpload: {

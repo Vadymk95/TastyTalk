@@ -318,6 +318,9 @@ export const ru = {
                 },
                 RecipePreviewModal: {
                     title: 'Просмотр рецепта'
+                },
+                StepperWelcomeModal: {
+                    title: 'Добро пожаловать в создание рецепта!'
                 }
             },
             PhotoUpload: {
