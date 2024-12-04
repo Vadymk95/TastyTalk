@@ -80,22 +80,78 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
                         />
                     </div>
                     <ul className="list-disc pl-5 text-neutral-dark">
-                        {recipe.ingredients.map((ingredient, index) => (
-                            <li key={index} className="mb-1">
-                                <Typewriter
-                                    key={index}
-                                    options={{
-                                        delay: 65,
-                                        cursor: ''
-                                    }}
-                                    onInit={(typewriter) => {
-                                        typewriter
-                                            .typeString(ingredient)
-                                            .start();
-                                    }}
-                                />
-                            </li>
-                        ))}
+                        {recipe.ingredients.map((ingredient, index) => {
+                            if (typeof ingredient === 'string') {
+                                return (
+                                    <li key={index} className="mb-1">
+                                        <Typewriter
+                                            key={index}
+                                            options={{
+                                                delay: 65,
+                                                cursor: ''
+                                            }}
+                                            onInit={(typewriter) => {
+                                                typewriter
+                                                    .typeString(ingredient)
+                                                    .start();
+                                            }}
+                                        />
+                                    </li>
+                                );
+                            } else if (
+                                'category' in ingredient &&
+                                'categoryIngredients' in ingredient
+                            ) {
+                                return (
+                                    <li key={index} className="mb-4">
+                                        <div className="font-bold text-primary mb-2">
+                                            <Typewriter
+                                                key={`${index}-category`}
+                                                options={{
+                                                    delay: 45,
+                                                    cursor: ''
+                                                }}
+                                                onInit={(typewriter) => {
+                                                    typewriter
+                                                        .typeString(
+                                                            `${ingredient.category}:`
+                                                        )
+                                                        .start();
+                                                }}
+                                            />
+                                        </div>
+                                        <ul className="list-disc pl-5">
+                                            {ingredient.categoryIngredients.map(
+                                                (catIngredient, catIndex) => (
+                                                    <li
+                                                        key={`${index}-${catIndex}`}
+                                                        className="mb-1"
+                                                    >
+                                                        <Typewriter
+                                                            key={`${index}-${catIndex}`}
+                                                            options={{
+                                                                delay: 55,
+                                                                cursor: ''
+                                                            }}
+                                                            onInit={(
+                                                                typewriter
+                                                            ) => {
+                                                                typewriter
+                                                                    .typeString(
+                                                                        catIngredient
+                                                                    )
+                                                                    .start();
+                                                            }}
+                                                        />
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    </li>
+                                );
+                            }
+                            return null;
+                        })}
                     </ul>
                 </div>
             )}

@@ -11,7 +11,7 @@ export const exampleRecipe: Recipe = {
             group: 'worldCuisine'
         }
     ],
-    cookingTime: 20,
+    cookingTime: '20',
     description:
         'Классическая итальянская лазанья с сочным мясным соусом, сыром и тонкими слоями пасты. Это блюдо идеально подойдёт для ужина в кругу семьи или друзей.',
     ingredients: [
@@ -21,6 +21,10 @@ export const exampleRecipe: Recipe = {
         '2 зубчика чеснока',
         '800 г консервированных томатов',
         '3 ст. л. томатной пасты',
+        {
+            category: 'Сыр',
+            categoryIngredients: ['Моцарелла', 'Пармезан']
+        },
         '1 ч. л. сушёного орегано',
         '1 ч. л. сушёного базилика',
         '1 ч. л. сахара',
@@ -29,7 +33,13 @@ export const exampleRecipe: Recipe = {
         '3 ст. л. муки',
         '3 ст. л. сливочного масла',
         'Соль и перец по вкусу',
-        'Оливковое масло для жарки'
+        'Оливковое масло для жарки',
+        {
+            category: 'Молочные продукты',
+            categoryIngredients: ['Молоко', 'Сливочное масло', 'Сыр']
+        },
+        'Соль',
+        'Перец'
     ],
     steps: [
         'Разогрейте духовку до 180 °C.',
@@ -61,7 +71,7 @@ export const exampleRecipe2: Recipe = {
             group: 'worldCuisine'
         }
     ],
-    cookingTime: 20,
+    cookingTime: '20',
     ingredients: ['2 яйца', '100 мл молока', '50 г сыра'],
     steps: [
         'Взбейте яйца с молоком.',
@@ -85,7 +95,7 @@ export const exampleRecipe3: Recipe = {
             group: 'worldCuisine'
         }
     ],
-    cookingTime: 20,
+    cookingTime: '20',
     ingredients: ['Чечевица', 'Морковь', 'Лук', 'Специи'],
     steps: [
         'Нарезать овощи',

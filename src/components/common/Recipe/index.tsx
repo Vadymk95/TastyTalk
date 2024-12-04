@@ -89,7 +89,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                             'categoryIngredients' in ingredient
                         ) {
                             return (
-                                <li key={index} className="my-4">
+                                <li key={index} className="mb-4">
                                     <div className="font-bold text-primary">
                                         {ingredient.category}:
                                     </div>
