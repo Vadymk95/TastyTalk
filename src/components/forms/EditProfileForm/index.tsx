@@ -294,7 +294,7 @@ export const EditProfileForm: FC = () => {
                                         onClick={() =>
                                             arrayHelpers.push({
                                                 name: '',
-                                                url: ''
+                                                profileName: ''
                                             })
                                         }
                                         className="mt-2"
