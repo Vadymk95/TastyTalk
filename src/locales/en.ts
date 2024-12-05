@@ -496,7 +496,9 @@ export const en = {
                 medium: 'Medium',
                 hard: 'Hard',
                 search: 'Search...',
-                removePhoto: 'Remove Photo'
+                removePhoto: 'Remove Photo',
+                profilePhoto: 'Profile Photo',
+                noImage: 'No Image'
             }
         }
     }

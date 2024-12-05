@@ -487,7 +487,9 @@ export const ru = {
                 medium: 'Средне',
                 hard: 'Сложно',
                 search: 'Поиск...',
-                removePhoto: 'Удалить фото'
+                removePhoto: 'Удалить фото',
+                profilePhoto: 'Фото профиля',
+                noImage: 'Нет фото'
             }
         }
     }
