@@ -5,6 +5,7 @@ export { ErrorThrower } from './ErrorThrower';
 export { FooterNavigation } from './FooterNavigation';
 export { HeaderNavigation } from './HeaderNavigation';
 export { Pricing } from './Pricing';
+export { Profile } from './Profile';
 export { ProfileSettingsModals } from './ProfileSettingsModals';
 export { Query } from './Query';
 export { Recipe } from './Recipe';

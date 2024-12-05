@@ -28,28 +28,7 @@ import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import { convertFileToBase64, isMobileDevice } from '@root/helpers';
-
-interface UpdateProfileData {
-    firstName?: string;
-    lastName?: string;
-    username?: string;
-    email?: string;
-    bio?: string;
-    country?: string;
-    socialLinks?: { name: string; url: string }[];
-    profileImage?: File | null | string;
-}
-
-interface UserProfile {
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string | null;
-    bio?: string;
-    country?: string;
-    socialLinks?: { name: string; url: string }[];
-    profileImage?: string | null | File;
-}
+import { UpdateProfileData, UserProfile } from '@root/types';
 
 interface AuthState {
     user: User | null;

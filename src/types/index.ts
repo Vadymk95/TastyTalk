@@ -79,3 +79,25 @@ export interface StepStatus {
     step: number;
     status: EStepStatus.COMPLETED | EStepStatus.INCOMPLETED;
 }
+
+export interface UpdateProfileData {
+    firstName?: string;
+    lastName?: string;
+    username?: string;
+    email?: string;
+    bio?: string;
+    country?: string;
+    socialLinks?: { name: string; url: string }[];
+    profileImage?: File | null | string;
+}
+
+export interface UserProfile {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string | null;
+    bio?: string;
+    country?: string;
+    socialLinks?: { name: string; url: string }[];
+    profileImage?: string | null | File;
+}
