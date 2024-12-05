@@ -1,5 +1,5 @@
 import { FieldProps } from 'formik';
-import { FC, useEffect, useRef, useState } from 'react';
+import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, Button } from '@root/components/ui';
@@ -30,6 +30,11 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
 
     const [localValue, setLocalValue] = useState<Category[]>([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [position, setPosition] = useState<'top' | 'bottom' | 'left'>(
+        'bottom'
+    );
+    const [maxHeight, setMaxHeight] = useState<number>(200);
+
     const selectedBadges = (field?.value as Category[]) ?? localValue;
 
     const groupedCategories = categories.reduce(
@@ -90,10 +95,44 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
     }, []);
 
     useEffect(() => {
+        if (isOpen && buttonRef.current) {
+            const buttonRect = buttonRef.current.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+
+            const spaceBottom = viewportHeight - buttonRect.bottom - 20;
+            const spaceTop = buttonRect.top - 20;
+            const spaceRight = viewportWidth - buttonRect.right;
+
+            if (spaceBottom > 300) {
+                setPosition('bottom');
+                setMaxHeight(spaceBottom);
+            } else if (spaceTop > 300) {
+                setPosition('top');
+                setMaxHeight(spaceTop);
+            } else if (spaceRight > 300) {
+                setPosition('left');
+                setMaxHeight(viewportHeight - 40);
+            } else {
+                setPosition('top');
+                setMaxHeight(spaceTop);
+            }
+        }
+    }, [isOpen]);
+
+    useEffect(() => {
         if (selectedBadges.length === maxBadges) {
             setIsOpen(false);
         }
     }, [maxBadges, selectedBadges.length]);
+
+    const dropdownStyles = {
+        maxHeight: `${maxHeight - 20}px`,
+        overflowY: 'auto',
+        ...(position === 'bottom' && { top: '100%', left: 0 }),
+        ...(position === 'top' && { bottom: '100%', left: 0 }),
+        ...(position === 'left' && { left: '-300px', top: 0 })
+    };
 
     return (
         <div className="relative">
@@ -151,7 +190,8 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             {isOpen && (
                 <div
                     ref={dropdownRef}
-                    className="plate absolute z-10 top-full left-0 mt-2 p-2 w-full border rounded bg-white shadow-lg max-h-56 overflow-y-auto"
+                    className={`plate absolute z-10 border rounded bg-white shadow-lg`}
+                    style={dropdownStyles as CSSProperties}
                 >
                     <div className="categories">
                         {Object.entries(groupedCategories).map(
