@@ -16,7 +16,7 @@ export const ProfileTools: FC = () => {
                 to={routes.settings}
                 className="flex items-center gap-2 link-thirtiary"
             >
-                <FontAwesomeIcon className="sm:text-3xl" icon={faGear} />
+                <FontAwesomeIcon className="sm:text-2xl" icon={faGear} />
                 <span className=" sm:hidden">{t('General.settings')}</span>
             </Link>
         </div>
