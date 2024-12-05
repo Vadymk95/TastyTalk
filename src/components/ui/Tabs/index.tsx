@@ -4,7 +4,7 @@ import { Tab } from '@root/components/ui';
 
 interface TabsProps {
     tabs: { key: string; label: string }[];
-    activeTab: string;
+    activeTab: string | null;
     setActiveTab: (key: string) => void;
     className?: string;
     variant?: 'primary' | 'secondary' | 'accent';

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Button, Image, Loader, Tabs } from '@root/components/ui';
+import { Image, Loader, Tabs } from '@root/components/ui';
+import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
 
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -9,8 +11,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ProfilePage: FC = () => {
     const { userProfile, loading, error } = useAuthStore();
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const [profile, setProfile] = useState(userProfile);
+    const tabs = [
+        { key: routes.recipesCreate, label: 'создание рецепта' },
+        {
+            key: routes.mealsPlanCreate,
+            label: 'создание плана питания'
+        }
+    ];
+    const [currentTab, setCurrentTab] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (currentTab) {
+            navigate(currentTab);
+        }
+    }, [currentTab, navigate]);
 
     useEffect(() => {
         if (!loading && userProfile) {
@@ -31,7 +48,7 @@ const ProfilePage: FC = () => {
     }
 
     return (
-        <div className="plate min-h-screen">
+        <div className="plate">
             {/* Верхний блок профиля */}
             <section className="flex sm:flex-col items-center gap-6 sm:gap-4 md:flex-row md:items-start md:gap-8 mb-6">
                 <div className="w-36 h-36 overflow-hidden rounded-full border-2 border-secondary">
@@ -74,25 +91,24 @@ const ProfilePage: FC = () => {
                 </div>
 
                 <div>
-                    <Button
-                        variant="primary"
-                        size="medium"
+                    <Link
+                        to={routes.settings}
                         className="flex items-center gap-2"
                     >
                         <FontAwesomeIcon icon={faGear} />
                         {t('Profile.editProfile')}
-                    </Button>
+                    </Link>
                 </div>
             </section>
 
-            {/* Табы */}
-            <Tabs
-                tabs={[]}
-                activeTab="recipes"
-                setActiveTab={(tabId) => {
-                    console.log(`Selected tab: ${tabId}`);
-                }}
-            />
+            <div className="bg-gradient-main w-full">
+                <Tabs
+                    tabs={tabs}
+                    variant="secondary"
+                    activeTab={currentTab}
+                    setActiveTab={setCurrentTab}
+                />
+            </div>
 
             {/* Блок фильтров */}
             {/* <FilterBlock
