@@ -13,10 +13,13 @@ interface ProfileProps {
 
 export const Profile: FC<ProfileProps> = ({ profile }) => {
     return (
-        <section className="flex sm:flex-col items-center gap-6 sm:gap-4 md:flex-row md:items-start md:gap-8 mb-6">
+        <section className="flex sm:flex-col items-center gap-6 sm:gap-4 mb-6 relative">
             <ProfilePhoto profileImage={profile.profileImage || ''} />
             <ProfileInfo className="flex-1" profile={profile} />
-            <ProfileTools />
+
+            <div className="absolute right-0 top-0">
+                <ProfileTools />
+            </div>
         </section>
     );
 };

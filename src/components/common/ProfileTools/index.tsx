@@ -9,11 +9,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const ProfileTools: FC = () => {
     const { t } = useTranslation();
+
     return (
-        <div>
-            <Link to={routes.settings} className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faGear} />
-                {t('Profile.editProfile')}
+        <div className="flex">
+            <Link
+                to={routes.settings}
+                className="flex items-center gap-2 link-thirtiary"
+            >
+                <FontAwesomeIcon className="sm:text-3xl" icon={faGear} />
+                <span className=" sm:hidden">{t('General.settings')}</span>
             </Link>
         </div>
     );

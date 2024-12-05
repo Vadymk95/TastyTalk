@@ -489,7 +489,8 @@ export const ru = {
                 search: 'Поиск...',
                 removePhoto: 'Удалить фото',
                 profilePhoto: 'Фото профиля',
-                noImage: 'Нет фото'
+                noImage: 'Нет фото',
+                settings: 'Настройки'
             }
         }
     }

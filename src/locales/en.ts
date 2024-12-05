@@ -498,7 +498,8 @@ export const en = {
                 search: 'Search...',
                 removePhoto: 'Remove Photo',
                 profilePhoto: 'Profile Photo',
-                noImage: 'No Image'
+                noImage: 'No Image',
+                settings: 'Settings'
             }
         }
     }
