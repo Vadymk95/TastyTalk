@@ -322,8 +322,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.country = profileData.country;
                 }
 
-                if (profileData.socialLinks) {
-                    firestoreUpdates.socialLinks = profileData.socialLinks;
+                if (profileData.socialNetworks) {
+                    firestoreUpdates.socialNetworks =
+                        profileData.socialNetworks;
                 }
 
                 // Преобразование файла в Base64

@@ -27,7 +27,7 @@ type EditProfileFormValues = {
     email: string;
     bio: string;
     country: string;
-    socialLinks: { name: string; url: string }[];
+    socialNetworks: { name: string; profileName: string }[];
     profileImage: File | null | string;
 };
 
@@ -71,18 +71,18 @@ export const EditProfileForm: FC = () => {
             .required(t('Forms.EditProfileForm.requiredField')),
         bio: Yup.string().max(200, t('Forms.EditProfileForm.bioMaxLength')),
         country: Yup.string(),
-        socialLinks: Yup.array()
+        socialNetworks: Yup.array()
             .of(
                 Yup.object().shape({
                     name: Yup.string().required(
-                        t('Forms.EditProfileForm.linkNameRequired')
+                        t('Forms.EditProfileForm.socialNetworkNameRequired')
                     ),
-                    url: Yup.string()
-                        .url(t('Forms.EditProfileForm.invalidLink'))
-                        .required(t('Forms.EditProfileForm.linkRequired'))
+                    profileName: Yup.string().required(
+                        t('Forms.EditProfileForm.socialNetworkUsernameRequired')
+                    )
                 })
             )
-            .max(5, t('Forms.EditProfileForm.maxSocialLinks')),
+            .max(5, t('Forms.EditProfileForm.maxSocialNetworks')),
         profileImage: Yup.mixed().nullable(),
         email: Yup.string()
     });
@@ -93,10 +93,10 @@ export const EditProfileForm: FC = () => {
         lastName: userProfile?.lastName || '',
         bio: userProfile?.bio || '',
         country: userProfile?.country || '',
-        socialLinks: userProfile?.socialLinks || [
-            { name: '', url: '' },
-            { name: '', url: '' },
-            { name: '', url: '' }
+        socialNetworks: userProfile?.socialNetworks || [
+            { name: '', profileName: '' },
+            { name: '', profileName: '' },
+            { name: '', profileName: '' }
         ],
         profileImage: userProfile?.profileImage || null,
         email: userProfile?.email || ''
@@ -219,13 +219,22 @@ export const EditProfileForm: FC = () => {
                         </div>
 
                         <FieldArray
-                            name="socialLinks"
+                            name="socialNetworks"
                             render={(arrayHelpers) => (
-                                <div className="social-links">
+                                <div>
                                     <label className="block mb-2 text-primary">
-                                        {t('Forms.EditProfileForm.socialLinks')}
+                                        <p>
+                                            {t(
+                                                'Forms.EditProfileForm.socialNetworks'
+                                            )}
+                                        </p>
+                                        <span className="label text-xs">
+                                            {t(
+                                                'Forms.EditProfileForm.socialNetworksDescription'
+                                            )}
+                                        </span>
                                     </label>
-                                    {values.socialLinks.map((_, index) => (
+                                    {values.socialNetworks.map((_, index) => (
                                         <div
                                             key={index}
                                             className="flex sm:block items-center gap-4 mb-4"
@@ -233,12 +242,12 @@ export const EditProfileForm: FC = () => {
                                             <Input
                                                 type="text"
                                                 className="sm:mr-9 sm:mb-2"
-                                                name={`socialLinks.${index}.name`}
+                                                name={`socialNetworks.${index}.name`}
                                                 placeholder={t(
-                                                    'Forms.EditProfileForm.linkNamePlaceholder'
+                                                    'Forms.EditProfileForm.socialNetworkPlaceholder'
                                                 )}
                                                 label={t(
-                                                    'Forms.EditProfileForm.linkName'
+                                                    'Forms.EditProfileForm.socialNetworkName'
                                                 )}
                                                 isRequired
                                                 size="small"
@@ -246,12 +255,12 @@ export const EditProfileForm: FC = () => {
                                             <div className="flex items-end flex-1">
                                                 <Input
                                                     type="text"
-                                                    name={`socialLinks.${index}.url`}
+                                                    name={`socialNetworks.${index}.profileName`}
                                                     placeholder={t(
-                                                        'Forms.EditProfileForm.linkPlaceholder'
+                                                        'Forms.EditProfileForm.socialNetworkUsernamePlaceholder'
                                                     )}
                                                     label={t(
-                                                        'Forms.EditProfileForm.link'
+                                                        'Forms.EditProfileForm.socialNetworkUsername'
                                                     )}
                                                     isRequired
                                                     className="flex-1 mr-2"
@@ -280,7 +289,7 @@ export const EditProfileForm: FC = () => {
                                         type="button"
                                         size="small"
                                         disabled={
-                                            values.socialLinks.length >= 5
+                                            values.socialNetworks.length >= 5
                                         }
                                         onClick={() =>
                                             arrayHelpers.push({
@@ -290,7 +299,9 @@ export const EditProfileForm: FC = () => {
                                         }
                                         className="mt-2"
                                     >
-                                        {t('Forms.EditProfileForm.addLink')}
+                                        {t(
+                                            'Forms.EditProfileForm.addSocialNetwork'
+                                        )}
                                     </Button>
                                 </div>
                             )}

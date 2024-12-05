@@ -87,7 +87,7 @@ export interface UpdateProfileData {
     email?: string;
     bio?: string;
     country?: string;
-    socialLinks?: { name: string; url: string }[];
+    socialNetworks?: { name: string; profileName: string }[];
     profileImage?: File | null | string;
 }
 
@@ -98,6 +98,6 @@ export interface UserProfile {
     email: string | null;
     bio?: string;
     country?: string;
-    socialLinks?: { name: string; url: string }[];
+    socialNetworks?: { name: string; profileName: string }[];
     profileImage?: string | null | File;
 }

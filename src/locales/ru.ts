@@ -27,8 +27,7 @@ export const ru = {
                     'Подтвердите свой email, чтобы создать план питания'
             },
             ProfilePage: {
-                settings: 'Настройки профиля',
-                createRecipe: 'Создать/Найти рецепт'
+                socialNetworks: 'Социальные сети:'
             },
             ProfileSettingsPage: {
                 title: 'Настройки профиля',
@@ -172,16 +171,17 @@ export const ru = {
                     bioMaxLength: 'Максимум 200 символов',
                     country: 'Страна',
                     selectCountry: 'Выберите страну',
-                    socialLinks: 'Социальные сети',
-                    linkName: 'Название ссылки',
-                    link: 'Ссылка',
-                    linkNamePlaceholder: 'Введите название ссылки',
-                    linkPlaceholder: 'Введите URL ссылки',
-                    linkNameRequired: 'Название ссылки обязательно',
-                    linkRequired: 'Ссылка обязательна',
-                    invalidLink: 'Неверный URL',
-                    maxSocialLinks: 'Максимум 5 ссылки',
-                    addLink: 'Добавить ссылку',
+                    socialNetworks: 'Социальные сети',
+                    socialNetworksDescription:
+                        '(Добавьте ссылки на ваши социальные сети чтобы другие пользователи могли узнать больше о вас)',
+                    socialNetworkName: 'Название соц. сети',
+                    socialNetworkUsername: 'Имя профиля',
+                    socialNetworkPlaceholder: 'Например: Youtube',
+                    socialNetworkUsernamePlaceholder: 'Например: @tasty_talks',
+                    socialNetworkNameRequired: 'Название соц. сети обязательно',
+                    socialNetworkUsernameRequired: 'Это поле обязательно',
+                    maxSocialNetworks: 'Максимум 5 соц. сетей',
+                    addSocialNetwork: 'Добавить соц. сеть',
                     save: 'Сохранить изменения',
                     successMessage: 'Изменения сохранены'
                 },

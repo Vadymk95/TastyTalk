@@ -27,8 +27,7 @@ export const en = {
                     'You need to verify your email to create a recipe or meal plan'
             },
             ProfilePage: {
-                settings: 'Profile Settings',
-                createRecipe: 'Create/Find a Recipe'
+                socialNetworks: 'Social Networks:'
             },
             ProfileSettingsPage: {
                 title: 'Edit Profile',
@@ -178,16 +177,18 @@ export const en = {
                     bioMaxLength: 'Maximum 200 characters allowed',
                     country: 'Country',
                     selectCountry: 'Select your country',
-                    socialLinks: 'Social Media Links',
-                    linkName: 'Link Name',
-                    link: 'URL',
-                    linkNamePlaceholder: 'Enter link name',
-                    linkPlaceholder: 'Enter link URL',
-                    linkNameRequired: 'Link name is required',
-                    linkRequired: 'Link URL is required',
-                    invalidLink: 'Invalid URL',
-                    maxSocialLinks: 'You can add up to 5 social links',
-                    addLink: 'Add another link',
+                    socialNetworks: 'Social Networks',
+                    socialNetworksDescription:
+                        '(Add your Social Network profiles to help others find you.)',
+                    socialNetworkName: 'Social Network Name',
+                    socialNetworkUsername: 'Username',
+                    socialNetworkPlaceholder: 'F.e. Youtube',
+                    socialNetworkUsernamePlaceholder: 'F.e. @tasty_talks',
+                    socialNetworkNameRequired:
+                        'Social Network name is required',
+                    socialNetworkUsernameRequired: 'Username is required',
+                    maxSocialNetworks: 'You can add up to 5 Social Networks',
+                    addSocialNetwork: 'Add Social Network',
                     save: 'Save Changes',
                     successMessage: 'Profile updated successfully'
                 },

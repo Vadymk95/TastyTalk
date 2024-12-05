@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { UserProfile } from '@root/types';
 
@@ -11,25 +12,37 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     profile,
     className = ''
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div className={`${className}`}>
-            <h1 className="text-2xl sm:text-xl font-bold">
+            <h1 className="text-2xl sm:text-xl font-bold tracking-wide">
                 {profile.username}
             </h1>
+
             {profile.bio && (
-                <p className="label mt-2 sm:text-sm">{profile.bio}</p>
+                <p className="label mt-1 sm:text-sm">{profile.bio}</p>
             )}
-            <div className="flex mt-4 gap-4 sm:gap-2 flex-wrap sm:text-sm">
-                {profile.socialLinks?.map((link, index) => (
-                    <p key={index}>
-                        <span className="text-primary">
-                            {link.name}
-                            {': '}
-                        </span>
-                        <span>{link.url}</span>
-                    </p>
-                ))}
-            </div>
+
+            {profile.socialNetworks && (
+                <div className="flex flex-col mt-4 flex-wrap sm:text-sm">
+                    <h4 className="text-secondary font-semibold mb-2">
+                        {t('ProfilePage.socialNetworks')}
+                    </h4>
+
+                    {profile.socialNetworks?.map((sn, index) => (
+                        <p key={index} className="mb-2">
+                            <span className="label">
+                                {sn.name}
+                                {': '}
+                            </span>
+                            <span className="label font-semibold">
+                                {sn.profileName}
+                            </span>
+                        </p>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
