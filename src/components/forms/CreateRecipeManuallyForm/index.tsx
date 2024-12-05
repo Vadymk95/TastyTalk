@@ -198,7 +198,7 @@ export const CreateRecipeManuallyForm: FC = () => {
         try {
             await addRecipe(values);
             resetManualForm();
-            resetForm();
+            resetForm({ values: defaultFormValues });
             navigate(routes.profile);
         } catch (error) {
             console.error('Failed to add recipe:', error);
