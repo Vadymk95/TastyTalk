@@ -30,14 +30,14 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
                         {t('ProfilePage.socialNetworks')}
                     </h4>
 
-                    {profile.socialNetworks?.map((sn, index) => (
+                    {profile.socialNetworks?.map((socialNetwork, index) => (
                         <p key={index} className="mb-2">
                             <span className="label">
-                                {sn.name}
+                                {socialNetwork.name}
                                 {': '}
                             </span>
                             <span className="label font-semibold">
-                                {sn.profileName}
+                                {socialNetwork.profileName}
                             </span>
                         </p>
                     ))}
