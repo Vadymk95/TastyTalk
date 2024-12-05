@@ -104,7 +104,7 @@ export const FormikMultiSelect: FC<FormikMultiSelectProps> = ({
             const spaceTop = buttonRect.top - 20;
             const spaceRight = viewportWidth - buttonRect.right;
 
-            if (spaceBottom > 300) {
+            if (spaceBottom > 400) {
                 setPosition('bottom');
                 setMaxHeight(spaceBottom);
             } else if (spaceTop > 300) {
