@@ -12,22 +12,22 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     className = ''
 }) => {
     return (
-        <div className={className}>
-            <h1 className="text-2xl font-bold">{profile.username}</h1>
+        <div className={`${className}`}>
+            <h1 className="text-2xl sm:text-xl font-bold">
+                {profile.username}
+            </h1>
             {profile.bio && (
-                <p className="text-neutral-dark mt-2">{profile.bio}</p>
+                <p className="label mt-2 sm:text-sm">{profile.bio}</p>
             )}
-            <div className="flex gap-4 mt-4 flex-wrap">
+            <div className="flex mt-4 gap-4 sm:gap-2 flex-wrap sm:text-sm">
                 {profile.socialLinks?.map((link, index) => (
-                    <a
-                        key={index}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-secondary underline"
-                    >
-                        {link.name}
-                    </a>
+                    <p key={index}>
+                        <span className="text-primary">
+                            {link.name}
+                            {': '}
+                        </span>
+                        <span>{link.url}</span>
+                    </p>
                 ))}
             </div>
         </div>

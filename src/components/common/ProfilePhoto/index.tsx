@@ -13,7 +13,7 @@ interface ProfilePhotoProps {
 export const ProfilePhoto: FC<ProfilePhotoProps> = ({ profileImage }) => {
     const { t } = useTranslation();
     return (
-        <div className="w-36 h-36 sm:w-18 sm:h-18 overflow-hidden rounded-full">
+        <div className="w-36 h-36 sm:w-20 sm:h-20 overflow-hidden rounded-full">
             {profileImage ? (
                 <Image
                     src={
