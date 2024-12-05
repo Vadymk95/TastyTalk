@@ -1,5 +1,5 @@
 .tab {
-    @apply transition duration-200 font-medium w-[180px] min-h-[50px];
+    @apply transition duration-200 font-medium min-h-[50px];
 }
 
 .tab-primary {

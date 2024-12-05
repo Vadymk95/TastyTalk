@@ -8,6 +8,8 @@ interface TabsProps {
     setActiveTab: (key: string) => void;
     className?: string;
     variant?: 'primary' | 'secondary' | 'accent';
+    size?: 'small' | 'medium' | 'large';
+    fullwidth?: boolean;
 }
 
 export const Tabs: FC<TabsProps> = ({
@@ -15,18 +17,25 @@ export const Tabs: FC<TabsProps> = ({
     activeTab,
     setActiveTab,
     className = '',
-    variant = 'primary'
+    variant = 'primary',
+    size = 'small',
+    fullwidth = false
 }) => {
+    const fullwidthStyle = fullwidth ? 'w-full' : '';
+
     return (
         <div className={`w-full flex-all-center inline-flex ${className}`}>
-            <div className="rounded-lg overflow-hidden inline-flex">
+            <div
+                className={`rounded-lg overflow-hidden inline-flex ${fullwidthStyle}`}
+            >
                 {tabs.map((tab) => (
                     <Tab
                         key={tab.key}
-                        size="small"
+                        size={size}
                         variant={variant}
                         isSelected={activeTab === tab.key}
                         onClick={() => setActiveTab(tab.key)}
+                        fullwidth={fullwidth}
                     >
                         {tab.label}
                     </Tab>

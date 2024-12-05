@@ -5,6 +5,7 @@ interface TabProps extends HTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'accent';
     size?: 'small' | 'medium' | 'large';
     className?: string;
+    fullwidth?: boolean;
 }
 
 export const Tab: FC<TabProps> = ({
@@ -12,6 +13,7 @@ export const Tab: FC<TabProps> = ({
     variant = 'primary',
     size = 'medium',
     className = '',
+    fullwidth = false,
     children,
     ...props
 }) => {
@@ -23,9 +25,11 @@ export const Tab: FC<TabProps> = ({
         large: 'tab-large'
     };
 
+    const fullwidthStyle = fullwidth ? 'w-full flex-1' : 'w-[180px]';
+
     return (
         <button
-            className={`tab-${variant} ${selectedStyle} ${sizeStyle[size]} tab ${className}`}
+            className={`tab-${variant} ${selectedStyle} ${sizeStyle[size]} tab ${fullwidthStyle} ${className}`}
             {...props}
         >
             {children}

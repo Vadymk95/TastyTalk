@@ -101,14 +101,13 @@ const ProfilePage: FC = () => {
                 </div>
             </section>
 
-            <div className="bg-gradient-main w-full">
-                <Tabs
-                    tabs={tabs}
-                    variant="secondary"
-                    activeTab={currentTab}
-                    setActiveTab={setCurrentTab}
-                />
-            </div>
+            <Tabs
+                fullwidth
+                tabs={tabs}
+                variant="secondary"
+                activeTab={currentTab}
+                setActiveTab={setCurrentTab}
+            />
 
             {/* Блок фильтров */}
             {/* <FilterBlock
