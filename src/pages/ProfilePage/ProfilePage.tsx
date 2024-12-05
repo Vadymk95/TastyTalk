@@ -57,22 +57,18 @@ const ProfilePage: FC = () => {
                 setActiveTab={setCurrentTab}
             />
 
-            {/* Блок фильтров */}
             {/* <FilterBlock
                 onFilterChange={(filters) => {
                     console.log('Filters applied:', filters);
                 }}
             /> */}
 
-            {/* Сетка рецептов */}
-            {/* <div className="mt-6">
-                <RecipeGrid
+            {/* <RecipeGrid
                     recipes={[]}
                     onRecipeClick={(recipeId) => {
                         console.log('Recipe clicked:', recipeId);
                     }}
-                />
-            </div> */}
+                /> */}
         </div>
     );
 };
