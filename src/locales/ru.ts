@@ -140,11 +140,18 @@ export const ru = {
                         'Пароль должен содержать как минимум одну букву и одну цифру',
                     actionSignIn: 'Войти',
                     firstNameMinLength: 'Имя должно быть не менее 2 символа',
+                    firstNameMaxLength: 'Имя должно быть не более 16 символов',
                     usernameMinLength:
                         'Имя пользователя должно быть не менее 4 символов',
+                    usernameMaxLength:
+                        'Имя пользователя должно быть не более 16 символов',
                     lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
+                    lastNameMaxLength:
+                        'Фамилия должно быть не более 16 символов',
                     requiredField: 'Это поле обязательно',
                     emailNotValid: 'Email не валидный',
+                    emailMinLength: 'Email должен быть не менее 6 символов',
+                    emailMaxLength: 'Email должен быть не более 50 символов',
                     passwordMinLength: 'Пароль должен быть не менее 6 символов',
                     passwordsMustMatch: 'Пароли должны совпадать',
                     enterYourEmail: 'Введите ваш email',
@@ -165,9 +172,14 @@ export const ru = {
                     firstNameInvalid: 'Имя может содержать только буквы',
                     lastNameInvalid: 'Фамилия может содержать только буквы',
                     firstNameMinLength: 'Имя должно быть не менее 2 символа',
+                    firstNameMaxLength: 'Имя должно быть не более 16 символов',
                     usernameMinLength:
                         'Имя пользователя должно быть не менее 4 символов',
+                    usernameMaxLength:
+                        'Имя пользователя должно быть не более 16 символов',
                     lastNameMinLength: 'Фамилия должна быть не менее 2 символа',
+                    lastNameMaxLength:
+                        'Фамилия должно быть не более 16 символов',
                     requiredField: 'Это поле обязательно',
                     personalInfo: 'Личная информация',
                     additionalInfo: 'Дополнительная информация',
@@ -179,6 +191,14 @@ export const ru = {
                     socialNetworksDescription:
                         '(Добавьте ссылки на ваши социальные сети чтобы другие пользователи могли узнать больше о вас)',
                     socialNetworkName: 'Название соц. сети',
+                    socialNetworkNameMinLength:
+                        'Название соц. сети должно быть не менее 2 символов',
+                    socialNetworkNameMaxLength:
+                        'Название соц. сети должно быть не более 16 символов',
+                    socialNetworkProfileNameMinLength:
+                        'Имя профиля должно быть не менее 2 символов',
+                    socialNetworkProfileNameMaxLength:
+                        'Имя профиля должно быть не более 16 символов',
                     socialNetworkUsername: 'Имя профиля',
                     socialNetworkPlaceholder: 'Например: Youtube',
                     socialNetworkUsernamePlaceholder: 'Например: @tasty_talks',

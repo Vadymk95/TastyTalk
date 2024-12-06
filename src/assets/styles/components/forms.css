@@ -16,4 +16,5 @@
 
 .error-absolute {
     @apply absolute text-primary text-xs top-14 right-0;
+    line-height: 0.9;
 }

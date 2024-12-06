@@ -94,16 +94,32 @@ export const UsernameInput: FC<UsernameInputProps> = ({
 
             <Field name={name}>
                 {({ field }: FieldProps) => (
-                    <input
-                        className={`input-primary ${sizeInputStyle[size]} input`}
-                        {...field}
-                        type="text"
-                        placeholder={t('UsernameInput.chooseUsername')}
-                        onChange={(e: any) => {
-                            field.onChange(e);
-                            handleChange(e.target.value);
-                        }}
-                    />
+                    <div className="relative">
+                        <input
+                            className={`input-primary ${sizeInputStyle[size]} input`}
+                            {...field}
+                            type="text"
+                            placeholder={t('UsernameInput.chooseUsername')}
+                            onChange={(e: any) => {
+                                field.onChange(e);
+                                handleChange(e.target.value);
+                            }}
+                        />
+                        {isRequired && (
+                            <ErrorMessage
+                                name={name}
+                                render={(msg) =>
+                                    typeof msg === 'string' ? (
+                                        <div
+                                            className={`error-absolute ${size === 'small' ? 'top-8' : ''}`}
+                                        >
+                                            {msg}
+                                        </div>
+                                    ) : null
+                                }
+                            />
+                        )}
+                    </div>
                 )}
             </Field>
             {loading ? (
@@ -118,14 +134,6 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 <span className="text-primary username-abosulute">
                     {t('UsernameInput.taken')}
                 </span>
-            )}
-
-            {isRequired && (
-                <ErrorMessage
-                    name={name}
-                    component="div"
-                    className={`error-absolute ${size === 'small' ? 'top-14' : ''}`}
-                />
             )}
         </div>
     );

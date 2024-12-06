@@ -142,12 +142,21 @@ export const en = {
                     actionSignIn: 'Sign In',
                     firstNameMinLength:
                         'First name must be at least 2 character long',
+                    firstNameMaxLength:
+                        'First name must be less than 16 characters long',
                     usernameMinLength:
                         'Username must be at least 4 character long',
+                    usernameMaxLength:
+                        'Username must be less than 16 characters long',
                     lastNameMinLength:
                         'Last name must be at least 2 character long',
+                    lastNameMaxLength:
+                        'Last name must be less than 16 characters long',
                     requiredField: 'This field is required',
                     emailNotValid: 'Email is not valid',
+                    emailMinLength: 'Email must be at least 6 characters long',
+                    emailMaxLength:
+                        'Email must be less than 50 characters long',
                     passwordMinLength:
                         'Password must be at least 6 characters long',
                     passwordsMustMatch: 'Passwords must match',
@@ -170,10 +179,16 @@ export const en = {
                     lastNameInvalid: 'Last name can only contain letters',
                     firstNameMinLength:
                         'First name must be at least 2 character long',
+                    firstNameMaxLength:
+                        'First name must be less than 16 characters long',
                     usernameMinLength:
                         'Username must be at least 4 character long',
+                    usernameMaxLength:
+                        'Username must be less than 16 characters long',
                     lastNameMinLength:
                         'Last name must be at least 2 character long',
+                    lastNameMaxLength:
+                        'Last name must be less than 16 characters long',
                     requiredField: 'This field is required',
                     personalInfo: 'Personal Information',
                     additionalInfo: 'Additional Information',
@@ -185,6 +200,14 @@ export const en = {
                     socialNetworksDescription:
                         '(Add your Social Network profiles to help others find you.)',
                     socialNetworkName: 'Social Network Name',
+                    socialNetworkNameMinLength:
+                        'Social Network name must be at least 2 character long',
+                    socialNetworkNameMaxLength:
+                        'Social Network name must be less than 16 characters long',
+                    socialNetworkProfileNameMinLength:
+                        'Username must be at least 2 character long',
+                    socialNetworkProfileNameMaxLength:
+                        'Username must be less than 16 characters long',
                     socialNetworkUsername: 'Username',
                     socialNetworkPlaceholder: 'F.e. Youtube',
                     socialNetworkUsernamePlaceholder: 'F.e. @tasty_talks',

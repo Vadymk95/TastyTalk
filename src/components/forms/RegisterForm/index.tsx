@@ -77,6 +77,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 t('Forms.RegisterForm.usernameMustContainLetter')
             )
             .min(4, t('Forms.RegisterForm.usernameMinLength'))
+            .max(16, t('Forms.RegisterForm.usernameMaxLength'))
             .required(t('Forms.RegisterForm.requiredField')),
         firstName: Yup.string()
             .matches(
@@ -84,6 +85,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 t('Forms.RegisterForm.firstNameInvalid')
             )
             .min(2, t('Forms.RegisterForm.firstNameMinLength'))
+            .max(16, t('Forms.RegisterForm.firstNameMaxLength'))
             .required(t('Forms.RegisterForm.requiredField')),
         lastName: Yup.string()
             .matches(
@@ -91,9 +93,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 t('Forms.RegisterForm.lastNameInvalid')
             )
             .min(2, t('Forms.RegisterForm.lastNameMinLength'))
+            .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
             .required(t('Forms.RegisterForm.requiredField')),
         email: Yup.string()
             .email(t('Forms.RegisterForm.emailNotValid'))
+            .min(6, t('Forms.RegisterForm.emailMinLength'))
+            .max(50, t('Forms.RegisterForm.emailMaxLength'))
             .required(t('Forms.RegisterForm.requiredField')),
         password: Yup.string()
             .min(6, t('Forms.RegisterForm.passwordMinLength'))
@@ -129,6 +134,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     return (
         <Formik
             preventDefault
+            validateOnBlur
             initialValues={initialValues}
             validationSchema={RegisterSchema}
             onSubmit={(values) => handleRegisterSubmit(values)}

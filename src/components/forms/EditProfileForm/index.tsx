@@ -54,6 +54,7 @@ export const EditProfileForm: FC = () => {
                 t('Forms.EditProfileForm.usernameMustContainLetter')
             )
             .min(4, t('Forms.EditProfileForm.usernameMinLength'))
+            .max(16, t('Forms.EditProfileForm.usernameMaxLength'))
             .required(t('Forms.EditProfileForm.requiredField')),
         firstName: Yup.string()
             .matches(
@@ -61,6 +62,7 @@ export const EditProfileForm: FC = () => {
                 t('Forms.EditProfileForm.firstNameInvalid')
             )
             .min(2, t('Forms.EditProfileForm.firstNameMinLength'))
+            .max(16, t('Forms.EditProfileForm.firstNameMaxLength'))
             .required(t('Forms.EditProfileForm.requiredField')),
         lastName: Yup.string()
             .matches(
@@ -68,18 +70,47 @@ export const EditProfileForm: FC = () => {
                 t('Forms.EditProfileForm.lastNameInvalid')
             )
             .min(2, t('Forms.EditProfileForm.lastNameMinLength'))
+            .max(16, t('Forms.EditProfileForm.lastNameMaxLength'))
             .required(t('Forms.EditProfileForm.requiredField')),
         bio: Yup.string().max(200, t('Forms.EditProfileForm.bioMaxLength')),
         country: Yup.string(),
         socialNetworks: Yup.array()
             .of(
                 Yup.object().shape({
-                    name: Yup.string().required(
-                        t('Forms.EditProfileForm.socialNetworkNameRequired')
-                    ),
-                    profileName: Yup.string().required(
-                        t('Forms.EditProfileForm.socialNetworkUsernameRequired')
-                    )
+                    name: Yup.string()
+                        .min(
+                            2,
+                            t(
+                                'Forms.EditProfileForm.socialNetworkNameMinLength'
+                            )
+                        )
+                        .max(
+                            16,
+                            t(
+                                'Forms.EditProfileForm.socialNetworkNameMaxLength'
+                            )
+                        )
+                        .required(
+                            t('Forms.EditProfileForm.socialNetworkNameRequired')
+                        ),
+                    profileName: Yup.string()
+                        .min(
+                            2,
+                            t(
+                                'Forms.EditProfileForm.socialNetworkProfileNameMinLength'
+                            )
+                        )
+                        .max(
+                            16,
+                            t(
+                                'Forms.EditProfileForm.socialNetworkProfileNameMaxLength'
+                            )
+                        )
+                        .required(
+                            t(
+                                'Forms.EditProfileForm.socialNetworkUsernameRequired'
+                            )
+                        )
                 })
             )
             .max(5, t('Forms.EditProfileForm.maxSocialNetworks')),
