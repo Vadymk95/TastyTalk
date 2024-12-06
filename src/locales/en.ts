@@ -518,6 +518,7 @@ export const en = {
                 loading: 'Loading...',
                 error: 'Error:',
                 close: 'Close',
+                cancel: 'Cancel',
                 somethingWentWrong:
                     'Something went wrong, please try again later',
                 notAvailable: 'Not available',
@@ -530,7 +531,8 @@ export const en = {
                 removePhoto: 'Remove Photo',
                 profilePhoto: 'Profile Photo',
                 noImage: 'No Image',
-                settings: 'Settings'
+                settings: 'Settings',
+                confirm: 'Confirm'
             }
         }
     }

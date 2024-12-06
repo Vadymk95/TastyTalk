@@ -506,6 +506,7 @@ export const ru = {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',
                 close: 'Закрыть',
+                cancel: 'Отмена',
                 somethingWentWrong: 'Что-то пошло не так, попробуйте позже',
                 notAvailable: 'Недоступно',
                 yourQueryTitle: 'Ваш запрос',
@@ -517,7 +518,8 @@ export const ru = {
                 removePhoto: 'Удалить фото',
                 profilePhoto: 'Фото профиля',
                 noImage: 'Нет фото',
-                settings: 'Настройки'
+                settings: 'Настройки',
+                confirm: 'Подтвердить'
             }
         }
     }

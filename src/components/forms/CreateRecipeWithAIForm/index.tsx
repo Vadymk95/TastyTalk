@@ -5,9 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { Query, RecipeTypingEffect } from '@root/components/common';
+import { VisibilityModal } from '@root/components/modals';
 import { Button, Loader, Textarea, Tooltip } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
 import { routes } from '@root/router/routes';
-import { useRecipeStore, useTemporaryRecipeStore } from '@root/store';
+import {
+    useModalStore,
+    useRecipeStore,
+    useTemporaryRecipeStore
+} from '@root/store';
 
 import {
     faBookmark,
@@ -25,6 +31,7 @@ type CreateRecipeWithAIFormValues = {
 export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { openModal } = useModalStore();
     const { addRecipe, loading } = useRecipeStore();
     const {
         clearRecipe,
@@ -66,6 +73,8 @@ export const CreateRecipeWithAIForm: FC = () => {
             console.error('Error generating recipe:', error);
         }
     };
+
+    const handleOpenSaveRecipeModal = () => openModal(ModalsEnum.Visibility);
 
     const RecipeSchema = Yup.object().shape({
         query: Yup.string()
@@ -113,7 +122,7 @@ export const CreateRecipeWithAIForm: FC = () => {
                         >
                             <Button
                                 className="flex-all-center gap-3"
-                                onClick={handleSaveRecipe}
+                                onClick={handleOpenSaveRecipeModal}
                                 size="large"
                                 variant="secondary"
                             >
@@ -178,6 +187,8 @@ export const CreateRecipeWithAIForm: FC = () => {
                     )}
                 </Formik>
             )}
+
+            <VisibilityModal handleSave={handleSaveRecipe} />
         </div>
     );
 };

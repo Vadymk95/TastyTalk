@@ -68,7 +68,9 @@ export const Stepper: FC<StepperProps> = ({
         }
     };
 
-    const handleOpenModal = () => openModal(ModalsEnum.ResetStepper);
+    const handleSaveRecipe = () => openModal(ModalsEnum.Visibility);
+
+    const handleResetModal = () => openModal(ModalsEnum.ResetStepper);
 
     const progress = ((currentStep + 1) / steps.length) * 100;
 
@@ -89,7 +91,7 @@ export const Stepper: FC<StepperProps> = ({
                 {currentStep > 0 && (
                     <Button
                         className="flex items-center gap-3"
-                        onClick={handleOpenModal}
+                        onClick={handleResetModal}
                     >
                         <FontAwesomeIcon icon={faArrowRotateBack} />
                     </Button>
@@ -123,10 +125,10 @@ export const Stepper: FC<StepperProps> = ({
 
                 {currentStep === steps.length - 1 ? (
                     <Button
+                        onClick={handleSaveRecipe}
                         className="flex items-center gap-3"
                         variant="secondary"
                         size="large"
-                        type="submit"
                     >
                         <FontAwesomeIcon icon={faCircleCheck} />
                         <span className="sm:hidden">{t('Stepper.submit')}</span>
