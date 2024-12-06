@@ -361,7 +361,10 @@ export const en = {
                     doNotShowAgain: 'Do not show this message again'
                 },
                 VisibilityModal: {
-                    title: 'Select who can view the recipe'
+                    title: 'Select who can view the recipe',
+                    everyone: 'Everyone',
+                    noone: 'No one',
+                    friends: 'Friends'
                 }
             },
             PhotoUpload: {
