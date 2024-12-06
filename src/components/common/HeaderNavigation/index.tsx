@@ -22,9 +22,15 @@ export const HeaderNavigation: FC = () => {
             {isAuth ? <PrivateNavigation /> : <PublicNavigation />}
 
             {showHomeLink && (
-                <Link to={routes.home} className="link-primary nav-link p-4">
-                    <FontAwesomeIcon className="mr-3" icon={faHouse} />
-                    <span>{t('Header.home')}</span>
+                <Link
+                    to={routes.home}
+                    className="link-primary nav-link p-4 sm:px-6"
+                >
+                    <FontAwesomeIcon
+                        className="mr-3 sm:mr-0 sm:text-2xl"
+                        icon={faHouse}
+                    />
+                    <span className="sm:hidden">{t('Header.home')}</span>
                 </Link>
             )}
         </nav>
