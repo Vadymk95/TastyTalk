@@ -1,31 +1,22 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
-import { Profile } from '@root/components/common';
+import { MyMealPlans, MyRecipes, Profile } from '@root/components/common';
 import { Loader, Tabs } from '@root/components/ui';
-import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
 
 const ProfilePage: FC = () => {
     const { userProfile, loading, error } = useAuthStore();
-    const navigate = useNavigate();
     const { t } = useTranslation();
     const [profile, setProfile] = useState(userProfile);
     const tabs = [
-        { key: routes.recipesCreate, label: 'создание рецепта' },
+        { key: 'create-recipe', label: t('ProfilePage.myRecipes') },
         {
-            key: routes.mealsPlanCreate,
-            label: 'создание плана питания'
+            key: 'create-meal-plan',
+            label: t('ProfilePage.myMealPlans')
         }
     ];
-    const [currentTab, setCurrentTab] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (currentTab) {
-            navigate(currentTab);
-        }
-    }, [currentTab, navigate]);
+    const [currentTab, setCurrentTab] = useState(tabs[0].key);
 
     useEffect(() => {
         if (!loading && userProfile) {
@@ -57,18 +48,7 @@ const ProfilePage: FC = () => {
                 setActiveTab={setCurrentTab}
             />
 
-            {/* <FilterBlock
-                onFilterChange={(filters) => {
-                    console.log('Filters applied:', filters);
-                }}
-            /> */}
-
-            {/* <RecipeGrid
-                    recipes={[]}
-                    onRecipeClick={(recipeId) => {
-                        console.log('Recipe clicked:', recipeId);
-                    }}
-                /> */}
+            {currentTab === 'create-recipe' ? <MyRecipes /> : <MyMealPlans />}
         </div>
     );
 };

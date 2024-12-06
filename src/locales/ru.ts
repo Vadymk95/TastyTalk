@@ -27,7 +27,9 @@ export const ru = {
                     'Подтвердите свой email, чтобы создать план питания'
             },
             ProfilePage: {
-                socialNetworks: 'Социальные сети:'
+                socialNetworks: 'Социальные сети:',
+                myRecipes: 'Мои рецепты',
+                myMealPlans: 'Мои планы питания'
             },
             ProfileSettingsPage: {
                 title: 'Настройки профиля',

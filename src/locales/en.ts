@@ -27,7 +27,9 @@ export const en = {
                     'You need to verify your email to create a recipe or meal plan'
             },
             ProfilePage: {
-                socialNetworks: 'Social Networks:'
+                socialNetworks: 'Social Networks:',
+                myRecipes: 'My Recipes',
+                myMealPlans: 'My Meal Plans'
             },
             ProfileSettingsPage: {
                 title: 'Edit Profile',

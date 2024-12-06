@@ -4,6 +4,8 @@ export { ErrorBoundary } from './ErrorBoundary';
 export { ErrorThrower } from './ErrorThrower';
 export { FooterNavigation } from './FooterNavigation';
 export { HeaderNavigation } from './HeaderNavigation';
+export { MyMealPlans } from './MyMealPlans';
+export { MyRecipes } from './MyRecipes';
 export { Pricing } from './Pricing';
 export { Profile } from './Profile';
 export { ProfileInfo } from './ProfileInfo';
