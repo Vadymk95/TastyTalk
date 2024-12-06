@@ -85,7 +85,9 @@ export const ru = {
             Footer: {
                 allRights: '© 2024 TastyTalks. Все права защищены.',
                 profile: 'Ваш профиль',
-                signOut: 'Выйти'
+                signOut: 'Выйти',
+                createRecipe: 'Создать рецепт',
+                createMealPlan: 'Создать план питания'
             },
             AuthErrors: {
                 invalidEmail: 'Неверный email.',
