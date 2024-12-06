@@ -1,22 +1,14 @@
 import { FC } from 'react';
 
+import { FilterBlock, Grid } from '@root/components/common';
+
 export const MyRecipes: FC = () => {
     return (
         <div>
             <h1>My Recipes</h1>
 
-            {/* <FilterBlock
-                onFilterChange={(filters) => {
-                    console.log('Filters applied:', filters);
-                }}
-            /> */}
-
-            {/* <RecipeGrid
-                    recipes={[]}
-                    onRecipeClick={(recipeId) => {
-                        console.log('Recipe clicked:', recipeId);
-                    }}
-                /> */}
+            <FilterBlock />
+            <Grid />
         </div>
     );
 };
