@@ -31,15 +31,17 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
             onClose={handleCloseRulesModal}
             title={t(`Modals.VisibilityModal.${type}Title`)}
         >
-            <div className="flex flex-col">
+            <div className="flex flex-col mb-5">
                 <Checkbox
                     name="everyone"
+                    className="mb-2"
                     label={t('Modals.VisibilityModal.everyone')}
                     checked={visibility === 'everyone'}
                     onChange={() => handleVisibilityChange('everyone')}
                 />
                 <Checkbox
                     name="noone"
+                    className="mb-2"
                     label={t('Modals.VisibilityModal.noone')}
                     checked={visibility === 'noone'}
                     onChange={() => handleVisibilityChange('noone')}
