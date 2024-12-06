@@ -10,6 +10,7 @@ type UsernameInputProps = {
     isRequired: boolean;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
     validationSchema: Yup.StringSchema;
+    currentUsername?: string;
     className?: string;
     size?: 'small' | 'medium' | 'large';
 };
@@ -41,6 +42,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     isRequired,
     checkUsernameAvailability,
     validationSchema,
+    currentUsername,
     className = '',
     size = 'medium'
 }) => {
@@ -63,6 +65,12 @@ export const UsernameInput: FC<UsernameInputProps> = ({
         async (value: string) => {
             setIsAvailable(null);
 
+            if (currentUsername && value === currentUsername) {
+                setLoading(false);
+                setIsAvailable(true);
+                return;
+            }
+
             const isValid = await validationSchema.isValid(value);
             if (!isValid) {
                 setLoading(false);
@@ -76,7 +84,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 setLoading
             );
         },
-        [checkUsernameAvailability, validationSchema]
+        [checkUsernameAvailability, validationSchema, currentUsername]
     );
 
     useEffect(() => {

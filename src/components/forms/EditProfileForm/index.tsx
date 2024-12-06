@@ -212,6 +212,7 @@ export const EditProfileForm: FC = () => {
                                 isRequired
                                 name="username"
                                 label={t('Forms.EditProfileForm.username')}
+                                currentUsername={userProfile?.username || ''}
                             />
 
                             <Input
