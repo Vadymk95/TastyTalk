@@ -359,6 +359,9 @@ export const en = {
                         'Before you is a step-by-step wizard that will help you create a unique recipe. There are 9 steps in total, some of them are mandatory, while others are optional.',
                     stepsTitle: 'Steps:',
                     doNotShowAgain: 'Do not show this message again'
+                },
+                VisibilityModal: {
+                    title: 'Select who can view the recipe'
                 }
             },
             PhotoUpload: {

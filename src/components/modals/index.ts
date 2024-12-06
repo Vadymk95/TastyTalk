@@ -6,3 +6,4 @@ export { ResetStepperModal } from './ResetStepperModal';
 export { RulesModal } from './RulesModal';
 export { StepperWelcomeModal } from './StepperWelcomeModal';
 export { SupportModal } from './SupportModal';
+export { VisibilityModal } from './VisibilityModal';
