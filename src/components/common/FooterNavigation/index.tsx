@@ -26,16 +26,15 @@ export const FooterNavigation: FC = () => {
     };
 
     return (
-        <nav
-            className={`flex ${isRegistered ? 'justify-between' : 'justify-end'}`}
-        >
+        <nav className="flex items-center justify-between w-full">
             {isRegistered ? (
                 <>
-                    <div></div>
-                    <div>
+                    <div className=""></div>
+
+                    <div className="flex flex-grow">
                         <Link
                             to={routes.recipesCreate}
-                            className="link-primary nav-link p-4 bg-primary sm:px-6"
+                            className="link-primary nav-link p-4 bg-primary sm:px-6 flex-grow flex-all-center"
                         >
                             <FontAwesomeIcon icon={faPlus} />
                             <FontAwesomeIcon
@@ -48,7 +47,7 @@ export const FooterNavigation: FC = () => {
                         </Link>
                         <Link
                             to={routes.mealsPlanCreate}
-                            className="link-primary nav-link p-4 bg-secondary sm:px-6"
+                            className="nav-link p-4 bg-secondary hover:bg-secondary-light sm:px-6 flex-grow flex-all-center"
                         >
                             <FontAwesomeIcon icon={faPlus} />
                             <FontAwesomeIcon
@@ -60,16 +59,20 @@ export const FooterNavigation: FC = () => {
                             </span>
                         </Link>
                     </div>
-                    <Link
-                        to={routes.profile}
-                        className="link-primary nav-link p-4 sm:px-6"
-                    >
-                        <FontAwesomeIcon
-                            className="mr-3 sm:mr-0 sm:text-2xl"
-                            icon={faUser}
-                        />
-                        <span className="sm:hidden">{t('Footer.profile')}</span>
-                    </Link>
+                    <div className="flex sm:flex-grow">
+                        <Link
+                            to={routes.profile}
+                            className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-3 sm:mr-0 sm:text-2xl"
+                                icon={faUser}
+                            />
+                            <span className="sm:hidden">
+                                {t('Footer.profile')}
+                            </span>
+                        </Link>
+                    </div>
                 </>
             ) : (
                 <Link
@@ -78,10 +81,10 @@ export const FooterNavigation: FC = () => {
                     className="link-primary nav-link p-4"
                 >
                     <FontAwesomeIcon
-                        className="mr-3"
+                        className="mr-3 sm:mr-0 sm:text-2xl"
                         icon={faRightFromBracket}
                     />
-                    <span>{t('Footer.signOut')}</span>
+                    <span className="sm:hidden">{t('Footer.signOut')}</span>
                 </Link>
             )}
         </nav>
