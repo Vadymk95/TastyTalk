@@ -1,7 +1,7 @@
 import { FC, JSX } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ResetStepperModal } from '@root/components/modals';
+import { ResetStepperModal, VisibilityModal } from '@root/components/modals';
 import { Button, ProgressBar } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
@@ -148,6 +148,7 @@ export const Stepper: FC<StepperProps> = ({
             </div>
 
             <ResetStepperModal handleReset={handleReset} />
+            <VisibilityModal type="recipe" />
         </div>
     );
 };

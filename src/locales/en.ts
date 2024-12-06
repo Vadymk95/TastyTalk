@@ -361,7 +361,8 @@ export const en = {
                     doNotShowAgain: 'Do not show this message again'
                 },
                 VisibilityModal: {
-                    title: 'Select who can view the recipe',
+                    recipeTitle: 'Select who can view the recipe',
+                    mealPlanTitle: 'Select who can view the meal plan',
                     everyone: 'Everyone',
                     noone: 'No one',
                     friends: 'Friends'

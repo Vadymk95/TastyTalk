@@ -351,7 +351,8 @@ export const ru = {
                     doNotShowAgain: 'Не показывать это сообщение снова'
                 },
                 VisibilityModal: {
-                    title: 'Выберите, кто может видеть рецепт',
+                    recipeTitle: 'Выберите, кто может видеть рецепт',
+                    mealPlanTitle: 'Выберите, кто может видеть план питания',
                     everyone: 'Все',
                     noone: 'Никто',
                     friends: 'Выборочно из друзей'

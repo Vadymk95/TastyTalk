@@ -7,9 +7,13 @@ import { useModalStore } from '@root/store';
 
 interface VisibilityModalProps {
     handleSave?: () => void;
+    type: 'recipe' | 'mealPlan';
 }
 
-export const VisibilityModal: FC<VisibilityModalProps> = ({ handleSave }) => {
+export const VisibilityModal: FC<VisibilityModalProps> = ({
+    handleSave,
+    type = 'recipe'
+}) => {
     const { t } = useTranslation();
     const [visibility, setVisibility] = useState<string>('everyone');
     const { isModalOpen, closeModal } = useModalStore();
@@ -25,7 +29,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({ handleSave }) => {
         <Modal
             isOpen={isVisibilityModalOpen}
             onClose={handleCloseRulesModal}
-            title={t('Modals.VisibilityModal.title')}
+            title={t(`Modals.VisibilityModal.${type}Title`)}
         >
             <div className="flex flex-col">
                 <Checkbox
@@ -41,7 +45,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({ handleSave }) => {
                     onChange={() => handleVisibilityChange('noone')}
                 />
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-end">
                 <Button onClick={handleCloseRulesModal}>
                     {t('General.cancel')}
                 </Button>

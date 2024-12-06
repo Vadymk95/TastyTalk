@@ -188,7 +188,7 @@ export const CreateRecipeWithAIForm: FC = () => {
                 </Formik>
             )}
 
-            <VisibilityModal handleSave={handleSaveRecipe} />
+            <VisibilityModal type="recipe" handleSave={handleSaveRecipe} />
         </div>
     );
 };
