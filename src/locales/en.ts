@@ -262,7 +262,9 @@ export const en = {
                     saveRecipeDescription: 'Save the recipe to your profile',
                     tryAnother: 'Try Another',
                     tryAnotherDescription:
-                        'Remove current recipe and create a new one with our chatbot'
+                        'Remove current recipe and create a new one with our chatbot',
+                    disclaimer:
+                        'Please note: The generated data may contain errors. Use it with caution. We do not take responsibility for its usage.'
                 },
                 CreateRecipeManuallyForm: {
                     requiredField: 'This field is required',

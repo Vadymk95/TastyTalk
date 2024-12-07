@@ -18,6 +18,7 @@ import {
 import {
     faBookmark,
     faRepeat,
+    faTriangleExclamation,
     faUtensils
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -94,6 +95,12 @@ export const CreateRecipeWithAIForm: FC = () => {
                     <div className="flex-grow overflow-y-auto">
                         <Query query={currentQuery} className="mb-6" />
                         <RecipeTypingEffect recipe={currentRecipe} />
+                        <div className="flex items-center gap-2 text-neutral-light">
+                            <FontAwesomeIcon icon={faTriangleExclamation} />
+                            <p className="text-sm">
+                                {t('Forms.CreateRecipeWithAIForm.disclaimer')}
+                            </p>
+                        </div>
                     </div>
 
                     <div className="flex-all-center sm:flex-col sm:justify-center gap-6">
