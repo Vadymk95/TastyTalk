@@ -14,6 +14,8 @@ import { useModalStore } from '@root/store';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+type VisibilityType = 'everyone' | 'noone' | 'selected';
+
 interface VisibilityModalProps {
     handleSave?: () => void;
     type: 'recipe' | 'mealPlan';
@@ -33,13 +35,13 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
     type = 'recipe'
 }) => {
     const { t } = useTranslation();
-    const [visibility, setVisibility] = useState<string>('everyone');
+    const [visibility, setVisibility] = useState<VisibilityType>('everyone');
     const { isModalOpen, closeModal } = useModalStore();
     const isVisibilityModalOpen = isModalOpen.visibility;
 
     const handleCloseRulesModal = () => closeModal(ModalsEnum.Visibility);
 
-    const handleVisibilityChange = (value: string) => {
+    const handleVisibilityChange = (value: VisibilityType) => {
         setVisibility(value);
     };
 
