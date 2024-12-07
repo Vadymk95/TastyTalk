@@ -93,7 +93,10 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
             className={`select-container relative ${className}`}
             ref={dropdownRef}
         >
-            <Button className="select-neutral select" onClick={toggleDropdown}>
+            <Button
+                className="select-neutral select w-full"
+                onClick={toggleDropdown}
+            >
                 <span className="truncate-text">
                     {localSelected.length > 0
                         ? `${localSelected.length} selected`
