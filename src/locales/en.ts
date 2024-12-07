@@ -362,7 +362,19 @@ export const en = {
                 },
                 VisibilityModal: {
                     recipeTitle: 'Select who can view the recipe',
+                    recipeCheckboxAll:
+                        'If selected, your recipe will be visible to all users, including subscribers and non-subscribers.',
+                    recipeCheckboxNobody:
+                        'If selected, only you will be able to see this recipe. No one else will have access.',
+                    recipeCheckboxSelected:
+                        'If selected, the recipe will only be visible to those subscribers you select from the list.',
                     mealPlanTitle: 'Select who can view the meal plan',
+                    mealPlanCheckboxAll:
+                        'If selected, your meal plan will be visible to all users, including subscribers and non-subscribers.',
+                    mealPlanCheckboxNobody:
+                        'If selected, only you will be able to see this meal plan. No one else will have access.',
+                    mealPlanCheckboxSelected:
+                        'If selected, the meal plan will only be visible to those subscribers you select from the list.',
                     everyone: 'Everyone',
                     noone: 'No one',
                     friends: 'Friends'

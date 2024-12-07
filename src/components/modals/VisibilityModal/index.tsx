@@ -5,6 +5,9 @@ import { Button, Checkbox, Modal, Tooltip } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
 
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 interface VisibilityModalProps {
     handleSave?: () => void;
     type: 'recipe' | 'mealPlan';
@@ -32,33 +35,56 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
             title={t(`Modals.VisibilityModal.${type}Title`)}
         >
             <div className="flex flex-col my-8 gap-8">
-                <div>
-                    <Tooltip text="text1">
-                        <Checkbox
-                            name="everyone"
-                            size="medium"
-                            label={t('Modals.VisibilityModal.everyone')}
-                            checked={visibility === 'everyone'}
-                            onChange={() => handleVisibilityChange('everyone')}
+                <div className="flex items-center gap-2">
+                    <Checkbox
+                        name="everyone"
+                        size="medium"
+                        label={t('Modals.VisibilityModal.everyone')}
+                        checked={visibility === 'everyone'}
+                        onChange={() => handleVisibilityChange('everyone')}
+                    />
+
+                    <Tooltip
+                        text={t(`Modals.VisibilityModal.${type}CheckboxAll`)}
+                    >
+                        <FontAwesomeIcon
+                            className="text-neutral-dark/20"
+                            icon={faCircleInfo}
                         />
                     </Tooltip>
                 </div>
 
-                <div>
-                    <Tooltip text="text2">
-                        <Checkbox
-                            name="noone"
-                            size="medium"
-                            label={t('Modals.VisibilityModal.noone')}
-                            checked={visibility === 'noone'}
-                            onChange={() => handleVisibilityChange('noone')}
+                <div className="flex items-center gap-2">
+                    <Checkbox
+                        name="noone"
+                        size="medium"
+                        label={t('Modals.VisibilityModal.noone')}
+                        checked={visibility === 'noone'}
+                        onChange={() => handleVisibilityChange('noone')}
+                    />
+
+                    <Tooltip
+                        text={t(`Modals.VisibilityModal.${type}CheckboxNobody`)}
+                    >
+                        <FontAwesomeIcon
+                            className="text-neutral-dark/20"
+                            icon={faCircleInfo}
                         />
                     </Tooltip>
                 </div>
 
-                <div>
-                    <Tooltip text="text3">
-                        <div></div>
+                <div className="flex items-center gap-2">
+                    <div>select</div>
+
+                    <Tooltip
+                        text={t(
+                            `Modals.VisibilityModal.${type}CheckboxSelected`
+                        )}
+                    >
+                        <FontAwesomeIcon
+                            className="text-neutral-dark/20"
+                            icon={faCircleInfo}
+                        />
                     </Tooltip>
                 </div>
             </div>
