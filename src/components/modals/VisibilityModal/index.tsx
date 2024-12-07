@@ -45,6 +45,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                     />
 
                     <Tooltip
+                        position="right"
                         text={t(`Modals.VisibilityModal.${type}CheckboxAll`)}
                     >
                         <FontAwesomeIcon
@@ -64,6 +65,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                     />
 
                     <Tooltip
+                        position="right"
                         text={t(`Modals.VisibilityModal.${type}CheckboxNobody`)}
                     >
                         <FontAwesomeIcon
@@ -77,6 +79,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                     <div>select</div>
 
                     <Tooltip
+                        position="right"
                         text={t(
                             `Modals.VisibilityModal.${type}CheckboxSelected`
                         )}

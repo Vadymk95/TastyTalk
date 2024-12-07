@@ -115,21 +115,25 @@ export const Input: FC<InputProps> = ({
                                     }
                                 />
                             )}
+
+                            {isPasswordType && (
+                                <span
+                                    onClick={togglePasswordVisibility}
+                                    className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-secondary"
+                                >
+                                    <FontAwesomeIcon
+                                        size="xl"
+                                        icon={
+                                            isPasswordVisible
+                                                ? faEye
+                                                : faEyeSlash
+                                        }
+                                    />
+                                </span>
+                            )}
                         </div>
                     )}
                 </Field>
-
-                {isPasswordType && (
-                    <span
-                        onClick={togglePasswordVisibility}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer text-secondary"
-                    >
-                        <FontAwesomeIcon
-                            size="xl"
-                            icon={isPasswordVisible ? faEye : faEyeSlash}
-                        />
-                    </span>
-                )}
             </div>
         </div>
     );

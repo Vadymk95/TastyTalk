@@ -1,5 +1,5 @@
 .tooltip {
-    @apply absolute whitespace-nowrap px-3 py-2 bg-neutral-light text-neutral-dark/70 text-sm rounded shadow-lg leading-tight z-10;
+    @apply absolute px-3 py-2 bg-neutral-light text-neutral-dark/70 text-sm rounded shadow-lg leading-tight z-10 w-[250px];
 }
 
 .tooltip-pointer {
