@@ -50,6 +50,12 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
     const handleSelectionChange = (selected: string[]) => {
         console.log('Выбранные пользователи:', selected);
         setSelectedFriends(selected);
+
+        if (selected.length > 0) {
+            setVisibility('selected');
+        } else {
+            setVisibility('everyone');
+        }
     };
 
     return (
