@@ -94,7 +94,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
             ref={dropdownRef}
         >
             <Button
-                className="select-neutral select w-full"
+                className={`select-neutral select w-full ${isConfirmed && selectedValues.length > 0 ? 'bg-secondary' : ''}`}
                 onClick={toggleDropdown}
             >
                 <span className="truncate-text">
