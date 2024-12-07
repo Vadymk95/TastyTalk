@@ -36,6 +36,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
 }) => {
     const { t } = useTranslation();
     const [visibility, setVisibility] = useState<VisibilityType>('everyone');
+    const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
     const { isModalOpen, closeModal } = useModalStore();
     const isVisibilityModalOpen = isModalOpen.visibility;
 
@@ -44,8 +45,6 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
     const handleVisibilityChange = (value: VisibilityType) => {
         setVisibility(value);
     };
-
-    const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
 
     const handleSelectionChange = (selected: string[]) => {
         console.log('Выбранные пользователи:', selected);
@@ -56,6 +55,11 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
         } else {
             setVisibility('everyone');
         }
+    };
+
+    const handleChange = (value: VisibilityType) => {
+        if (value !== 'selected') setSelectedFriends([]);
+        handleVisibilityChange(value);
     };
 
     return (
@@ -71,7 +75,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                         size="medium"
                         label={t('Modals.VisibilityModal.everyone')}
                         checked={visibility === 'everyone'}
-                        onChange={() => handleVisibilityChange('everyone')}
+                        onChange={() => handleChange('everyone')}
                     />
 
                     <Tooltip
@@ -91,7 +95,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                         size="medium"
                         label={t('Modals.VisibilityModal.noone')}
                         checked={visibility === 'noone'}
-                        onChange={() => handleVisibilityChange('noone')}
+                        onChange={() => handleChange('noone')}
                     />
 
                     <Tooltip

@@ -27,6 +27,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     const [searchQuery, setSearchQuery] = useState('');
     const [localSelected, setLocalSelected] =
         useState<string[]>(selectedValues);
+    const [isConfirmed, setIsConfirmed] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -34,7 +35,11 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     }, [selectedValues]);
 
     const toggleDropdown = () => {
+        if (isOpen && !isConfirmed) {
+            setLocalSelected(selectedValues);
+        }
         setIsOpen((prev) => !prev);
+        setIsConfirmed(false);
     };
 
     const handleToggleAll = () => {
@@ -57,6 +62,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     };
 
     const handleApply = () => {
+        setIsConfirmed(true);
         onChange(localSelected);
         setIsOpen(false);
     };
@@ -71,13 +77,16 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                 dropdownRef.current &&
                 !dropdownRef.current.contains(event.target as Node)
             ) {
+                if (!isConfirmed) {
+                    setLocalSelected(selectedValues);
+                }
                 setIsOpen(false);
             }
         };
         if (isOpen) document.addEventListener('mousedown', handleClickOutside);
         return () =>
             document.removeEventListener('mousedown', handleClickOutside);
-    }, [isOpen]);
+    }, [isOpen, isConfirmed, selectedValues]);
 
     return (
         <div
