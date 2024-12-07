@@ -25,7 +25,7 @@ const options = [
     { value: '3', label: 'Michael Johnson' },
     { value: '4', label: 'Emily Davis' },
     { value: '5', label: 'David Brown' },
-    { value: '6', label: 'Anna White' }
+    { value: '6', label: 'Anna WhiteCooperExpre' }
 ];
 
 export const VisibilityModal: FC<VisibilityModalProps> = ({
