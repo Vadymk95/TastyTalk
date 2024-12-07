@@ -377,7 +377,7 @@ export const en = {
                         'If selected, the meal plan will only be visible to those subscribers you select from the list.',
                     everyone: 'Everyone',
                     noone: 'No one',
-                    friends: 'Friends'
+                    selectFriends: 'Choose Friends'
                 }
             },
             PhotoUpload: {
@@ -548,7 +548,9 @@ export const en = {
                 profilePhoto: 'Profile Photo',
                 noImage: 'No Image',
                 settings: 'Settings',
-                confirm: 'Confirm'
+                confirm: 'Confirm',
+                selectAll: 'Select All',
+                apply: 'Apply'
             }
         }
     }

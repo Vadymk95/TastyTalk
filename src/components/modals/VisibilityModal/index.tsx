@@ -108,7 +108,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                 <div className="flex items-center gap-2">
                     <MultiSelectWithSearchAndCheckboxes
                         options={options}
-                        placeholder="Выберите друзей"
+                        placeholder={t('Modals.VisibilityModal.selectFriends')}
                         selectedValues={selectedFriends}
                         searchable={true}
                         onChange={handleSelectionChange}

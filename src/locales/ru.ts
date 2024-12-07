@@ -367,7 +367,7 @@ export const ru = {
                         'Если выбрано, план питания будет виден только тем подписчикам, которых вы выберете из списка.',
                     everyone: 'Все',
                     noone: 'Никто',
-                    friends: 'Выборочно из друзей'
+                    selectFriends: 'Выберите друзей'
                 }
             },
             PhotoUpload: {
@@ -535,7 +535,9 @@ export const ru = {
                 profilePhoto: 'Фото профиля',
                 noImage: 'Нет фото',
                 settings: 'Настройки',
-                confirm: 'Подтвердить'
+                confirm: 'Подтвердить',
+                selectAll: 'Выбрать всеx',
+                apply: 'Применить'
             }
         }
     }

@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@root/components/ui';
 import { Option } from '@root/types';
@@ -21,6 +22,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     className = '',
     onChange
 }) => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [localSelected, setLocalSelected] =
@@ -110,7 +112,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                             {searchable && (
                                 <input
                                     type="text"
-                                    placeholder="Search..."
+                                    placeholder={t('General.search')}
                                     value={searchQuery}
                                     onChange={handleSearch}
                                     className="select-input p-2 w-full"
@@ -127,7 +129,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                                         onChange={handleToggleAll}
                                         className="checkbox-primary"
                                     />
-                                    Select All
+                                    {t('General.selectAll')}
                                 </label>
                             </div>
                         </div>
@@ -159,7 +161,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                                 size="small"
                                 onClick={handleApply}
                             >
-                                Apply
+                                {t('General.apply')}
                             </Button>
                         </div>
                     </motion.div>
