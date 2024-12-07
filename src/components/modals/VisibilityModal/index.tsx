@@ -1,7 +1,13 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Checkbox, Modal, Tooltip } from '@root/components/ui';
+import {
+    Button,
+    Checkbox,
+    Modal,
+    MultiSelectWithSearchAndCheckboxes,
+    Tooltip
+} from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
 
@@ -12,6 +18,15 @@ interface VisibilityModalProps {
     handleSave?: () => void;
     type: 'recipe' | 'mealPlan';
 }
+
+const options = [
+    { value: '1', label: 'John Doe' },
+    { value: '2', label: 'Jane Smith' },
+    { value: '3', label: 'Michael Johnson' },
+    { value: '4', label: 'Emily Davis' },
+    { value: '5', label: 'David Brown' },
+    { value: '6', label: 'Anna White' }
+];
 
 export const VisibilityModal: FC<VisibilityModalProps> = ({
     handleSave,
@@ -26,6 +41,13 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
 
     const handleVisibilityChange = (value: string) => {
         setVisibility(value);
+    };
+
+    const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
+
+    const handleSelectionChange = (selected: string[]) => {
+        console.log('Выбранные пользователи:', selected);
+        setSelectedFriends(selected);
     };
 
     return (
@@ -76,10 +98,16 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <div>select</div>
+                    <MultiSelectWithSearchAndCheckboxes
+                        options={options}
+                        placeholder="Выберите друзей"
+                        selectedValues={selectedFriends}
+                        searchable={true}
+                        onChange={handleSelectionChange}
+                    />
 
                     <Tooltip
-                        position="right"
+                        position="top"
                         text={t(
                             `Modals.VisibilityModal.${type}CheckboxSelected`
                         )}

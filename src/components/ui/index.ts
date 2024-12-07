@@ -11,6 +11,7 @@ export { Input } from './Input';
 export { Link } from './Link';
 export { Loader } from './Loader';
 export { Modal } from './Modal';
+export { MultiSelectWithSearchAndCheckboxes } from './MultiSelectWithSearchAndCheckboxes';
 export { PhotoUpload } from './PhotoUpload';
 export { ProgressBar } from './ProgressBar';
 export { ScrollIndicator } from './ScrollIndicator';
