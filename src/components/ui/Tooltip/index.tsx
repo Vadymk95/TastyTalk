@@ -9,6 +9,7 @@ interface TooltipProps {
     children: ReactNode;
     className?: string;
     shouldShow?: boolean;
+    withIcon?: boolean;
 }
 
 export const Tooltip: FC<TooltipProps> = ({
@@ -16,7 +17,8 @@ export const Tooltip: FC<TooltipProps> = ({
     position = 'top',
     children,
     className = '',
-    shouldShow = true
+    shouldShow = true,
+    withIcon = true
 }) => {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -50,11 +52,13 @@ export const Tooltip: FC<TooltipProps> = ({
                 <div
                     className={`tooltip ${positionClasses[position]} ${className}`}
                 >
-                    <FontAwesomeIcon
-                        className="mr-2 text-secondary-light"
-                        size="xl"
-                        icon={faCircleInfo}
-                    />
+                    {withIcon && (
+                        <FontAwesomeIcon
+                            className="mr-2 text-secondary-light"
+                            size="xl"
+                            icon={faCircleInfo}
+                        />
+                    )}
                     <span>{text}</span>
 
                     <div

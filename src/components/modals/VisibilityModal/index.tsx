@@ -1,9 +1,12 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Checkbox, Modal } from '@root/components/ui';
+import { Button, Checkbox, Modal, Tooltip } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
+
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface VisibilityModalProps {
     handleSave?: () => void;
@@ -32,20 +35,36 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
             title={t(`Modals.VisibilityModal.${type}Title`)}
         >
             <div className="flex flex-col mb-5">
-                <Checkbox
-                    name="everyone"
-                    className="mb-2"
-                    label={t('Modals.VisibilityModal.everyone')}
-                    checked={visibility === 'everyone'}
-                    onChange={() => handleVisibilityChange('everyone')}
-                />
-                <Checkbox
-                    name="noone"
-                    className="mb-2"
-                    label={t('Modals.VisibilityModal.noone')}
-                    checked={visibility === 'noone'}
-                    onChange={() => handleVisibilityChange('noone')}
-                />
+                <div className="flex gap-2 mb-2 items-center">
+                    <Checkbox
+                        name="everyone"
+                        label={t('Modals.VisibilityModal.everyone')}
+                        checked={visibility === 'everyone'}
+                        onChange={() => handleVisibilityChange('everyone')}
+                    />
+                    <Tooltip text="asd" withIcon={false}>
+                        <FontAwesomeIcon
+                            size="lg"
+                            icon={faCircleInfo}
+                            className="text-primary hover:text-primary-light cursor-pointer"
+                        />
+                    </Tooltip>
+                </div>
+                <div className="flex gap-2 mb-2 items-center">
+                    <Checkbox
+                        name="noone"
+                        label={t('Modals.VisibilityModal.noone')}
+                        checked={visibility === 'noone'}
+                        onChange={() => handleVisibilityChange('noone')}
+                    />
+                    <Tooltip text="text" withIcon={false}>
+                        <FontAwesomeIcon
+                            size="lg"
+                            icon={faCircleInfo}
+                            className="text-primary hover:text-primary-light cursor-pointer"
+                        />
+                    </Tooltip>
+                </div>
             </div>
             <div className="flex gap-4 justify-end">
                 <Button onClick={handleCloseRulesModal}>
