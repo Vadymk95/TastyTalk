@@ -83,3 +83,7 @@
 .checkbox-primary {
     @apply h-5 w-5 text-primary focus:ring-primary;
 }
+
+.multiselect-container {
+    @apply relative block;
+}

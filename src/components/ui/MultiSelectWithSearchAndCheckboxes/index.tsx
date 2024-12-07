@@ -89,12 +89,9 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     }, [isOpen, isConfirmed, selectedValues]);
 
     return (
-        <div
-            className={`select-container relative ${className}`}
-            ref={dropdownRef}
-        >
+        <div className={`multiselect-container ${className}`} ref={dropdownRef}>
             <Button
-                className={`select-neutral select w-full ${isConfirmed && selectedValues.length > 0 ? 'bg-secondary' : ''}`}
+                className={`select-neutral select ${isConfirmed && selectedValues.length > 0 ? 'bg-secondary' : ''}`}
                 onClick={toggleDropdown}
                 disabled={options.length === 0}
             >
@@ -115,7 +112,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="select-dropdown absolute z-10 top-full mt-1 w-full bg-white border rounded shadow-lg"
+                        className="select-dropdown w-[300px] absolute z-10 top-full mt-1 bg-white border rounded shadow-lg"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
@@ -131,7 +128,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                                     className="select-input p-2 w-full"
                                 />
                             )}
-                            <div className="p-2">
+                            <div className="p-2 bg-neutral-light">
                                 <Checkbox
                                     name="selectAll"
                                     label={t('General.selectAll')}
