@@ -95,8 +95,11 @@ export const CreateRecipeWithAIForm: FC = () => {
                     <div className="flex-grow overflow-y-auto">
                         <Query query={currentQuery} className="mb-6" />
                         <RecipeTypingEffect recipe={currentRecipe} />
-                        <div className="flex items-center gap-2 text-neutral-light">
-                            <FontAwesomeIcon icon={faTriangleExclamation} />
+                        <div className="flex items-start gap-2 text-neutral-light">
+                            <FontAwesomeIcon
+                                className="pt-1"
+                                icon={faTriangleExclamation}
+                            />
                             <p className="text-sm">
                                 {t('Forms.CreateRecipeWithAIForm.disclaimer')}
                             </p>
