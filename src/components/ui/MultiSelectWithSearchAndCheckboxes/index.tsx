@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@root/components/ui';
+import { Button, Checkbox } from '@root/components/ui';
 import { Option } from '@root/types';
 
 type MultiSelectProps = {
@@ -119,39 +119,29 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                                 />
                             )}
                             <div className="p-2">
-                                <label className="flex items-center gap-2 cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        checked={
-                                            localSelected.length ===
-                                            options.length
-                                        }
-                                        onChange={handleToggleAll}
-                                        className="checkbox-primary"
-                                    />
-                                    {t('General.selectAll')}
-                                </label>
+                                <Checkbox
+                                    name="selectAll"
+                                    label={t('General.selectAll')}
+                                    checked={
+                                        localSelected.length === options.length
+                                    }
+                                    onChange={handleToggleAll}
+                                />
                             </div>
                         </div>
 
                         <div className="max-h-60 overflow-y-auto">
                             {filteredOptions.map((option) => (
-                                <label
+                                <Checkbox
                                     key={option.value}
+                                    name={option.value}
+                                    label={option.label}
+                                    checked={localSelected.includes(
+                                        option.value
+                                    )}
+                                    onChange={() => handleSelect(option.value)}
                                     className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={localSelected.includes(
-                                            option.value
-                                        )}
-                                        onChange={() =>
-                                            handleSelect(option.value)
-                                        }
-                                        className="checkbox-primary"
-                                    />
-                                    {option.label}
-                                </label>
+                                />
                             ))}
                         </div>
 
