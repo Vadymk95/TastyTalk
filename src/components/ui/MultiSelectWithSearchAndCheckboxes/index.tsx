@@ -26,7 +26,6 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
         useState<string[]>(selectedValues);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Обновляем локальный стейт при изменении пропсов
     useEffect(() => {
         setLocalSelected(selectedValues);
     }, [selectedValues]);
@@ -63,7 +62,6 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Закрытие при клике вне компонента
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -101,13 +99,12 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="select-dropdown absolute z-50 top-full mt-1 w-full bg-white border rounded shadow-lg"
+                        className="select-dropdown absolute z-10 top-full mt-1 w-full bg-white border rounded shadow-lg"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
                     >
-                        {/* Фиксированный верхний блок */}
                         <div className="sticky top-0 bg-white z-10 border-b">
                             {searchable && (
                                 <input
@@ -134,7 +131,6 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                             </div>
                         </div>
 
-                        {/* Скроллящиеся опции */}
                         <div className="max-h-60 overflow-y-auto">
                             {filteredOptions.map((option) => (
                                 <label
@@ -156,7 +152,6 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                             ))}
                         </div>
 
-                        {/* Кнопка подтверждения */}
                         <div className="p-2 flex justify-end border-t">
                             <Button
                                 variant="primary"
