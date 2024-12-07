@@ -96,6 +96,7 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
             <Button
                 className={`select-neutral select w-full ${isConfirmed && selectedValues.length > 0 ? 'bg-secondary' : ''}`}
                 onClick={toggleDropdown}
+                disabled={options.length === 0}
             >
                 <span className="truncate-text">
                     {localSelected.length > 0
