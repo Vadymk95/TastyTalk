@@ -69,7 +69,7 @@ export const Modal: FC<ModalProps> = ({
                         </Button>
 
                         {title && (
-                            <h2 className="text-2xl sm:text-xl font-semibold mb-4 px-4">
+                            <h2 className="text-2xl sm:text-xl font-semibold my-5 px-4">
                                 {title}
                             </h2>
                         )}
