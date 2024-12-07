@@ -42,7 +42,7 @@ export const Checkbox: FC<CheckboxProps> = ({
                 id={name}
                 checked={checked}
                 onChange={handleChange}
-                className={`cursor-pointer ${input}`}
+                className={`cursor-pointer accent-secondary ${input}`}
             />
             <label htmlFor={name} className={`cursor-pointer ${labelClass}`}>
                 {label}
