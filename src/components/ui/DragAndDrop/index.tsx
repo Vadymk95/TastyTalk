@@ -29,7 +29,7 @@ export const DragAndDrop: FC<DragAndDropProps> = ({
     const [preview, setPreview] = useState<string | null>(null);
 
     useEffect(() => {
-        if (field?.value) {
+        if (field?.value instanceof File || field?.value instanceof Blob) {
             const objectUrl = URL.createObjectURL(field?.value);
             setPreview(objectUrl);
 
