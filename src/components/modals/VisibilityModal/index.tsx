@@ -67,6 +67,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
             isOpen={isVisibilityModalOpen}
             onClose={handleCloseRulesModal}
             title={t(`Modals.VisibilityModal.${type}Title`)}
+            classNameMotion="!overflow-visible"
         >
             <div className="flex flex-col my-8 gap-8">
                 <div className="flex items-center gap-2">

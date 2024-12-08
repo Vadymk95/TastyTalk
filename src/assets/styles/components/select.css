@@ -12,8 +12,9 @@
 }
 
 .select-dropdown {
-    @apply absolute w-full mt-1 bg-white shadow-custom-light rounded-lg z-10 border border-neutral overflow-y-auto;
+    @apply absolute w-full mt-1 bg-white shadow-custom-light rounded-lg border border-neutral overflow-y-auto;
     max-height: calc(2.5rem * 6);
+    z-index: 1050;
 }
 
 .select-item {

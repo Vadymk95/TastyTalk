@@ -15,6 +15,8 @@ type ModalProps = {
     confirmText?: string;
     cancelText?: string;
     variant?: 'primary' | 'secondary';
+    classNameContainer?: string;
+    classNameMotion?: string;
 };
 
 export const Modal: FC<ModalProps> = ({
@@ -25,7 +27,9 @@ export const Modal: FC<ModalProps> = ({
     onConfirm,
     confirmText,
     cancelText,
-    variant = 'primary'
+    variant = 'primary',
+    classNameContainer = '',
+    classNameMotion = ''
 }) => {
     const scrollYRef = useRef(0);
 
@@ -52,9 +56,11 @@ export const Modal: FC<ModalProps> = ({
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div
+                    className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ${classNameContainer}`}
+                >
                     <motion.div
-                        className={`plate sm:max-w-[95%] max-h-[85%] overflow-y-auto relative modal-${variant}`}
+                        className={`plate sm:max-w-[95%] max-h-[85%] overflow-y-auto relative modal-${variant} ${classNameMotion}`}
                         initial={{ y: '-100vh', opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: '-100vh', opacity: 0 }}
