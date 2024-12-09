@@ -548,7 +548,8 @@ export const ru = {
                 confirm: 'Подтвердить',
                 selectAll: 'Выбрать всеx',
                 apply: 'Применить',
-                noResultsFound: 'Ничего не найдено'
+                noResultsFound: 'Ничего не найдено',
+                back: 'Назад'
             }
         }
     }

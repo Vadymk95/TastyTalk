@@ -561,7 +561,8 @@ export const en = {
                 confirm: 'Confirm',
                 selectAll: 'Select All',
                 apply: 'Apply',
-                noResultsFound: 'No results found'
+                noResultsFound: 'No results found',
+                back: 'Back'
             }
         }
     }

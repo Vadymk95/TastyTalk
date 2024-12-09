@@ -1,3 +1,4 @@
+export { Back } from './Back';
 export { Badge } from './Badge';
 export { Button } from './Button';
 export { Checkbox } from './Checkbox';

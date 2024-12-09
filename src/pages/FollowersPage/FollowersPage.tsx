@@ -1,10 +1,18 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { UserList } from '@root/components/common';
 
 const FollowersPage: FC = () => {
-    return (
-        <div>
-            <h1>Followers Page</h1>
-        </div>
-    );
+    const { t } = useTranslation();
+
+    const fetchUsers = async () => {
+        console.log('Fetching users...');
+
+        return [];
+    };
+
+    return <UserList title={t('')} fetchUsers={fetchUsers} />;
 };
+
 export default FollowersPage;
