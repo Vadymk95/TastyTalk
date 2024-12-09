@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type ProfileStatsProps = {
+    setCurrentTab: (key: string) => void;
     recipesCount: number;
     mealPlansCount: number;
     followersCount: number;
@@ -10,6 +11,7 @@ type ProfileStatsProps = {
 };
 
 export const ProfileStats: FC<ProfileStatsProps> = ({
+    setCurrentTab,
     recipesCount = 0,
     mealPlansCount = 0,
     followersCount = 0,
@@ -30,7 +32,10 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
         <div
             className={`flex justify-around items-start gap-4 text-center ${className}`}
         >
-            <div className="stat-item cursor-pointer">
+            <div
+                onClick={() => setCurrentTab('create-recipe')}
+                className="stat-item cursor-pointer"
+            >
                 <p className="text-lg font-bold">
                     {numberFormats(recipesCount)}
                 </p>
@@ -39,7 +44,10 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 </p>
             </div>
 
-            <div className="stat-item cursor-pointer">
+            <div
+                onClick={() => setCurrentTab('create-meal-plan')}
+                className="stat-item cursor-pointer"
+            >
                 <p className="text-lg font-bold">
                     {numberFormats(mealPlansCount)}
                 </p>

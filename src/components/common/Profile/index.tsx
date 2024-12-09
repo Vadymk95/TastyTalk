@@ -10,9 +10,10 @@ import { UserProfile } from '@root/types';
 
 interface ProfileProps {
     profile: UserProfile;
+    setCurrentTab: (key: string) => void;
 }
 
-export const Profile: FC<ProfileProps> = ({ profile }) => {
+export const Profile: FC<ProfileProps> = ({ profile, setCurrentTab }) => {
     return (
         <section className="mb-6 relative">
             <div className="flex sm:flex-col items-center sm:items-start gap-6 sm:gap-2">
@@ -21,6 +22,7 @@ export const Profile: FC<ProfileProps> = ({ profile }) => {
             </div>
 
             <ProfileStats
+                setCurrentTab={setCurrentTab}
                 className="mt-6"
                 recipesCount={0}
                 mealPlansCount={0}

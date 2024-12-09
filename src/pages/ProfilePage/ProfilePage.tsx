@@ -38,7 +38,7 @@ const ProfilePage: FC = () => {
 
     return (
         <div className="plate">
-            <Profile profile={profile} />
+            <Profile setCurrentTab={setCurrentTab} profile={profile} />
 
             <Tabs
                 fullwidth
