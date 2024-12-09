@@ -10,5 +10,7 @@ export const routes = {
     settings: '/profile/settings',
     greeting: '/greeting',
     pricing: '/pricing',
+    followers: '/followers',
+    following: '/following',
     notFound: '*'
 };

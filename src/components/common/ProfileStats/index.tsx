@@ -1,5 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+
+import { routes } from '@root/router/routes';
 
 type ProfileStatsProps = {
     setCurrentTab: (key: string) => void;
@@ -34,7 +37,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
         >
             <div
                 onClick={() => setCurrentTab('create-recipe')}
-                className="stat-item cursor-pointer"
+                className="cursor-pointer"
             >
                 <p className="text-lg font-bold">
                     {numberFormats(recipesCount)}
@@ -46,7 +49,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
 
             <div
                 onClick={() => setCurrentTab('create-meal-plan')}
-                className="stat-item cursor-pointer"
+                className="cursor-pointer"
             >
                 <p className="text-lg font-bold">
                     {numberFormats(mealPlansCount)}
@@ -56,23 +59,23 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 </p>
             </div>
 
-            <div className="stat-item cursor-pointer">
+            <Link to={routes.followers} className="cursor-pointer">
                 <p className="text-lg font-bold">
                     {numberFormats(followersCount)}
                 </p>
                 <p className="text-sm label sm:text-xs">
                     {t('ProfileStats.followers')}
                 </p>
-            </div>
+            </Link>
 
-            <div className="stat-item cursor-pointer">
+            <Link to={routes.following} className="cursor-pointer">
                 <p className="text-lg font-bold">
                     {numberFormats(followingCount)}
                 </p>
                 <p className="text-sm label sm:text-xs">
                     {t('ProfileStats.following')}
                 </p>
-            </div>
+            </Link>
         </div>
     );
 };
