@@ -552,7 +552,8 @@ export const en = {
                 settings: 'Settings',
                 confirm: 'Confirm',
                 selectAll: 'Select All',
-                apply: 'Apply'
+                apply: 'Apply',
+                noResultsFound: 'No results found'
             }
         }
     }

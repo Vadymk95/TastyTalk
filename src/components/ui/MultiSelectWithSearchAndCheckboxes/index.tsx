@@ -68,25 +68,23 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
 
     const debouncedSearch = useMemo(
         () =>
-            debounce((query: string) => {
+            debounce(async (query: string) => {
                 if (onSearch) {
-                    onSearch(query);
+                    await onSearch(query);
                 }
             }, 500),
         [onSearch]
     );
+
+    useEffect(() => {
+        return () => debouncedSearch.cancel();
+    }, [debouncedSearch]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         setSearchQuery(query);
         debouncedSearch(query);
     };
-
-    useEffect(() => {
-        return () => {
-            debouncedSearch.cancel();
-        };
-    }, [debouncedSearch]);
 
     const filteredOptions = options.filter((option) =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
@@ -165,19 +163,27 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                             </div>
                         </div>
 
-                        <div className="max-h-60 overflow-y-auto">
-                            {filteredOptions.map((option) => (
-                                <Checkbox
-                                    key={option.value}
-                                    name={option.value}
-                                    label={option.label}
-                                    checked={localSelected.includes(
-                                        option.value
-                                    )}
-                                    onChange={() => handleSelect(option.value)}
-                                    className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
-                                />
-                            ))}
+                        <div className="max-h-60 overflow-y-auto relative">
+                            {filteredOptions.length > 0 ? (
+                                filteredOptions.map((option) => (
+                                    <Checkbox
+                                        key={option.value}
+                                        name={option.value}
+                                        label={option.label}
+                                        checked={localSelected.includes(
+                                            option.value
+                                        )}
+                                        onChange={() =>
+                                            handleSelect(option.value)
+                                        }
+                                        className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
+                                    />
+                                ))
+                            ) : (
+                                <p className="text-center p-4 label">
+                                    {t('General.noResultsFound')}
+                                </p>
+                            )}
                         </div>
 
                         <div className="sticky bottom-0 bg-white p-2 border-t flex justify-end">

@@ -539,7 +539,8 @@ export const ru = {
                 settings: 'Настройки',
                 confirm: 'Подтвердить',
                 selectAll: 'Выбрать всеx',
-                apply: 'Применить'
+                apply: 'Применить',
+                noResultsFound: 'Ничего не найдено'
             }
         }
     }
