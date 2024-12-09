@@ -562,7 +562,9 @@ export const en = {
                 selectAll: 'Select All',
                 apply: 'Apply',
                 noResultsFound: 'No results found',
-                back: 'Back'
+                back: 'Back',
+                follow: 'Follow',
+                unfollow: 'Unfollow'
             }
         }
     }

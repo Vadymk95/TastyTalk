@@ -549,7 +549,9 @@ export const ru = {
                 selectAll: 'Выбрать всеx',
                 apply: 'Применить',
                 noResultsFound: 'Ничего не найдено',
-                back: 'Назад'
+                back: 'Назад',
+                follow: 'Подписаться',
+                unfollow: 'Отписаться'
             }
         }
     }

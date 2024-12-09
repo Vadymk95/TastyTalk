@@ -1,22 +1,17 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Back } from '@root/components/ui';
-
-type User = {
-    id: string;
-    name: string;
-    profileImage: string;
-};
+import { User } from '@root/components/common';
+import { Back, SearchInput } from '@root/components/ui';
 
 type UserListProps = {
-    title: string; // Название страницы ("Подписчики" или "Подписки")
-    fetchUsers: () => Promise<User[]>; // Функция для загрузки данных
+    title: string;
+    fetchUsers: () => Promise<any[]>;
 };
 
 export const UserList: FC<UserListProps> = ({ title, fetchUsers }) => {
     const { t } = useTranslation();
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -36,40 +31,43 @@ export const UserList: FC<UserListProps> = ({ title, fetchUsers }) => {
         loadUsers();
     }, [fetchUsers]);
 
-    // Фильтрация по запросу
     const filteredUsers = users.filter((user) =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+        user.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const handleSubscribe = (id: string) => {
+        console.log('Subscribing to user with id:', id);
+    };
 
     return (
         <div className="plate">
             <Back />
             <h1 className="main-heading">{title}</h1>
-            <input
+            <SearchInput
+                name="search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('Search users')}
-                className="w-full p-2 mb-4 border rounded"
+                placeholder={t('General.search')}
             />
 
             {loading ? (
-                <p>{t('Loading...')}</p>
+                <p className="text-center label p-4">{t('General.loading')}</p>
             ) : filteredUsers.length > 0 ? (
                 <ul className="space-y-4">
                     {filteredUsers.map((user) => (
-                        <li key={user.id} className="flex items-center gap-4">
-                            <img
-                                src={user.profileImage}
-                                alt={user.name}
-                                className="w-10 h-10 rounded-full"
-                            />
-                            <span>{user.name}</span>
-                        </li>
+                        <User
+                            key={user.id}
+                            username={user.username}
+                            id={user.id}
+                            handleSubscribe={handleSubscribe}
+                        />
                     ))}
                 </ul>
             ) : (
-                <p>{t('No users found')}</p>
+                <p className="text-center label p-4">
+                    {t('General.noResultsFound')}
+                </p>
             )}
         </div>
     );

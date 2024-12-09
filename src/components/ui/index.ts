@@ -16,6 +16,7 @@ export { MultiSelectWithSearchAndCheckboxes } from './MultiSelectWithSearchAndCh
 export { PhotoUpload } from './PhotoUpload';
 export { ProgressBar } from './ProgressBar';
 export { ScrollIndicator } from './ScrollIndicator';
+export { SearchInput } from './SearchInput';
 export { Select } from './Select';
 export { Stepper } from './Stepper';
 export { SuccessCard } from './SuccessCard';
