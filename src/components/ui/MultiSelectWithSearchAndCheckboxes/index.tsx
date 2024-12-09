@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import debounce from 'lodash/debounce';
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Checkbox } from '@root/components/ui';
@@ -12,6 +13,7 @@ type MultiSelectProps = {
     searchable?: boolean;
     className?: string;
     onChange: (selected: string[]) => void;
+    onSearch?: (query: string) => void;
 };
 
 export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
@@ -20,7 +22,8 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     selectedValues = [],
     searchable = false,
     className = '',
-    onChange
+    onChange,
+    onSearch
 }) => {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
@@ -57,15 +60,33 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
         setLocalSelected(updatedSelection);
     };
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
-    };
-
     const handleApply = () => {
         setIsConfirmed(true);
         onChange(localSelected);
         setIsOpen(false);
     };
+
+    const debouncedSearch = useMemo(
+        () =>
+            debounce((query: string) => {
+                if (onSearch) {
+                    onSearch(query);
+                }
+            }, 500),
+        [onSearch]
+    );
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        debouncedSearch(query);
+    };
+
+    useEffect(() => {
+        return () => {
+            debouncedSearch.cancel();
+        };
+    }, [debouncedSearch]);
 
     const filteredOptions = options.filter((option) =>
         option.label.toLowerCase().includes(searchQuery.toLowerCase())
@@ -91,7 +112,11 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
     return (
         <div className={`multiselect-container ${className}`} ref={dropdownRef}>
             <Button
-                className={`select-neutral select ${isConfirmed && selectedValues.length > 0 ? 'bg-secondary' : ''}`}
+                className={`select-neutral select ${
+                    isConfirmed && selectedValues.length > 0
+                        ? 'bg-secondary'
+                        : ''
+                }`}
                 onClick={toggleDropdown}
                 disabled={options.length === 0}
             >

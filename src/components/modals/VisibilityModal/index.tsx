@@ -62,6 +62,10 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
         handleVisibilityChange(value);
     };
 
+    const onSearch = (query: string) => {
+        console.log('Поиск:', query);
+    };
+
     return (
         <Modal
             isOpen={isVisibilityModalOpen}
@@ -117,6 +121,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
                         selectedValues={selectedFriends}
                         searchable={true}
                         onChange={handleSelectionChange}
+                        onSearch={onSearch}
                     />
 
                     <Tooltip
