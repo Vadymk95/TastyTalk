@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from '@root/components/ui';
 
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Back: FC = () => {
@@ -15,8 +15,8 @@ export const Back: FC = () => {
 
     return (
         <Button onClick={goBack} className="flex items-center">
-            <FontAwesomeIcon icon={faArrowRight} />
-            <span className="sm:hidden">{t('General.back')}</span>
+            <FontAwesomeIcon icon={faArrowLeft} />
+            <span className="sm:hidden ml-2 sm:ml-0">{t('General.back')}</span>
         </Button>
     );
 };

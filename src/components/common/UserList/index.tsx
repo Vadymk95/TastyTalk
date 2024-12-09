@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Back } from '@root/components/ui';
+
 type User = {
     id: string;
     name: string;
@@ -41,6 +43,7 @@ export const UserList: FC<UserListProps> = ({ title, fetchUsers }) => {
 
     return (
         <div className="plate">
+            <Back />
             <h1 className="main-heading">{title}</h1>
             <input
                 type="text"
