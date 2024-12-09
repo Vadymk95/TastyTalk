@@ -155,11 +155,12 @@ export const MultiSelectWithSearchAndCheckboxes: FC<MultiSelectProps> = ({
                             ))}
                         </div>
 
-                        <div className="p-2 flex justify-end border-t">
+                        <div className="sticky bottom-0 bg-white p-2 border-t flex justify-end">
                             <Button
                                 variant="primary"
                                 size="small"
                                 onClick={handleApply}
+                                disabled={localSelected.length === 0}
                             >
                                 {t('General.apply')}
                             </Button>
