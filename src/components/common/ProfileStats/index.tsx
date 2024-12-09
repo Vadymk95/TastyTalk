@@ -34,28 +34,36 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 <p className="text-lg font-bold">
                     {numberFormats(recipesCount)}
                 </p>
-                <p className="text-sm label">{t('ProfileStats.recipes')}</p>
+                <p className="text-sm label sm:text-xs">
+                    {t('ProfileStats.recipes')}
+                </p>
             </div>
 
             <div className="stat-item cursor-pointer">
                 <p className="text-lg font-bold">
                     {numberFormats(mealPlansCount)}
                 </p>
-                <p className="text-sm label">{t('ProfileStats.mealPlans')}</p>
+                <p className="text-sm label sm:text-xs">
+                    {t('ProfileStats.mealPlans')}
+                </p>
             </div>
 
             <div className="stat-item cursor-pointer">
                 <p className="text-lg font-bold">
                     {numberFormats(followersCount)}
                 </p>
-                <p className="text-sm label">{t('ProfileStats.followers')}</p>
+                <p className="text-sm label sm:text-xs">
+                    {t('ProfileStats.followers')}
+                </p>
             </div>
 
             <div className="stat-item cursor-pointer">
                 <p className="text-lg font-bold">
                     {numberFormats(followingCount)}
                 </p>
-                <p className="text-sm label">{t('ProfileStats.following')}</p>
+                <p className="text-sm label sm:text-xs">
+                    {t('ProfileStats.following')}
+                </p>
             </div>
         </div>
     );

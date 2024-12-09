@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ProfileStats } from '@root/components/common';
 import { UserProfile } from '@root/types';
 
 interface ProfileInfoProps {
@@ -44,14 +43,6 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
                     ))}
                 </div>
             )}
-
-            <ProfileStats
-                className="mt-6"
-                recipesCount={0}
-                mealPlansCount={0}
-                followersCount={0}
-                followingCount={0}
-            />
         </div>
     );
 };
