@@ -14,6 +14,16 @@ export const ru = {
                 emailSent: 'Письмо отправлено',
                 emailSendError: 'Ошибка отправки письма'
             },
+            FollowingPage: {
+                title: 'Подписки',
+                description:
+                    'Здесь вы можете увидеть пользователей, на которых вы подписаны.'
+            },
+            FollowersPage: {
+                title: 'Подписчики',
+                description:
+                    'Здесь вы можете увидеть пользователей, которые подписаны на вас.'
+            },
             GreetingPage: {
                 welcome: 'Добро пожаловать!',
                 description: 'Выберите, куда хотите перейти:',

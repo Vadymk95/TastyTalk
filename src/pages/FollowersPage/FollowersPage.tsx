@@ -9,10 +9,25 @@ const FollowersPage: FC = () => {
     const fetchUsers = async () => {
         console.log('Fetching users...');
 
-        return [];
+        return [
+            {
+                id: '1',
+                username: 'john_doe'
+            },
+            {
+                id: '2',
+                username: 'jane_doe'
+            }
+        ];
     };
 
-    return <UserList title={t('')} fetchUsers={fetchUsers} />;
+    return (
+        <UserList
+            title={t('FollowersPage.title')}
+            fetchUsers={fetchUsers}
+            description={t('FollowersPage.description')}
+        />
+    );
 };
 
 export default FollowersPage;

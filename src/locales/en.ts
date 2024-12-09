@@ -14,6 +14,14 @@ export const en = {
                 emailSent: 'Email has been sent',
                 emailSendError: 'Error sending email'
             },
+            FollowingPage: {
+                title: 'Following',
+                description: 'Here you can see the users you follow.'
+            },
+            FollowersPage: {
+                title: 'Followers',
+                description: 'Here you can see the users who follow you.'
+            },
             GreetingPage: {
                 welcome: 'Welcome!',
                 description: 'Choose where you want to go:',
