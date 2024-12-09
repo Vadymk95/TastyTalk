@@ -532,6 +532,14 @@ export const en = {
                 reloadButton: 'Reload Page',
                 homeButton: 'Go to Homepage'
             },
+            ProfileStats: {
+                recipes: 'Recipes',
+                mealPlans: 'Meal Plans',
+                followers: 'Followers',
+                following: 'Following',
+                million: 'm',
+                thousand: 'k'
+            },
             General: {
                 loading: 'Loading...',
                 error: 'Error:',

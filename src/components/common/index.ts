@@ -13,6 +13,7 @@ export { Profile } from './Profile';
 export { ProfileInfo } from './ProfileInfo';
 export { ProfilePhoto } from './ProfilePhoto';
 export { ProfileSettingsModals } from './ProfileSettingsModals';
+export { ProfileStats } from './ProfileStats';
 export { ProfileTools } from './ProfileTools';
 export { Query } from './Query';
 export { Recipe } from './Recipe';

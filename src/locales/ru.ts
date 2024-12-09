@@ -520,6 +520,14 @@ export const ru = {
                 reloadButton: 'Обновить страницу',
                 homeButton: 'На главную'
             },
+            ProfileStats: {
+                recipes: 'Рецепты',
+                mealPlans: 'Планы питания',
+                followers: 'Подписчики',
+                following: 'Подписки',
+                million: 'млн',
+                thousand: 'тыс'
+            },
             General: {
                 loading: 'Загрузка...',
                 error: 'Ошибка:',

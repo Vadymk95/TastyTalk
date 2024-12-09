@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ProfileStats } from '@root/components/common';
 import { UserProfile } from '@root/types';
 
 interface ProfileInfoProps {
@@ -25,13 +26,13 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
             )}
 
             {profile.socialNetworks && (
-                <div className="flex flex-col mt-4 flex-wrap sm:text-sm">
-                    <h4 className="text-secondary font-semibold mb-2">
+                <div className="flex flex-col mt-4 flex-wrap sm:text-sm gap-2">
+                    <h4 className="text-secondary font-semibold">
                         {t('ProfilePage.socialNetworks')}
                     </h4>
 
                     {profile.socialNetworks?.map((socialNetwork, index) => (
-                        <p key={index} className="mb-2">
+                        <p key={index}>
                             <span className="label">
                                 {socialNetwork.name}
                                 {': '}
@@ -43,6 +44,14 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
                     ))}
                 </div>
             )}
+
+            <ProfileStats
+                className="mt-6"
+                recipesCount={0}
+                mealPlansCount={0}
+                followersCount={0}
+                followingCount={0}
+            />
         </div>
     );
 };
