@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { UserList } from '@root/components';
+import { UserList } from '@root/components/common';
 
 const FollowingPage: FC = () => {
     const { t } = useTranslation();
