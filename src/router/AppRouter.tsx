@@ -13,7 +13,9 @@ import {
     NotFoundPage,
     PricingPage,
     ProfilePage,
-    ProfileSettingsPage
+    ProfileSettingsPage,
+    FollowersPage,
+    FollowingPage
 } from '@root/pages/';
 import { routes } from '@root/router/routes';
 
@@ -98,6 +100,20 @@ export const AppRouter: FC = () => {
                     <PrivateRoute
                         element={withSuspense(<ProfileSettingsPage />)}
                     />
+                }
+            />
+
+            <Route
+                path={routes.followers}
+                element={
+                    <PrivateRoute element={withSuspense(<FollowersPage />)} />
+                }
+            />
+
+            <Route
+                path={routes.following}
+                element={
+                    <PrivateRoute element={withSuspense(<FollowingPage />)} />
                 }
             />
         </Routes>

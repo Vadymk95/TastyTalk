@@ -2,6 +2,8 @@ export { AuthPage } from './AuthPage';
 export { CreateMealsPlanPage } from './CreateMealsPlanPage';
 export { CreateRecipePage } from './CreateRecipePage';
 export { EmailVerificationPage } from './EmailVerificationPage';
+export { FollowersPage } from './FollowersPage';
+export { FollowingPage } from './FollowingPage';
 export { GreetingPage } from './GreetingPage';
 export { HomePage } from './HomePage/HomePage';
 export { MealsPlanPage } from './MealsPlanPage';

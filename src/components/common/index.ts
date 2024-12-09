@@ -18,4 +18,5 @@ export { ProfileTools } from './ProfileTools';
 export { Query } from './Query';
 export { Recipe } from './Recipe';
 export { RecipeTypingEffect } from './RecipeTypingEffect';
+export { UserList } from './UserList';
 export { Video } from './Video';
