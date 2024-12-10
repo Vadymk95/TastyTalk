@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { routes } from '@root/router/routes';
+import { useAuthStore } from '@root/store';
 
 type ProfileStatsProps = {
     setCurrentTab: (key: string) => void;
@@ -22,6 +23,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
     className = ''
 }) => {
     const { t } = useTranslation();
+    const { isEmailVerified } = useAuthStore();
 
     const numberFormats = (value: number) => {
         if (value >= 1_000_000)
@@ -30,6 +32,12 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
             return `${(value / 1_000).toFixed(1)}${t('ProfileStats.thousand')}`;
         return value.toString();
     };
+
+    const handleCheckVerification = (event: MouseEvent) => {
+        if (!isEmailVerified) return event.preventDefault();
+    };
+
+    console.log(!isEmailVerified);
 
     return (
         <div
@@ -59,7 +67,11 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 </p>
             </div>
 
-            <Link to={routes.followers} className="cursor-pointer">
+            <Link
+                onClick={(event) => handleCheckVerification(event)}
+                to={routes.followers}
+                className={`cursor-pointer ${!isEmailVerified ? 'pointer-events-none' : ''}`}
+            >
                 <p className="text-lg font-bold">
                     {numberFormats(followersCount)}
                 </p>
@@ -68,7 +80,11 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 </p>
             </Link>
 
-            <Link to={routes.following} className="cursor-pointer">
+            <Link
+                onClick={(event) => handleCheckVerification(event)}
+                to={routes.following}
+                className={`cursor-pointer ${!isEmailVerified ? 'pointer-events-none' : ''}`}
+            >
                 <p className="text-lg font-bold">
                     {numberFormats(followingCount)}
                 </p>
