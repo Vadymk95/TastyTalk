@@ -16,7 +16,7 @@ export const ProfilePhoto: FC<ProfilePhotoProps> = ({ profileImage }) => {
     const isMobile = isMobileDevice();
 
     return (
-        <div className="w-36 h-36 sm:w-20 sm:h-20 overflow-hidden rounded-full">
+        <div className="w-36 h-36 sm:w-24 sm:h-24 overflow-hidden rounded-full">
             {profileImage ? (
                 <Image
                     src={
@@ -28,12 +28,14 @@ export const ProfilePhoto: FC<ProfilePhotoProps> = ({ profileImage }) => {
                     className="object-cover w-full h-full"
                 />
             ) : (
-                <div className="bg-neutral-light text-neutral-300 w-full h-full flex flex-col gap-2 items-center justify-center">
+                <div className="bg-neutral/70 text-neutral-300 w-full h-full flex flex-col gap-2 sm:gap-1 items-center justify-center">
                     <FontAwesomeIcon
                         size={isMobile ? '2x' : '3x'}
                         icon={faUser}
                     />
-                    <span className="sm:text-xs">{t('General.noImage')}</span>
+                    <span className="sm:text-xs label">
+                        {t('General.noImage')}
+                    </span>
                 </div>
             )}
         </div>

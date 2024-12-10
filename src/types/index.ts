@@ -92,6 +92,7 @@ export interface UpdateProfileData {
 }
 
 export interface UserProfile {
+    id: string;
     firstName: string;
     lastName: string;
     username: string;
@@ -100,4 +101,7 @@ export interface UserProfile {
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];
     profileImage?: string | null | File;
+    followers?: string[];
+    following?: string[];
+    verified: boolean;
 }

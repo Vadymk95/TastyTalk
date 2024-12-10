@@ -68,7 +68,7 @@ export const PhotoUpload: FC<PhotoUploadProps> = ({
                             icon={faCamera}
                             size="xl"
                         />
-                        <p>{t('PhotoUpload.addPhoto')}</p>
+                        <p className="label">{t('PhotoUpload.addPhoto')}</p>
                     </div>
                 )}
                 <div className="photo-upload-overlay group-hover:flex">

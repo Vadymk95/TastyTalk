@@ -124,11 +124,7 @@ export const EditProfileForm: FC = () => {
         lastName: userProfile?.lastName || '',
         bio: userProfile?.bio || '',
         country: userProfile?.country || '',
-        socialNetworks: userProfile?.socialNetworks || [
-            { name: '', profileName: '' },
-            { name: '', profileName: '' },
-            { name: '', profileName: '' }
-        ],
+        socialNetworks: userProfile?.socialNetworks || [],
         profileImage: userProfile?.profileImage || null,
         email: userProfile?.email || ''
     };

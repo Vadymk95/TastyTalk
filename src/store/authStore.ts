@@ -65,6 +65,7 @@ interface AuthState {
     setError: (error: string | null) => void;
     clearError: () => void;
     setUser: (user: User | null, isRegistered?: boolean) => void;
+    loadUserProfile: (uid: string) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -76,14 +77,42 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     initialized: false,
     isEmailVerified: false,
 
-    setUser: (user, isRegistered = false) =>
-        set({
-            user,
-            isRegistered,
-            isEmailVerified: user ? user.emailVerified : false,
-            initialized: true,
-            userProfile: null
-        }),
+    setUser: async (user, isRegistered = false) => {
+        if (user) {
+            set({
+                user,
+                isRegistered,
+                isEmailVerified: user.emailVerified,
+                initialized: true,
+                userProfile: null
+            });
+            await get().loadUserProfile(user.uid);
+        } else {
+            set({
+                user: null,
+                isRegistered: false,
+                isEmailVerified: false,
+                initialized: true,
+                userProfile: null
+            });
+        }
+    },
+
+    loadUserProfile: async (uid: string) => {
+        const userRef = doc(db, 'users', uid);
+        try {
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userProfile = userSnap.data() as UserProfile;
+                set({ userProfile });
+            } else {
+                set({ userProfile: null });
+                throw new Error('User profile not found');
+            }
+        } catch (error: any) {
+            set({ error: error.message });
+        }
+    },
 
     setLoading: (value) => set({ loading: value }),
     setError: (error) => set({ error }),
@@ -190,11 +219,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             await user.reload();
 
             const userProfile = {
+                id: user.uid,
                 email: user.email,
                 username,
                 firstName,
                 lastName,
-                createdAt: new Date()
+                createdAt: new Date(),
+                followers: [],
+                following: [],
+                verified: false
             };
 
             await setDoc(doc(db, 'users', user.uid), userProfile);

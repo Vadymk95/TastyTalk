@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const FooterNavigation: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { isRegistered, signOutUser } = useAuthStore();
+    const { isEmailVerified, signOutUser } = useAuthStore();
 
     const handleSignOut = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -27,7 +27,7 @@ export const FooterNavigation: FC = () => {
 
     return (
         <nav className="flex items-center justify-between w-full">
-            {isRegistered ? (
+            {isEmailVerified ? (
                 <>
                     <div className=""></div>
 
@@ -75,17 +75,37 @@ export const FooterNavigation: FC = () => {
                     </div>
                 </>
             ) : (
-                <Link
-                    onClick={handleSignOut}
-                    to={routes.auth}
-                    className="link-primary nav-link p-4"
-                >
-                    <FontAwesomeIcon
-                        className="mr-3 sm:mr-0 sm:text-2xl"
-                        icon={faRightFromBracket}
-                    />
-                    <span className="sm:hidden">{t('Footer.signOut')}</span>
-                </Link>
+                <>
+                    <div className="flex sm:flex-grow">
+                        <Link
+                            onClick={handleSignOut}
+                            to={routes.auth}
+                            className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-3 sm:mr-0 sm:text-2xl"
+                                icon={faRightFromBracket}
+                            />
+                            <span className="sm:hidden">
+                                {t('Footer.signOut')}
+                            </span>
+                        </Link>
+                    </div>
+                    <div className="flex sm:flex-grow">
+                        <Link
+                            to={routes.profile}
+                            className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
+                        >
+                            <FontAwesomeIcon
+                                className="mr-3 sm:mr-0 sm:text-2xl"
+                                icon={faUser}
+                            />
+                            <span className="sm:hidden">
+                                {t('Footer.profile')}
+                            </span>
+                        </Link>
+                    </div>
+                </>
             )}
         </nav>
     );

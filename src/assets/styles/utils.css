@@ -47,7 +47,7 @@
 }
 
 .plate {
-    @apply bg-white text-neutral-dark rounded-lg p-8 lg:p-6 md:!p-4 leading-tight shadow-md;
+    @apply bg-gray-100 text-neutral-dark rounded-lg p-8 lg:p-6 md:!p-4 leading-tight shadow-md;
 }
 
 .video-container {

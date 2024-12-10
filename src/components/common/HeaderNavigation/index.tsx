@@ -11,7 +11,7 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const HeaderNavigation: FC = () => {
-    const { user, isRegistered } = useAuthStore();
+    const { user, isEmailVerified } = useAuthStore();
     const { t } = useTranslation();
     const isAuth = !!user;
 
@@ -19,7 +19,7 @@ export const HeaderNavigation: FC = () => {
         <nav className="flex">
             {isAuth ? <PrivateNavigation /> : <PublicNavigation />}
 
-            {!isRegistered && (
+            {!isEmailVerified && (
                 <Link
                     to={routes.home}
                     className="link-primary nav-link p-4 sm:px-6"

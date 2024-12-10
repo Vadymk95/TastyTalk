@@ -24,7 +24,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
                 <p className="label mt-1 sm:text-sm">{profile.bio}</p>
             )}
 
-            {profile.socialNetworks && (
+            {profile.socialNetworks && !!profile.socialNetworks.length && (
                 <div className="flex flex-col mt-4 flex-wrap sm:text-sm gap-2">
                     <h4 className="text-secondary font-semibold">
                         {t('ProfilePage.socialNetworks')}
