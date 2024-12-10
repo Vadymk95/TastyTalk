@@ -37,8 +37,6 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
         if (!isEmailVerified) return event.preventDefault();
     };
 
-    console.log(!isEmailVerified);
-
     return (
         <div
             className={`flex justify-around items-start gap-4 text-center ${className}`}
