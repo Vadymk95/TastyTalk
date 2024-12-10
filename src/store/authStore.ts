@@ -232,6 +232,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
             await setDoc(doc(db, 'users', user.uid), userProfile);
 
+            await get().loadUserProfile(user.uid);
+
             set({
                 user,
                 userProfile,
@@ -444,15 +446,18 @@ const processGoogleSignIn = async (
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        const userSnap = await getDoc(userRef);
-        const isRegistered = userSnap.exists();
-        const userProfile = isRegistered
-            ? (userSnap.data() as UserProfile)
-            : null;
-        useAuthStore.getState().setUser(user, isRegistered);
-        if (userProfile) {
-            useAuthStore.setState({ userProfile });
+        const state = useAuthStore.getState();
+        if (!state.userProfile) {
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
+            const isRegistered = userSnap.exists();
+            const userProfile = isRegistered
+                ? (userSnap.data() as UserProfile)
+                : null;
+            state.setUser(user, isRegistered);
+            if (userProfile) {
+                useAuthStore.setState({ userProfile });
+            }
         }
     } else {
         useAuthStore.getState().setUser(null, false);

@@ -38,8 +38,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         clearError,
         loading,
         user,
-        isRegistered,
-        userProfile
+        isRegistered
     } = useAuthStore();
     const isTemporaryUser = !!user && !isRegistered;
 
@@ -58,12 +57,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 values.lastName
             );
 
-            const interval = setInterval(() => {
-                if (userProfile) {
-                    clearInterval(interval);
-                    navigation(routes.emailVerification);
-                }
-            }, 100);
+            const state = useAuthStore.getState();
+            if (!state.userProfile) {
+                await (state.user && state.loadUserProfile(state.user.uid!));
+            }
+
+            navigation(routes.emailVerification);
         } catch (error) {
             console.error('Registration failed:', error);
         }

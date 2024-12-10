@@ -12,10 +12,18 @@ interface PrivateRouteProps {
 export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const location = useLocation();
     const { user, initialized, isRegistered, isEmailVerified } = useAuthStore();
-    const protectedRoutesForRegistered = [routes.profile, routes.settings];
+    const protectedRoutesForRegistered = [
+        routes.profile,
+        routes.settings,
+        routes.greeting,
+        routes.emailVerification
+    ];
     const protectedRoutesForVerified = [
         routes.mealsPlanCreate,
-        routes.recipesCreate
+        routes.recipesCreate,
+        routes.followers,
+        routes.following,
+        routes.searchProfiles
     ];
 
     if (!initialized) {
