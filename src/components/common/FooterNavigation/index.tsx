@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const FooterNavigation: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { isEmailVerified, signOutUser } = useAuthStore();
+    const { isEmailVerified, signOutUser, isRegistered } = useAuthStore();
 
     const handleSignOut = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -27,7 +27,7 @@ export const FooterNavigation: FC = () => {
 
     return (
         <nav className="flex items-center justify-between w-full">
-            {isEmailVerified ? (
+            {isRegistered && isEmailVerified ? (
                 <>
                     <div className=""></div>
 
