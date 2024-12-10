@@ -83,6 +83,10 @@ export const en = {
                 tabAI: 'Create with AI',
                 tabManually: 'Create Manually'
             },
+            SearchProfilePage: {
+                title: 'Search Profiles',
+                description: 'Find and follow other users on TastyTalks.'
+            },
             NotFoundPage: {
                 notFound: '404',
                 oops: 'Oops! It looks like this page has vanished like a hot pie. Let’s head back to the main page and find something delicious!',

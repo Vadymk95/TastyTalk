@@ -6,11 +6,17 @@ import { isMobileDevice } from '@root/helpers';
 
 interface UserProps {
     username: string;
+    name: string;
     id: string;
     handleSubscribe: (id: string) => void;
 }
 
-export const User: FC<UserProps> = ({ username, id, handleSubscribe }) => {
+export const User: FC<UserProps> = ({
+    username,
+    id,
+    name,
+    handleSubscribe
+}) => {
     const { t } = useTranslation();
     const [isFollow, setIsFollow] = useState(false);
     const isMobile = isMobileDevice();
@@ -22,7 +28,11 @@ export const User: FC<UserProps> = ({ username, id, handleSubscribe }) => {
     };
     return (
         <li className="plate flex items-center justify-between gap-4 p-2">
-            <span className="sm:text-xs">@{username}</span>
+            <div>
+                <p className="sm:text-xs">{name}</p>
+                <p className="text-xs label">@{username}</p>
+            </div>
+
             <Button
                 variant={isFollow ? 'primary' : 'secondary'}
                 onClick={handleOnClick}

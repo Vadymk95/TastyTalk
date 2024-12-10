@@ -12,11 +12,13 @@ const FollowersPage: FC = () => {
         return [
             {
                 id: '1',
-                username: 'john_doe'
+                username: 'john_doe',
+                name: 'John Doe'
             },
             {
                 id: '2',
-                username: 'jane_doe'
+                username: 'jane_doe',
+                name: 'Jane Doe'
             }
         ];
     };
