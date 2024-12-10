@@ -12,5 +12,6 @@ export const routes = {
     pricing: '/pricing',
     followers: '/followers',
     following: '/following',
+    searchProfiles: '/search-profiles',
     notFound: '*'
 };

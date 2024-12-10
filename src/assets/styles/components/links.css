@@ -1,5 +1,5 @@
 .link-primary {
-    @apply text-neutral-light font-medium transition duration-200 cursor-pointer inline-flex items-center sm:text-sm;
+    @apply text-neutral-light font-medium transition duration-200 cursor-pointer inline-flex items-center sm:text-sm focus:bg-primary-dark/50;
 }
 
 .link-primary:hover {
@@ -7,7 +7,7 @@
 }
 
 .link-secondary {
-    @apply text-primary-light font-medium transition duration-200 cursor-pointer sm:text-sm;
+    @apply text-primary-light font-medium transition duration-200 cursor-pointer sm:text-sm focus:bg-secondary-dark/50;
 }
 
 .link-secondary:hover {

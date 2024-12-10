@@ -47,7 +47,7 @@ export const FooterNavigation: FC = () => {
                         </Link>
                         <Link
                             to={routes.mealsPlanCreate}
-                            className="nav-link p-4 bg-secondary hover:bg-secondary-light sm:px-6 flex-grow flex-all-center"
+                            className="nav-link p-4 bg-secondary hover:bg-secondary-light sm:px-6 flex-grow flex-all-center focus:bg-secondary-dark/50"
                         >
                             <FontAwesomeIcon icon={faPlus} />
                             <FontAwesomeIcon

@@ -7,6 +7,8 @@ import {
     CreateMealsPlanPage,
     CreateRecipePage,
     EmailVerificationPage,
+    FollowersPage,
+    FollowingPage,
     GreetingPage,
     HomePage,
     MealsPlanPage,
@@ -14,8 +16,7 @@ import {
     PricingPage,
     ProfilePage,
     ProfileSettingsPage,
-    FollowersPage,
-    FollowingPage
+    SearchProfilePage
 } from '@root/pages/';
 import { routes } from '@root/router/routes';
 
@@ -114,6 +115,15 @@ export const AppRouter: FC = () => {
                 path={routes.following}
                 element={
                     <PrivateRoute element={withSuspense(<FollowingPage />)} />
+                }
+            />
+
+            <Route
+                path={routes.searchProfiles}
+                element={
+                    <PrivateRoute
+                        element={withSuspense(<SearchProfilePage />)}
+                    />
                 }
             />
         </Routes>

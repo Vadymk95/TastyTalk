@@ -27,7 +27,7 @@ export const PrivateNavigation: FC = () => {
                 <>
                     <Link
                         to={routes.recipes}
-                        className="nav-link px-4 bg-secondary hover:bg-secondary-light sm:px-6 flex-grow flex-all-center"
+                        className="link-primary nav-link px-4 sm:px-6 flex-grow flex-all-center focus:bg-primary-dark"
                     >
                         <FontAwesomeIcon
                             icon={faScroll}
@@ -40,7 +40,7 @@ export const PrivateNavigation: FC = () => {
 
                     <Link
                         to={routes.mealsPlan}
-                        className="link-primary nav-link text-center px-4 sm:px-6"
+                        className="link-primary nav-link text-center px-4 sm:px-6 focus:bg-primary-dark"
                     >
                         <FontAwesomeIcon
                             icon={faNewspaper}
@@ -52,8 +52,8 @@ export const PrivateNavigation: FC = () => {
                     </Link>
 
                     <Link
-                        to={routes.mealsPlan}
-                        className="link-primary nav-link text-center px-4 sm:px-6 bg-accent hover:bg-accent-light text-neutral-dark/70"
+                        to={routes.searchProfiles}
+                        className="link-primary nav-link text-center px-4 sm:px-6 focus:bg-primary-dark"
                     >
                         <FontAwesomeIcon
                             icon={faSearch}

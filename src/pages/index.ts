@@ -11,3 +11,4 @@ export { NotFoundPage } from './NotFoundPage';
 export { PricingPage } from './PricingPage';
 export { ProfilePage } from './ProfilePage';
 export { ProfileSettingsPage } from './ProfileSettingsPage';
+export { SearchProfilePage } from './SearchProfilePage';
