@@ -94,7 +94,8 @@ export const ru = {
                 home: 'На главную',
                 registerFinish: 'Завершить регистрацию',
                 allRecipes: 'Все рецепты',
-                allMealPlans: 'Все планы питания'
+                allMealPlans: 'Все планы питания',
+                searchProfiles: 'Поиск профиля'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. Все права защищены.',
