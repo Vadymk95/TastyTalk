@@ -6,6 +6,7 @@ export { FilterBlock } from './FilterBlock';
 export { FooterNavigation } from './FooterNavigation';
 export { Grid } from './Grid';
 export { HeaderNavigation } from './HeaderNavigation';
+export { MainFilterBlock } from './MainFilterBlock';
 export { MyMealPlans } from './MyMealPlans';
 export { MyRecipes } from './MyRecipes';
 export { Pricing } from './Pricing';

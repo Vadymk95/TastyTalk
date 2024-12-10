@@ -1,5 +1,5 @@
 .link-primary {
-    @apply text-neutral-light font-medium transition duration-200 cursor-pointer inline-flex items-center;
+    @apply text-neutral-light font-medium transition duration-200 cursor-pointer inline-flex items-center sm:text-sm;
 }
 
 .link-primary:hover {
@@ -7,7 +7,7 @@
 }
 
 .link-secondary {
-    @apply text-primary-light font-medium transition duration-200 cursor-pointer;
+    @apply text-primary-light font-medium transition duration-200 cursor-pointer sm:text-sm;
 }
 
 .link-secondary:hover {
@@ -15,7 +15,7 @@
 }
 
 .link-thirtiary {
-    @apply text-secondary-light font-medium transition duration-200 cursor-pointer;
+    @apply text-secondary-light font-medium transition duration-200 cursor-pointer sm:text-sm;
 }
 
 .link-thirtiary:hover {
@@ -23,7 +23,7 @@
 }
 
 .link-accent {
-    @apply text-accent-light font-medium transition duration-200 cursor-pointer;
+    @apply text-accent-light font-medium transition duration-200 cursor-pointer sm:text-sm;
 }
 
 .link-accent:hover {
@@ -31,5 +31,5 @@
 }
 
 .nav-link {
-    @apply hover:bg-primary-dark duration-200;
+    @apply hover:bg-primary-dark duration-200 sm:text-sm;
 }

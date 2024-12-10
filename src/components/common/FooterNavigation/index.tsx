@@ -6,10 +6,10 @@ import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
 import {
-    faNewspaper,
+    faFilePen,
+    faFileSignature,
     faPlus,
     faRightFromBracket,
-    faScroll,
     faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -39,7 +39,7 @@ export const FooterNavigation: FC = () => {
                             <FontAwesomeIcon icon={faPlus} />
                             <FontAwesomeIcon
                                 className="mr-3 sm:mr-0 ml-1 sm:text-2xl"
-                                icon={faScroll}
+                                icon={faFilePen}
                             />
                             <span className="sm:hidden">
                                 {t('Footer.createRecipe')}
@@ -52,7 +52,7 @@ export const FooterNavigation: FC = () => {
                             <FontAwesomeIcon icon={faPlus} />
                             <FontAwesomeIcon
                                 className="mr-3 sm:mr-0 ml-1 sm:text-2xl"
-                                icon={faNewspaper}
+                                icon={faFileSignature}
                             />
                             <span className="sm:hidden">
                                 {t('Footer.createMealPlan')}

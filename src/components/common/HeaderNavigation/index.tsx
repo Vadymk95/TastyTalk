@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
@@ -11,17 +11,15 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const HeaderNavigation: FC = () => {
-    const location = useLocation();
-    const { user } = useAuthStore();
+    const { user, isRegistered } = useAuthStore();
     const { t } = useTranslation();
     const isAuth = !!user;
-    const showHomeLink = location.pathname !== routes.home;
 
     return (
         <nav className="flex">
             {isAuth ? <PrivateNavigation /> : <PublicNavigation />}
 
-            {showHomeLink && (
+            {!isRegistered && (
                 <Link
                     to={routes.home}
                     className="link-primary nav-link p-4 sm:px-6"

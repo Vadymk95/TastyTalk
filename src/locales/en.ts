@@ -93,7 +93,9 @@ export const en = {
                 signOut: 'Sign Out',
                 signIn: 'Sign In',
                 home: 'Home',
-                registerFinish: 'Finish Registration'
+                registerFinish: 'Finish Registration',
+                allRecipes: 'All Recipes',
+                allMealPlans: 'All Meal Plans'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. All rights reserved.',
