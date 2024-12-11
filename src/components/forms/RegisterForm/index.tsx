@@ -120,9 +120,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
     const initialValues: RegisterFormValues = {
         username: '',
-        firstName: '',
-        lastName: '',
-        email: isTemporaryUser ? user?.email || '' : '',
+        firstName: isTemporaryUser ? user.displayName?.split(' ')[0] || '' : '',
+        lastName: isTemporaryUser ? user.displayName?.split(' ')[1] || '' : '',
+        email: isTemporaryUser ? user.email || '' : '',
         password: '',
         confirmPassword: ''
     };

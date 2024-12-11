@@ -91,20 +91,22 @@ export const FooterNavigation: FC = () => {
                             </span>
                         </Link>
                     </div>
-                    <div className="flex sm:flex-grow">
-                        <Link
-                            to={routes.profile}
-                            className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
-                        >
-                            <FontAwesomeIcon
-                                className="mr-3 sm:mr-0 sm:text-2xl"
-                                icon={faUser}
-                            />
-                            <span className="sm:hidden">
-                                {t('Footer.profile')}
-                            </span>
-                        </Link>
-                    </div>
+                    {isRegistered && (
+                        <div className="flex sm:flex-grow">
+                            <Link
+                                to={routes.profile}
+                                className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
+                            >
+                                <FontAwesomeIcon
+                                    className="mr-3 sm:mr-0 sm:text-2xl"
+                                    icon={faUser}
+                                />
+                                <span className="sm:hidden">
+                                    {t('Footer.profile')}
+                                </span>
+                            </Link>
+                        </div>
+                    )}
                 </>
             )}
         </nav>

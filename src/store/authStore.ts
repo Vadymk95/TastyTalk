@@ -2,6 +2,7 @@ import {
     createUserWithEmailAndPassword,
     deleteUser,
     EmailAuthProvider,
+    fetchSignInMethodsForEmail,
     onAuthStateChanged,
     reauthenticateWithCredential,
     sendEmailVerification,
@@ -66,6 +67,7 @@ interface AuthState {
     clearError: () => void;
     setUser: (user: User | null, isRegistered?: boolean) => void;
     loadUserProfile: (uid: string) => Promise<void>;
+    checkEmailAndFirestoreAvailability: (email: string) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -84,9 +86,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 isRegistered,
                 isEmailVerified: user.emailVerified,
                 initialized: true,
-                userProfile: null
+                userProfile: null // Очистка userProfile
             });
-            await get().loadUserProfile(user.uid);
+
+            if (isRegistered) {
+                try {
+                    await get().loadUserProfile(user.uid);
+                } catch (error) {
+                    console.error('Failed to load user profile:', error);
+                }
+            }
         } else {
             set({
                 user: null,
@@ -106,10 +115,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 const userProfile = userSnap.data() as UserProfile;
                 set({ userProfile });
             } else {
+                console.warn('User profile not found in Firestore.');
                 set({ userProfile: null });
-                throw new Error('User profile not found');
             }
         } catch (error: any) {
+            console.error('Error loading user profile:', error);
             set({ error: error.message });
         }
     },
@@ -206,42 +216,73 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             set({ error: null });
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            const user = userCredential.user;
 
-            await updateProfile(user, {
-                displayName: `${firstName} ${lastName}`
-            });
-            await user.reload();
+            const currentUser = auth.currentUser;
 
-            const userProfile = {
-                id: user.uid,
-                email: user.email,
-                username,
-                firstName,
-                lastName,
-                createdAt: new Date(),
-                followers: [],
-                following: [],
-                verified: false
-            };
+            if (currentUser && currentUser.email === email) {
+                //! НУЖНО пофиксить из верифайд опцию
+                const userProfile = {
+                    id: currentUser.uid,
+                    email: currentUser.email,
+                    username,
+                    firstName,
+                    lastName,
+                    createdAt: new Date(),
+                    followers: [],
+                    following: [],
+                    verified: false
+                };
 
-            await setDoc(doc(db, 'users', user.uid), userProfile);
+                await setDoc(doc(db, 'users', currentUser.uid), userProfile);
+                await get().loadUserProfile(currentUser.uid);
 
-            await get().loadUserProfile(user.uid);
+                set({
+                    user: currentUser,
+                    userProfile,
+                    isRegistered: true,
+                    error: null
+                });
+            } else {
+                // Полная регистрация нового пользователя
+                await get().checkEmailAndFirestoreAvailability(email);
 
-            set({
-                user,
-                userProfile,
-                isRegistered: true,
-                error: null
-            });
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+                const user = userCredential.user;
+
+                await updateProfile(user, {
+                    displayName: `${firstName} ${lastName}`
+                });
+                await user.reload();
+
+                const userProfile = {
+                    id: user.uid,
+                    email: user.email,
+                    username,
+                    firstName,
+                    lastName,
+                    createdAt: new Date(),
+                    followers: [],
+                    following: [],
+                    verified: false
+                };
+
+                await setDoc(doc(db, 'users', user.uid), userProfile);
+                await get().loadUserProfile(user.uid);
+
+                set({
+                    user,
+                    userProfile,
+                    isRegistered: true,
+                    error: null
+                });
+            }
         } catch (error: any) {
             set({ error: error.message });
+            throw error;
         } finally {
             set({ loading: false });
         }
@@ -425,6 +466,36 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         } finally {
             set({ loading: false });
         }
+    },
+
+    checkEmailAndFirestoreAvailability: async (
+        email: string
+    ): Promise<void> => {
+        try {
+            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+
+            if (signInMethods.length > 0) {
+                throw new Error(
+                    'This email is already registered. Please log in or verify your email.'
+                );
+            }
+
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('email', '==', email));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                throw new Error(
+                    'This email is already in use. Please try another email.'
+                );
+            }
+        } catch (error: any) {
+            console.error('Email availability check failed:', error);
+            throw new Error(
+                error.message ||
+                    'An error occurred while checking email availability.'
+            );
+        }
     }
 }));
 
@@ -435,13 +506,10 @@ const processGoogleSignIn = async (
     const userRef = doc(db, 'users', user.uid);
     const userSnap = await getDoc(userRef);
 
-    if (userSnap.exists()) {
-        useAuthStore.getState().setUser(user, true);
-        return true;
-    } else {
-        useAuthStore.getState().setUser(user, false);
-        return false;
-    }
+    const isRegistered = userSnap.exists();
+    useAuthStore.getState().setUser(user, isRegistered);
+
+    return isRegistered;
 };
 
 onAuthStateChanged(auth, async (user) => {

@@ -116,7 +116,11 @@ export const en = {
                 wrongPassword: 'Incorrect password.',
                 invalidCredential: 'Invalid credentials provided.',
                 popupClosedByUser: 'Sign in process was canceled by the user.',
-                usernameNotFound: 'Username not found. Please try again.'
+                usernameNotFound: 'Username not found. Please try again.',
+                emailInUse:
+                    'This email is already in use. Please try another email.',
+                emailRegistered:
+                    'This email is already registered. Please log in or verify your email.'
             },
             UsernameInput: {
                 chooseUsername: 'Choose a username',

@@ -13,7 +13,12 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'auth/user-not-found': t('AuthErrors.userNotFound'),
         'auth/wrong-password': t('AuthErrors.wrongPassword'),
         'auth/invalid-credential': t('AuthErrors.usernameNotFound'),
-        'username not found': t('AuthErrors.usernameNotFound')
+        'username not found': t('AuthErrors.usernameNotFound'),
+        'This email is already in use. Please try another email.': t(
+            'AuthErrors.emailInUse'
+        ),
+        'This email is already registered. Please log in or verify your email.':
+            t('AuthErrors.emailRegistered')
     };
 
     return errorMessages[errorCode] || t('General.somethingWentWrong');
