@@ -81,16 +81,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     setUser: async (user, isRegistered = false) => {
         if (user) {
-            // Проверяем, является ли пользователь зарегистрированным и верифицированным
-            const isEmailVerified = user.emailVerified; // Проверяем email из Firebase
-            const shouldVerifyEmail = !isEmailVerified && !isRegistered; // Если email не подтвержден, требуется верификация
+            const isEmailVerified = user.emailVerified;
+            const shouldVerifyEmail = !isEmailVerified && !isRegistered;
 
             set({
                 user,
                 isRegistered,
                 isEmailVerified,
                 initialized: true,
-                userProfile: null // Очистка userProfile перед загрузкой
+                userProfile: null
             });
 
             if (isRegistered) {
@@ -101,7 +100,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 }
             }
 
-            // Если требуется верификация email, отправляем письмо
             if (shouldVerifyEmail) {
                 try {
                     await sendEmailVerification(user);
@@ -256,7 +254,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     error: null
                 });
             } else {
-                // Полная регистрация нового пользователя
                 await get().checkEmailAndFirestoreAvailability(email);
 
                 const userCredential = await createUserWithEmailAndPassword(
@@ -364,13 +361,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     checkEmailVerificationStatus: async () => {
         const user = auth.currentUser;
         if (user) {
-            await user.reload();
-            if (user.emailVerified) {
-                const userRef = doc(db, 'users', user.uid);
-                const userSnap = await getDoc(userRef);
-                const isRegistered = userSnap.exists() && user.emailVerified;
+            try {
                 await user.reload();
-                set({ user, isRegistered });
+                const isVerified = user.emailVerified;
+
+                set({
+                    user,
+                    isEmailVerified: isVerified
+                });
+
+                if (isVerified) {
+                    const userRef = doc(db, 'users', user.uid);
+                    await setDoc(userRef, { verified: true }, { merge: true });
+                }
+            } catch (error) {
+                console.error(
+                    'Error checking email verification status:',
+                    error
+                );
+                set({ error: 'Failed to check email verification status' });
             }
         }
     },
@@ -393,7 +402,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.lastName = profileData.lastName || '';
                 }
 
-                // Проверка и обновление username
                 if (
                     profileData.username &&
                     profileData.username !== currentUsername
@@ -407,7 +415,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.username = profileData.username;
                 }
 
-                // Дополнительные поля профиля
                 if (profileData.bio) {
                     firestoreUpdates.bio = profileData.bio;
                 }
@@ -421,7 +428,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         profileData.socialNetworks;
                 }
 
-                // Преобразование файла в Base64
                 if (profileData.profileImage) {
                     // This is a workaround to convert the profile photo to base64. Temporary solution.
                     if (profileData.profileImage instanceof File) {
@@ -434,12 +440,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     firestoreUpdates.profileImage = null;
                 }
 
-                // Обновление данных в Firestore
                 if (Object.keys(firestoreUpdates).length > 0) {
                     await setDoc(userRef, firestoreUpdates, { merge: true });
                 }
 
-                // Обновление локального состояния
                 const updatedUserSnap = await getDoc(userRef);
                 if (updatedUserSnap.exists()) {
                     set({ userProfile: updatedUserSnap.data() as UserProfile });

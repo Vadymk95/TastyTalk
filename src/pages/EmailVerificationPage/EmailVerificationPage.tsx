@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,12 @@ import { useAuthStore } from '@root/store';
 const EmailVerificationPage: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { resendVerificationEmail } = useAuthStore();
+    const {
+        resendVerificationEmail,
+        isEmailVerified,
+        checkEmailVerificationStatus
+    } = useAuthStore();
+    const [checking, setChecking] = useState(false);
 
     const [resendStatus, setResendStatus] = useState<'idle' | 'sent' | 'error'>(
         'idle'
@@ -46,6 +51,26 @@ const EmailVerificationPage: FC = () => {
             console.error('Error when resending the email:', error);
         }
     };
+
+    useEffect(() => {
+        if (!isEmailVerified) {
+            // Запускаем таймер для проверки статуса каждые 5 секунд
+            const intervalId = setInterval(async () => {
+                setChecking(true);
+                await checkEmailVerificationStatus();
+                setChecking(false);
+            }, 5000); // 5000 мс = 5 секунд
+
+            // Очищаем таймер, когда пользователь уходит со страницы
+            return () => clearInterval(intervalId);
+        }
+    }, [isEmailVerified, checkEmailVerificationStatus]);
+
+    useEffect(() => {
+        if (isEmailVerified && !checking) {
+            navigate(routes.home);
+        }
+    }, [checking, isEmailVerified, navigate]);
 
     return (
         <div className="flex-all-center">

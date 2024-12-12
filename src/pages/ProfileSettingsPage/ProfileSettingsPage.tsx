@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ProfileSettingsModals } from '@root/components/common';
@@ -12,8 +12,12 @@ const ProfileSettingsPage: FC = () => {
     const { t } = useTranslation();
     const [isCooldown, setIsCooldown] = useState(false);
     const [cooldownTime, setCooldownTime] = useState(60);
-    const { signOutUser, resendVerificationEmail, isEmailVerified } =
-        useAuthStore();
+    const {
+        signOutUser,
+        resendVerificationEmail,
+        isEmailVerified,
+        checkEmailVerificationStatus
+    } = useAuthStore();
     const { openModal } = useModalStore();
     const { setLanguage } = useLanguageStore();
 
@@ -47,6 +51,16 @@ const ProfileSettingsPage: FC = () => {
             console.error('Error when resending the email:', error);
         }
     };
+
+    useEffect(() => {
+        if (!isEmailVerified) {
+            const intervalId = setInterval(async () => {
+                await checkEmailVerificationStatus();
+            }, 5000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [isEmailVerified, checkEmailVerificationStatus]);
 
     const options = languages.map((lang) => ({
         label: lang.name,
