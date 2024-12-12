@@ -81,12 +81,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     setUser: async (user, isRegistered = false) => {
         if (user) {
+            // Проверяем, является ли пользователь зарегистрированным и верифицированным
+            const isEmailVerified = user.emailVerified; // Проверяем email из Firebase
+            const shouldVerifyEmail = !isEmailVerified && !isRegistered; // Если email не подтвержден, требуется верификация
+
             set({
                 user,
                 isRegistered,
-                isEmailVerified: user.emailVerified,
+                isEmailVerified,
                 initialized: true,
-                userProfile: null // Очистка userProfile
+                userProfile: null // Очистка userProfile перед загрузкой
             });
 
             if (isRegistered) {
@@ -94,6 +98,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     await get().loadUserProfile(user.uid);
                 } catch (error) {
                     console.error('Failed to load user profile:', error);
+                }
+            }
+
+            // Если требуется верификация email, отправляем письмо
+            if (shouldVerifyEmail) {
+                try {
+                    await sendEmailVerification(user);
+                    console.log('Verification email sent.');
+                } catch (error) {
+                    console.error('Failed to send verification email:', error);
                 }
             }
         } else {
@@ -220,7 +234,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             const currentUser = auth.currentUser;
 
             if (currentUser && currentUser.email === email) {
-                //! НУЖНО пофиксить из верифайд опцию
                 const userProfile = {
                     id: currentUser.uid,
                     email: currentUser.email,
@@ -230,7 +243,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     createdAt: new Date(),
                     followers: [],
                     following: [],
-                    verified: false
+                    verified: true
                 };
 
                 await setDoc(doc(db, 'users', currentUser.uid), userProfile);
@@ -326,7 +339,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     checkUsernameAvailability: async (username: string) => {
         const usersRef = collection(db, 'users');
         const q = query(usersRef, where('username', '==', username));
-
         const querySnapshot = await getDocs(q);
 
         return querySnapshot.empty;
@@ -335,7 +347,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     resendVerificationEmail: async () => {
         const user = auth.currentUser;
         if (user && !user.emailVerified) {
-            await sendEmailVerification(user);
+            try {
+                await sendEmailVerification(user);
+                console.log('Verification email resent.');
+            } catch (error) {
+                console.error('Failed to resend verification email:', error);
+                throw new Error('Failed to resend verification email.');
+            }
         } else {
             throw new Error(
                 'No user is currently signed in or email is already verified.'
