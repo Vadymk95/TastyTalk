@@ -18,8 +18,12 @@ export const ForgotPasswordModal: FC = () => {
         <Modal
             isOpen={isForgotPasswordModalOpen}
             title={t('Modals.ForgotPasswordModal.title')}
+            titleCenter
             onClose={handleCloseForgotPasswordModal}
         >
+            <p className="label text-center mb-5">
+                {t('Modals.ForgotPasswordModal.description')}
+            </p>
             <ForgotPasswordForm />
         </Modal>
     );

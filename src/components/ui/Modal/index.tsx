@@ -10,6 +10,7 @@ type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
     title?: string;
+    titleCenter?: boolean;
     children?: ReactNode;
     onConfirm?: () => void;
     confirmText?: string;
@@ -23,6 +24,7 @@ export const Modal: FC<ModalProps> = ({
     isOpen,
     onClose,
     title,
+    titleCenter = false,
     children,
     onConfirm,
     confirmText,
@@ -60,6 +62,7 @@ export const Modal: FC<ModalProps> = ({
                     className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ${classNameContainer}`}
                 >
                     <motion.div
+                        //@ts-expect-error classNameMotion is not a valid prop
                         className={`plate sm:max-w-[95%] max-h-[85%] overflow-y-auto relative modal-${variant} ${classNameMotion}`}
                         initial={{ y: '-100vh', opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
@@ -75,7 +78,9 @@ export const Modal: FC<ModalProps> = ({
                         </Button>
 
                         {title && (
-                            <h2 className="text-2xl sm:text-xl font-semibold my-5 px-4">
+                            <h2
+                                className={`text-2xl sm:text-xl font-semibold my-5 px-4 ${titleCenter ? 'text-center' : ''}`}
+                            >
                                 {title}
                             </h2>
                         )}

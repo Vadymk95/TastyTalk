@@ -340,6 +340,13 @@ export const en = {
                     videoUrlPhotoHelpText:
                         'Add a video link(YouTube) to help users better understand the cooking process. A video makes your recipe clearer and inspires others to try making it!',
                     previewRecipe: 'Preview Recipe'
+                },
+                ForgotPasswordForm: {
+                    email: 'Email',
+                    emailPlaceholder: 'Enter your email',
+                    emailNotValid: 'Email is not valid',
+                    requiredField: 'This field is required',
+                    resetPassword: 'Reset Password'
                 }
             },
             Modals: {
@@ -402,7 +409,9 @@ export const en = {
                     selectFriends: 'Choose Friends'
                 },
                 ForgotPasswordModal: {
-                    title: ''
+                    title: 'Forgot Password?',
+                    description:
+                        'Enter your email address to reset your password.'
                 }
             },
             PhotoUpload: {

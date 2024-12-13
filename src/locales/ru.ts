@@ -332,6 +332,13 @@ export const ru = {
                     videoUrlPhotoHelpText:
                         'Добавьте ссылку на видео(YouTube), чтобы пользователи могли лучше понять процесс приготовления. Видео помогает сделать рецепт более понятным и вдохновляет других попробовать его приготовить!',
                     previewRecipe: 'Предпросмотр рецепта'
+                },
+                ForgotPasswordForm: {
+                    email: 'Email',
+                    emailPlaceholder: 'Введите ваш email',
+                    emailNotValid: 'Email не валидный',
+                    requiredField: 'Это поле обязательно',
+                    resetPassword: 'Сбросить пароль'
                 }
             },
             Modals: {
@@ -394,7 +401,8 @@ export const ru = {
                     selectFriends: 'Выберите друзей'
                 },
                 ForgotPasswordModal: {
-                    title: ''
+                    title: 'Забыли пароль?',
+                    description: 'Введите ваш email, чтобы сбросить пароль.'
                 }
             },
             PhotoUpload: {

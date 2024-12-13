@@ -90,109 +90,110 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     }, [clearError]);
 
     return (
-        <Formik
-            preventDefault
-            initialValues={initialValues}
-            validationSchema={LoginSchema}
-            onSubmit={handleLoginSubmit}
-            validateOnBlur
-        >
-            {() => (
-                <Form className="relative">
-                    <div className="mb-8 md:mb-7">
-                        <Button
-                            size="large"
-                            variant="secondary"
-                            className="w-full flex-all-center gap-4"
-                            type="button"
-                            onClick={handleGoogleLogin}
-                            disabled={loading}
-                        >
-                            <Image
-                                src={googleLogo}
-                                className="w-6 h-6 text-xs flex-all-center"
-                                alt="google-icon"
-                            />
-                            {t('Forms.LoginForm.signInWithGoogle')}
-                        </Button>
-                    </div>
+        <>
+            <Formik
+                preventDefault
+                initialValues={initialValues}
+                validationSchema={LoginSchema}
+                onSubmit={handleLoginSubmit}
+                validateOnBlur
+            >
+                {() => (
+                    <Form>
+                        <div className="mb-8 md:mb-7">
+                            <Button
+                                size="large"
+                                variant="secondary"
+                                className="w-full flex-all-center gap-4"
+                                type="button"
+                                onClick={handleGoogleLogin}
+                                disabled={loading}
+                            >
+                                <Image
+                                    src={googleLogo}
+                                    className="w-6 h-6 text-xs flex-all-center"
+                                    alt="google-icon"
+                                />
+                                {t('Forms.LoginForm.signInWithGoogle')}
+                            </Button>
+                        </div>
 
-                    <div className="divider" />
+                        <div className="divider" />
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="emailOrUsername"
-                        type="text"
-                        placeholder={t(
-                            'Forms.LoginForm.emailOrUsernamePlaceholder'
-                        )}
-                        isRequired
-                        label={t('Forms.LoginForm.emailOrUsername')}
-                    />
+                        <Input
+                            className="auth-input-wrapper"
+                            name="emailOrUsername"
+                            type="text"
+                            placeholder={t(
+                                'Forms.LoginForm.emailOrUsernamePlaceholder'
+                            )}
+                            isRequired
+                            label={t('Forms.LoginForm.emailOrUsername')}
+                        />
 
-                    <Input
-                        className="auth-input-wrapper"
-                        name="password"
-                        type="password"
-                        placeholder="******"
-                        isRequired
-                        label={t('Forms.LoginForm.password')}
-                    />
+                        <Input
+                            className="auth-input-wrapper"
+                            name="password"
+                            type="password"
+                            placeholder="******"
+                            isRequired
+                            label={t('Forms.LoginForm.password')}
+                        />
 
-                    <section>
-                        <Button
-                            size="large"
-                            className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
-                            type="submit"
-                            disabled={loading}
-                        >
-                            {loading
-                                ? t('General.loading')
-                                : t('Forms.LoginForm.signIn')}
-                        </Button>
+                        <section>
+                            <Button
+                                size="large"
+                                className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading
+                                    ? t('General.loading')
+                                    : t('Forms.LoginForm.signIn')}
+                            </Button>
 
-                        {error && (
-                            <div className="mb-8 md:mb-7 duration-300">
-                                <ErrorCard errorMessage={authError} />
+                            {error && (
+                                <div className="mb-8 md:mb-7 duration-300">
+                                    <ErrorCard errorMessage={authError} />
+                                </div>
+                            )}
+
+                            <div className="text-center">
+                                <span>
+                                    {t('Forms.LoginForm.dontHaveAccount')}{' '}
+                                    <Link
+                                        className="underline"
+                                        variant="secondary"
+                                        onClick={signUpAction}
+                                    >
+                                        {t('Forms.LoginForm.actionSignUp')}
+                                    </Link>
+                                </span>
                             </div>
-                        )}
 
-                        <div className="text-center">
-                            <span>
-                                {t('Forms.LoginForm.dontHaveAccount')}{' '}
-                                <Link
-                                    className="underline"
-                                    variant="secondary"
-                                    onClick={signUpAction}
-                                >
-                                    {t('Forms.LoginForm.actionSignUp')}
-                                </Link>
-                            </span>
-                        </div>
+                            <div className="flex items-center gap-2">
+                                <div className="divider" />
+                                <p className="text-center">{t('General.or')}</p>
+                                <div className="divider" />
+                            </div>
 
-                        <div className="flex items-center gap-2">
-                            <div className="divider" />
-                            <p className="text-center">{t('General.or')}</p>
-                            <div className="divider" />
-                        </div>
-
-                        <div className="text-center">
-                            <span>
-                                {t('Forms.LoginForm.forgotPassword')}{' '}
-                                <Link
-                                    className="underline"
-                                    variant="thirtiary"
-                                    onClick={handleModalOpen}
-                                >
-                                    {t('General.clickHere')}
-                                </Link>
-                            </span>
-                        </div>
-                    </section>
-
-                    <ForgotPasswordModal />
-                </Form>
-            )}
-        </Formik>
+                            <div className="text-center">
+                                <span>
+                                    {t('Forms.LoginForm.forgotPassword')}{' '}
+                                    <Link
+                                        className="underline"
+                                        variant="thirtiary"
+                                        onClick={handleModalOpen}
+                                    >
+                                        {t('General.clickHere')}
+                                    </Link>
+                                </span>
+                            </div>
+                        </section>
+                    </Form>
+                )}
+            </Formik>
+            <ForgotPasswordModal />
+        </>
     );
 };
