@@ -1,5 +1,6 @@
 export { ChangePasswordModal } from './ChangePasswordModal';
 export { DeleteAccountModal } from './DeleteAccountModal';
+export { ForgotPasswordModal } from './ForgotPasswordModal';
 export { PricingModal } from './PricingModal';
 export { RecipePreviewModal } from './RecipePreviewModal';
 export { ResetStepperModal } from './ResetStepperModal';

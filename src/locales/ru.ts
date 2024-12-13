@@ -141,7 +141,8 @@ export const ru = {
                     requiredField: 'Это поле обязательно',
                     emailNotValid: 'Email не валидный',
                     passwordMinLength: 'Пароль должен быть не менее 6 символов',
-                    signInWithGoogle: 'Войти через Google'
+                    signInWithGoogle: 'Войти через Google',
+                    forgotPassword: 'Забыли пароль?'
                 },
                 RegisterForm: {
                     signUp: 'Регистрация',
@@ -391,7 +392,8 @@ export const ru = {
                     everyone: 'Все',
                     noone: 'Никто',
                     selectFriends: 'Выберите друзей'
-                }
+                },
+                ForgotPasswordModal: {}
             },
             PhotoUpload: {
                 profilePhoto: 'Фото профиля',
@@ -572,7 +574,9 @@ export const ru = {
                 noResultsFound: 'Ничего не найдено',
                 back: 'Назад',
                 follow: 'Подписаться',
-                unfollow: 'Отписаться'
+                unfollow: 'Отписаться',
+                clickHere: 'Нажмите сюда',
+                or: 'Или'
             }
         }
     }

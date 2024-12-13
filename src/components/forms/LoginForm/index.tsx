@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import { ForgotPasswordModal } from '@root/components/modals';
 import { Button, ErrorCard, Image, Input, Link } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store/authStore';
+import { useAuthStore, useModalStore } from '@root/store';
 
 import googleLogo from '@root/assets/images/google_logo.png';
 
@@ -22,6 +24,7 @@ type LoginFormProps = {
 
 export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     const { t } = useTranslation();
+    const { openModal } = useModalStore();
     const navigate = useNavigate();
     const {
         signInWithEmailOrUsername,
@@ -75,6 +78,8 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
             .required(t('Forms.LoginForm.requiredField'))
     });
 
+    const handleModalOpen = () => openModal(ModalsEnum.ForgotPassword);
+
     const initialValues: LoginFormValues = {
         emailOrUsername: '',
         password: ''
@@ -90,9 +95,10 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
             initialValues={initialValues}
             validationSchema={LoginSchema}
             onSubmit={handleLoginSubmit}
+            validateOnBlur
         >
             {() => (
-                <Form>
+                <Form className="relative">
                     <div className="mb-8 md:mb-7">
                         <Button
                             size="large"
@@ -163,7 +169,28 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
                                 </Link>
                             </span>
                         </div>
+
+                        <div className="flex items-center gap-2">
+                            <div className="divider" />
+                            <p className="text-center">{t('General.or')}</p>
+                            <div className="divider" />
+                        </div>
+
+                        <div className="text-center">
+                            <span>
+                                {t('Forms.LoginForm.forgotPassword')}{' '}
+                                <Link
+                                    className="underline"
+                                    variant="thirtiary"
+                                    onClick={handleModalOpen}
+                                >
+                                    {t('General.clickHere')}
+                                </Link>
+                            </span>
+                        </div>
                     </section>
+
+                    <ForgotPasswordModal />
                 </Form>
             )}
         </Formik>

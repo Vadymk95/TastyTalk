@@ -73,3 +73,7 @@
 .btn-large {
     @apply text-lg py-3 px-6;
 }
+
+.btn-link {
+    @apply underline bg-transparent hover:bg-transparent text-sm text-neutral-dark/70 p-0 hover:text-neutral scale-100 hover:scale-100;
+}

@@ -140,7 +140,8 @@ export const en = {
                     emailNotValid: 'Email is not valid',
                     passwordMinLength:
                         'Password must be at least 6 characters long',
-                    signInWithGoogle: 'Sign in with Google'
+                    signInWithGoogle: 'Sign in with Google',
+                    forgotPassword: 'Forgot your password?'
                 },
                 RegisterForm: {
                     signUp: 'Register',
@@ -399,7 +400,8 @@ export const en = {
                     everyone: 'Everyone',
                     noone: 'No one',
                     selectFriends: 'Choose Friends'
-                }
+                },
+                ForgotPasswordModal: {}
             },
             PhotoUpload: {
                 profilePhoto: 'Profile Photo',
@@ -583,7 +585,9 @@ export const en = {
                 noResultsFound: 'No results found',
                 back: 'Back',
                 follow: 'Follow',
-                unfollow: 'Unfollow'
+                unfollow: 'Unfollow',
+                clickHere: 'Click here',
+                or: 'Or'
             }
         }
     }
