@@ -401,7 +401,9 @@ export const en = {
                     noone: 'No one',
                     selectFriends: 'Choose Friends'
                 },
-                ForgotPasswordModal: {}
+                ForgotPasswordModal: {
+                    title: ''
+                }
             },
             PhotoUpload: {
                 profilePhoto: 'Profile Photo',

@@ -393,7 +393,9 @@ export const ru = {
                     noone: 'Никто',
                     selectFriends: 'Выберите друзей'
                 },
-                ForgotPasswordModal: {}
+                ForgotPasswordModal: {
+                    title: ''
+                }
             },
             PhotoUpload: {
                 profilePhoto: 'Фото профиля',
