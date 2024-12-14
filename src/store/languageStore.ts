@@ -2,8 +2,11 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import i18n from 'i18next';
 import { create } from 'zustand';
 
+import { languages } from '@root/constants/languages';
 import { db } from '@root/firebase/firebaseConfig';
 import { useAuthStore } from '@root/store/authStore';
+
+const supportedLanguageCodes = languages.map((lang) => lang.code);
 
 interface LanguageState {
     language: string;
@@ -37,10 +40,18 @@ export const useLanguageStore = create<LanguageState>((set) => ({
             const userSnap = await getDoc(userRef);
             lang = (userSnap.exists() && userSnap.data()?.language) || 'en';
         } else {
-            lang = localStorage.getItem('language') || 'en';
+            lang = localStorage.getItem('language') || detectSystemLanguage();
         }
 
         i18n.changeLanguage(lang);
         set({ language: lang });
     }
 }));
+
+const detectSystemLanguage = (): string => {
+    const systemLanguage = navigator.language.split('-')[0];
+
+    return supportedLanguageCodes.includes(systemLanguage)
+        ? systemLanguage
+        : 'en';
+};
