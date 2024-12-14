@@ -24,15 +24,9 @@ export const RulesModal: FC = () => {
                     {t('Modals.RulesModal.description')}
                 </p>
                 <div className="divider" />
-
-                <p>{t('Modals.RulesModal.rule1')}</p>
-                <p>{t('Modals.RulesModal.rule2')}</p>
-                <p>{t('Modals.RulesModal.rule3')}</p>
-                <p>{t('Modals.RulesModal.rule4')}</p>
-                <p>{t('Modals.RulesModal.rule5')}</p>
-                <p>{t('Modals.RulesModal.rule6')}</p>
-                <p>{t('Modals.RulesModal.rule7')}</p>
-
+                {Array.from({ length: 14 }).map((_, index) => (
+                    <p key={index}>{t(`Modals.RulesModal.rule${index + 1}`)}</p>
+                ))}
                 <div className="divider" />
             </div>
         </Modal>

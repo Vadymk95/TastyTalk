@@ -376,12 +376,19 @@ export const en = {
                     description:
                         'Please read the following guidelines carefully before posting any content on our platform:',
                     rule1: 'Respect other members of the community. Offensive or discriminatory language is prohibited.',
-                    rule2: 'Do not share personal or sensitive information of yourself or others.',
-                    rule3: 'Ensure that recipes and meal plans you share comply with copyright laws.',
-                    rule4: 'Avoid sharing misleading or harmful dietary advice. Always consult professionals for medical or nutritional guidance.',
-                    rule5: 'Report inappropriate or harmful content to the administrators immediately.',
-                    rule6: 'The platform is not responsible for the accuracy of the information shared by users. Use recipes and dietary advice at your own discretion.',
-                    rule7: 'The platform does not guarantee that any dietary or health advice will be suitable for your needs. Always consult a certified professional before making changes to your diet.'
+                    rule2: 'Do not publish personal or confidential information about yourself or others.',
+                    rule3: 'Ensure that recipes and meal plans you publish do not violate copyright laws.',
+                    rule4: 'Do not publish misleading or harmful dietary advice. Always consult professionals for medical and nutritional guidance.',
+                    rule5: 'Report inappropriate or harmful content to the administrators.',
+                    rule6: 'The platform is not responsible for the accuracy of information published by users. Use recipes and dietary advice at your own discretion.',
+                    rule7: 'The platform does not guarantee that dietary or health advice is suitable for your needs. Always consult a certified specialist before making changes to your diet.',
+                    rule8: 'The platform cannot be used for illegal activities such as spam, fraud, or malicious software.',
+                    rule9: 'Mass promotion and advertising are prohibited without prior approval from the administration.',
+                    rule10: 'Users are responsible for the legality and accuracy of the content they publish.',
+                    rule11: 'The administration reserves the right to delete accounts for rule violations.',
+                    rule12: 'The platform may only be used by individuals aged 13 and older. Users under 18 must obtain parental or guardian consent.',
+                    rule13: 'Users must comply with the laws of their country while using the platform.',
+                    rule14: 'The administration reserves the right to change the rules and notify users of any changes.'
                 },
                 ResetStepperModal: {
                     title: 'Reset Recipe Creation',
