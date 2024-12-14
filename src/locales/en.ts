@@ -374,7 +374,14 @@ export const en = {
                 RulesModal: {
                     title: 'Community Guidelines',
                     description:
-                        'Please read the following guidelines carefully before posting any content on our platform:'
+                        'Please read the following guidelines carefully before posting any content on our platform:',
+                    rule1: 'Respect other members of the community. Offensive or discriminatory language is prohibited.',
+                    rule2: 'Do not share personal or sensitive information of yourself or others.',
+                    rule3: 'Ensure that recipes and meal plans you share comply with copyright laws.',
+                    rule4: 'Avoid sharing misleading or harmful dietary advice. Always consult professionals for medical or nutritional guidance.',
+                    rule5: 'Report inappropriate or harmful content to the administrators immediately.',
+                    rule6: 'The platform is not responsible for the accuracy of the information shared by users. Use recipes and dietary advice at your own discretion.',
+                    rule7: 'The platform does not guarantee that any dietary or health advice will be suitable for your needs. Always consult a certified professional before making changes to your diet.'
                 },
                 ResetStepperModal: {
                     title: 'Reset Recipe Creation',
@@ -577,6 +584,7 @@ export const en = {
                 thousand: 'k'
             },
             General: {
+                ok: 'OK',
                 loading: 'Loading...',
                 error: 'Error:',
                 close: 'Close',
