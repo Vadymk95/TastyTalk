@@ -573,7 +573,8 @@ export const ru = {
                 thousand: 'тыс'
             },
             Pricing: {
-                title: 'Our Pricing Plans',
+                title: 'Наши тарифные планы',
+                yourPlan: 'Ваш текущий план',
                 free: {
                     title: 'Бесплатный',
                     price: 'Бесплатно',
@@ -633,7 +634,8 @@ export const ru = {
                 follow: 'Подписаться',
                 unfollow: 'Отписаться',
                 clickHere: 'Нажмите сюда',
-                or: 'Или'
+                or: 'Или',
+                selected: 'Выбрано'
             }
         }
     }

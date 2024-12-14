@@ -584,7 +584,8 @@ export const en = {
                 thousand: 'k'
             },
             Pricing: {
-                title: 'Наши тарифные планы',
+                title: 'Our Pricing Plans',
+                yourPlan: 'Your Current Plan',
                 free: {
                     title: 'Free',
                     price: 'Free',
@@ -645,7 +646,8 @@ export const en = {
                 follow: 'Follow',
                 unfollow: 'Unfollow',
                 clickHere: 'Click here',
-                or: 'Or'
+                or: 'Or',
+                selected: 'Selected'
             }
         }
     }

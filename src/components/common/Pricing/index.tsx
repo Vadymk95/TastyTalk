@@ -3,8 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 import { PricingCard } from '@root/components/ui';
 
+type PricingPlan = 'Free' | 'Basic' | 'Standard' | 'Premium';
+
 export const Pricing: FC = () => {
     const { t } = useTranslation();
+
+    const currentPlan: PricingPlan = 'Basic';
 
     const pricingPlans = [
         {
@@ -15,7 +19,8 @@ export const Pricing: FC = () => {
                 t('Pricing.free.feature2'),
                 t('Pricing.free.feature3')
             ],
-            buttonLabel: t('Pricing.free.button')
+            buttonLabel: t('Pricing.free.button'),
+            isCurrentPlan: false
         },
         {
             title: t('Pricing.basic.title'),
@@ -25,7 +30,8 @@ export const Pricing: FC = () => {
                 t('Pricing.basic.feature2'),
                 t('Pricing.basic.feature3')
             ],
-            buttonLabel: t('Pricing.basic.button')
+            buttonLabel: t('Pricing.basic.button'),
+            isCurrentPlan: currentPlan === 'Basic'
         },
         {
             title: t('Pricing.standard.title'),
@@ -35,7 +41,8 @@ export const Pricing: FC = () => {
                 t('Pricing.standard.feature2'),
                 t('Pricing.standard.feature3')
             ],
-            buttonLabel: t('Pricing.standard.button')
+            buttonLabel: t('Pricing.standard.button'),
+            isCurrentPlan: false
         },
         {
             title: t('Pricing.premium.title'),
@@ -45,12 +52,13 @@ export const Pricing: FC = () => {
                 t('Pricing.premium.feature2'),
                 t('Pricing.premium.feature3')
             ],
-            buttonLabel: t('Pricing.premium.button')
+            buttonLabel: t('Pricing.premium.button'),
+            isCurrentPlan: false
         }
     ];
 
     return (
-        <div className="grid sm:!grid-cols-1 grid-cols-4 lg:grid-cols-2 gap-6">
+        <div className="grid sm:!grid-cols-1 grid-cols-4 lg:grid-cols-2 gap-6 items-center">
             {pricingPlans.map((plan, index) => (
                 <PricingCard
                     key={index}
@@ -58,6 +66,7 @@ export const Pricing: FC = () => {
                     price={plan.price}
                     features={plan.features as string[]}
                     buttonLabel={plan.buttonLabel}
+                    isCurrentPlan={plan.isCurrentPlan}
                 />
             ))}
         </div>
