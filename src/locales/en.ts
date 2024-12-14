@@ -583,6 +583,41 @@ export const en = {
                 million: 'm',
                 thousand: 'k'
             },
+            Pricing: {
+                title: 'Наши тарифные планы',
+                free: {
+                    title: 'Free',
+                    price: 'Free',
+                    feature1: 'Access to 10 recipes',
+                    feature2: 'Basic community features',
+                    feature3: 'Limited support',
+                    button: 'Get Free'
+                },
+                basic: {
+                    title: 'Basic',
+                    price: '$5/month',
+                    feature1: 'Access to 50 recipes',
+                    feature2: 'Basic meal plans',
+                    feature3: 'Community support',
+                    button: 'Get Basic'
+                },
+                standard: {
+                    title: 'Standard',
+                    price: '$10/month',
+                    feature1: 'Access to 200 recipes',
+                    feature2: 'Standard meal plans',
+                    feature3: 'Priority support',
+                    button: 'Get Standard'
+                },
+                premium: {
+                    title: 'Premium',
+                    price: '$20/month',
+                    feature1: 'Unlimited recipes',
+                    feature2: 'Custom meal plans',
+                    feature3: '1-on-1 consultation',
+                    button: 'Get Premium'
+                }
+            },
             General: {
                 ok: 'OK',
                 loading: 'Loading...',

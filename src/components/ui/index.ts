@@ -14,6 +14,7 @@ export { Loader } from './Loader';
 export { Modal } from './Modal';
 export { MultiSelectWithSearchAndCheckboxes } from './MultiSelectWithSearchAndCheckboxes';
 export { PhotoUpload } from './PhotoUpload';
+export { PricingCard } from './PricingCard';
 export { ProgressBar } from './ProgressBar';
 export { ScrollIndicator } from './ScrollIndicator';
 export { SearchInput } from './SearchInput';
