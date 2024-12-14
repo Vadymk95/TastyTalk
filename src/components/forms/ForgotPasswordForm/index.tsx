@@ -1,14 +1,21 @@
+import { auth } from '@root/firebase/firebaseConfig';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
-import { Button, Input } from '@root/components/ui';
+import { Button, ErrorCard, Input, SuccessCard } from '@root/components/ui';
 import { useAuthStore } from '@root/store';
 
-export const ForgotPasswordForm: FC = () => {
+export const ForgotPasswordForm: FC<{ onClose: () => void }> = ({
+    onClose
+}) => {
     const { t } = useTranslation();
     const { loading } = useAuthStore();
+
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const ForgotPasswordSchema = Yup.object().shape({
         email: Yup.string()
@@ -21,7 +28,23 @@ export const ForgotPasswordForm: FC = () => {
     };
 
     const handleForgotPassword = async (values: { email: string }) => {
-        console.log(values);
+        try {
+            setErrorMessage(null);
+            setSuccessMessage(null);
+
+            await sendPasswordResetEmail(auth, values.email);
+
+            setSuccessMessage(t('Forms.ForgotPasswordForm.successMessage'));
+
+            setTimeout(() => {
+                onClose();
+            }, 5000);
+        } catch (error: any) {
+            console.error('Password reset error:', error);
+            setErrorMessage(
+                error.message || t('Forms.ForgotPasswordForm.errorMessage')
+            );
+        }
     };
 
     return (
@@ -54,6 +77,20 @@ export const ForgotPasswordForm: FC = () => {
                     >
                         {t('Forms.ForgotPasswordForm.resetPassword')}
                     </Button>
+
+                    {successMessage && (
+                        <SuccessCard
+                            className="mt-4"
+                            successMessage={successMessage}
+                        />
+                    )}
+
+                    {errorMessage && (
+                        <ErrorCard
+                            className="mt-4"
+                            errorMessage={errorMessage}
+                        />
+                    )}
                 </Form>
             )}
         </Formik>

@@ -346,7 +346,11 @@ export const en = {
                     emailPlaceholder: 'Enter your email',
                     emailNotValid: 'Email is not valid',
                     requiredField: 'This field is required',
-                    resetPassword: 'Reset Password'
+                    resetPassword: 'Reset Password',
+                    successMessage:
+                        'An email has been sent to reset your password.',
+                    errorMessage:
+                        'Failed to send reset email. Please try again.'
                 }
             },
             Modals: {

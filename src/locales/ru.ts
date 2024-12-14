@@ -338,7 +338,11 @@ export const ru = {
                     emailPlaceholder: 'Введите ваш email',
                     emailNotValid: 'Email не валидный',
                     requiredField: 'Это поле обязательно',
-                    resetPassword: 'Сбросить пароль'
+                    resetPassword: 'Сбросить пароль',
+                    successMessage:
+                        'Письмо для сброса пароля отправлено на ваш email',
+                    errorMessage:
+                        'Что-то пошло не так. Пожалуйста, попробуйте снова.'
                 }
             },
             Modals: {

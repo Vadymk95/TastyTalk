@@ -24,7 +24,8 @@ export const ForgotPasswordModal: FC = () => {
             <p className="label text-center mb-5">
                 {t('Modals.ForgotPasswordModal.description')}
             </p>
-            <ForgotPasswordForm />
+
+            <ForgotPasswordForm onClose={handleCloseForgotPasswordModal} />
         </Modal>
     );
 };
