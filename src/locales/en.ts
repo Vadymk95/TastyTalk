@@ -381,7 +381,8 @@ export const en = {
                     title: 'Rules and Privacy Policy'
                 },
                 RegisterRulesAndPrivacyModal: {
-                    title: 'Rules and Privacy Policy'
+                    title: 'Rules and Privacy Policy',
+                    check: 'I have read and accept the rules and privacy policy'
                 },
                 ResetStepperModal: {
                     title: 'Reset Recipe Creation',

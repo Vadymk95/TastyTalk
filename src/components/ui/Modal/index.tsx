@@ -13,6 +13,8 @@ type ModalProps = {
     titleCenter?: boolean;
     children?: ReactNode;
     onConfirm?: () => void;
+    submitType?: 'submit' | 'button';
+    disabled?: boolean;
     confirmText?: string;
     cancelText?: string;
     variant?: 'primary' | 'secondary';
@@ -31,7 +33,9 @@ export const Modal: FC<ModalProps> = ({
     cancelText,
     variant = 'primary',
     classNameContainer = '',
-    classNameMotion = ''
+    classNameMotion = '',
+    submitType = 'button',
+    disabled = false
 }) => {
     const scrollYRef = useRef(0);
 
@@ -97,6 +101,8 @@ export const Modal: FC<ModalProps> = ({
                                 {confirmText && (
                                     <Button
                                         variant="secondary"
+                                        type={submitType}
+                                        disabled={disabled}
                                         onClick={onConfirm}
                                     >
                                         {confirmText}

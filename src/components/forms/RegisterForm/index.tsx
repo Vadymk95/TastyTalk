@@ -141,11 +141,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             <Formik
                 preventDefault
                 validateOnBlur
+                validateOnMount
                 initialValues={initialValues}
                 validationSchema={RegisterSchema}
                 onSubmit={(values) => handleRegisterSubmit(values)}
             >
-                {() => (
+                {({ isValid, isSubmitting }) => (
                     <Form>
                         <section className="flex gap-10 md:block">
                             <div className="w-full">
@@ -223,7 +224,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 size="large"
                                 className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
                                 onClick={handleRulesAndPrivacyModalOpen}
-                                disabled={loading}
+                                disabled={!isValid || isSubmitting || loading}
                             >
                                 {t('Forms.RegisterForm.signUp')}
                             </Button>
@@ -259,7 +260,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 )}
             </Formik>
 
-            <RegisterRulesAndPrivacyModal />
+            <RegisterRulesAndPrivacyModal loading={loading} />
         </>
     );
 };
