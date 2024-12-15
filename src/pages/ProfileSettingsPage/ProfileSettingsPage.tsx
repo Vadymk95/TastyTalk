@@ -161,7 +161,7 @@ const ProfileSettingsPage: FC = () => {
                     {t('ProfileSettingsPage.rulesDescription')}
                 </p>
                 <Button
-                    onClick={() => handleOpenModal(ModalsEnum.Rules)}
+                    onClick={() => handleOpenModal(ModalsEnum.RulesAndPrivacy)}
                     variant="accent"
                 >
                     {t('ProfileSettingsPage.rulesButton')}

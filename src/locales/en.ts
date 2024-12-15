@@ -62,9 +62,9 @@ export const en = {
                 supportDescription:
                     'If you have any questions or issues, contact support',
                 contactSupport: 'Contact Support',
-                rules: 'Community Guidelines',
+                rules: 'Rules and Privacy Policy',
                 rulesDescription:
-                    'Read our community guidelines before posting content',
+                    'Review the Terms of Use and Privacy Policy before creating a recipe, meal plan, or using the platform.',
                 rulesButton: 'Read Guidelines',
                 pricing: 'Pricing',
                 pricingDescription:
@@ -377,10 +377,12 @@ export const en = {
                 DeleteAccountModal: {
                     title: 'Delete Account'
                 },
-                RulesModal: {
-                    title: 'Community Guidelines'
+                RulesAndPrivacyModal: {
+                    title: 'Rules and Privacy Policy'
                 },
-                RegisterRulesModal: {},
+                RegisterRulesAndPrivacyModal: {
+                    title: 'Rules and Privacy Policy'
+                },
                 ResetStepperModal: {
                     title: 'Reset Recipe Creation',
                     description:
@@ -648,6 +650,14 @@ export const en = {
                 rule7: 'The platform is intended for users aged 13 and older. Users under 18 require parental or guardian consent.',
                 rule8: 'We reserve the right to modify the Privacy Policy and notify users of any changes.',
                 rule9: 'When adding links to external resources (e.g., YouTube videos or social media profiles), the administration does not collect or process data contained in these links. Users are responsible for their accuracy and legality.'
+            },
+            RulesAndPrivacy: {
+                description:
+                    "Please review the platform's rules and privacy policy before proceeding.",
+                rulesLabel: 'Rules of Use:',
+                rulesLink: 'Read the Rules',
+                privacyLabel: 'Privacy Policy:',
+                privacyLink: 'Read the Privacy Policy'
             },
             General: {
                 ok: 'OK',

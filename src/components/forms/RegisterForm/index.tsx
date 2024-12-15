@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { RegisterRulesModal } from '@root/components/modals';
+import { RegisterRulesAndPrivacyModal } from '@root/components/modals';
 import {
     Button,
     ErrorCard,
@@ -49,7 +49,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         error || t('General.somethingWentWrong')
     );
 
-    const handleRulesModalOpen = () => openModal(ModalsEnum.RegisterRules);
+    const handleRulesAndPrivacyModalOpen = () =>
+        openModal(ModalsEnum.RegisterRulesAndPrivacy);
 
     const handleRegisterSubmit = async (values: RegisterFormValues) => {
         clearError();
@@ -221,7 +222,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             <Button
                                 size="large"
                                 className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
-                                onClick={handleRulesModalOpen}
+                                onClick={handleRulesAndPrivacyModalOpen}
                                 disabled={loading}
                             >
                                 {t('Forms.RegisterForm.signUp')}
@@ -258,7 +259,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 )}
             </Formik>
 
-            <RegisterRulesModal />
+            <RegisterRulesAndPrivacyModal />
         </>
     );
 };

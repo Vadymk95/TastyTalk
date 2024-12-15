@@ -40,7 +40,8 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
     const { isModalOpen, closeModal } = useModalStore();
     const isVisibilityModalOpen = isModalOpen.visibility;
 
-    const handleCloseRulesModal = () => closeModal(ModalsEnum.Visibility);
+    const handleCloseRulesAndPrivacyModal = () =>
+        closeModal(ModalsEnum.Visibility);
 
     const handleVisibilityChange = (value: VisibilityType) => {
         setVisibility(value);
@@ -69,7 +70,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
     return (
         <Modal
             isOpen={isVisibilityModalOpen}
-            onClose={handleCloseRulesModal}
+            onClose={handleCloseRulesAndPrivacyModal}
             title={t(`Modals.VisibilityModal.${type}Title`)}
             classNameMotion="!overflow-visible"
         >
@@ -139,7 +140,7 @@ export const VisibilityModal: FC<VisibilityModalProps> = ({
             </div>
 
             <div className="flex gap-4 justify-end">
-                <Button onClick={handleCloseRulesModal}>
+                <Button onClick={handleCloseRulesAndPrivacyModal}>
                     {t('General.cancel')}
                 </Button>
                 {handleSave ? (

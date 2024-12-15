@@ -5,7 +5,7 @@ import {
     DeleteAccountModal,
     PricingModal,
     SupportModal,
-    RulesModal
+    RulesAndPrivacyModal
 } from '@root/components/modals';
 
 export const ProfileSettingsModals: FC = () => {
@@ -15,7 +15,7 @@ export const ProfileSettingsModals: FC = () => {
             <ChangePasswordModal />
             <DeleteAccountModal />
             <PricingModal />
-            <RulesModal />
+            <RulesAndPrivacyModal />
         </>
     );
 };
