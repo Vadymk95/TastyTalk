@@ -42,7 +42,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         user,
         isRegistered
     } = useAuthStore();
-    const { openModal } = useModalStore();
+    const { openModal, closeModal } = useModalStore();
     const isTemporaryUser = !!user && !isRegistered;
 
     const authError = useGetAuthErrorMessage(
@@ -67,6 +67,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             if (!state.userProfile) {
                 await (state.user && state.loadUserProfile(state.user.uid!));
             }
+
+            closeModal(ModalsEnum.RegisterRulesAndPrivacy);
 
             navigation(routes.emailVerification);
         } catch (error) {
@@ -256,11 +258,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 )}
                             </div>
                         </section>
+
+                        <RegisterRulesAndPrivacyModal loading={loading} />
                     </Form>
                 )}
             </Formik>
-
-            <RegisterRulesAndPrivacyModal loading={loading} />
         </>
     );
 };
