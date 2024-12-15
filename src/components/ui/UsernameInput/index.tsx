@@ -23,11 +23,13 @@ const debouncedCheckAvailability = debounce(
         setLoading: (loading: boolean) => void,
         setFieldError: FormikHelpers<any>['setFieldError'],
         name: string,
-        errorMsg: string
+        errorMsg: string,
+        setFieldValue: FormikHelpers<any>['setFieldValue']
     ) => {
         if (username.length < 4) {
             setIsAvailable(null);
             setLoading(false);
+            setFieldValue('isChecking', false);
             return;
         }
 
@@ -38,6 +40,7 @@ const debouncedCheckAvailability = debounce(
             setFieldError(name, errorMsg);
         }
         setLoading(false);
+        if (available) setFieldValue('isChecking', false);
     },
     500
 );
@@ -74,14 +77,18 @@ export const UsernameInput: FC<UsernameInputProps> = ({
             if (currentUsername && value === currentUsername) {
                 setLoading(false);
                 setIsAvailable(true);
+                form.setFieldValue('isChecking', false);
                 return;
             }
 
             const isValid = await validationSchema.isValid(value);
             if (!isValid) {
                 setLoading(false);
+                form.setFieldValue('isChecking', false);
                 return;
             }
+
+            form.setFieldValue('isChecking', true);
 
             debouncedCheckAvailability(
                 value,
@@ -90,7 +97,8 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 setLoading,
                 form.setFieldError,
                 name,
-                t('UsernameInput.taken')
+                t('UsernameInput.taken'),
+                form.setFieldValue
             );
         },
         [currentUsername, validationSchema, checkUsernameAvailability, name, t]

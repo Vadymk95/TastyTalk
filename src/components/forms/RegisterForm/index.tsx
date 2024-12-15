@@ -48,6 +48,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
     );
+    const modalError = {
+        hasError: !!error,
+        errorMessage: authError
+    };
 
     const handleRulesAndPrivacyModalOpen = () =>
         openModal(ModalsEnum.RegisterRulesAndPrivacy);
@@ -126,13 +130,14 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         clearError();
     }, [clearError]);
 
-    const initialValues: RegisterFormValues = {
+    const initialValues: RegisterFormValues & { isChecking: boolean } = {
         username: '',
         firstName: isTemporaryUser ? user.displayName?.split(' ')[0] || '' : '',
         lastName: isTemporaryUser ? user.displayName?.split(' ')[1] || '' : '',
         email: isTemporaryUser ? user.email || '' : '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        isChecking: false
     };
 
     const usernameValidationSchema = RegisterSchema.fields
@@ -148,7 +153,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 validationSchema={RegisterSchema}
                 onSubmit={(values) => handleRegisterSubmit(values)}
             >
-                {({ isValid, isSubmitting }) => (
+                {({ isValid, isSubmitting, values }) => (
                     <Form>
                         <section className="flex gap-10 md:block">
                             <div className="w-full">
@@ -226,7 +231,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 size="large"
                                 className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
                                 onClick={handleRulesAndPrivacyModalOpen}
-                                disabled={!isValid || isSubmitting || loading}
+                                disabled={
+                                    !isValid ||
+                                    isSubmitting ||
+                                    loading ||
+                                    values.isChecking
+                                }
                             >
                                 {t('Forms.RegisterForm.signUp')}
                             </Button>
@@ -259,7 +269,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             </div>
                         </section>
 
-                        <RegisterRulesAndPrivacyModal loading={loading} />
+                        <RegisterRulesAndPrivacyModal
+                            loading={loading}
+                            modalError={modalError}
+                        />
                     </Form>
                 )}
             </Formik>
