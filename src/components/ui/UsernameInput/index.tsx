@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, FieldProps } from 'formik';
+import { ErrorMessage, Field, FieldProps, FormikHelpers } from 'formik';
 import debounce from 'lodash/debounce';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,10 @@ const debouncedCheckAvailability = debounce(
         username: string,
         checkUsernameAvailability: (username: string) => Promise<boolean>,
         setIsAvailable: (isAvailable: boolean | null) => void,
-        setLoading: (loading: boolean) => void
+        setLoading: (loading: boolean) => void,
+        setFieldError: FormikHelpers<any>['setFieldError'],
+        name: string,
+        errorMsg: string
     ) => {
         if (username.length < 4) {
             setIsAvailable(null);
@@ -31,6 +34,9 @@ const debouncedCheckAvailability = debounce(
         setLoading(true);
         const available = await checkUsernameAvailability(username);
         setIsAvailable(available);
+        if (!available) {
+            setFieldError(name, errorMsg);
+        }
         setLoading(false);
     },
     500
@@ -62,7 +68,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
     };
 
     const handleChange = useCallback(
-        async (value: string) => {
+        async (value: string, form: any) => {
             setIsAvailable(null);
 
             if (currentUsername && value === currentUsername) {
@@ -81,10 +87,13 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                 value,
                 checkUsernameAvailability,
                 setIsAvailable,
-                setLoading
+                setLoading,
+                form.setFieldError,
+                name,
+                t('UsernameInput.taken')
             );
         },
-        [checkUsernameAvailability, validationSchema, currentUsername]
+        [currentUsername, validationSchema, checkUsernameAvailability, name, t]
     );
 
     useEffect(() => {
@@ -101,7 +110,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
             </label>
 
             <Field name={name}>
-                {({ field }: FieldProps) => (
+                {({ field, form }: FieldProps) => (
                     <div className="relative">
                         <input
                             className={`input-primary ${sizeInputStyle[size]} input`}
@@ -110,7 +119,7 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                             placeholder={t('UsernameInput.chooseUsername')}
                             onChange={(e: any) => {
                                 field.onChange(e);
-                                handleChange(e.target.value);
+                                handleChange(e.target.value, form);
                             }}
                         />
                         {isRequired && (
