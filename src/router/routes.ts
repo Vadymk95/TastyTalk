@@ -13,5 +13,7 @@ export const routes = {
     followers: '/followers',
     following: '/following',
     searchProfiles: '/search-profiles',
+    privacy: '/privacy',
+    rules: '/rules',
     notFound: '*'
 };

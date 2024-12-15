@@ -22,6 +22,12 @@ export const en = {
                 title: 'Followers',
                 description: 'Here you can see the users who follow you.'
             },
+            RulesPage: {
+                title: 'Community Guidelines'
+            },
+            PrivacyPage: {
+                title: 'Privacy Policy'
+            },
             GreetingPage: {
                 welcome: 'Welcome!',
                 description: 'Choose where you want to go:',
@@ -372,24 +378,9 @@ export const en = {
                     title: 'Delete Account'
                 },
                 RulesModal: {
-                    title: 'Community Guidelines',
-                    description:
-                        'Please read the following guidelines carefully before posting any content on our platform:',
-                    rule1: 'Respect other members of the community. Offensive or discriminatory language is prohibited.',
-                    rule2: 'Do not publish personal or confidential information about yourself or others.',
-                    rule3: 'Ensure that recipes and meal plans you publish do not violate copyright laws.',
-                    rule4: 'Do not publish misleading or harmful dietary advice. Always consult professionals for medical and nutritional guidance.',
-                    rule5: 'Report inappropriate or harmful content to the administrators.',
-                    rule6: 'The platform is not responsible for the accuracy of information published by users. Use recipes and dietary advice at your own discretion.',
-                    rule7: 'The platform does not guarantee that dietary or health advice is suitable for your needs. Always consult a certified specialist before making changes to your diet.',
-                    rule8: 'The platform cannot be used for illegal activities such as spam, fraud, or malicious software.',
-                    rule9: 'Mass promotion and advertising are prohibited without prior approval from the administration.',
-                    rule10: 'Users are responsible for the legality and accuracy of the content they publish.',
-                    rule11: 'The administration reserves the right to delete accounts for rule violations.',
-                    rule12: 'The platform may only be used by individuals aged 13 and older. Users under 18 must obtain parental or guardian consent.',
-                    rule13: 'Users must comply with the laws of their country while using the platform.',
-                    rule14: 'The administration reserves the right to change the rules and notify users of any changes.'
+                    title: 'Community Guidelines'
                 },
+                RegisterRulesModal: {},
                 ResetStepperModal: {
                     title: 'Reset Recipe Creation',
                     description:
@@ -625,6 +616,38 @@ export const en = {
                     feature3: '1-on-1 consultation',
                     button: 'Get Premium'
                 }
+            },
+            Rules: {
+                description:
+                    'Please carefully read the TastyTalks community guidelines before posting content (recipes and meal plans) or using information provided by other users or AI:',
+                rule1: 'Respect other members of the community. Offensive or discriminatory language is prohibited.',
+                rule2: 'Do not publish personal or confidential information about yourself or others.',
+                rule3: 'Ensure that recipes and meal plans you publish do not violate copyright laws.',
+                rule4: 'Do not publish misleading or harmful dietary advice. Always consult professionals for medical and nutritional guidance.',
+                rule5: 'Report inappropriate or harmful content to the administrators.',
+                rule6: 'The platform is not responsible for the accuracy of information published by users. Use recipes and dietary advice at your own discretion.',
+                rule7: 'The platform does not guarantee that dietary or health advice is suitable for your needs. Always consult a certified specialist before making changes to your diet.',
+                rule8: 'The platform cannot be used for illegal activities such as spam, fraud, or malicious software.',
+                rule9: 'Mass promotion and advertising are prohibited without prior approval from the administration.',
+                rule10: 'Users are responsible for the legality and accuracy of the content they publish.',
+                rule11: 'The administration reserves the right to delete accounts for rule violations.',
+                rule12: 'The platform may only be used by individuals aged 13 and older. Users under 18 must obtain parental or guardian consent.',
+                rule13: 'Users must comply with the laws of their country while using the platform.',
+                rule14: 'The administration reserves the right to change the rules and notify users of any changes.',
+                rule15: 'Users may add links to external resources, such as YouTube videos and social media profiles, only if they have the right to publish them. The administration reserves the right to remove links that violate platform rules or laws.'
+            },
+            Privacy: {
+                description:
+                    'Please carefully read our Privacy Policy, which explains how we collect, use, and protect your personal data.',
+                rule1: 'We collect personal information, such as name, email, and account details, only with your consent.',
+                rule2: 'We use collected data for registration, authentication, notifications, and improving the platform.',
+                rule3: 'We use cookies to analyze user behavior and personalize content.',
+                rule4: 'Your data is stored securely and is not shared with third parties without your consent.',
+                rule5: 'You can request access, deletion, or modification of your data at any time.',
+                rule6: 'Data is retained no longer than necessary to fulfill the purposes for which it was collected.',
+                rule7: 'The platform is intended for users aged 13 and older. Users under 18 require parental or guardian consent.',
+                rule8: 'We reserve the right to modify the Privacy Policy and notify users of any changes.',
+                rule9: 'When adding links to external resources (e.g., YouTube videos or social media profiles), the administration does not collect or process data contained in these links. Users are responsible for their accuracy and legality.'
             },
             General: {
                 ok: 'OK',

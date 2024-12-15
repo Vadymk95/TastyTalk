@@ -14,8 +14,10 @@ import {
     MealsPlanPage,
     NotFoundPage,
     PricingPage,
+    PrivacyPage,
     ProfilePage,
     ProfileSettingsPage,
+    RulesPage,
     SearchProfilePage
 } from '@root/pages/';
 import { routes } from '@root/router/routes';
@@ -24,6 +26,13 @@ export const AppRouter: FC = () => {
     return (
         <Routes>
             <Route path={routes.home} element={<HomePage />} />
+
+            <Route
+                path={routes.privacy}
+                element={withSuspense(<PrivacyPage />)}
+            />
+
+            <Route path={routes.rules} element={withSuspense(<RulesPage />)} />
 
             <Route
                 path={routes.auth}

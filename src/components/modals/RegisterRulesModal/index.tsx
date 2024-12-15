@@ -6,19 +6,19 @@ import { Modal } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useModalStore } from '@root/store';
 
-export const RulesModal: FC = () => {
+export const RegisterRulesModal: FC = () => {
     const { t } = useTranslation();
     const { isModalOpen, closeModal } = useModalStore();
-    const isRulesModalOpen = isModalOpen.rules;
+    const isRegisterRulesOpen = isModalOpen.registerRules;
 
-    const handleCloseRulesModal = () => closeModal(ModalsEnum.Rules);
+    const handleCloseRegisterRules = () => closeModal(ModalsEnum.RegisterRules);
 
     return (
         <Modal
-            isOpen={isRulesModalOpen}
-            onClose={handleCloseRulesModal}
+            isOpen={isRegisterRulesOpen}
+            onClose={handleCloseRegisterRules}
             cancelText={t('General.ok')}
-            title={t('Modals.RulesModal.title')}
+            title={t('Modals.RegisterRules.title')}
         >
             <Rules />
         </Modal>

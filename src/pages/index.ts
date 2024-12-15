@@ -9,6 +9,8 @@ export { HomePage } from './HomePage/HomePage';
 export { MealsPlanPage } from './MealsPlanPage';
 export { NotFoundPage } from './NotFoundPage';
 export { PricingPage } from './PricingPage';
+export { PrivacyPage } from './PrivacyPage';
 export { ProfilePage } from './ProfilePage';
 export { ProfileSettingsPage } from './ProfileSettingsPage';
+export { RulesPage } from './RulesPage';
 export { SearchProfilePage } from './SearchProfilePage';

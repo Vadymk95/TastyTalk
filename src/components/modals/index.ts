@@ -3,6 +3,7 @@ export { DeleteAccountModal } from './DeleteAccountModal';
 export { ForgotPasswordModal } from './ForgotPasswordModal';
 export { PricingModal } from './PricingModal';
 export { RecipePreviewModal } from './RecipePreviewModal';
+export { RegisterRulesModal } from './RegisterRulesModal';
 export { ResetStepperModal } from './ResetStepperModal';
 export { RulesModal } from './RulesModal';
 export { StepperWelcomeModal } from './StepperWelcomeModal';
