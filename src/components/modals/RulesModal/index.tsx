@@ -9,6 +9,8 @@ export const RulesModal: FC = () => {
     const { t } = useTranslation();
     const { isModalOpen, closeModal } = useModalStore();
     const isRulesModalOpen = isModalOpen.rules;
+    const RULES = 14;
+    const rulesList = Array.from({ length: RULES });
 
     const handleCloseRulesModal = () => closeModal(ModalsEnum.Rules);
 
@@ -24,7 +26,7 @@ export const RulesModal: FC = () => {
                     {t('Modals.RulesModal.description')}
                 </p>
                 <div className="divider" />
-                {Array.from({ length: 14 }).map((_, index) => (
+                {rulesList.map((_, index) => (
                     <p key={index}>{t(`Modals.RulesModal.rule${index + 1}`)}</p>
                 ))}
                 <div className="divider" />

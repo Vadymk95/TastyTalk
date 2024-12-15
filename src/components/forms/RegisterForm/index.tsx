@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import { RulesModal } from '@root/components/modals';
 import {
     Button,
     ErrorCard,
@@ -11,9 +12,10 @@ import {
     Link,
     UsernameInput
 } from '@root/components/ui';
+import { ModalsEnum } from '@root/constants/modals';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store/authStore';
+import { useAuthStore, useModalStore } from '@root/store';
 
 type RegisterFormValues = {
     username: string;
@@ -40,11 +42,14 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         user,
         isRegistered
     } = useAuthStore();
+    const { openModal } = useModalStore();
     const isTemporaryUser = !!user && !isRegistered;
 
     const authError = useGetAuthErrorMessage(
         error || t('General.somethingWentWrong')
     );
+
+    const handleRulesModalOpen = () => openModal(ModalsEnum.Rules);
 
     const handleRegisterSubmit = async (values: RegisterFormValues) => {
         clearError();
@@ -131,121 +136,129 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         .username as Yup.StringSchema;
 
     return (
-        <Formik
-            preventDefault
-            validateOnBlur
-            initialValues={initialValues}
-            validationSchema={RegisterSchema}
-            onSubmit={(values) => handleRegisterSubmit(values)}
-        >
-            {() => (
-                <Form>
-                    <section className="flex gap-10 md:block">
-                        <div className="w-full">
-                            <UsernameInput
-                                validationSchema={usernameValidationSchema}
-                                className="auth-input-wrapper"
-                                name="username"
-                                label={t('Forms.RegisterForm.username')}
-                                isRequired
-                                checkUsernameAvailability={
-                                    checkUsernameAvailability
-                                }
-                            />
+        <>
+            <Formik
+                preventDefault
+                validateOnBlur
+                initialValues={initialValues}
+                validationSchema={RegisterSchema}
+                onSubmit={(values) => handleRegisterSubmit(values)}
+            >
+                {() => (
+                    <Form>
+                        <section className="flex gap-10 md:block">
+                            <div className="w-full">
+                                <UsernameInput
+                                    validationSchema={usernameValidationSchema}
+                                    className="auth-input-wrapper"
+                                    name="username"
+                                    label={t('Forms.RegisterForm.username')}
+                                    isRequired
+                                    checkUsernameAvailability={
+                                        checkUsernameAvailability
+                                    }
+                                />
 
-                            <Input
-                                className="auth-input-wrapper"
-                                name="firstName"
-                                type="text"
-                                placeholder={t(
-                                    'Forms.RegisterForm.enterYourName'
-                                )}
-                                isRequired
-                                label={t('Forms.RegisterForm.firstName')}
-                            />
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="firstName"
+                                    type="text"
+                                    placeholder={t(
+                                        'Forms.RegisterForm.enterYourName'
+                                    )}
+                                    isRequired
+                                    label={t('Forms.RegisterForm.firstName')}
+                                />
 
-                            <Input
-                                className="auth-input-wrapper"
-                                name="lastName"
-                                type="text"
-                                placeholder={t(
-                                    'Forms.RegisterForm.enterYourLastName'
-                                )}
-                                isRequired
-                                label={t('Forms.RegisterForm.lastName')}
-                            />
-                        </div>
-
-                        <div className="w-full">
-                            <Input
-                                className="auth-input-wrapper"
-                                name="email"
-                                type="email"
-                                disabled={isTemporaryUser}
-                                placeholder={t(
-                                    'Forms.RegisterForm.enterYourEmail'
-                                )}
-                                isRequired
-                                label={t('Forms.RegisterForm.email')}
-                            />
-
-                            <Input
-                                className="auth-input-wrapper"
-                                name="password"
-                                type="password"
-                                placeholder="******"
-                                isRequired
-                                label={t('Forms.RegisterForm.password')}
-                            />
-
-                            <Input
-                                className="auth-input-wrapper"
-                                name="confirmPassword"
-                                type="password"
-                                placeholder="******"
-                                isRequired
-                                label={t('Forms.RegisterForm.confirmPassword')}
-                            />
-                        </div>
-                    </section>
-
-                    <section>
-                        <Button
-                            size="large"
-                            className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
-                            type="submit"
-                            disabled={loading}
-                        >
-                            {t('Forms.RegisterForm.signUp')}
-                        </Button>
-
-                        {error && (
-                            <div className="mb-8 md:mb-7 duration-300">
-                                <ErrorCard errorMessage={authError} />
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="lastName"
+                                    type="text"
+                                    placeholder={t(
+                                        'Forms.RegisterForm.enterYourLastName'
+                                    )}
+                                    isRequired
+                                    label={t('Forms.RegisterForm.lastName')}
+                                />
                             </div>
-                        )}
 
-                        <div className="text-center">
-                            {isTemporaryUser ? (
-                                <span>
-                                    {t('Forms.RegisterForm.registerFinish')}
-                                </span>
-                            ) : (
-                                <span>
-                                    {t('Forms.RegisterForm.haveAccount')}{' '}
-                                    <Link
-                                        className="underline"
-                                        variant="secondary"
-                                        onClick={signInAction}
-                                    >
-                                        {t('Forms.RegisterForm.actionSignIn')}
-                                    </Link>
-                                </span>
+                            <div className="w-full">
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="email"
+                                    type="email"
+                                    disabled={isTemporaryUser}
+                                    placeholder={t(
+                                        'Forms.RegisterForm.enterYourEmail'
+                                    )}
+                                    isRequired
+                                    label={t('Forms.RegisterForm.email')}
+                                />
+
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="password"
+                                    type="password"
+                                    placeholder="******"
+                                    isRequired
+                                    label={t('Forms.RegisterForm.password')}
+                                />
+
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="confirmPassword"
+                                    type="password"
+                                    placeholder="******"
+                                    isRequired
+                                    label={t(
+                                        'Forms.RegisterForm.confirmPassword'
+                                    )}
+                                />
+                            </div>
+                        </section>
+
+                        <section>
+                            <Button
+                                size="large"
+                                className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
+                                onClick={handleRulesModalOpen}
+                                disabled={loading}
+                            >
+                                {t('Forms.RegisterForm.signUp')}
+                            </Button>
+
+                            {error && (
+                                <div className="mb-8 md:mb-7 duration-300">
+                                    <ErrorCard errorMessage={authError} />
+                                </div>
                             )}
-                        </div>
-                    </section>
-                </Form>
-            )}
-        </Formik>
+
+                            <div className="text-center">
+                                {isTemporaryUser ? (
+                                    <span>
+                                        {t('Forms.RegisterForm.registerFinish')}
+                                    </span>
+                                ) : (
+                                    <span>
+                                        {t('Forms.RegisterForm.haveAccount')}{' '}
+                                        <Link
+                                            className="underline"
+                                            variant="secondary"
+                                            onClick={signInAction}
+                                        >
+                                            {t(
+                                                'Forms.RegisterForm.actionSignIn'
+                                            )}
+                                        </Link>
+                                    </span>
+                                )}
+                            </div>
+                        </section>
+                    </Form>
+                )}
+            </Formik>
+
+            <RulesModal />
+        </>
     );
 };
