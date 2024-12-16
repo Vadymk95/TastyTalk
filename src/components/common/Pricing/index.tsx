@@ -6,7 +6,7 @@ import { useAuthStore } from '@root/store';
 
 export const Pricing: FC = () => {
     const { t } = useTranslation();
-    const { userProfile } = useAuthStore();
+    const { userProfile, updateSubscriptionPlan, loading } = useAuthStore();
 
     const currentPlan = userProfile?.subscriptionPlan || 'Free';
 
@@ -20,7 +20,8 @@ export const Pricing: FC = () => {
                 t('Pricing.free.feature3')
             ],
             buttonLabel: t('Pricing.free.button'),
-            isCurrentPlan: currentPlan === 'Free'
+            isCurrentPlan: currentPlan === 'Free',
+            plan: 'Free' as const
         },
         {
             title: t('Pricing.basic.title'),
@@ -31,7 +32,8 @@ export const Pricing: FC = () => {
                 t('Pricing.basic.feature3')
             ],
             buttonLabel: t('Pricing.basic.button'),
-            isCurrentPlan: currentPlan === 'Basic'
+            isCurrentPlan: currentPlan === 'Basic',
+            plan: 'Basic' as const
         },
         {
             title: t('Pricing.standard.title'),
@@ -42,7 +44,8 @@ export const Pricing: FC = () => {
                 t('Pricing.standard.feature3')
             ],
             buttonLabel: t('Pricing.standard.button'),
-            isCurrentPlan: currentPlan === 'Standard'
+            isCurrentPlan: currentPlan === 'Standard',
+            plan: 'Standard' as const
         },
         {
             title: t('Pricing.premium.title'),
@@ -53,9 +56,18 @@ export const Pricing: FC = () => {
                 t('Pricing.premium.feature3')
             ],
             buttonLabel: t('Pricing.premium.button'),
-            isCurrentPlan: currentPlan === 'Premium'
+            isCurrentPlan: currentPlan === 'Premium',
+            plan: 'Premium' as const
         }
     ];
+
+    const handlePlanSelect = async (
+        plan: (typeof pricingPlans)[number]['plan']
+    ) => {
+        if (plan !== currentPlan && !loading) {
+            await updateSubscriptionPlan(plan);
+        }
+    };
 
     return (
         <div className="grid sm:!grid-cols-1 grid-cols-4 xl:grid-cols-2 gap-6 items-stretch grid-auto-rows-fr">
@@ -67,6 +79,7 @@ export const Pricing: FC = () => {
                     features={plan.features as string[]}
                     buttonLabel={plan.buttonLabel}
                     isCurrentPlan={plan.isCurrentPlan}
+                    onSelect={() => handlePlanSelect(plan.plan)}
                 />
             ))}
         </div>

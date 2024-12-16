@@ -68,6 +68,7 @@ interface AuthState {
     setUser: (user: User | null, isRegistered?: boolean) => void;
     loadUserProfile: (uid: string) => Promise<void>;
     checkEmailAndFirestoreAvailability: (email: string) => Promise<void>;
+    updateSubscriptionPlan: (plan: SubscriptionPlan) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({

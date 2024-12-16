@@ -9,6 +9,7 @@ interface PricingCardProps {
     features: string[];
     buttonLabel: string;
     isCurrentPlan?: boolean;
+    onSelect: () => void;
 }
 
 export const PricingCard: FC<PricingCardProps> = ({
@@ -16,7 +17,8 @@ export const PricingCard: FC<PricingCardProps> = ({
     price,
     features,
     buttonLabel,
-    isCurrentPlan = false
+    isCurrentPlan = false,
+    onSelect
 }) => {
     const { t } = useTranslation();
 
@@ -47,6 +49,7 @@ export const PricingCard: FC<PricingCardProps> = ({
                 variant={isCurrentPlan ? 'primary' : 'secondary'}
                 className="mt-auto"
                 disabled={isCurrentPlan}
+                onClick={onSelect}
             >
                 {isCurrentPlan ? t('General.selected') : buttonLabel}
             </Button>
