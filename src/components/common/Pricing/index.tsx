@@ -58,7 +58,7 @@ export const Pricing: FC = () => {
     ];
 
     return (
-        <div className="grid sm:!grid-cols-1 grid-cols-4 lg:grid-cols-2 gap-6 items-center">
+        <div className="grid sm:!grid-cols-1 grid-cols-4 xl:grid-cols-2 gap-6 items-stretch grid-auto-rows-fr">
             {pricingPlans.map((plan, index) => (
                 <PricingCard
                     key={index}
