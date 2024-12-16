@@ -2,11 +2,13 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PricingCard } from '@root/components/ui';
+import { useAuthStore } from '@root/store';
 
 export const Pricing: FC = () => {
     const { t } = useTranslation();
+    const { userProfile } = useAuthStore();
 
-    const currentPlan = 'Basic';
+    const currentPlan = userProfile?.subscriptionPlan || 'Free';
 
     const pricingPlans = [
         {
@@ -18,7 +20,7 @@ export const Pricing: FC = () => {
                 t('Pricing.free.feature3')
             ],
             buttonLabel: t('Pricing.free.button'),
-            isCurrentPlan: false
+            isCurrentPlan: currentPlan === 'Free'
         },
         {
             title: t('Pricing.basic.title'),
@@ -40,7 +42,7 @@ export const Pricing: FC = () => {
                 t('Pricing.standard.feature3')
             ],
             buttonLabel: t('Pricing.standard.button'),
-            isCurrentPlan: false
+            isCurrentPlan: currentPlan === 'Standard'
         },
         {
             title: t('Pricing.premium.title'),
@@ -51,7 +53,7 @@ export const Pricing: FC = () => {
                 t('Pricing.premium.feature3')
             ],
             buttonLabel: t('Pricing.premium.button'),
-            isCurrentPlan: false
+            isCurrentPlan: currentPlan === 'Premium'
         }
     ];
 
