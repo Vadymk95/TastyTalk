@@ -29,7 +29,7 @@ import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import { convertFileToBase64, isMobileDevice } from '@root/helpers';
-import { UpdateProfileData, UserProfile } from '@root/types';
+import { SubscriptionPlan, UpdateProfileData, UserProfile } from '@root/types';
 
 interface AuthState {
     user: User | null;
@@ -241,7 +241,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     createdAt: new Date(),
                     followers: [],
                     following: [],
-                    verified: true
+                    verified: true,
+                    subscriptionPlan: 'Free' as SubscriptionPlan
                 };
 
                 await setDoc(doc(db, 'users', currentUser.uid), userProfile);
@@ -277,7 +278,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     createdAt: new Date(),
                     followers: [],
                     following: [],
-                    verified: false
+                    verified: false,
+                    subscriptionPlan: 'Free' as SubscriptionPlan
                 };
 
                 await setDoc(doc(db, 'users', user.uid), userProfile);
@@ -517,6 +519,33 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 error.message ||
                     'An error occurred while checking email availability.'
             );
+        }
+    },
+
+    updateSubscriptionPlan: async (plan: SubscriptionPlan) => {
+        const currentUser = get().user;
+        const userProfile = get().userProfile;
+
+        if (!currentUser || !userProfile) {
+            set({ error: 'User is not authenticated or profile is missing.' });
+            return;
+        }
+
+        set({ loading: true, error: null });
+        try {
+            const userRef = doc(db, 'users', currentUser.uid);
+            await setDoc(userRef, { subscriptionPlan: plan }, { merge: true });
+
+            set({
+                userProfile: { ...userProfile, subscriptionPlan: plan },
+                loading: false
+            });
+        } catch (error: any) {
+            console.error('Failed to update subscription plan:', error);
+            set({
+                error: 'Failed to update subscription plan.',
+                loading: false
+            });
         }
     }
 }));

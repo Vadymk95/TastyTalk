@@ -3,12 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 import { PricingCard } from '@root/components/ui';
 
-type PricingPlan = 'Free' | 'Basic' | 'Standard' | 'Premium';
-
 export const Pricing: FC = () => {
     const { t } = useTranslation();
 
-    const currentPlan: PricingPlan = 'Basic';
+    const currentPlan = 'Basic';
 
     const pricingPlans = [
         {

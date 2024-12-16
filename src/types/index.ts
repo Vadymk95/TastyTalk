@@ -80,6 +80,8 @@ export interface StepStatus {
     status: EStepStatus.COMPLETED | EStepStatus.INCOMPLETED;
 }
 
+export type SubscriptionPlan = 'Free' | 'Basic' | 'Standard' | 'Premium';
+
 export interface UpdateProfileData {
     firstName?: string;
     lastName?: string;
@@ -89,6 +91,7 @@ export interface UpdateProfileData {
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];
     profileImage?: File | null | string;
+    subscriptionPlan?: SubscriptionPlan;
 }
 
 export interface UserProfile {
@@ -104,4 +107,5 @@ export interface UserProfile {
     followers?: string[];
     following?: string[];
     verified: boolean;
+    subscriptionPlan: SubscriptionPlan;
 }

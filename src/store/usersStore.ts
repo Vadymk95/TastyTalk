@@ -1,4 +1,5 @@
 import { db } from '@root/firebase/firebaseConfig';
+import { UserProfile } from '@root/types';
 import {
     collection,
     getDocs,
@@ -10,19 +11,8 @@ import {
 } from 'firebase/firestore';
 import { create } from 'zustand';
 
-interface User {
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    email: string | null;
-    verified: boolean;
-    followers: string[];
-    following: string[];
-}
-
 interface UsersState {
-    users: User[];
+    users: UserProfile[];
     loading: boolean;
     error: string | null;
     searchQuery: string;
@@ -74,10 +64,10 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             const snapshot = await getDocs(q);
 
-            const fetchedUsers: User[] = snapshot.docs.map((doc) => ({
+            const fetchedUsers: UserProfile[] = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data()
-            })) as User[];
+            })) as UserProfile[];
 
             set({
                 users: reset ? fetchedUsers : [...users, ...fetchedUsers],
