@@ -162,7 +162,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     const userDoc = querySnapshot.docs[0];
                     email = userDoc.data().email;
                 } else {
-                    throw new Error('Пользователь с таким именем не найден');
+                    throw new Error('auth/invalid-credential');
                 }
             }
 

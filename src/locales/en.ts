@@ -122,7 +122,7 @@ export const en = {
                 wrongPassword: 'Incorrect password.',
                 invalidCredential: 'Invalid credentials provided.',
                 popupClosedByUser: 'Sign in process was canceled by the user.',
-                usernameNotFound: 'Username not found. Please try again.',
+                usernameOrPasswordNotFound: 'Incorrect login or password.',
                 emailInUse:
                     'This email is already in use. Please try another email.',
                 emailRegistered:
@@ -131,8 +131,8 @@ export const en = {
             UsernameInput: {
                 chooseUsername: 'Choose a username',
                 checking: 'Checking...',
-                available: 'Username is available',
-                taken: 'Username is already taken'
+                available: 'Is available',
+                taken: 'Is already taken'
             },
             Forms: {
                 LoginForm: {

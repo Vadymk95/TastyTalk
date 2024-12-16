@@ -138,28 +138,33 @@ export const UsernameInput: FC<UsernameInputProps> = ({
                                         <div
                                             className={`error-absolute ${size === 'small' ? 'top-8' : ''}`}
                                         >
-                                            {msg}
+                                            {/* Need to add this check to avoid duplicate error message */}
+                                            {t('UsernameInput.taken') !== msg &&
+                                                msg}
                                         </div>
                                     ) : null
                                 }
                             />
                         )}
+
+                        {loading ? (
+                            <span className="text-neutral-500 username-abosulute">
+                                {t('UsernameInput.checking')}
+                            </span>
+                        ) : isAvailable === null ||
+                          currentUsername ===
+                              field.value ? null : isAvailable ? (
+                            <span className="text-secondary username-abosulute">
+                                {t('UsernameInput.available')}
+                            </span>
+                        ) : (
+                            <span className="text-primary username-abosulute">
+                                {t('UsernameInput.taken')}
+                            </span>
+                        )}
                     </div>
                 )}
             </Field>
-            {loading ? (
-                <span className="text-neutral-500 username-abosulute">
-                    {t('UsernameInput.checking')}
-                </span>
-            ) : isAvailable === null ? null : isAvailable ? (
-                <span className="text-secondary username-abosulute">
-                    {t('UsernameInput.available')}
-                </span>
-            ) : (
-                <span className="text-primary username-abosulute">
-                    {t('UsernameInput.taken')}
-                </span>
-            )}
         </div>
     );
 };

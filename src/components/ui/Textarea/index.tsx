@@ -29,7 +29,7 @@ export const Textarea: FC<TextareaProps> = ({
 
     return (
         <div className={`textarea-wrapper ${className}`}>
-            <label htmlFor={name} className="block label">
+            <label htmlFor={name} className="block label sm:text-sm">
                 {label}
             </label>
 

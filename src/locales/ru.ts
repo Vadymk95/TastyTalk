@@ -121,8 +121,8 @@ export const ru = {
                 wrongPassword: 'Неверный пароль.',
                 invalidCredential: 'Предоставлены неверные учетные данные.',
                 popupClosedByUser: 'Процесс входа отменен пользователем.',
-                usernameNotFound:
-                    'Имя пользователя не найдено. Пожалуйста, попробуйте снова.',
+                usernameOrPasswordNotFound:
+                    'Неверный логин или пароль. Пожалуйста, попробуйте снова.',
                 emailInUse:
                     'Этот email уже используется. Пожалуйста, попробуйте другой email.',
                 emailRegistered:
@@ -131,9 +131,9 @@ export const ru = {
             UsernameInput: {
                 username: 'Имя пользователя',
                 chooseUsername: 'Выберите имя пользователя',
-                checking: 'Проверка имени пользователя...',
-                available: 'Имя пользователя доступно',
-                taken: 'Имя пользователя занято'
+                checking: 'Проверка...',
+                available: 'Доступно',
+                taken: 'Занято'
             },
             Forms: {
                 LoginForm: {

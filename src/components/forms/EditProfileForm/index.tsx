@@ -179,7 +179,7 @@ export const EditProfileForm: FC = () => {
                             />
                         </div>
 
-                        <div className="w-full space-y-4">
+                        <div className="w-full space-y-8">
                             <Input
                                 type="text"
                                 isRequired
@@ -269,7 +269,7 @@ export const EditProfileForm: FC = () => {
                                         >
                                             <Input
                                                 type="text"
-                                                className="sm:mr-9 sm:mb-2"
+                                                className="sm:mr-9 sm:mb-6"
                                                 name={`socialNetworks.${index}.name`}
                                                 placeholder={t(
                                                     'Forms.EditProfileForm.socialNetworkPlaceholder'
@@ -325,7 +325,7 @@ export const EditProfileForm: FC = () => {
                                                 profileName: ''
                                             })
                                         }
-                                        className="mt-2"
+                                        className="mt-4"
                                     >
                                         {t(
                                             'Forms.EditProfileForm.addSocialNetwork'

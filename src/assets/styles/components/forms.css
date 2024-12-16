@@ -3,7 +3,7 @@
 }
 
 .auth-form--register {
-    @apply w-3/5 lg:w-4/5 sm:!w-full;
+    @apply w-3/5 lg:w-[90%] sm:!w-full;
 }
 
 .auth-input-wrapper,
@@ -12,10 +12,10 @@
 }
 
 .username-abosulute {
-    @apply absolute bottom-14 right-0 text-xs;
+    @apply absolute bottom-13 right-0 text-xs;
 }
 
 .error-absolute {
-    @apply absolute text-primary text-xs top-14 right-0;
-    line-height: 0.9;
+    @apply absolute text-primary text-xs top-13 right-0;
+    line-height: 1;
 }

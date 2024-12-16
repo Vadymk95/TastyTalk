@@ -12,8 +12,8 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'auth/user-disabled': t('AuthErrors.userDisabled'),
         'auth/user-not-found': t('AuthErrors.userNotFound'),
         'auth/wrong-password': t('AuthErrors.wrongPassword'),
-        'auth/invalid-credential': t('AuthErrors.usernameNotFound'),
-        'username not found': t('AuthErrors.usernameNotFound'),
+        'auth/invalid-credential': t('AuthErrors.usernameOrPasswordNotFound'),
+        'username not found': t('AuthErrors.usernameOrPasswordNotFound'),
         'This email is already in use. Please try another email.': t(
             'AuthErrors.emailInUse'
         ),
