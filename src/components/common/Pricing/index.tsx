@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { PricingCard } from '@root/components/ui';
 import { useAuthStore } from '@root/store';
 
-export const Pricing: FC = () => {
+interface PricingProps {
+    isPreviewMode?: boolean;
+}
+
+export const Pricing: FC<PricingProps> = ({ isPreviewMode = false }) => {
     const { t } = useTranslation();
     const { userProfile, updateSubscriptionPlan, loading } = useAuthStore();
 
@@ -81,6 +85,7 @@ export const Pricing: FC = () => {
                     isCurrentPlan={plan.isCurrentPlan}
                     onSelect={() => handlePlanSelect(plan.plan)}
                     loading={loading}
+                    isPreviewMode={isPreviewMode}
                 />
             ))}
         </div>

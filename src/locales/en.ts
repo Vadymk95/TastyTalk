@@ -98,6 +98,11 @@ export const en = {
                 oops: 'Oops! It looks like this page has vanished like a hot pie. Let’s head back to the main page and find something delicious!',
                 goHome: 'Go to Homepage'
             },
+            PricingPage: {
+                title: 'Flexible Pricing Plans for Everyone',
+                description:
+                    'Unlock the full potential of our platform by choosing a subscription plan that suits you best. Register now to upgrade your experience and access all premium features, tools, and exclusive content.'
+            },
             Header: {
                 brand: 'TastyTalks',
                 signOut: 'Sign Out',
@@ -106,7 +111,8 @@ export const en = {
                 registerFinish: 'Finish Registration',
                 allRecipes: 'All Recipes',
                 allMealPlans: 'All Meal Plans',
-                searchProfiles: 'Search Profiles'
+                searchProfiles: 'Search Profiles',
+                pricing: 'Pricing'
             },
             Footer: {
                 allRights: '© 2024 TastyTalks. All rights reserved.',
