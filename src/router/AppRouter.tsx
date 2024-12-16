@@ -32,6 +32,11 @@ export const AppRouter: FC = () => {
                 element={withSuspense(<PrivacyPage />)}
             />
 
+            <Route
+                path={routes.profile}
+                element={withSuspense(<ProfilePage />)}
+            />
+
             <Route path={routes.rules} element={withSuspense(<RulesPage />)} />
 
             <Route
@@ -59,13 +64,6 @@ export const AppRouter: FC = () => {
                 path={routes.greeting}
                 element={
                     <PrivateRoute element={withSuspense(<GreetingPage />)} />
-                }
-            />
-
-            <Route
-                path={routes.profile}
-                element={
-                    <PrivateRoute element={withSuspense(<ProfilePage />)} />
                 }
             />
 

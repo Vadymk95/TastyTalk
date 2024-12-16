@@ -13,7 +13,6 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const location = useLocation();
     const { user, initialized, isRegistered, isEmailVerified } = useAuthStore();
     const protectedRoutesForRegistered = [
-        routes.profile,
         routes.settings,
         routes.greeting,
         routes.emailVerification

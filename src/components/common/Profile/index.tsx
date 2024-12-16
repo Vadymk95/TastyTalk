@@ -6,6 +6,7 @@ import {
     ProfileStats,
     ProfileTools
 } from '@root/components/common';
+import { useAuthStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 interface ProfileProps {
@@ -14,6 +15,7 @@ interface ProfileProps {
 }
 
 export const Profile: FC<ProfileProps> = ({ profile, setCurrentTab }) => {
+    const { userProfile } = useAuthStore();
     return (
         <section className="mb-6 relative">
             <div className="flex sm:flex-col items-center sm:items-start gap-6 sm:gap-2">
@@ -30,9 +32,11 @@ export const Profile: FC<ProfileProps> = ({ profile, setCurrentTab }) => {
                 followingCount={0}
             />
 
-            <div className="absolute right-0 top-0">
-                <ProfileTools />
-            </div>
+            {userProfile && (
+                <div className="absolute right-0 top-0">
+                    <ProfileTools />
+                </div>
+            )}
         </section>
     );
 };

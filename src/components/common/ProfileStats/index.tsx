@@ -23,7 +23,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
     className = ''
 }) => {
     const { t } = useTranslation();
-    const { isEmailVerified } = useAuthStore();
+    const { isEmailVerified, userProfile } = useAuthStore();
 
     const numberFormats = (value: number) => {
         if (value >= 1_000_000)
@@ -37,12 +37,16 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
         if (!isEmailVerified) return event.preventDefault();
     };
 
+    const handleCurrentTab = (key: string) => {
+        if (userProfile) setCurrentTab(key);
+    };
+
     return (
         <div
             className={`flex justify-around items-start gap-4 text-center ${className}`}
         >
             <div
-                onClick={() => setCurrentTab('create-recipe')}
+                onClick={() => handleCurrentTab('create-recipe')}
                 className="cursor-pointer"
             >
                 <p className="text-lg font-bold">
@@ -54,7 +58,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
             </div>
 
             <div
-                onClick={() => setCurrentTab('create-meal-plan')}
+                onClick={() => handleCurrentTab('create-meal-plan')}
                 className="cursor-pointer"
             >
                 <p className="text-lg font-bold">

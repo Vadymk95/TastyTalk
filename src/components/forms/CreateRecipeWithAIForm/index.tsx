@@ -8,8 +8,9 @@ import { Query, RecipeTypingEffect } from '@root/components/common';
 import { VisibilityModal } from '@root/components/modals';
 import { Button, Loader, Textarea, Tooltip } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { routes } from '@root/router/routes';
+import { getProfileRoute } from '@root/helpers';
 import {
+    useAuthStore,
     useModalStore,
     useRecipeStore,
     useTemporaryRecipeStore
@@ -32,6 +33,7 @@ type CreateRecipeWithAIFormValues = {
 export const CreateRecipeWithAIForm: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { userProfile } = useAuthStore();
     const { openModal } = useModalStore();
     const { addRecipe, loading } = useRecipeStore();
     const {
@@ -68,7 +70,7 @@ export const CreateRecipeWithAIForm: FC = () => {
                 await addRecipe(currentRecipe);
                 clearQuery();
                 clearRecipe();
-                navigate(routes.profile);
+                navigate(getProfileRoute(userProfile?.username));
             }
         } catch (error) {
             console.error('Error generating recipe:', error);

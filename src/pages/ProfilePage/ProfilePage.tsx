@@ -40,13 +40,15 @@ const ProfilePage: FC = () => {
         <div className="plate">
             <Profile setCurrentTab={setCurrentTab} profile={profile} />
 
-            <Tabs
-                fullwidth
-                tabs={tabs}
-                variant="secondary"
-                activeTab={currentTab}
-                setActiveTab={setCurrentTab}
-            />
+            {!!userProfile && (
+                <Tabs
+                    fullwidth
+                    tabs={tabs}
+                    variant="secondary"
+                    activeTab={currentTab}
+                    setActiveTab={setCurrentTab}
+                />
+            )}
 
             {currentTab === 'create-recipe' ? <MyRecipes /> : <MyMealPlans />}
         </div>

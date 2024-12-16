@@ -6,9 +6,12 @@ import * as Yup from 'yup';
 
 import { StepperWelcomeModal } from '@root/components/modals';
 import { Loader, Stepper } from '@root/components/ui';
-import { extractYouTubeVideoId } from '@root/helpers';
-import { routes } from '@root/router/routes';
-import { useRecipeStore, useTemporaryRecipeStore } from '@root/store';
+import { extractYouTubeVideoId, getProfileRoute } from '@root/helpers';
+import {
+    useAuthStore,
+    useRecipeStore,
+    useTemporaryRecipeStore
+} from '@root/store';
 import { Recipe as RecipeType } from '@root/types';
 
 import { GetAllSteps } from './Steps';
@@ -38,6 +41,7 @@ export const CreateRecipeManuallyForm: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { addRecipe, loading } = useRecipeStore();
+    const { userProfile } = useAuthStore();
     const { currentStep, manualFormData, setCurrentStep, resetManualForm } =
         useTemporaryRecipeStore();
 
@@ -199,7 +203,7 @@ export const CreateRecipeManuallyForm: FC = () => {
             await addRecipe(values);
             resetManualForm();
             resetForm({ values: defaultFormValues });
-            navigate(routes.profile);
+            navigate(getProfileRoute(userProfile?.username));
         } catch (error) {
             console.error('Failed to add recipe:', error);
         }
