@@ -6,7 +6,7 @@ export const routes = {
     recipesCreate: '/recipes/create',
     auth: '/auth',
     emailVerification: '/email-verification',
-    profile: '/profile',
+    profile: '/profile/:username',
     settings: '/profile/settings',
     greeting: '/greeting',
     pricing: '/pricing',

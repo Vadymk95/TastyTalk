@@ -2,6 +2,7 @@ import { FC, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { getProfileRoute } from '@root/helpers';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
@@ -17,7 +18,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const FooterNavigation: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { isEmailVerified, signOutUser, isRegistered } = useAuthStore();
+    const { isEmailVerified, signOutUser, isRegistered, userProfile } =
+        useAuthStore();
 
     const handleSignOut = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -61,7 +63,7 @@ export const FooterNavigation: FC = () => {
                     </div>
                     <div className="flex sm:flex-grow">
                         <Link
-                            to={routes.profile}
+                            to={getProfileRoute(userProfile?.username)}
                             className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
                         >
                             <FontAwesomeIcon
@@ -94,7 +96,7 @@ export const FooterNavigation: FC = () => {
                     {isRegistered && (
                         <div className="flex sm:flex-grow">
                             <Link
-                                to={routes.profile}
+                                to={getProfileRoute(userProfile?.username)}
                                 className="link-primary nav-link p-4 sm:flex-grow flex-all-center"
                             >
                                 <FontAwesomeIcon
