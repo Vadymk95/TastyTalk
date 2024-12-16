@@ -80,6 +80,7 @@ export const Pricing: FC = () => {
                     buttonLabel={plan.buttonLabel}
                     isCurrentPlan={plan.isCurrentPlan}
                     onSelect={() => handlePlanSelect(plan.plan)}
+                    loading={loading}
                 />
             ))}
         </div>
