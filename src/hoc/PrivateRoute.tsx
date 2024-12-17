@@ -11,19 +11,29 @@ interface PrivateRouteProps {
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const location = useLocation();
-    const { user, initialized, isRegistered, isEmailVerified } = useAuthStore();
+    const {
+        user,
+        initialized,
+        isRegistered,
+        isEmailVerified,
+        hasPaidPlan,
+        isStandardPlan
+    } = useAuthStore();
+    const hasPlan = hasPaidPlan();
+    const isStandard = isStandardPlan();
     const protectedRoutesForRegistered = [
         routes.settings,
         routes.greeting,
         routes.emailVerification
     ];
     const protectedRoutesForVerified = [
-        routes.mealsPlanCreate,
         routes.recipesCreate,
         routes.followers,
         routes.following,
         routes.searchProfiles
     ];
+    const protectedRoutesForPaid = [routes.mealsPlan];
+    const protectedRoutesForStandard = [routes.mealsPlanCreate];
 
     if (!initialized) {
         return <Loader />;
@@ -44,6 +54,14 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
         protectedRoutesForVerified.includes(location.pathname) &&
         !isEmailVerified
     ) {
+        return <Navigate to={routes.home} />;
+    }
+
+    if (protectedRoutesForPaid.includes(location.pathname) && !hasPlan) {
+        return <Navigate to={routes.home} />;
+    }
+
+    if (protectedRoutesForStandard.includes(location.pathname) && !isStandard) {
         return <Navigate to={routes.home} />;
     }
 

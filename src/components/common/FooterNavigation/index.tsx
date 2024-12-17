@@ -18,8 +18,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const FooterNavigation: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { isEmailVerified, signOutUser, isRegistered, userProfile } =
-        useAuthStore();
+    const {
+        isEmailVerified,
+        signOutUser,
+        isRegistered,
+        userProfile,
+        isStandardPlan
+    } = useAuthStore();
+    const isStandard = isStandardPlan();
 
     const handleSignOut = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -36,7 +42,7 @@ export const FooterNavigation: FC = () => {
                     <div className="flex flex-grow">
                         <Link
                             to={routes.recipesCreate}
-                            className="link-primary nav-link p-4 bg-primary sm:px-6 flex-grow flex-all-center"
+                            className={`link-primary nav-link p-4 bg-primary sm:px-6 flex-all-center ${isStandard ? 'flex-grow' : 'sm:flex-grow'}`}
                         >
                             <FontAwesomeIcon icon={faPlus} />
                             <FontAwesomeIcon
@@ -47,19 +53,21 @@ export const FooterNavigation: FC = () => {
                                 {t('Footer.createRecipe')}
                             </span>
                         </Link>
-                        <Link
-                            to={routes.mealsPlanCreate}
-                            className="nav-link p-4 bg-secondary hover:bg-secondary-light sm:px-6 flex-grow flex-all-center focus:bg-secondary-dark/50"
-                        >
-                            <FontAwesomeIcon icon={faPlus} />
-                            <FontAwesomeIcon
-                                className="mr-3 sm:mr-0 ml-1 sm:text-2xl"
-                                icon={faFileSignature}
-                            />
-                            <span className="sm:hidden">
-                                {t('Footer.createMealPlan')}
-                            </span>
-                        </Link>
+                        {isStandard && (
+                            <Link
+                                to={routes.mealsPlanCreate}
+                                className="nav-link p-4 bg-secondary hover:bg-secondary-light sm:px-6 flex-grow flex-all-center focus:bg-secondary-dark/50"
+                            >
+                                <FontAwesomeIcon icon={faPlus} />
+                                <FontAwesomeIcon
+                                    className="mr-3 sm:mr-0 ml-1 sm:text-2xl"
+                                    icon={faFileSignature}
+                                />
+                                <span className="sm:hidden">
+                                    {t('Footer.createMealPlan')}
+                                </span>
+                            </Link>
+                        )}
                     </div>
                     <div className="flex sm:flex-grow">
                         <Link

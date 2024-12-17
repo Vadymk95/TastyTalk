@@ -72,7 +72,7 @@ interface AuthState {
     isMe: (username: string) => boolean;
     hasPaidPlan: () => boolean;
     isBasicPlan: () => boolean;
-    isProPlan: () => boolean;
+    isStandardPlan: () => boolean;
     isPremiumPlan: () => boolean;
 }
 
@@ -572,7 +572,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         return plan === 'Basic' || plan === 'Standard' || plan === 'Premium';
     },
     isBasicPlan: () => get().userProfile?.subscriptionPlan === 'Basic',
-    isProPlan: () => get().userProfile?.subscriptionPlan === 'Standard',
+    isStandardPlan: () => get().userProfile?.subscriptionPlan === 'Standard',
     isPremiumPlan: () => get().userProfile?.subscriptionPlan === 'Premium'
 }));
 
