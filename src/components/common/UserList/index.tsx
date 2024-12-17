@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common';
 import { Back, SearchInput } from '@root/components/ui';
+import { UserProfile } from '@root/types';
 
 type UserListProps = {
     title: string;
     description: string;
-    fetchUsers: () => Promise<any[]>;
+    fetchUsers: () => any;
 };
 
 export const UserList: FC<UserListProps> = ({
@@ -16,7 +17,7 @@ export const UserList: FC<UserListProps> = ({
     fetchUsers
 }) => {
     const { t } = useTranslation();
-    const [users, setUsers] = useState<any[]>([]);
+    const [users, setUsers] = useState<UserProfile[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(false);
 

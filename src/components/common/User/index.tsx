@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from '@root/components/ui';
 import { isMobileDevice } from '@root/helpers';
+import { useAuthStore } from '@root/store';
 
 interface UserProps {
     username: string;
-    name: string;
+    name?: string;
     id: string;
     handleSubscribe: (id: string) => void;
 }
@@ -18,8 +19,10 @@ export const User: FC<UserProps> = ({
     handleSubscribe
 }) => {
     const { t } = useTranslation();
+    const { isMe } = useAuthStore();
     const [isFollow, setIsFollow] = useState(false);
     const isMobile = isMobileDevice();
+    const me = isMe(username);
 
     const handleOnClick = () => {
         handleSubscribe(id);
@@ -33,13 +36,15 @@ export const User: FC<UserProps> = ({
                 <p className="text-xs label">@{username}</p>
             </div>
 
-            <Button
-                variant={isFollow ? 'primary' : 'secondary'}
-                onClick={handleOnClick}
-                size={isMobile ? 'small' : 'medium'}
-            >
-                {t(`General.${isFollow ? 'unfollow' : 'follow'}`)}
-            </Button>
+            {!me && (
+                <Button
+                    variant={isFollow ? 'primary' : 'secondary'}
+                    onClick={handleOnClick}
+                    size={isMobile ? 'small' : 'medium'}
+                >
+                    {t(`General.${isFollow ? 'unfollow' : 'follow'}`)}
+                </Button>
+            )}
         </li>
     );
 };

@@ -3,6 +3,7 @@ import {
     deleteUser,
     EmailAuthProvider,
     fetchSignInMethodsForEmail,
+    linkWithCredential,
     onAuthStateChanged,
     reauthenticateWithCredential,
     sendEmailVerification,
@@ -238,6 +239,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             const currentUser = auth.currentUser;
 
             if (currentUser && currentUser.email === email) {
+                const credential = EmailAuthProvider.credential(
+                    email,
+                    password
+                );
+                await linkWithCredential(currentUser, credential);
+
                 const userProfile = {
                     id: currentUser.uid,
                     email: currentUser.email,
