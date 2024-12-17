@@ -3,6 +3,7 @@ import {
     deleteUser,
     EmailAuthProvider,
     fetchSignInMethodsForEmail,
+    GoogleAuthProvider,
     linkWithCredential,
     onAuthStateChanged,
     reauthenticateWithCredential,
@@ -192,20 +193,39 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     signInWithGoogle: async () => {
         set({ loading: true });
 
-        const isMobile = isMobileDevice();
-
         try {
+            const isMobile = isMobileDevice();
+
+            let userCredential;
+
             if (isMobile) {
                 await signInWithRedirect(auth, googleProvider);
                 return true;
             } else {
-                const userCredential = await signInWithPopup(
-                    auth,
-                    googleProvider
-                );
-                return await processGoogleSignIn(userCredential);
+                userCredential = await signInWithPopup(auth, googleProvider);
             }
+
+            const googleUser = userCredential.user;
+
+            const signInMethods = await fetchSignInMethodsForEmail(
+                auth,
+                googleUser.email!
+            );
+
+            if (signInMethods.includes('password')) {
+                const user = auth.currentUser;
+                if (user) {
+                    const credential =
+                        GoogleAuthProvider.credentialFromResult(userCredential);
+                    await linkWithCredential(user, credential!);
+                }
+            } else {
+                await processGoogleSignIn(userCredential);
+            }
+
+            return true;
         } catch (error: any) {
+            console.error('Error signing in with Google:', error);
             set({ error: error.message });
             return null;
         } finally {
