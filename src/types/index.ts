@@ -108,4 +108,8 @@ export interface UserProfile {
     following?: string[];
     verified: boolean;
     subscriptionPlan: SubscriptionPlan;
+    recipesCount: number;
+    mealPlansCount: number;
+    followersCount: number;
+    followingCount: number;
 }

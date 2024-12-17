@@ -69,6 +69,7 @@ interface AuthState {
     loadUserProfile: (uid: string) => Promise<void>;
     checkEmailAndFirestoreAvailability: (email: string) => Promise<void>;
     updateSubscriptionPlan: (plan: SubscriptionPlan) => Promise<void>;
+    isMe: (username: string) => boolean;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -243,7 +244,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     followers: [],
                     following: [],
                     verified: true,
-                    subscriptionPlan: 'Free' as SubscriptionPlan
+                    subscriptionPlan: 'Free' as SubscriptionPlan,
+                    recipesCount: 0,
+                    mealPlansCount: 0,
+                    followersCount: 0,
+                    followingCount: 0
                 };
 
                 await setDoc(doc(db, 'users', currentUser.uid), userProfile);
@@ -280,7 +285,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     followers: [],
                     following: [],
                     verified: false,
-                    subscriptionPlan: 'Free' as SubscriptionPlan
+                    subscriptionPlan: 'Free' as SubscriptionPlan,
+                    recipesCount: 0,
+                    mealPlansCount: 0,
+                    followersCount: 0,
+                    followingCount: 0
                 };
 
                 await setDoc(doc(db, 'users', user.uid), userProfile);
@@ -548,6 +557,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 loading: false
             });
         }
+    },
+
+    isMe: (username: string) => {
+        const currentUser = get().userProfile;
+        return currentUser ? currentUser.username === username : false;
     }
 }));
 

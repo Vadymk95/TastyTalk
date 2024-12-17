@@ -1,5 +1,3 @@
-import { db } from '@root/firebase/firebaseConfig';
-import { UserProfile } from '@root/types';
 import {
     collection,
     getDocs,
@@ -11,6 +9,9 @@ import {
 } from 'firebase/firestore';
 import { create } from 'zustand';
 
+import { db } from '@root/firebase/firebaseConfig';
+import { UserProfile } from '@root/types';
+
 interface UsersState {
     users: UserProfile[];
     loading: boolean;
@@ -20,6 +21,7 @@ interface UsersState {
     hasMore: boolean;
     fetchUsers: (reset?: boolean) => Promise<void>;
     setSearchQuery: (query: string) => void;
+    fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -76,6 +78,37 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             });
         } catch (error: any) {
             set({ error: error.message });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    fetchUserByUsername: async (username: string) => {
+        set({ loading: true, error: null });
+
+        try {
+            const usersRef = collection(db, 'users');
+
+            const q = query(
+                usersRef,
+                where('verified', '==', true),
+                where('username', '==', username),
+                limit(1)
+            );
+
+            const snapshot = await getDocs(q);
+
+            if (!snapshot.empty) {
+                const user = snapshot.docs[0].data() as UserProfile;
+                set({ users: [user], error: null });
+                return user; // Возвращаем найденный профиль
+            } else {
+                set({ error: 'User not found', users: [] });
+                return null; // Возвращаем null, если пользователь не найден
+            }
+        } catch (error: any) {
+            set({ error: error.message, users: [] });
+            return null; // Возвращаем null в случае ошибки
         } finally {
             set({ loading: false });
         }
