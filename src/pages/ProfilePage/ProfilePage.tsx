@@ -15,7 +15,7 @@ import { useAuthStore, useUsersStore } from '@root/store';
 const ProfilePage: FC = () => {
     const { username } = useParams();
     const navigate = useNavigate();
-    const { userProfile, loading, error } = useAuthStore();
+    const { userProfile, loading, error, hasPaidPlan } = useAuthStore();
     const { fetchUserByUsername } = useUsersStore();
     const { t } = useTranslation();
     const [profile, setProfile] = useState(userProfile);
@@ -63,11 +63,15 @@ const ProfilePage: FC = () => {
         return <ErrorBoundary />;
     }
 
+    const hasPlan = hasPaidPlan();
+
     return (
         <div className="plate">
-            <Profile setCurrentTab={setCurrentTab} profile={profile} />
+            {profile && (
+                <Profile setCurrentTab={setCurrentTab} profile={profile} />
+            )}
 
-            {!!userProfile && (
+            {hasPlan && (
                 // добавить чек, может ли зарегистрированный юзер видеть табы другого юзера
                 <Tabs
                     fullwidth
@@ -78,7 +82,11 @@ const ProfilePage: FC = () => {
                 />
             )}
 
-            {currentTab === 'create-recipe' ? <MyRecipes /> : <MyMealPlans />}
+            {profile && currentTab === 'create-recipe' ? (
+                <MyRecipes />
+            ) : (
+                <MyMealPlans />
+            )}
         </div>
     );
 };

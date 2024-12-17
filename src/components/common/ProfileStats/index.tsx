@@ -2,28 +2,27 @@ import { FC, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import { Tooltip } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
+import { UserProfile } from '@root/types';
+
+import { faBan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type ProfileStatsProps = {
     setCurrentTab: (key: string) => void;
-    recipesCount: number;
-    mealPlansCount: number;
-    followersCount: number;
-    followingCount: number;
+    profile: UserProfile;
     className?: string;
 };
 
 export const ProfileStats: FC<ProfileStatsProps> = ({
     setCurrentTab,
-    recipesCount = 0,
-    mealPlansCount = 0,
-    followersCount = 0,
-    followingCount = 0,
+    profile,
     className = ''
 }) => {
     const { t } = useTranslation();
-    const { isEmailVerified, userProfile } = useAuthStore();
+    const { isEmailVerified, userProfile, hasPaidPlan } = useAuthStore();
 
     const numberFormats = (value: number) => {
         if (value >= 1_000_000)
@@ -41,6 +40,8 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
         if (userProfile) setCurrentTab(key);
     };
 
+    const hasPlan = hasPaidPlan();
+
     return (
         <div
             className={`flex justify-around items-start gap-4 text-center ${className}`}
@@ -50,24 +51,39 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 className="cursor-pointer"
             >
                 <p className="text-lg font-bold">
-                    {numberFormats(recipesCount)}
+                    {numberFormats(profile.recipesCount)}
                 </p>
                 <p className="text-sm label sm:text-xs">
                     {t('ProfileStats.recipes')}
                 </p>
             </div>
 
-            <div
-                onClick={() => handleCurrentTab('create-meal-plan')}
-                className="cursor-pointer"
-            >
-                <p className="text-lg font-bold">
-                    {numberFormats(mealPlansCount)}
-                </p>
-                <p className="text-sm label sm:text-xs">
-                    {t('ProfileStats.mealPlans')}
-                </p>
-            </div>
+            <Tooltip
+                text={t('ProfileStats.tooltip')}
+                shouldShow={!hasPlan}
+                children={
+                    <div
+                        onClick={() => handleCurrentTab('create-meal-plan')}
+                        className={
+                            hasPlan ? 'cursor-pointer' : 'pointer-events-none'
+                        }
+                    >
+                        {hasPlan ? (
+                            <p className="text-lg font-bold">
+                                {numberFormats(profile.mealPlansCount)}
+                            </p>
+                        ) : (
+                            <FontAwesomeIcon
+                                className="text-[1.25rem] leading-[1.25rem]"
+                                icon={faBan}
+                            />
+                        )}
+                        <p className="text-sm label sm:text-xs">
+                            {t('ProfileStats.mealPlans')}
+                        </p>
+                    </div>
+                }
+            />
 
             <Link
                 onClick={(event) => handleCheckVerification(event)}
@@ -75,7 +91,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 className={`cursor-pointer ${!isEmailVerified ? 'pointer-events-none' : ''}`}
             >
                 <p className="text-lg font-bold">
-                    {numberFormats(followersCount)}
+                    {numberFormats(profile.followersCount)}
                 </p>
                 <p className="text-sm label sm:text-xs">
                     {t('ProfileStats.followers')}
@@ -88,7 +104,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
                 className={`cursor-pointer ${!isEmailVerified ? 'pointer-events-none' : ''}`}
             >
                 <p className="text-lg font-bold">
-                    {numberFormats(followingCount)}
+                    {numberFormats(profile.followingCount)}
                 </p>
                 <p className="text-sm label sm:text-xs">
                     {t('ProfileStats.following')}

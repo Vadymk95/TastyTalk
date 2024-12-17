@@ -588,7 +588,9 @@ export const en = {
                 followers: 'Followers',
                 following: 'Following',
                 million: 'm',
-                thousand: 'k'
+                thousand: 'k',
+                tooltip:
+                    'Create and manage meal plans! Subscribe to any paid plan to unlock access.'
             },
             Pricing: {
                 title: 'Our Pricing Plans',

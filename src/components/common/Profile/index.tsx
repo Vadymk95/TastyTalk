@@ -18,20 +18,18 @@ export const Profile: FC<ProfileProps> = ({ profile, setCurrentTab }) => {
     const { userProfile } = useAuthStore();
     return (
         <section className="mb-6 relative">
-            {profile && (
-                <div className="flex sm:flex-col items-center sm:items-start gap-6 sm:gap-2">
-                    <ProfilePhoto profileImage={profile.profileImage || ''} />
-                    <ProfileInfo className="flex-1" profile={profile} />
-                </div>
-            )}
+            <div className="flex sm:flex-col items-center sm:items-start gap-6 sm:gap-2">
+                <ProfilePhoto profileImage={profile?.profileImage || ''} />
+                <ProfileInfo
+                    className="flex-1"
+                    profile={profile as UserProfile}
+                />
+            </div>
 
             <ProfileStats
                 setCurrentTab={setCurrentTab}
                 className="mt-6"
-                recipesCount={0}
-                mealPlansCount={0}
-                followersCount={0}
-                followingCount={0}
+                profile={profile as UserProfile}
             />
 
             {userProfile && (

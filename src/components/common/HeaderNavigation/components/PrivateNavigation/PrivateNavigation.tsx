@@ -15,7 +15,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const PrivateNavigation: FC = () => {
     const { t } = useTranslation();
-    const { isRegistered, isEmailVerified } = useAuthStore();
+    const { isRegistered, isEmailVerified, hasPaidPlan } = useAuthStore();
+    const hasPlan = hasPaidPlan();
 
     return (
         <>
@@ -40,18 +41,20 @@ export const PrivateNavigation: FC = () => {
                                 </span>
                             </Link>
 
-                            <Link
-                                to={routes.mealsPlan}
-                                className="link-primary nav-link text-center px-4 sm:px-6 focus:bg-primary-dark"
-                            >
-                                <FontAwesomeIcon
-                                    icon={faNewspaper}
-                                    className="mr-3 sm:mr-0 sm:text-2xl"
-                                />
-                                <span className="sm:hidden">
-                                    {t('Header.allMealPlans')}
-                                </span>
-                            </Link>
+                            {hasPlan && (
+                                <Link
+                                    to={routes.mealsPlan}
+                                    className="link-primary nav-link text-center px-4 sm:px-6 focus:bg-primary-dark"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faNewspaper}
+                                        className="mr-3 sm:mr-0 sm:text-2xl"
+                                    />
+                                    <span className="sm:hidden">
+                                        {t('Header.allMealPlans')}
+                                    </span>
+                                </Link>
+                            )}
 
                             <Link
                                 to={routes.searchProfiles}

@@ -70,6 +70,10 @@ interface AuthState {
     checkEmailAndFirestoreAvailability: (email: string) => Promise<void>;
     updateSubscriptionPlan: (plan: SubscriptionPlan) => Promise<void>;
     isMe: (username: string) => boolean;
+    hasPaidPlan: () => boolean;
+    isBasicPlan: () => boolean;
+    isProPlan: () => boolean;
+    isPremiumPlan: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -562,7 +566,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     isMe: (username: string) => {
         const currentUser = get().userProfile;
         return currentUser ? currentUser.username === username : false;
-    }
+    },
+    hasPaidPlan: () => {
+        const plan = get().userProfile?.subscriptionPlan;
+        return plan === 'Basic' || plan === 'Standard' || plan === 'Premium';
+    },
+    isBasicPlan: () => get().userProfile?.subscriptionPlan === 'Basic',
+    isProPlan: () => get().userProfile?.subscriptionPlan === 'Standard',
+    isPremiumPlan: () => get().userProfile?.subscriptionPlan === 'Premium'
 }));
 
 const processGoogleSignIn = async (
