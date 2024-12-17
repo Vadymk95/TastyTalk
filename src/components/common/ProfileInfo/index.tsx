@@ -21,7 +21,9 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
             </h1>
 
             {profile.bio && (
-                <p className="label mt-1 sm:text-sm">{profile.bio}</p>
+                <p className="label mt-1 sm:text-sm whitespace-pre-line">
+                    {profile.bio}
+                </p>
             )}
 
             {profile.socialNetworks && !!profile.socialNetworks.length && (

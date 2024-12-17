@@ -42,7 +42,9 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
             </div>
 
             {recipe.description && (
-                <p className="text-neutral-dark mb-4">{recipe.description}</p>
+                <p className="text-neutral-dark mb-4 whitespace-pre-line">
+                    {recipe.description}
+                </p>
             )}
 
             {recipe.previewPhoto && (

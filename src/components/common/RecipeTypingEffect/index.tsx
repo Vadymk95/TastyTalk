@@ -48,7 +48,7 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
             </div>
 
             {recipe.description && (
-                <div className="text-neutral-dark mb-4">
+                <div className="text-neutral-dark mb-4 whitespace-pre-line">
                     <Typewriter
                         options={{
                             delay: 10,
