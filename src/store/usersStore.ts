@@ -105,15 +105,15 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             if (!snapshot.empty) {
                 const user = snapshot.docs[0].data() as UserProfile;
-                set({ users: [user], error: null });
-                return user; // Возвращаем найденный профиль
+                set({ error: null });
+                return user;
             } else {
-                set({ error: 'User not found', users: [] });
-                return null; // Возвращаем null, если пользователь не найден
+                set({ error: 'User not found' });
+                return null;
             }
         } catch (error: any) {
-            set({ error: error.message, users: [] });
-            return null; // Возвращаем null в случае ошибки
+            set({ error: error.message });
+            return null;
         } finally {
             set({ loading: false });
         }
