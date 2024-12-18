@@ -3,22 +3,12 @@ import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common';
 import { SearchInput } from '@root/components/ui';
+import { useUsersStore } from '@root/store';
 
 const SearchProfilePage: FC = () => {
     const { t } = useTranslation();
-    const [users] = useState<any[]>([
-        {
-            id: '1',
-            username: 'john_doe',
-            name: 'John Doe'
-        },
-        {
-            id: '2',
-            username: 'jane_doe',
-            name: 'Jane Doe'
-        }
-    ]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const { users, searchQuery, setSearchQuery } = useUsersStore();
+
     const [loading] = useState(false);
 
     const filteredUsers = users.filter((user) =>
@@ -56,9 +46,7 @@ const SearchProfilePage: FC = () => {
                         {filteredUsers.map((user) => (
                             <User
                                 key={user.id}
-                                username={user.username}
-                                id={user.id}
-                                name={user.name}
+                                user={user}
                                 handleSubscribe={handleSubscribe}
                             />
                         ))}

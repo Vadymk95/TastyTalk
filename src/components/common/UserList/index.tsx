@@ -65,8 +65,7 @@ export const UserList: FC<UserListProps> = ({
                     {filteredUsers.map((user) => (
                         <User
                             key={user.id}
-                            username={user.username}
-                            id={user.id}
+                            user={user}
                             handleSubscribe={handleSubscribe}
                         />
                     ))}
