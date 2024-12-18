@@ -17,7 +17,7 @@ interface UsersState {
     loading: boolean;
     error: string | null;
     searchQuery: string;
-    lastVisible: any; // Firestore reference for pagination
+    lastVisible: any;
     hasMore: boolean;
     fetchUsers: (reset?: boolean) => Promise<void>;
     setSearchQuery: (query: string) => void;
@@ -44,7 +44,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             let q;
 
             if (searchQuery) {
-                // Поиск по имени, фамилии или юзернейму
                 q = query(
                     usersRef,
                     where('verified', '==', true),
@@ -54,7 +53,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     limit(20)
                 );
             } else {
-                // Без поиска
                 q = query(
                     usersRef,
                     where('verified', '==', true),
@@ -77,6 +75,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 hasMore: fetchedUsers.length === 20
             });
         } catch (error: any) {
+            console.log('Error fetching users:', error.message);
             set({ error: error.message });
         } finally {
             set({ loading: false });

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common';
@@ -7,9 +7,8 @@ import { useUsersStore } from '@root/store';
 
 const SearchProfilePage: FC = () => {
     const { t } = useTranslation();
-    const { users, searchQuery, setSearchQuery } = useUsersStore();
-
-    const [loading] = useState(false);
+    const { users, searchQuery, setSearchQuery, loading, fetchUsers } =
+        useUsersStore();
 
     const filteredUsers = users.filter((user) =>
         user.username.toLowerCase().includes(searchQuery.toLowerCase())
@@ -18,6 +17,10 @@ const SearchProfilePage: FC = () => {
     const handleSubscribe = (id: string) => {
         console.log('Subscribing to user with id:', id);
     };
+
+    useEffect(() => {
+        fetchUsers(true);
+    }, [fetchUsers]);
 
     return (
         <section className="h-100">
