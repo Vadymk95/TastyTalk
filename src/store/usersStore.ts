@@ -43,12 +43,16 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             const usersRef = collection(db, 'users');
             let q;
 
-            if (searchQuery) {
+            if (reset) {
+                set({ users: [], lastVisible: null, hasMore: true });
+            }
+
+            if (searchQuery.trim()) {
                 q = query(
                     usersRef,
                     where('verified', '==', true),
-                    where('username', '>=', searchQuery),
-                    where('username', '<=', searchQuery + '\uf8ff'),
+                    where('username', '>=', searchQuery.trim()),
+                    where('username', '<=', searchQuery.trim() + '\uf8ff'),
                     orderBy('username'),
                     limit(20)
                 );
@@ -58,7 +62,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     where('verified', '==', true),
                     orderBy('username'),
                     limit(20),
-                    ...(lastVisible ? [startAfter(lastVisible)] : [])
+                    ...(reset ? [] : [startAfter(lastVisible)])
                 );
             }
 
@@ -71,9 +75,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             set({
                 users: reset ? fetchedUsers : [...users, ...fetchedUsers],
-                lastVisible: snapshot.docs[snapshot.docs.length - 1],
+                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
                 hasMore: fetchedUsers.length === 20
             });
+
+            console.log('Fetched users:', fetchedUsers);
         } catch (error: any) {
             console.log('Error fetching users:', error.message);
             set({ error: error.message });
