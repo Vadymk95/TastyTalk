@@ -9,14 +9,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface ProfilePhotoProps {
     profileImage: string | File | null;
+    variant?: 'user' | 'profile';
 }
 
-export const ProfilePhoto: FC<ProfilePhotoProps> = ({ profileImage }) => {
+export const ProfilePhoto: FC<ProfilePhotoProps> = ({
+    profileImage,
+    variant = 'profile'
+}) => {
     const { t } = useTranslation();
     const isMobile = isMobileDevice();
+    const profileStyles = 'w-36 h-36 sm:w-24 sm:h-24';
+    const userStyles = 'w-9 h-9';
+    const currentVariantStyles =
+        variant === 'user' ? userStyles : profileStyles;
 
     return (
-        <div className="w-36 h-36 sm:w-24 sm:h-24 overflow-hidden rounded-full">
+        <div className={`${currentVariantStyles} overflow-hidden rounded-full`}>
             {profileImage ? (
                 <Image
                     src={

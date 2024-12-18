@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { ProfilePhoto } from '@root/components/common';
 import { Button } from '@root/components/ui';
 import { getProfileRoute, isMobileDevice } from '@root/helpers';
 import { useAuthStore } from '@root/store';
@@ -33,11 +34,19 @@ export const User: FC<UserProps> = ({ user, handleSubscribe }) => {
             onClick={handleOnRedirect}
             className="plate flex items-center justify-between gap-4 p-2 cursor-pointer hover:bg-neutral active:bg-neutral-50 active:scale-100 duration-500 hover:scale-95"
         >
-            <div>
-                <p className="sm:text-xs">
-                    {user.firstName} {user.lastName}
-                </p>
-                <p className="text-xs label">@{user.username}</p>
+            <div className="flex items-center gap-4">
+                {user.profileImage && (
+                    <ProfilePhoto
+                        variant="user"
+                        profileImage={user.profileImage}
+                    />
+                )}
+                <div>
+                    <p className="sm:text-xs">
+                        {user.firstName} {user.lastName}
+                    </p>
+                    <p className="text-xs label">@{user.username}</p>
+                </div>
             </div>
 
             {!me && (
