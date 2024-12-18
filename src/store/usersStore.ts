@@ -1,15 +1,20 @@
 import {
+    arrayRemove,
+    arrayUnion,
     collection,
+    doc,
     getDocs,
     limit,
     orderBy,
     query,
     startAfter,
+    updateDoc,
     where
 } from 'firebase/firestore';
 import { create } from 'zustand';
 
 import { db } from '@root/firebase/firebaseConfig';
+import { useAuthStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 interface UsersState {
@@ -22,6 +27,8 @@ interface UsersState {
     fetchUsers: (reset?: boolean) => Promise<void>;
     setSearchQuery: (query: string) => void;
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
+    followUser: (userId: string) => Promise<void>;
+    unfollowUser: (userId: string) => Promise<void>;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -116,6 +123,74 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             return null;
         } finally {
             set({ loading: false });
+        }
+    },
+
+    followUser: async (targetUserId) => {
+        const { userProfile } = useAuthStore.getState(); // Получаем текущий профиль
+        if (!userProfile) return;
+
+        try {
+            const currentUserRef = doc(db, 'users', userProfile.id); // Текущий юзер
+            const targetUserRef = doc(db, 'users', targetUserId); // Целевой юзер
+
+            // Обновляем Firestore
+            await Promise.all([
+                updateDoc(currentUserRef, {
+                    following: arrayUnion(targetUserId),
+                    followingCount: userProfile.followingCount + 1
+                }),
+                updateDoc(targetUserRef, {
+                    followers: arrayUnion(userProfile.id)
+                })
+            ]);
+
+            // Обновляем локальное состояние userProfile в authStore
+            useAuthStore.setState({
+                userProfile: {
+                    ...userProfile,
+                    following: [...(userProfile.following || []), targetUserId],
+                    followingCount: userProfile.followingCount + 1
+                }
+            });
+        } catch (error: any) {
+            console.error('Follow Error:', error.message);
+            set({ error: error.message });
+        }
+    },
+
+    unfollowUser: async (targetUserId) => {
+        const { userProfile } = useAuthStore.getState(); // Получаем текущий профиль
+        if (!userProfile) return;
+
+        try {
+            const currentUserRef = doc(db, 'users', userProfile.id);
+            const targetUserRef = doc(db, 'users', targetUserId);
+
+            // Обновляем Firestore
+            await Promise.all([
+                updateDoc(currentUserRef, {
+                    following: arrayRemove(targetUserId),
+                    followingCount: Math.max(0, userProfile.followingCount - 1)
+                }),
+                updateDoc(targetUserRef, {
+                    followers: arrayRemove(userProfile.id)
+                })
+            ]);
+
+            // Обновляем локальное состояние userProfile в authStore
+            useAuthStore.setState({
+                userProfile: {
+                    ...userProfile,
+                    following: userProfile.following?.filter(
+                        (id) => id !== targetUserId
+                    ),
+                    followingCount: Math.max(0, userProfile.followingCount - 1)
+                }
+            });
+        } catch (error: any) {
+            console.error('Unfollow Error:', error.message);
+            set({ error: error.message });
         }
     }
 }));

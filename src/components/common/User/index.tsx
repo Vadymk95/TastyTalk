@@ -1,30 +1,40 @@
-import { FC, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { ProfilePhoto } from '@root/components/common';
 import { Button } from '@root/components/ui';
 import { getProfileRoute, isMobileDevice } from '@root/helpers';
-import { useAuthStore } from '@root/store';
+import { useAuthStore, useUsersStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 interface UserProps {
     user: UserProfile;
-    handleSubscribe: (id: string) => void;
 }
 
-export const User: FC<UserProps> = ({ user, handleSubscribe }) => {
+export const User: FC<UserProps> = ({ user }) => {
     const navigate = useNavigate();
+    const { followUser, unfollowUser } = useUsersStore();
     const { t } = useTranslation();
-    const { isMe } = useAuthStore();
-    const [isFollow, setIsFollow] = useState(false);
+    const { isMe, userProfile } = useAuthStore();
     const isMobile = isMobileDevice();
     const me = isMe(user.username);
+    const followingSet = useMemo(
+        () => new Set(userProfile?.following || []),
+        [userProfile?.following]
+    );
 
-    const handleOnSubscribe = () => {
-        handleSubscribe(user.id);
+    const isFollowing = followingSet.has(user.id);
 
-        setIsFollow((prev) => !prev);
+    const handleOnSubscribe = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.stopPropagation();
+        if (isFollowing) {
+            unfollowUser(user.id);
+        } else {
+            followUser(user.id);
+        }
     };
 
     const handleOnRedirect = () => navigate(getProfileRoute(user.username));
@@ -51,11 +61,11 @@ export const User: FC<UserProps> = ({ user, handleSubscribe }) => {
 
             {!me && (
                 <Button
-                    variant={isFollow ? 'primary' : 'secondary'}
-                    onClick={handleOnSubscribe}
+                    variant={isFollowing ? 'primary' : 'secondary'}
+                    onClick={(event) => handleOnSubscribe(event)}
                     size={isMobile ? 'small' : 'medium'}
                 >
-                    {t(`General.${isFollow ? 'unfollow' : 'follow'}`)}
+                    {t(`General.${isFollowing ? 'unfollow' : 'follow'}`)}
                 </Button>
             )}
         </li>

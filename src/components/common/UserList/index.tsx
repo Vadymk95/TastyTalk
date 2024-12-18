@@ -41,10 +41,6 @@ export const UserList: FC<UserListProps> = ({
         user.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleSubscribe = (id: string) => {
-        console.log('Subscribing to user with id:', id);
-    };
-
     return (
         <div className="plate relative">
             <Back className="absolute" />
@@ -63,11 +59,7 @@ export const UserList: FC<UserListProps> = ({
             ) : filteredUsers.length > 0 ? (
                 <ul className="space-y-4 mt-4">
                     {filteredUsers.map((user) => (
-                        <User
-                            key={user.id}
-                            user={user}
-                            handleSubscribe={handleSubscribe}
-                        />
+                        <User key={user.id} user={user} />
                     ))}
                 </ul>
             ) : (
