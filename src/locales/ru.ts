@@ -199,6 +199,8 @@ export const ru = {
                     lastName: 'Фамилия',
                     username: 'Имя пользователя',
                     email: 'Email',
+                    nameCheckboxLabel: 'Отображать имя и фамилию в профиле',
+                    countryCheckboxLabel: 'Отображать страну в профиле',
                     usernameInvalid:
                         'Имя пользователя может содержать только буквы, цифры и подчеркивания',
                     usernameMustContainLetter:

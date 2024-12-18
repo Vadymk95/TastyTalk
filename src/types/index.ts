@@ -92,6 +92,8 @@ export interface UpdateProfileData {
     socialNetworks?: { name: string; profileName: string }[];
     profileImage?: File | null | string;
     subscriptionPlan?: SubscriptionPlan;
+    showCountry?: boolean;
+    showName?: boolean;
 }
 
 export interface UserProfile {
@@ -112,4 +114,6 @@ export interface UserProfile {
     mealPlansCount: number;
     followersCount: number;
     followingCount: number;
+    showCountry?: boolean;
+    showName?: boolean;
 }

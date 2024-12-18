@@ -471,6 +471,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         profileData.socialNetworks;
                 }
 
+                if (profileData.showCountry !== undefined) {
+                    firestoreUpdates.showCountry = profileData.showCountry;
+                }
+
+                if (profileData.showName !== undefined) {
+                    firestoreUpdates.showName = profileData.showName;
+                }
+
                 if (profileData.profileImage) {
                     // This is a workaround to convert the profile photo to base64. Temporary solution.
                     if (profileData.profileImage instanceof File) {

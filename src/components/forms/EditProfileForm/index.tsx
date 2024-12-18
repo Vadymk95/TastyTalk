@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 import {
     Button,
+    Checkbox,
     ErrorCard,
     FormikSelect,
     Input,
@@ -16,20 +17,10 @@ import {
 import { countries } from '@root/constants/countries';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { useAuthStore } from '@root/store/authStore';
+import { UpdateProfileData } from '@root/types';
 
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-type EditProfileFormValues = {
-    username: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    bio: string;
-    country: string;
-    socialNetworks: { name: string; profileName: string }[];
-    profileImage: File | null | string;
-};
 
 export const EditProfileForm: FC = () => {
     const { t } = useTranslation();
@@ -115,10 +106,12 @@ export const EditProfileForm: FC = () => {
             )
             .max(5, t('Forms.EditProfileForm.maxSocialNetworks')),
         profileImage: Yup.mixed().nullable(),
-        email: Yup.string()
+        email: Yup.string(),
+        showName: Yup.boolean(),
+        showCountry: Yup.boolean()
     });
 
-    const initialValues: EditProfileFormValues = {
+    const initialValues: UpdateProfileData = {
         username: userProfile?.username || '',
         firstName: userProfile?.firstName || '',
         lastName: userProfile?.lastName || '',
@@ -126,7 +119,9 @@ export const EditProfileForm: FC = () => {
         country: userProfile?.country || '',
         socialNetworks: userProfile?.socialNetworks || [],
         profileImage: userProfile?.profileImage || null,
-        email: userProfile?.email || ''
+        email: userProfile?.email || '',
+        showCountry: userProfile?.showCountry || false,
+        showName: userProfile?.showName || false
     };
 
     const usernameValidationSchema = EditProfileSchema.fields
@@ -136,7 +131,7 @@ export const EditProfileForm: FC = () => {
         error || t('General.somethingWentWrong')
     );
 
-    const onSubmit = async (values: EditProfileFormValues) => {
+    const onSubmit = async (values: UpdateProfileData) => {
         const success = await editProfile(values);
         if (success) {
             setShowSuccess(true);
@@ -200,6 +195,17 @@ export const EditProfileForm: FC = () => {
                                 label={t('Forms.EditProfileForm.lastName')}
                             />
 
+                            <Checkbox
+                                name="showName"
+                                onChange={(checked) =>
+                                    setFieldValue('showName', checked)
+                                }
+                                label={t(
+                                    'Forms.EditProfileForm.nameCheckboxLabel'
+                                )}
+                                checked={!!values.showName}
+                            />
+
                             <UsernameInput
                                 checkUsernameAvailability={
                                     checkUsernameAvailability
@@ -244,6 +250,20 @@ export const EditProfileForm: FC = () => {
                                     'Forms.EditProfileForm.selectCountry'
                                 )}
                             />
+
+                            {values.country && (
+                                <Checkbox
+                                    className="mt-4"
+                                    name="showCountry"
+                                    onChange={(checked) =>
+                                        setFieldValue('showCountry', checked)
+                                    }
+                                    label={t(
+                                        'Forms.EditProfileForm.countryCheckboxLabel'
+                                    )}
+                                    checked={!!values.showCountry}
+                                />
+                            )}
                         </div>
 
                         <FieldArray
@@ -262,62 +282,65 @@ export const EditProfileForm: FC = () => {
                                             )}
                                         </span>
                                     </label>
-                                    {values.socialNetworks.map((_, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex sm:block items-center gap-4 mb-4"
-                                        >
-                                            <Input
-                                                type="text"
-                                                className="sm:mr-9 sm:mb-6"
-                                                name={`socialNetworks.${index}.name`}
-                                                placeholder={t(
-                                                    'Forms.EditProfileForm.socialNetworkPlaceholder'
-                                                )}
-                                                label={t(
-                                                    'Forms.EditProfileForm.socialNetworkName'
-                                                )}
-                                                isRequired
-                                                size="small"
-                                            />
-                                            <div className="flex items-end flex-1">
+                                    {(values.socialNetworks || []).map(
+                                        (_, index) => (
+                                            <div
+                                                key={index}
+                                                className="flex sm:block items-center gap-4 mb-4"
+                                            >
                                                 <Input
                                                     type="text"
-                                                    name={`socialNetworks.${index}.profileName`}
+                                                    className="sm:mr-9 sm:mb-6"
+                                                    name={`socialNetworks.${index}.name`}
                                                     placeholder={t(
-                                                        'Forms.EditProfileForm.socialNetworkUsernamePlaceholder'
+                                                        'Forms.EditProfileForm.socialNetworkPlaceholder'
                                                     )}
                                                     label={t(
-                                                        'Forms.EditProfileForm.socialNetworkUsername'
+                                                        'Forms.EditProfileForm.socialNetworkName'
                                                     )}
                                                     isRequired
-                                                    className="flex-1 mr-2"
                                                     size="small"
                                                 />
-                                                <Button
-                                                    type="button"
-                                                    className="flex-all-center"
-                                                    size="small"
-                                                    variant="close"
-                                                    onClick={() =>
-                                                        arrayHelpers.remove(
-                                                            index
-                                                        )
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faXmark}
-                                                        size="xl"
+                                                <div className="flex items-end flex-1">
+                                                    <Input
+                                                        type="text"
+                                                        name={`socialNetworks.${index}.profileName`}
+                                                        placeholder={t(
+                                                            'Forms.EditProfileForm.socialNetworkUsernamePlaceholder'
+                                                        )}
+                                                        label={t(
+                                                            'Forms.EditProfileForm.socialNetworkUsername'
+                                                        )}
+                                                        isRequired
+                                                        className="flex-1 mr-2"
+                                                        size="small"
                                                     />
-                                                </Button>
+                                                    <Button
+                                                        type="button"
+                                                        className="flex-all-center"
+                                                        size="small"
+                                                        variant="close"
+                                                        onClick={() =>
+                                                            arrayHelpers.remove(
+                                                                index
+                                                            )
+                                                        }
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faXmark}
+                                                            size="xl"
+                                                        />
+                                                    </Button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    )}
                                     <Button
                                         type="button"
                                         size="small"
                                         disabled={
-                                            values.socialNetworks.length >= 5
+                                            (values.socialNetworks || [])
+                                                .length >= 5
                                         }
                                         onClick={() =>
                                             arrayHelpers.push({

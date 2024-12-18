@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { countries } from '@root/constants/countries';
 import { UserProfile } from '@root/types';
 
 interface ProfileInfoProps {
@@ -13,12 +14,30 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
     className = ''
 }) => {
     const { t } = useTranslation();
+    const hasNameOrCountry = profile?.showName || profile?.showCountry;
 
     return (
         <div className={`${className}`}>
             <h1 className="text-2xl sm:text-xl font-bold tracking-wide">
                 {profile.username}
             </h1>
+
+            {hasNameOrCountry && (
+                <div className="mb-4 flex flex-col gap-1">
+                    {profile?.showName && (
+                        <p className="label sm:text-sm whitespace-pre-line font-semibold">
+                            {profile.firstName} {profile.lastName}
+                        </p>
+                    )}
+
+                    {profile?.showCountry && profile.country && (
+                        <p className="label sm:text-sm whitespace-pre-line font-semibold">
+                            {countries.find((c) => c.code === profile.country)
+                                ?.name || ''}
+                        </p>
+                    )}
+                </div>
+            )}
 
             {profile.bio && (
                 <p className="label mt-1 sm:text-sm whitespace-pre-line">

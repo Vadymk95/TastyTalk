@@ -203,6 +203,8 @@ export const en = {
                     lastName: 'Last Name',
                     username: 'Username',
                     email: 'Email',
+                    nameCheckboxLabel: 'Show name on profile',
+                    countryCheckboxLabel: 'Show country on profile',
                     usernameInvalid:
                         'Username can only contain letters, numbers and underscores',
                     usernameMustContainLetter:
