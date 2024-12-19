@@ -34,7 +34,7 @@ export const Profile: FC<ProfileProps> = ({ profile, setCurrentTab }) => {
 
             {userProfile && (
                 <div className="absolute right-0 top-0">
-                    <ProfileTools />
+                    <ProfileTools profile={profile as UserProfile} />
                 </div>
             )}
         </section>

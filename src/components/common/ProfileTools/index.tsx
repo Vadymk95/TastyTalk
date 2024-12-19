@@ -1,24 +1,40 @@
-import { FC, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
 import { Button } from '@root/components/ui';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store';
+import { useAuthStore, useUsersStore } from '@root/store';
+import { UserProfile } from '@root/types';
 
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const ProfileTools: FC = () => {
-    const { t } = useTranslation();
-    const [isFollow, setIsFollow] = useState(false);
-    const { username } = useParams();
-    const { isMe } = useAuthStore();
-    const me = isMe(username || '');
+interface ProfileToolsProps {
+    profile: UserProfile;
+}
 
-    const handleSubscribe = () => {
-        console.log('Subscribe');
-        setIsFollow((prev) => !prev);
+export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
+    const { t } = useTranslation();
+    const { username } = useParams();
+    const { followUser, unfollowUser } = useUsersStore();
+    const { isMe, userProfile } = useAuthStore();
+    const me = isMe(username || '');
+    const followingSet = useMemo(
+        () => new Set(userProfile?.following || []),
+        [userProfile?.following]
+    );
+    const isFollowing = followingSet.has(profile.id);
+
+    const handleOnSubscribe = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.stopPropagation();
+        if (isFollowing) {
+            unfollowUser(profile.id);
+        } else {
+            followUser(profile.id);
+        }
     };
 
     return (
@@ -35,10 +51,10 @@ export const ProfileTools: FC = () => {
 
             {!me && (
                 <Button
-                    onClick={handleSubscribe}
-                    variant={isFollow ? 'primary' : 'accent'}
+                    onClick={handleOnSubscribe}
+                    variant={isFollowing ? 'primary' : 'accent'}
                 >
-                    {t(`General.${isFollow ? 'unfollow' : 'follow'}`)}
+                    {t(`General.${isFollowing ? 'unfollow' : 'follow'}`)}
                 </Button>
             )}
         </div>
