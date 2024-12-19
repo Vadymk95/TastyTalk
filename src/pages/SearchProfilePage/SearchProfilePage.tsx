@@ -18,7 +18,9 @@ const SearchProfilePage: FC = () => {
         if (users.length === 0) {
             fetchUsers(true);
         }
-    }, [fetchUsers, users.length]);
+
+        return () => setSearchQuery('');
+    }, [fetchUsers, setSearchQuery, users.length]);
 
     return (
         <section className="h-100">

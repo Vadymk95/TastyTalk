@@ -40,11 +40,11 @@ export const User: FC<UserProps> = ({ user }) => {
     const handleOnRedirect = () => navigate(getProfileRoute(user.username));
 
     return (
-        <li
-            onClick={handleOnRedirect}
-            className="plate flex items-center justify-between gap-4 p-2 cursor-pointer hover:bg-neutral active:bg-neutral-50 active:scale-100 duration-500 hover:scale-95"
-        >
-            <div className="flex items-center gap-4">
+        <li className="plate flex items-center justify-between gap-4 p-2 hover:bg-neutral active:bg-neutral-50 duration-500">
+            <div
+                onClick={handleOnRedirect}
+                className="flex items-center gap-4 cursor-pointer"
+            >
                 {user.profileImage && (
                     <ProfilePhoto
                         variant="user"
