@@ -68,11 +68,14 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             }
 
             if (searchQuery.trim()) {
+                const normalizedQuery = searchQuery.trim().toLowerCase();
+
                 q = query(
                     usersRef,
                     where('verified', '==', true),
-                    where('username', '>=', searchQuery.trim()),
-                    where('username', '<=', searchQuery.trim() + '\uf8ff'),
+                    where('usernameLower', '>=', normalizedQuery),
+                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
+                    orderBy('usernameLower'),
                     orderBy('username'),
                     limit(20)
                 );
@@ -111,11 +114,12 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
         try {
             const usersRef = collection(db, 'users');
+            const normalizedUsername = username.trim().toLowerCase();
 
             const q = query(
                 usersRef,
                 where('verified', '==', true),
-                where('username', '==', username),
+                where('usernameLower', '==', normalizedUsername),
                 limit(1)
             );
 

@@ -101,6 +101,7 @@ export interface UserProfile {
     firstName: string;
     lastName: string;
     username: string;
+    usernameLower: string;
     email: string | null;
     bio?: string;
     country?: string;

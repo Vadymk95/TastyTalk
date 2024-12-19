@@ -263,12 +263,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     email,
                     password
                 );
+                const usernameLower = username.toLowerCase();
                 await linkWithCredential(currentUser, credential);
 
                 const userProfile = {
                     id: currentUser.uid,
                     email: currentUser.email,
                     username,
+                    usernameLower,
                     firstName,
                     lastName,
                     createdAt: new Date(),
@@ -300,6 +302,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     password
                 );
                 const user = userCredential.user;
+                const usernameLower = username.toLowerCase();
 
                 await updateProfile(user, {
                     displayName: `${firstName} ${lastName}`
@@ -310,6 +313,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     id: user.uid,
                     email: user.email,
                     username,
+                    usernameLower,
                     firstName,
                     lastName,
                     createdAt: new Date(),
@@ -455,7 +459,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     if (!isAvailable) {
                         throw new Error('Этот юзернейм уже занят');
                     }
+                    const usernameLower = profileData.username.toLowerCase();
                     firestoreUpdates.username = profileData.username;
+                    firestoreUpdates.usernameLower = usernameLower;
                 }
 
                 if (profileData.bio) {
