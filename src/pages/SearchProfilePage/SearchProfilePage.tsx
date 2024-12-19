@@ -15,12 +15,10 @@ const SearchProfilePage: FC = () => {
     );
 
     useEffect(() => {
-        if (users.length === 0) {
-            fetchUsers(true);
-        }
+        fetchUsers(true);
 
         return () => setSearchQuery('');
-    }, [fetchUsers, setSearchQuery, users.length]);
+    }, [fetchUsers, setSearchQuery]);
 
     return (
         <section className="h-100">

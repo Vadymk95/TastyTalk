@@ -16,6 +16,7 @@ import { create } from 'zustand';
 import { db } from '@root/firebase/firebaseConfig';
 import { useAuthStore } from '@root/store';
 import { UserProfile } from '@root/types';
+import { debounce } from 'lodash';
 
 interface UsersState {
     users: UserProfile[];
@@ -29,6 +30,7 @@ interface UsersState {
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     followUser: (userId: string) => Promise<void>;
     unfollowUser: (userId: string) => Promise<void>;
+    debouncedFetchUsers: () => void;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -38,8 +40,19 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     searchQuery: '',
     lastVisible: null,
     hasMore: true,
+    debouncedFetchUsers: debounce(() => {
+        const { fetchUsers } = get();
+        fetchUsers(true);
+    }, 300),
 
-    setSearchQuery: (query) => set({ searchQuery: query }),
+    setSearchQuery: (query: string) => {
+        const { searchQuery, loading } = get();
+
+        if (query !== searchQuery && !loading) {
+            set({ searchQuery: query });
+            get().debouncedFetchUsers();
+        }
+    },
 
     fetchUsers: async (reset = false) => {
         const { searchQuery, lastVisible, users } = get();
@@ -85,8 +98,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
                 hasMore: fetchedUsers.length === 20
             });
-
-            console.log('Fetched users:', fetchedUsers);
         } catch (error: any) {
             console.log('Error fetching users:', error.message);
             set({ error: error.message });
