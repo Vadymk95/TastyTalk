@@ -115,7 +115,7 @@ export const en = {
                 pricing: 'Pricing'
             },
             Footer: {
-                allRights: '© 2024 TastyTalks. All rights reserved.',
+                allRights: '© 2025 TastyTalks. All rights reserved.',
                 profile: 'Your Profile',
                 signOut: 'Sign Out',
                 createRecipe: 'Create Recipe',

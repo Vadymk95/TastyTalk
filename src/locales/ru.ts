@@ -114,7 +114,7 @@ export const ru = {
                 pricing: 'Тарифы'
             },
             Footer: {
-                allRights: '© 2024 TastyTalks. Все права защищены.',
+                allRights: '© 2025 TastyTalks. Все права защищены.',
                 profile: 'Ваш профиль',
                 signOut: 'Выйти',
                 createRecipe: 'Создать рецепт',
