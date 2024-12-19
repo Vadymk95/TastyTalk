@@ -89,6 +89,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     setUser: async (user, isRegistered = false) => {
         if (user) {
+            await user.reload();
             const isEmailVerified = user.emailVerified;
             const shouldVerifyEmail = !isEmailVerified && !isRegistered;
 
@@ -632,6 +633,7 @@ const processGoogleSignIn = async (
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
+        await user.reload();
         const state = useAuthStore.getState();
         if (!state.userProfile) {
             const userRef = doc(db, 'users', user.uid);
