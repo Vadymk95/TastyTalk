@@ -66,7 +66,6 @@ export const Modal: FC<ModalProps> = ({
                     className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ${classNameContainer}`}
                 >
                     <motion.div
-                        //@ts-expect-error classNameMotion is not a valid prop
                         className={`plate sm:max-w-[95%] max-h-[85%] overflow-y-auto relative modal-${variant} ${classNameMotion}`}
                         initial={{ y: '-100vh', opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}

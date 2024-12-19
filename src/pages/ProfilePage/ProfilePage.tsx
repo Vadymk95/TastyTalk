@@ -2,12 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import {
-    ErrorBoundary,
-    MyMealPlans,
-    MyRecipes,
-    Profile
-} from '@root/components/common';
+import { MyMealPlans, MyRecipes, Profile } from '@root/components/common';
 import { Loader, Tabs } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useUsersStore } from '@root/store';
@@ -60,7 +55,8 @@ const ProfilePage: FC = () => {
     }
 
     if (error) {
-        return <ErrorBoundary />;
+        // добавить компонент ошибки
+        return <div>Something went wrong</div>;
     }
 
     const hasPlan = hasPaidPlan();
