@@ -40,7 +40,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         clearError,
         loading,
         user,
-        isRegistered
+        isRegistered,
+        userProfile,
+        isEmailVerified,
+        loadUserProfile
     } = useAuthStore();
     const { openModal, closeModal } = useModalStore();
     const isTemporaryUser = !!user && !isRegistered;
@@ -67,14 +70,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 values.lastName
             );
 
-            const state = useAuthStore.getState();
-            if (!state.userProfile) {
-                await (state.user && state.loadUserProfile(state.user.uid!));
+            if (!userProfile) {
+                await (user && loadUserProfile(user.uid!));
             }
 
             closeModal(ModalsEnum.RegisterRulesAndPrivacy);
 
-            navigation(routes.emailVerification);
+            return isEmailVerified
+                ? navigation(routes.greeting)
+                : navigation(routes.emailVerification);
         } catch (error) {
             console.error('Registration failed:', error);
         }
