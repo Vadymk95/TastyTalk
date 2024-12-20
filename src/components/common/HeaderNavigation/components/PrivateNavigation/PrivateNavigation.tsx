@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const PrivateNavigation: FC = () => {
     const { t } = useTranslation();
-    const { isRegistered, isEmailVerified, hasPaidPlan } = useAuthStore();
+    const { isRegistered, userProfile, hasPaidPlan } = useAuthStore();
     const hasPlan = hasPaidPlan();
 
     return (
@@ -26,7 +26,7 @@ export const PrivateNavigation: FC = () => {
                 </Link>
             ) : (
                 <>
-                    {isEmailVerified && (
+                    {userProfile?.verified && (
                         <>
                             <Link
                                 to={routes.recipes}

@@ -14,7 +14,8 @@ import {
 
 const GreetingPage: FC = () => {
     const { t } = useTranslation();
-    const { isEmailVerified } = useAuthStore();
+    const { userProfile, hasPaidPlan } = useAuthStore();
+    const hasPlan = hasPaidPlan();
 
     return (
         <div className="plate flex-all-center flex-col sm:w-full">
@@ -35,30 +36,37 @@ const GreetingPage: FC = () => {
                 <Tooltip
                     text={t('GreetingPage.createRecipeTooltip')}
                     position="top"
-                    shouldShow={!isEmailVerified}
+                    shouldShow={!userProfile?.verified}
                 >
                     <GreetingCard
                         to={routes.recipesCreate}
                         title={t('GreetingPage.createRecipe')}
                         icon={faFilePen}
-                        disabled={!isEmailVerified}
+                        disabled={!userProfile?.verified}
                     />
                 </Tooltip>
-                <GreetingCard
-                    to={routes.mealsPlan}
-                    title={t('GreetingPage.mealPlans')}
-                    icon={faNewspaper}
-                />
+                <Tooltip
+                    text={t('GreetingPage.mealPlansTooltip')}
+                    position="top"
+                    shouldShow={!hasPlan}
+                >
+                    <GreetingCard
+                        to={routes.mealsPlan}
+                        title={t('GreetingPage.mealPlans')}
+                        icon={faNewspaper}
+                        disabled={!hasPlan}
+                    />
+                </Tooltip>
                 <Tooltip
                     text={t('GreetingPage.createPlanTooltip')}
                     position="top"
-                    shouldShow={!isEmailVerified}
+                    shouldShow={!hasPlan}
                 >
                     <GreetingCard
                         to={routes.mealsPlanCreate}
                         title={t('GreetingPage.createPlan')}
                         icon={faFileSignature}
-                        disabled={!isEmailVerified}
+                        disabled={!hasPlan}
                     />
                 </Tooltip>
             </div>

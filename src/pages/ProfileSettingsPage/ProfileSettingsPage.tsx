@@ -15,7 +15,7 @@ const ProfileSettingsPage: FC = () => {
     const {
         signOutUser,
         resendVerificationEmail,
-        isEmailVerified,
+        userProfile,
         checkEmailVerificationStatus
     } = useAuthStore();
     const { openModal } = useModalStore();
@@ -53,14 +53,14 @@ const ProfileSettingsPage: FC = () => {
     };
 
     useEffect(() => {
-        if (!isEmailVerified) {
+        if (!userProfile?.verified) {
             const intervalId = setInterval(async () => {
                 await checkEmailVerificationStatus();
             }, 5000);
 
             return () => clearInterval(intervalId);
         }
-    }, [isEmailVerified, checkEmailVerificationStatus]);
+    }, [userProfile?.verified, checkEmailVerificationStatus]);
 
     const options = languages.map((lang) => ({
         label: lang.name,
@@ -75,7 +75,7 @@ const ProfileSettingsPage: FC = () => {
                 <EditProfileForm />
             </section>
 
-            {!isEmailVerified && (
+            {!userProfile?.verified && (
                 <section className="plate w-full">
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('ProfileSettingsPage.resendEmailTitle')}

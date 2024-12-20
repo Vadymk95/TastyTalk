@@ -38,7 +38,9 @@ export const en = {
                 createRecipeTooltip:
                     'You need to verify your email to create a recipe',
                 createPlanTooltip:
-                    'You need to verify your email to create a recipe or meal plan'
+                    'You need a paid plan "Standard" to create a meal plan',
+                mealPlansTooltip:
+                    'You need a paid plan "Basic" to access meal plans'
             },
             ProfilePage: {
                 socialNetworks: 'Social Networks:',

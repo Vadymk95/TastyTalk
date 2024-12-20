@@ -14,7 +14,7 @@ const EmailVerificationPage: FC = () => {
     const navigate = useNavigate();
     const {
         resendVerificationEmail,
-        isEmailVerified,
+        userProfile,
         checkEmailVerificationStatus
     } = useAuthStore();
     const [checking, setChecking] = useState(false);
@@ -53,7 +53,7 @@ const EmailVerificationPage: FC = () => {
     };
 
     useEffect(() => {
-        if (!isEmailVerified) {
+        if (!userProfile?.verified) {
             // Запускаем таймер для проверки статуса каждые 5 секунд
             const intervalId = setInterval(async () => {
                 setChecking(true);
@@ -64,13 +64,13 @@ const EmailVerificationPage: FC = () => {
             // Очищаем таймер, когда пользователь уходит со страницы
             return () => clearInterval(intervalId);
         }
-    }, [isEmailVerified, checkEmailVerificationStatus]);
+    }, [userProfile?.verified, checkEmailVerificationStatus]);
 
     useEffect(() => {
-        if (isEmailVerified && !checking) {
+        if (userProfile?.verified && !checking) {
             navigate(routes.home);
         }
-    }, [checking, isEmailVerified, navigate]);
+    }, [checking, userProfile?.verified, navigate]);
 
     return (
         <div className="flex-all-center">

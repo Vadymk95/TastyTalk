@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const HeaderNavigation: FC = () => {
     const location = useLocation();
-    const { user, isEmailVerified } = useAuthStore();
+    const { user, userProfile } = useAuthStore();
     const { t } = useTranslation();
     const isAuth = !!user;
     const isHomePath =
@@ -23,7 +23,7 @@ export const HeaderNavigation: FC = () => {
         <nav className="flex">
             {isAuth ? <PrivateNavigation /> : <PublicNavigation />}
 
-            {!isEmailVerified && !isHomePath && (
+            {!userProfile?.verified && !isHomePath && (
                 <Link
                     to={routes.home}
                     className="link-primary nav-link p-4 sm:px-6"

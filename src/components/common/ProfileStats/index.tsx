@@ -22,7 +22,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
     className = ''
 }) => {
     const { t } = useTranslation();
-    const { isEmailVerified, userProfile, hasPaidPlan } = useAuthStore();
+    const { userProfile, hasPaidPlan } = useAuthStore();
 
     const numberFormats = (value: number) => {
         if (value >= 1_000_000)
@@ -33,7 +33,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
     };
 
     const handleCheckVerification = (event: MouseEvent) => {
-        if (!isEmailVerified) return event.preventDefault();
+        if (!userProfile?.verified) return event.preventDefault();
     };
 
     const handleCurrentTab = (key: string) => {
@@ -88,7 +88,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
             <Link
                 onClick={(event) => handleCheckVerification(event)}
                 to={routes.followers}
-                className={`cursor-pointer ${!isEmailVerified ? 'pointer-events-none' : ''}`}
+                className={`cursor-pointer ${!userProfile?.verified ? 'pointer-events-none' : ''}`}
             >
                 <p className="text-lg font-bold">
                     {numberFormats(profile.followersCount)}
@@ -101,7 +101,7 @@ export const ProfileStats: FC<ProfileStatsProps> = ({
             <Link
                 onClick={(event) => handleCheckVerification(event)}
                 to={routes.following}
-                className={`cursor-pointer ${!isEmailVerified ? 'pointer-events-none' : ''}`}
+                className={`cursor-pointer ${!userProfile?.verified ? 'pointer-events-none' : ''}`}
             >
                 <p className="text-lg font-bold">
                     {numberFormats(profile.followingCount)}
