@@ -112,7 +112,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             if (shouldVerifyEmail) {
                 try {
                     await sendEmailVerification(user);
-                    console.log('Verification email sent.');
                 } catch (error) {
                     console.error('Failed to send verification email:', error);
                 }
@@ -221,7 +220,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     await linkWithCredential(user, credential!);
                 }
             } else {
-                await processGoogleSignIn(userCredential);
+                return await processGoogleSignIn(userCredential);
             }
 
             return true;
@@ -394,7 +393,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (user && !user.emailVerified) {
             try {
                 await sendEmailVerification(user);
-                console.log('Verification email resent.');
             } catch (error) {
                 console.error('Failed to resend verification email:', error);
                 throw new Error('Failed to resend verification email.');
