@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 
 import { HeaderNavigation } from '@root/components/common';
 import { routes } from '@root/router/routes';
+import { useAuthStore } from '@root/store';
 
 export const Header: FC = () => {
+    const { initialized } = useAuthStore();
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(true);
     const lastScrollY = useRef(0);
@@ -44,7 +46,7 @@ export const Header: FC = () => {
                     {t('Header.brand')}
                 </Link>
 
-                <HeaderNavigation />
+                {initialized && <HeaderNavigation />}
             </div>
         </header>
     );

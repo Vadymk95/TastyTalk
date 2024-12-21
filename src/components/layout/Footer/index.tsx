@@ -5,14 +5,15 @@ import { useAuthStore } from '@root/store/authStore';
 import { PrivateFooter, PublicFooter } from './components';
 
 export const Footer: FC = () => {
-    const { user } = useAuthStore();
-
+    const { user, initialized } = useAuthStore();
     const isAuth = !!user;
 
     return (
         <footer className="footer">
             <div className="container">
-                {isAuth ? <PrivateFooter /> : <PublicFooter />}
+                {initialized && (
+                    <>{isAuth ? <PrivateFooter /> : <PublicFooter />}</>
+                )}
             </div>
         </footer>
     );
