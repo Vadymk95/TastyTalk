@@ -39,7 +39,6 @@ interface AuthState {
     loading: boolean;
     error: string | null;
     isRegistered: boolean;
-    isEmailVerified: boolean;
     initialized: boolean;
     editProfile: (profileData: UpdateProfileData) => Promise<boolean>;
     changePassword: (
@@ -85,7 +84,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     error: null,
     isRegistered: false,
     initialized: false,
-    isEmailVerified: false,
 
     setUser: async (user, isRegistered = false) => {
         if (user) {
@@ -95,7 +93,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             set({
                 user,
                 isRegistered,
-                isEmailVerified,
                 initialized: true,
                 userProfile: null
             });
@@ -103,6 +100,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             if (isRegistered) {
                 try {
                     await get().loadUserProfile(user.uid);
+                    const { userProfile } = get();
+
+                    if (userProfile) {
+                        set({
+                            userProfile: {
+                                ...userProfile,
+                                verified: isEmailVerified
+                            }
+                        });
+                    } else {
+                        console.error('User profile is not loaded or is null.');
+                    }
                 } catch (error) {
                     console.error('Failed to load user profile:', error);
                 }
@@ -119,7 +128,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             set({
                 user: null,
                 isRegistered: false,
-                isEmailVerified: false,
                 initialized: true,
                 userProfile: null
             });
