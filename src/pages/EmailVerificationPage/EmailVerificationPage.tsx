@@ -55,10 +55,13 @@ const EmailVerificationPage: FC = () => {
     useEffect(() => {
         if (!userProfile?.verified) {
             const intervalId = setInterval(async () => {
-                setChecking(true);
-                await checkEmailVerificationStatus();
-                setChecking(false);
-            }, 5000);
+                try {
+                    setChecking(true);
+                    await checkEmailVerificationStatus();
+                } finally {
+                    setChecking(false);
+                }
+            }, 10000);
 
             return () => clearInterval(intervalId);
         }

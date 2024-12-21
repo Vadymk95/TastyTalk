@@ -405,27 +405,37 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     checkEmailVerificationStatus: async () => {
         const user = auth.currentUser;
-        if (user) {
-            try {
-                await user.reload();
-                const isVerified = user.emailVerified;
 
-                set({
-                    user,
-                    isEmailVerified: isVerified
-                });
+        if (!user) {
+            console.error('No authenticated user found.');
+            return;
+        }
 
-                if (isVerified) {
-                    const userRef = doc(db, 'users', user.uid);
-                    await setDoc(userRef, { verified: true }, { merge: true });
+        try {
+            await user.reload();
+            const isVerified = user.emailVerified;
+
+            if (isVerified) {
+                const userRef = doc(db, 'users', user.uid);
+
+                await setDoc(userRef, { verified: true }, { merge: true });
+
+                const { userProfile } = get();
+
+                if (userProfile) {
+                    set({
+                        userProfile: {
+                            ...userProfile,
+                            verified: true
+                        }
+                    });
+                } else {
+                    console.error('User profile not found in store!');
                 }
-            } catch (error) {
-                console.error(
-                    'Error checking email verification status:',
-                    error
-                );
-                set({ error: 'Failed to check email verification status' });
             }
+        } catch (error) {
+            console.error('Error checking email verification status:', error);
+            set({ error: 'Failed to check email verification status' });
         }
     },
 
