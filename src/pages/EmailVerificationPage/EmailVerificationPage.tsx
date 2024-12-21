@@ -54,14 +54,12 @@ const EmailVerificationPage: FC = () => {
 
     useEffect(() => {
         if (!userProfile?.verified) {
-            // Запускаем таймер для проверки статуса каждые 5 секунд
             const intervalId = setInterval(async () => {
                 setChecking(true);
                 await checkEmailVerificationStatus();
                 setChecking(false);
-            }, 5000); // 5000 мс = 5 секунд
+            }, 5000);
 
-            // Очищаем таймер, когда пользователь уходит со страницы
             return () => clearInterval(intervalId);
         }
     }, [userProfile?.verified, checkEmailVerificationStatus]);
