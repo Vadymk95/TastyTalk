@@ -106,7 +106,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         set({
                             userProfile: {
                                 ...userProfile,
-                                verified: isEmailVerified
+                                verified: true
                             }
                         });
                     } else {

@@ -75,7 +75,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
             closeModal(ModalsEnum.RegisterRulesAndPrivacy);
 
-            return userProfile?.verified
+            const updatedUserProfile = useAuthStore.getState().userProfile;
+
+            return updatedUserProfile?.verified
                 ? navigation(routes.greeting)
                 : navigation(routes.emailVerification);
         } catch (error) {
