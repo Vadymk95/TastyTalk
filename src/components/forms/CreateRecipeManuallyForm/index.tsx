@@ -30,8 +30,8 @@ const defaultFormValues: RecipeType = {
     previewPhoto: null,
     ingredients: null,
     steps: [''],
-    tips: [''],
-    warnings: [''],
+    tips: [],
+    warnings: [],
     videoUrl: '',
     id: '',
     aiGenerated: false
@@ -200,7 +200,15 @@ export const CreateRecipeManuallyForm: FC = () => {
 
     const onSubmit = async (values: RecipeType, { resetForm }: any) => {
         try {
-            await addRecipe(values);
+            const sanitizedValues = {
+                ...values,
+                tips: values.tips?.filter((tip) => tip.trim() !== ''),
+                warnings: values.warnings?.filter(
+                    (warning) => warning.trim() !== ''
+                )
+            };
+
+            await addRecipe(sanitizedValues);
             resetManualForm();
             resetForm({ values: defaultFormValues });
             navigate(getProfileRoute(userProfile?.username));
