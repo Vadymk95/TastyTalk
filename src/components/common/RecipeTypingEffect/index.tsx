@@ -120,7 +120,7 @@ export const RecipeTypingEffect: FC<RecipeTypingEffectProps> = ({ recipe }) => {
                                                 }}
                                             />
                                         </div>
-                                        <ul className="list-disc pl-5">
+                                        <ul className="list-dash pl-5">
                                             {ingredient.categoryIngredients.map(
                                                 (catIngredient, catIndex) => (
                                                     <li
