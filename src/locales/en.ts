@@ -674,9 +674,10 @@ export const en = {
             IFrameWarning: {
                 openInBrowser: 'Open in Browser',
                 description1:
-                    'This application might not work correctly inside an embedded browser or Telegram.',
+                    'This application might not work correctly inside an embedded browser or Telegram. Google Sign-In is not supported in embedded browsers',
                 description2:
-                    'Please open it in your default browser for the best experience.'
+                    'Please open it in your default browser for the best experience.',
+                title: ' Вход с Google не поддерживается во встроенных окнах.'
             },
             General: {
                 ok: 'OK',
