@@ -42,8 +42,13 @@ export const CreateRecipeManuallyForm: FC = () => {
     const navigate = useNavigate();
     const { addRecipe, loading } = useRecipeStore();
     const { userProfile } = useAuthStore();
-    const { currentStep, manualFormData, setCurrentStep, resetManualForm } =
-        useTemporaryRecipeStore();
+    const {
+        currentStep,
+        manualFormData,
+        setCurrentStep,
+        resetManualForm,
+        hasSeenLastStep
+    } = useTemporaryRecipeStore();
 
     const CreateRecipeManuallySchema = Yup.object().shape({
         title: Yup.string()
@@ -416,6 +421,7 @@ export const CreateRecipeManuallyForm: FC = () => {
                                 onReset={onReset}
                                 isStepValid={isStepValid}
                                 canSkipStep={canSkipStep}
+                                hasSeenLastStep={hasSeenLastStep}
                             />
                         </Form>
                     );

@@ -11,6 +11,7 @@ import {
     faChevronLeft,
     faChevronRight,
     faCircleCheck,
+    faFlagCheckered,
     faForward
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,6 +23,7 @@ interface StepperProps {
     onReset?: () => void;
     currentStep: number;
     setCurrentStep: (step: number) => void;
+    hasSeenLastStep: boolean;
 }
 
 interface Step {
@@ -37,13 +39,15 @@ export const Stepper: FC<StepperProps> = ({
     canSkipStep,
     onReset,
     currentStep,
-    setCurrentStep
+    setCurrentStep,
+    hasSeenLastStep
 }) => {
     const { t } = useTranslation();
     const { openModal } = useModalStore();
+    const totalSteps = steps.length - 1;
 
     const handleNext = () => {
-        if (currentStep < steps.length - 1) {
+        if (currentStep < totalSteps) {
             setCurrentStep(currentStep + 1);
         }
     };
@@ -71,6 +75,8 @@ export const Stepper: FC<StepperProps> = ({
     const handleSaveRecipe = () => openModal(ModalsEnum.Visibility);
 
     const handleResetModal = () => openModal(ModalsEnum.ResetStepper);
+
+    const handleLastStep = () => setCurrentStep(totalSteps);
 
     const progress = ((currentStep + 1) / steps.length) * 100;
 
@@ -123,7 +129,7 @@ export const Stepper: FC<StepperProps> = ({
                     </Button>
                 )}
 
-                {currentStep === steps.length - 1 ? (
+                {currentStep === totalSteps ? (
                     <Button
                         onClick={handleSaveRecipe}
                         className="flex items-center gap-3"
@@ -146,6 +152,22 @@ export const Stepper: FC<StepperProps> = ({
                     </Button>
                 )}
             </div>
+
+            {hasSeenLastStep && currentStep !== totalSteps && (
+                <div className="flex-all-center mt-6">
+                    <Button
+                        variant="secondary"
+                        size="large"
+                        className="flex items-center gap-3"
+                        onClick={handleLastStep}
+                    >
+                        <FontAwesomeIcon icon={faFlagCheckered} />
+                        <span className="sm:text-sm">
+                            {t('Stepper.backToFinalStep')}
+                        </span>
+                    </Button>
+                </div>
+            )}
 
             <ResetStepperModal handleReset={handleReset} />
             <VisibilityModal type="recipe" />

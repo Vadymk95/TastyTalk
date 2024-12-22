@@ -462,6 +462,7 @@ export const en = {
                 skip: 'Skip',
                 next: 'Next',
                 submit: 'Finish',
+                backToFinalStep: 'Back to Final Step',
                 completeStep: 'Complete Step',
                 checkStep: 'Check Step',
                 incompleteStep: 'Incomplete Step',

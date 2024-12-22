@@ -8,6 +8,7 @@ interface TemporaryRecipeState {
     currentQuery: string;
     currentStep: number;
     manualFormData: Partial<Recipe> | null;
+    hasSeenLastStep: boolean;
     setCurrentRecipe: (recipe: Recipe | null) => void;
     setCurrentQuery: (query: string) => void;
     setCurrentStep: (step: number) => void;
@@ -24,13 +25,24 @@ export const useTemporaryRecipeStore = create<TemporaryRecipeState>()(
             currentQuery: '',
             currentStep: 0,
             manualFormData: null,
+            hasSeenLastStep: false,
             setCurrentRecipe: (recipe) => set({ currentRecipe: recipe }),
             setCurrentQuery: (query) => set({ currentQuery: query }),
-            setCurrentStep: (step) => set({ currentStep: step }),
+            setCurrentStep: (step) => {
+                set((state) => ({
+                    currentStep: step,
+                    hasSeenLastStep: step === 8 || state.hasSeenLastStep
+                }));
+            },
             setManualFormData: (data) => set({ manualFormData: data }),
             clearRecipe: () => set({ currentRecipe: null }),
             clearQuery: () => set({ currentQuery: '' }),
-            resetManualForm: () => set({ currentStep: 0, manualFormData: null })
+            resetManualForm: () =>
+                set({
+                    currentStep: 0,
+                    manualFormData: null,
+                    hasSeenLastStep: false
+                })
         }),
         {
             name: 'temporary-recipe',
@@ -38,7 +50,8 @@ export const useTemporaryRecipeStore = create<TemporaryRecipeState>()(
                 currentRecipe: state.currentRecipe,
                 currentQuery: state.currentQuery,
                 currentStep: state.currentStep,
-                manualFormData: state.manualFormData
+                manualFormData: state.manualFormData,
+                hasSeenLastStep: state.hasSeenLastStep
             })
         }
     )

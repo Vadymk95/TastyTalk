@@ -453,6 +453,7 @@ export const ru = {
                 skip: 'Пропустить',
                 next: 'Далее',
                 submit: 'Завершить',
+                backToFinalStep: 'Вернуться к последнему шагу',
                 completeStep: 'Завершить шаг',
                 checkStep: 'Проверить шаг',
                 incompleteStep: 'Шаг не завершен',
