@@ -11,9 +11,7 @@ interface PricingProps {
 export const Pricing: FC<PricingProps> = ({ isPreviewMode = false }) => {
     const { t } = useTranslation();
     const { userProfile, updateSubscriptionPlan, loading } = useAuthStore();
-
     const currentPlan = userProfile?.subscriptionPlan || 'Free';
-
     const pricingPlans = [
         {
             title: t('Pricing.free.title'),
@@ -24,7 +22,7 @@ export const Pricing: FC<PricingProps> = ({ isPreviewMode = false }) => {
                 t('Pricing.free.feature3')
             ],
             buttonLabel: t('Pricing.free.button'),
-            isCurrentPlan: currentPlan === 'Free',
+            isCurrentPlan: !!userProfile && currentPlan === 'Free',
             plan: 'Free' as const
         },
         {
@@ -36,7 +34,7 @@ export const Pricing: FC<PricingProps> = ({ isPreviewMode = false }) => {
                 t('Pricing.basic.feature3')
             ],
             buttonLabel: t('Pricing.basic.button'),
-            isCurrentPlan: currentPlan === 'Basic',
+            isCurrentPlan: !!userProfile && currentPlan === 'Basic',
             plan: 'Basic' as const
         },
         {
@@ -48,7 +46,7 @@ export const Pricing: FC<PricingProps> = ({ isPreviewMode = false }) => {
                 t('Pricing.standard.feature3')
             ],
             buttonLabel: t('Pricing.standard.button'),
-            isCurrentPlan: currentPlan === 'Standard',
+            isCurrentPlan: !!userProfile && currentPlan === 'Standard',
             plan: 'Standard' as const
         },
         {
@@ -60,7 +58,7 @@ export const Pricing: FC<PricingProps> = ({ isPreviewMode = false }) => {
                 t('Pricing.premium.feature3')
             ],
             buttonLabel: t('Pricing.premium.button'),
-            isCurrentPlan: currentPlan === 'Premium',
+            isCurrentPlan: !!userProfile && currentPlan === 'Premium',
             plan: 'Premium' as const
         }
     ];
