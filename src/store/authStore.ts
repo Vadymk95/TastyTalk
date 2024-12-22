@@ -10,7 +10,6 @@ import {
     sendEmailVerification,
     signInWithEmailAndPassword,
     signInWithPopup,
-    signInWithRedirect,
     signOut,
     updatePassword,
     updateProfile,
@@ -30,7 +29,7 @@ import {
 import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
-import { convertFileToBase64, isMobileDevice } from '@root/helpers';
+import { convertFileToBase64 } from '@root/helpers';
 import { SubscriptionPlan, UpdateProfileData, UserProfile } from '@root/types';
 
 interface AuthState {
@@ -201,16 +200,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
 
         try {
-            const isMobile = isMobileDevice();
-
-            let userCredential;
-
-            if (isMobile) {
-                await signInWithRedirect(auth, googleProvider);
-                return true;
-            } else {
-                userCredential = await signInWithPopup(auth, googleProvider);
-            }
+            const userCredential = await signInWithPopup(auth, googleProvider);
 
             const googleUser = userCredential.user;
 
