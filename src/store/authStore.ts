@@ -200,6 +200,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
 
         try {
+            //! На случай, если это пригодится в будущем
+            // const isMobile = isMobileDevice();
+
+            // let userCredential;
+
+            // if (isMobile) {
+            //     await signInWithRedirect(auth, googleProvider);
+            //     return true;
+            // } else {
+            //     userCredential = await signInWithPopup(auth, googleProvider);
+            // }
+
             const userCredential = await signInWithPopup(auth, googleProvider);
 
             const googleUser = userCredential.user;
