@@ -95,7 +95,7 @@ export const Recipe: FC<RecipeProps> = ({ recipe }) => {
                                     <div className="font-bold text-primary">
                                         {ingredient.category}:
                                     </div>
-                                    <ul className="list-disc pl-5">
+                                    <ul className="list-dash pl-5">
                                         {ingredient.categoryIngredients.map(
                                             (catIngredient, catIndex) => (
                                                 <li

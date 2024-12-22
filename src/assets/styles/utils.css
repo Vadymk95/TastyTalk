@@ -61,3 +61,7 @@
 .badge {
     @apply inline-flex gap-1 leading-tight shadow-md duration-200 items-center px-3 sm:px-2 border sm:text-xs py-1 rounded-full text-sm font-medium;
 }
+
+.list-dash {
+    list-style-type: '-';
+}
