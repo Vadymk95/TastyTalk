@@ -671,6 +671,13 @@ export const en = {
                 privacyLabel: 'Privacy Policy:',
                 privacyLink: 'Read the Privacy Policy'
             },
+            IFrameWarning: {
+                openInBrowser: 'Open in Browser',
+                description1:
+                    'This application might not work correctly inside an embedded browser or Telegram.',
+                description2:
+                    'Please open it in your default browser for the best experience.'
+            },
             General: {
                 ok: 'OK',
                 loading: 'Loading...',

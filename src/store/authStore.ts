@@ -3,6 +3,7 @@ import {
     deleteUser,
     EmailAuthProvider,
     fetchSignInMethodsForEmail,
+    getRedirectResult,
     GoogleAuthProvider,
     linkWithCredential,
     onAuthStateChanged,
@@ -10,6 +11,7 @@ import {
     sendEmailVerification,
     signInWithEmailAndPassword,
     signInWithPopup,
+    signInWithRedirect,
     signOut,
     updatePassword,
     updateProfile,
@@ -29,7 +31,7 @@ import {
 import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
-import { convertFileToBase64 } from '@root/helpers';
+import { convertFileToBase64, isInWebViewOrIframe } from '@root/helpers';
 import { SubscriptionPlan, UpdateProfileData, UserProfile } from '@root/types';
 
 interface AuthState {
@@ -74,6 +76,7 @@ interface AuthState {
     isBasicPlan: () => boolean;
     isStandardPlan: () => boolean;
     isPremiumPlan: () => boolean;
+    handleRedirectResult: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -200,36 +203,32 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
 
         try {
-            //! На случай, если это пригодится в будущем
-            // const isMobile = isMobileDevice();
-
-            // let userCredential;
-
-            // if (isMobile) {
-            //     await signInWithRedirect(auth, googleProvider);
-            //     return true;
-            // } else {
-            //     userCredential = await signInWithPopup(auth, googleProvider);
-            // }
-
-            const userCredential = await signInWithPopup(auth, googleProvider);
-
-            const googleUser = userCredential.user;
-
-            const signInMethods = await fetchSignInMethodsForEmail(
-                auth,
-                googleUser.email!
-            );
-
-            if (signInMethods.includes('password')) {
-                const user = auth.currentUser;
-                if (user) {
-                    const credential =
-                        GoogleAuthProvider.credentialFromResult(userCredential);
-                    await linkWithCredential(user, credential!);
-                }
+            if (isInWebViewOrIframe()) {
+                await signInWithRedirect(auth, googleProvider);
             } else {
-                return await processGoogleSignIn(userCredential);
+                const userCredential = await signInWithPopup(
+                    auth,
+                    googleProvider
+                );
+                const googleUser = userCredential.user;
+
+                const signInMethods = await fetchSignInMethodsForEmail(
+                    auth,
+                    googleUser.email!
+                );
+
+                if (signInMethods.includes('password')) {
+                    const user = auth.currentUser;
+                    if (user) {
+                        const credential =
+                            GoogleAuthProvider.credentialFromResult(
+                                userCredential
+                            );
+                        await linkWithCredential(user, credential!);
+                    }
+                } else {
+                    return await processGoogleSignIn(userCredential);
+                }
             }
 
             return true;
@@ -626,13 +625,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         const currentUser = get().userProfile;
         return currentUser ? currentUser.username === username : false;
     },
+
     hasPaidPlan: () => {
         const plan = get().userProfile?.subscriptionPlan;
         return plan === 'Basic' || plan === 'Standard' || plan === 'Premium';
     },
+
     isBasicPlan: () => get().userProfile?.subscriptionPlan === 'Basic',
+
     isStandardPlan: () => get().userProfile?.subscriptionPlan === 'Standard',
-    isPremiumPlan: () => get().userProfile?.subscriptionPlan === 'Premium'
+
+    isPremiumPlan: () => get().userProfile?.subscriptionPlan === 'Premium',
+
+    handleRedirectResult: async () => {
+        try {
+            const result = await getRedirectResult(auth);
+            if (result) {
+                const userCredential = result;
+
+                await processGoogleSignIn(userCredential);
+            }
+        } catch (error) {
+            console.error('Error processing redirect result:', error);
+        }
+    }
 }));
 
 const processGoogleSignIn = async (
