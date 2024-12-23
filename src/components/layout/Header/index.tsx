@@ -3,8 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { HeaderNavigation } from '@root/components/common';
+import { Image } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
+
+import logo from '@root/assets/images/logo.svg';
 
 export const Header: FC = () => {
     const { initialized } = useAuthStore();
@@ -43,7 +46,12 @@ export const Header: FC = () => {
         >
             <div className="container flex justify-between">
                 <Link to={routes.home} className="link-primary nav-link p-4">
-                    {t('Header.brand')}
+                    <Image
+                        className="w-[54px] h-[54px] mr-2"
+                        src={logo}
+                        alt="TastyTalks"
+                    />
+                    <span className="sm:hidden">{t('Header.brand')}</span>
                 </Link>
 
                 {initialized && <HeaderNavigation />}
