@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common';
@@ -10,15 +10,22 @@ const SearchProfilePage: FC = () => {
     const { users, searchQuery, setSearchQuery, loading, fetchUsers } =
         useUsersStore();
 
-    const filteredUsers = users.filter((user) =>
-        user.username.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredUsers = useMemo(() => {
+        return users.filter((user) =>
+            user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [users]);
 
     useEffect(() => {
-        fetchUsers(true);
+        if (users.length === 0) {
+            fetchUsers(true);
+        }
+    }, [fetchUsers, users.length]);
 
+    useEffect(() => {
         return () => setSearchQuery('');
-    }, [fetchUsers, setSearchQuery]);
+    }, [setSearchQuery]);
 
     return (
         <section className="h-100">

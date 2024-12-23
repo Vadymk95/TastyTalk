@@ -55,7 +55,16 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchUsers: async (reset = false) => {
-        const { searchQuery, lastVisible, users } = get();
+        const { searchQuery, users, lastVisible, hasMore } = get();
+
+        if (
+            !reset &&
+            users.length > 0 &&
+            searchQuery.trim() === '' &&
+            !hasMore
+        ) {
+            return;
+        }
 
         set({ loading: true, error: null });
 
@@ -85,7 +94,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     where('verified', '==', true),
                     orderBy('username'),
                     limit(20),
-                    ...(reset ? [] : [startAfter(lastVisible)])
+                    ...(reset || !lastVisible ? [] : [startAfter(lastVisible)])
                 );
             }
 
@@ -102,7 +111,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 hasMore: fetchedUsers.length === 20
             });
         } catch (error: any) {
-            console.log('Error fetching users:', error.message);
+            console.error('Error fetching users:', error.message);
             set({ error: error.message });
         } finally {
             set({ loading: false });
