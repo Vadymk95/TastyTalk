@@ -2,10 +2,16 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { MyMealPlans, MyRecipes, Profile } from '@root/components/common';
+import {
+    ErrorComponent,
+    MyMealPlans,
+    MyRecipes,
+    Profile
+} from '@root/components/common';
 import { Loader, Tabs } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useUsersStore } from '@root/store';
+import { UserProfile } from '@root/types';
 
 const ProfilePage: FC = () => {
     const { username } = useParams();
@@ -13,7 +19,9 @@ const ProfilePage: FC = () => {
     const { userProfile, loading, error, hasPaidPlan } = useAuthStore();
     const { fetchUserByUsername } = useUsersStore();
     const { t } = useTranslation();
-    const [profile, setProfile] = useState(userProfile);
+
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+
     const tabs = [
         { key: 'create-recipe', label: t('ProfilePage.myRecipes') },
         {
@@ -44,19 +52,12 @@ const ProfilePage: FC = () => {
         loadProfile();
     }, [username, userProfile, fetchUserByUsername, navigate]);
 
-    useEffect(() => {
-        if (!loading && userProfile) {
-            setProfile(userProfile);
-        }
-    }, [loading, userProfile]);
-
-    if (loading) {
+    if (loading || !profile) {
         return <Loader />;
     }
 
     if (error) {
-        // добавить компонент ошибки
-        return <div>Something went wrong</div>;
+        return <ErrorComponent />;
     }
 
     const hasPlan = hasPaidPlan();

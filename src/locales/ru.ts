@@ -694,7 +694,8 @@ export const ru = {
                 unfollow: 'Отписаться',
                 clickHere: 'Нажмите сюда',
                 or: 'Или',
-                selected: 'Выбрано'
+                selected: 'Выбрано',
+                oops: 'Упс!'
             }
         }
     }

@@ -705,7 +705,8 @@ export const en = {
                 unfollow: 'Unfollow',
                 clickHere: 'Click here',
                 or: 'Or',
-                selected: 'Selected'
+                selected: 'Selected',
+                oops: 'Oops!'
             }
         }
     }

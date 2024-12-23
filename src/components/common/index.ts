@@ -1,6 +1,7 @@
 export { Categories } from './Categories';
 export { DifficultyMap } from './DifficultyMap';
 export { ErrorBoundary } from './ErrorBoundary';
+export { ErrorComponent } from './ErrorComponent';
 export { ErrorThrower } from './ErrorThrower';
 export { FilterBlock } from './FilterBlock';
 export { FooterNavigation } from './FooterNavigation';
