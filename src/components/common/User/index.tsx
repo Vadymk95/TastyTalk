@@ -52,7 +52,7 @@ export const User: FC<UserProps> = ({ user }) => {
                     />
                 )}
                 <div>
-                    <p className="sm:text-xs">
+                    <p className="sm:text-xs max-w-[225px] sm:max-w-[150px] word-break">
                         {user.firstName} {user.lastName}
                     </p>
                     <p className="text-xs label">@{user.username}</p>
