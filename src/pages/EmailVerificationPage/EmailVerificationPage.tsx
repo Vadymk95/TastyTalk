@@ -61,7 +61,7 @@ const EmailVerificationPage: FC = () => {
                 } finally {
                     setChecking(false);
                 }
-            }, 10000);
+            }, 5000);
 
             return () => clearInterval(intervalId);
         }
