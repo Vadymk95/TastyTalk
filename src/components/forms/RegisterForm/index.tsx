@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -13,6 +13,7 @@ import {
     UsernameInput
 } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
+import { generateUsername } from '@root/helpers';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
@@ -135,18 +136,37 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         clearError();
     }, [clearError]);
 
-    const initialValues: RegisterFormValues & { isChecking: boolean } = {
-        username: '',
-        firstName: isTemporaryUser ? user.displayName?.split(' ')[0] || '' : '',
-        lastName: isTemporaryUser ? user.displayName?.split(' ')[1] || '' : '',
-        email: isTemporaryUser ? user.email || '' : '',
-        password: '',
-        confirmPassword: '',
-        isChecking: false
-    };
+    const initialValues = useMemo(
+        () => ({
+            username: generateUsername(),
+            firstName: isTemporaryUser
+                ? user.displayName?.split(' ')[0] || ''
+                : '',
+            lastName: isTemporaryUser
+                ? user.displayName?.split(' ')[1] || ''
+                : '',
+            email: isTemporaryUser ? user.email || '' : '',
+            password: '',
+            confirmPassword: '',
+            isChecking: false
+        }),
+        [isTemporaryUser, user]
+    );
 
     const usernameValidationSchema = RegisterSchema.fields
         .username as Yup.StringSchema;
+
+    useEffect(() => {
+        if (initialValues.username) {
+            checkUsernameAvailability(initialValues.username).then(
+                (isAvailable) => {
+                    if (!isAvailable) {
+                        initialValues.username = generateUsername();
+                    }
+                }
+            );
+        }
+    }, [checkUsernameAvailability, initialValues]);
 
     return (
         <>
