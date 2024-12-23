@@ -31,6 +31,7 @@ interface UsersState {
     followUser: (userId: string) => Promise<void>;
     unfollowUser: (userId: string) => Promise<void>;
     debouncedFetchUsers: () => void;
+    fetchMoreUsers: () => Promise<void>;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -86,14 +87,14 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
                     orderBy('usernameLower'),
                     orderBy('username'),
-                    limit(20)
+                    limit(15)
                 );
             } else {
                 q = query(
                     usersRef,
                     where('verified', '==', true),
                     orderBy('username'),
-                    limit(20),
+                    limit(15),
                     ...(reset || !lastVisible ? [] : [startAfter(lastVisible)])
                 );
             }
@@ -108,11 +109,47 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({
                 users: reset ? fetchedUsers : [...users, ...fetchedUsers],
                 lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
-                hasMore: fetchedUsers.length === 20
+                hasMore: fetchedUsers.length === 15
             });
         } catch (error: any) {
             console.error('Error fetching users:', error.message);
             set({ error: error.message });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    fetchMoreUsers: async () => {
+        const { lastVisible, users, hasMore } = get();
+
+        if (!hasMore) return; // Если больше нет пользователей, выходим
+
+        set({ loading: true });
+
+        try {
+            const usersRef = collection(db, 'users');
+            const q = query(
+                usersRef,
+                where('verified', '==', true),
+                orderBy('username'),
+                startAfter(lastVisible),
+                limit(15) // Загружаем следующую партию
+            );
+
+            const snapshot = await getDocs(q);
+
+            const fetchedUsers: UserProfile[] = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })) as UserProfile[];
+
+            set({
+                users: [...users, ...fetchedUsers],
+                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
+                hasMore: fetchedUsers.length === 15 // Если меньше 15, то больше нет данных
+            });
+        } catch (error: any) {
+            console.error('Error fetching more users:', error.message);
         } finally {
             set({ loading: false });
         }

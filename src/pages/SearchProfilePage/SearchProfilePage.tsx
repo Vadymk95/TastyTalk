@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common';
@@ -7,8 +7,16 @@ import { useUsersStore } from '@root/store';
 
 const SearchProfilePage: FC = () => {
     const { t } = useTranslation();
-    const { users, searchQuery, setSearchQuery, loading, fetchUsers } =
-        useUsersStore();
+    const {
+        users,
+        searchQuery,
+        setSearchQuery,
+        loading,
+        fetchUsers,
+        fetchMoreUsers
+    } = useUsersStore();
+
+    const observerRef = useRef<HTMLDivElement>(null);
 
     const filteredUsers = useMemo(() => {
         return users.filter((user) =>
@@ -22,6 +30,29 @@ const SearchProfilePage: FC = () => {
             fetchUsers(true);
         }
     }, [fetchUsers, users.length]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !loading) {
+                    fetchMoreUsers();
+                }
+            },
+            { threshold: 1.0 }
+        );
+
+        const currentRef = observerRef.current;
+
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
+            }
+        };
+    }, [fetchMoreUsers, loading]);
 
     useEffect(() => {
         return () => setSearchQuery('');
@@ -45,21 +76,19 @@ const SearchProfilePage: FC = () => {
                     placeholder={t('General.search')}
                 />
 
-                {loading ? (
+                <ul className="space-y-4 mt-4">
+                    {filteredUsers.map((user) => (
+                        <User key={user.id} user={user} />
+                    ))}
+                </ul>
+
+                {loading && (
                     <p className="text-center label p-4">
                         {t('General.loading')}
                     </p>
-                ) : filteredUsers.length > 0 ? (
-                    <ul className="space-y-4 mt-4">
-                        {filteredUsers.map((user) => (
-                            <User key={user.id} user={user} />
-                        ))}
-                    </ul>
-                ) : (
-                    <p className="text-center label p-4">
-                        {t('General.noResultsFound')}
-                    </p>
                 )}
+
+                <div ref={observerRef} style={{ height: '1px' }} />
             </div>
         </section>
     );
