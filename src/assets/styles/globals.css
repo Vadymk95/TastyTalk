@@ -43,6 +43,7 @@ body {
     @apply bg-neutral-dark text-white w-full h-[56px] shadow-custom-dark flex-all-center fixed bottom-0 left-0 right-0 z-10;
     padding-bottom: env(safe-area-inset-bottom);
     will-change: transform;
+    transform: translateZ(0);
 }
 
 .main-content {
