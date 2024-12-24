@@ -33,7 +33,7 @@ export const App: FC = () => {
 
     useFooterPosition();
 
-    console.log(11);
+    console.log(112);
 
     return (
         <div
