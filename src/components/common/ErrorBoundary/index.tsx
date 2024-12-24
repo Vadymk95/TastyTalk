@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Image } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 
-import errorBoundaryImage from '@root/assets/images/errorBoundary.jpg';
+import errorBoundaryImage from '@root/assets/images/errorBoundary.webp';
 
 import { faHome, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

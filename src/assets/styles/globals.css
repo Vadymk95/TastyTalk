@@ -30,7 +30,7 @@ body {
 }
 
 .app-container--img {
-    background-image: url('@root/assets/images/background.jpg');
+    background-image: url('@root/assets/images/background.webp');
     background-size: 450px 450px;
     background-repeat: repeat;
 }
