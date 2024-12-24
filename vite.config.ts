@@ -10,7 +10,7 @@ export default defineConfig({
         cors: true
     },
     plugins: [react(), eslint(), svgr()],
-    base: './',
+    base: '/',
     build: {
         minify: 'esbuild',
         target: 'esnext',
@@ -26,7 +26,8 @@ export default defineConfig({
                     ]
                 }
             }
-        }
+        },
+        outDir: 'dist'
     },
     resolve: {
         alias: {
