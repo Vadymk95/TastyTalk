@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, ReactNode, useEffect, useRef } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 
 import { Button } from '@root/components/ui';
 
@@ -37,25 +37,17 @@ export const Modal: FC<ModalProps> = ({
     submitType = 'button',
     disabled = false
 }) => {
-    const scrollYRef = useRef(0);
-
     useEffect(() => {
         if (isOpen) {
-            scrollYRef.current = window.scrollY;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollYRef.current}px`;
-            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+            document.body.style.height = '100%';
         } else {
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            window.scrollTo(0, scrollYRef.current);
+            document.body.style.overflow = '';
+            document.body.style.height = '';
         }
-
         return () => {
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
+            document.body.style.overflow = '';
+            document.body.style.height = '';
         };
     }, [isOpen]);
 

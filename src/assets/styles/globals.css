@@ -13,12 +13,12 @@
 @import './components/dnd.css';
 @import './components/modal.css';
 
-html {
-    @apply h-full overflow-y-scroll;
+html, body {
+    @apply h-full;
 }
 
 body {
-    @apply font-sans text-neutral-dark h-full;
+    @apply font-sans text-neutral-dark overflow-y-scroll;
 }
 
 .app-container {
