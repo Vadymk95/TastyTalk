@@ -117,4 +117,5 @@ export interface UserProfile {
     followingCount: number;
     showCountry?: boolean;
     showName?: boolean;
+    createdAt: Date;
 }

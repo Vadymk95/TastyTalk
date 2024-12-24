@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { GreetingCard, Tooltip } from '@root/components/ui';
+import { GreetingCard, Loader, Tooltip } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store';
 
@@ -14,8 +14,12 @@ import {
 
 const GreetingPage: FC = () => {
     const { t } = useTranslation();
-    const { userProfile, hasPaidPlan } = useAuthStore();
+    const { userProfile, hasPaidPlan, loading } = useAuthStore();
     const hasPlan = hasPaidPlan();
+
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
         <div className="plate flex-all-center flex-col sm:w-full">

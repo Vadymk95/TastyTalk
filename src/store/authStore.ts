@@ -88,22 +88,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     initialized: false,
 
     setUser: async (user, isRegistered = false) => {
-        if (user) {
-            const isEmailVerified = user.emailVerified;
-            const shouldVerifyEmail = !isEmailVerified && !isRegistered;
+        set({ loading: true });
+        try {
+            if (user) {
+                const isEmailVerified = user.emailVerified;
+                const shouldVerifyEmail = !isEmailVerified && !isRegistered;
 
-            set({
-                user,
-                isRegistered,
-                initialized: true,
-                userProfile: null
-            });
+                set({
+                    user,
+                    isRegistered,
+                    initialized: true,
+                    userProfile: null
+                });
 
-            if (isRegistered) {
-                try {
+                if (isRegistered) {
                     await get().loadUserProfile(user.uid);
                     const { userProfile } = get();
-
                     if (userProfile) {
                         set({
                             userProfile: {
@@ -111,34 +111,31 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                                 verified: true
                             }
                         });
-                    } else {
-                        console.error('User profile is not loaded or is null.');
                     }
-                } catch (error) {
-                    console.error('Failed to load user profile:', error);
                 }
-            }
 
-            if (shouldVerifyEmail) {
-                try {
+                if (shouldVerifyEmail) {
                     await sendEmailVerification(user);
-                } catch (error) {
-                    console.error('Failed to send verification email:', error);
                 }
+            } else {
+                set({
+                    user: null,
+                    isRegistered: false,
+                    initialized: true,
+                    userProfile: null
+                });
             }
-        } else {
-            set({
-                user: null,
-                isRegistered: false,
-                initialized: true,
-                userProfile: null
-            });
+        } catch (error) {
+            console.error('Failed to set user:', error);
+        } finally {
+            set({ loading: false });
         }
     },
 
     loadUserProfile: async (uid: string) => {
-        const userRef = doc(db, 'users', uid);
+        set({ loading: true });
         try {
+            const userRef = doc(db, 'users', uid);
             const userSnap = await getDoc(userRef);
             if (userSnap.exists()) {
                 const userProfile = userSnap.data() as UserProfile;
@@ -150,6 +147,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         } catch (error: any) {
             console.error('Error loading user profile:', error);
             set({ error: error.message });
+        } finally {
+            set({ loading: false });
         }
     },
 
@@ -164,7 +163,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             set({ error: null });
-
             let email = emailOrUsername;
 
             if (!/\S+@\S+\.\S+/.test(emailOrUsername)) {
@@ -174,7 +172,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     where('username', '==', emailOrUsername)
                 );
                 const querySnapshot = await getDocs(q);
-
                 if (!querySnapshot.empty) {
                     const userDoc = querySnapshot.docs[0];
                     email = userDoc.data().email;
@@ -201,7 +198,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     signInWithGoogle: async () => {
         set({ loading: true });
-
         try {
             if (isInWebViewOrIframe()) {
                 await signInWithRedirect(auth, googleProvider);
@@ -230,7 +226,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                     return await processGoogleSignIn(userCredential);
                 }
             }
-
             return true;
         } catch (error: any) {
             console.error('Error signing in with Google:', error);
@@ -263,88 +258,48 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             set({ error: null });
+            await get().checkEmailAndFirestoreAvailability(email);
 
-            const currentUser = auth.currentUser;
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            const user = userCredential.user;
+            const usernameLower = username.toLowerCase();
 
-            if (currentUser && currentUser.email === email) {
-                const credential = EmailAuthProvider.credential(
-                    email,
-                    password
-                );
-                const usernameLower = username.toLowerCase();
-                await linkWithCredential(currentUser, credential);
+            await updateProfile(user, {
+                displayName: `${firstName} ${lastName}`
+            });
+            await user.reload();
 
-                const userProfile = {
-                    id: currentUser.uid,
-                    email: currentUser.email,
-                    username,
-                    usernameLower,
-                    firstName,
-                    lastName,
-                    createdAt: new Date(),
-                    followers: [],
-                    following: [],
-                    verified: true,
-                    subscriptionPlan: 'Free' as SubscriptionPlan,
-                    recipesCount: 0,
-                    mealPlansCount: 0,
-                    followersCount: 0,
-                    followingCount: 0
-                };
+            const userProfile: UserProfile = {
+                id: user.uid,
+                email: user.email,
+                username,
+                usernameLower,
+                firstName,
+                lastName,
+                createdAt: new Date(),
+                followers: [],
+                following: [],
+                verified: false,
+                subscriptionPlan: 'Free',
+                recipesCount: 0,
+                mealPlansCount: 0,
+                followersCount: 0,
+                followingCount: 0
+            };
 
-                await setDoc(doc(db, 'users', currentUser.uid), userProfile);
-                await get().loadUserProfile(currentUser.uid);
+            await setDoc(doc(db, 'users', user.uid), userProfile);
+            await get().loadUserProfile(user.uid);
 
-                set({
-                    user: currentUser,
-                    userProfile,
-                    isRegistered: true,
-                    error: null
-                });
-            } else {
-                await get().checkEmailAndFirestoreAvailability(email);
-
-                const userCredential = await createUserWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-                const user = userCredential.user;
-                const usernameLower = username.toLowerCase();
-
-                await updateProfile(user, {
-                    displayName: `${firstName} ${lastName}`
-                });
-                await user.reload();
-
-                const userProfile = {
-                    id: user.uid,
-                    email: user.email,
-                    username,
-                    usernameLower,
-                    firstName,
-                    lastName,
-                    createdAt: new Date(),
-                    followers: [],
-                    following: [],
-                    verified: false,
-                    subscriptionPlan: 'Free' as SubscriptionPlan,
-                    recipesCount: 0,
-                    mealPlansCount: 0,
-                    followersCount: 0,
-                    followingCount: 0
-                };
-
-                await setDoc(doc(db, 'users', user.uid), userProfile);
-                await get().loadUserProfile(user.uid);
-
-                set({
-                    user,
-                    userProfile,
-                    isRegistered: true,
-                    error: null
-                });
-            }
+            set({
+                user,
+                userProfile,
+                isRegistered: true,
+                error: null
+            });
         } catch (error: any) {
             set({ error: error.message });
             throw error;
