@@ -1,7 +1,12 @@
 import { FC } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 
-import { PrivateRoute, PublicRoute, withSuspense } from '@root/hoc';
+import {
+    PrivateRoute,
+    PublicRoute,
+    UniversalRoute,
+    withSuspense
+} from '@root/hoc';
 import {
     AuthPage,
     CreateMealsPlanPage,
@@ -21,28 +26,37 @@ import {
     SearchProfilePage
 } from '@root/pages/';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store';
 
 export const AppRouter: FC = () => {
-    const { userProfile } = useAuthStore();
+    const { username } = useParams();
 
     return (
         <Routes>
-            <Route path={routes.home} element={<HomePage />} />
+            <Route
+                path={routes.home}
+                element={<UniversalRoute element={<HomePage />} />}
+            />
 
             <Route
                 path={routes.privacy}
-                element={withSuspense(<PrivacyPage />)}
+                element={
+                    <UniversalRoute element={withSuspense(<PrivacyPage />)} />
+                }
             />
 
             <Route
                 path={routes.profile}
                 element={withSuspense(
-                    <ProfilePage key={userProfile?.username} />
+                    <UniversalRoute element={<ProfilePage key={username} />} />
                 )}
             />
 
-            <Route path={routes.rules} element={withSuspense(<RulesPage />)} />
+            <Route
+                path={routes.rules}
+                element={
+                    <UniversalRoute element={withSuspense(<RulesPage />)} />
+                }
+            />
 
             <Route
                 path={routes.auth}
