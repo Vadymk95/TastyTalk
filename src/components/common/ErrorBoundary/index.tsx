@@ -50,7 +50,7 @@ class ErrorBoundaryComponent extends Component<
 
         if (hasError) {
             return (
-                <div className="flex flex-col items-center justify-center h-screen gap-6 bg-gradient-to-br from-pink-100 to-red-200 text-center p-6">
+                <div className="flex flex-col items-center justify-center h-screen gap-6 bg-gradient-main text-center p-6">
                     <div className="rounded-lg max-w-[600px] overflow-hidden">
                         <Image
                             src={errorBoundaryImage}
@@ -58,10 +58,10 @@ class ErrorBoundaryComponent extends Component<
                             className="object-contain"
                         />
                     </div>
-                    <h1 className="text-3xl font-bold text-primary">
+                    <h1 className="main-heading mb-0">
                         {t('ErrorBoundary.title')}
                     </h1>
-                    <p className="text-lg text-neutral-dark">
+                    <p className="text-lg text-neutral-light">
                         {t('ErrorBoundary.description')}
                     </p>
                     <div className="gap-8 flex flex-wrap justify-center">
