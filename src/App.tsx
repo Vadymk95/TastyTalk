@@ -5,6 +5,7 @@ import { IFrameWarning } from '@root/components/common';
 import { Footer, Header, Main } from '@root/components/layout';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useLanguageStore } from '@root/store';
+import { useFooterPosition } from './hooks';
 
 export const App: FC = () => {
     const location = useLocation();
@@ -29,6 +30,8 @@ export const App: FC = () => {
     useEffect(() => {
         handleRedirectResult();
     }, [handleRedirectResult]);
+
+    useFooterPosition();
 
     return (
         <div
