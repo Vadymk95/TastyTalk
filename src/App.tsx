@@ -33,6 +33,8 @@ export const App: FC = () => {
 
     useFooterPosition();
 
+    console.log(11);
+
     return (
         <div
             className={`app-container app-container--${shouldDisplayBackground ? 'img' : 'bg'}`}
