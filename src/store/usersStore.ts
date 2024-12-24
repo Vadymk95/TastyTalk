@@ -122,7 +122,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     fetchMoreUsers: async () => {
         const { lastVisible, users, hasMore } = get();
 
-        if (!hasMore) return; // Если больше нет пользователей, выходим
+        if (!hasMore) return;
 
         set({ loading: true });
 
@@ -133,7 +133,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 where('verified', '==', true),
                 orderBy('username'),
                 startAfter(lastVisible),
-                limit(15) // Загружаем следующую партию
+                limit(15)
             );
 
             const snapshot = await getDocs(q);
@@ -146,10 +146,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({
                 users: [...users, ...fetchedUsers],
                 lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
-                hasMore: fetchedUsers.length === 15 // Если меньше 15, то больше нет данных
+                hasMore: fetchedUsers.length === 15
             });
         } catch (error: any) {
             console.error('Error fetching more users:', error.message);
+            set({ error: error.message });
         } finally {
             set({ loading: false });
         }
@@ -180,6 +181,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return null;
             }
         } catch (error: any) {
+            console.error('Error fetching user by username:', error.message);
             set({ error: error.message });
             return null;
         } finally {
@@ -188,14 +190,15 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     followUser: async (targetUserId) => {
-        const { userProfile } = useAuthStore.getState(); // Получаем текущий профиль
+        const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
-        try {
-            const currentUserRef = doc(db, 'users', userProfile.id); // Текущий юзер
-            const targetUserRef = doc(db, 'users', targetUserId); // Целевой юзер
+        set({ loading: true });
 
-            // Обновляем Firestore
+        try {
+            const currentUserRef = doc(db, 'users', userProfile.id);
+            const targetUserRef = doc(db, 'users', targetUserId);
+
             await Promise.all([
                 updateDoc(currentUserRef, {
                     following: arrayUnion(targetUserId),
@@ -206,7 +209,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 })
             ]);
 
-            // Обновляем локальное состояние userProfile в authStore
             useAuthStore.setState({
                 userProfile: {
                     ...userProfile,
@@ -217,18 +219,21 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         } catch (error: any) {
             console.error('Follow Error:', error.message);
             set({ error: error.message });
+        } finally {
+            set({ loading: false });
         }
     },
 
     unfollowUser: async (targetUserId) => {
-        const { userProfile } = useAuthStore.getState(); // Получаем текущий профиль
+        const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
+
+        set({ loading: true });
 
         try {
             const currentUserRef = doc(db, 'users', userProfile.id);
             const targetUserRef = doc(db, 'users', targetUserId);
 
-            // Обновляем Firestore
             await Promise.all([
                 updateDoc(currentUserRef, {
                     following: arrayRemove(targetUserId),
@@ -239,7 +244,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 })
             ]);
 
-            // Обновляем локальное состояние userProfile в authStore
             useAuthStore.setState({
                 userProfile: {
                     ...userProfile,
@@ -252,6 +256,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         } catch (error: any) {
             console.error('Unfollow Error:', error.message);
             set({ error: error.message });
+        } finally {
+            set({ loading: false });
         }
     }
 }));
