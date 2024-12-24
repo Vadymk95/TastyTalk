@@ -21,8 +21,11 @@ import {
     SearchProfilePage
 } from '@root/pages/';
 import { routes } from '@root/router/routes';
+import { useAuthStore } from '@root/store';
 
 export const AppRouter: FC = () => {
+    const { userProfile } = useAuthStore();
+
     return (
         <Routes>
             <Route path={routes.home} element={<HomePage />} />
@@ -34,7 +37,9 @@ export const AppRouter: FC = () => {
 
             <Route
                 path={routes.profile}
-                element={withSuspense(<ProfilePage />)}
+                element={withSuspense(
+                    <ProfilePage key={userProfile?.username} />
+                )}
             />
 
             <Route path={routes.rules} element={withSuspense(<RulesPage />)} />
