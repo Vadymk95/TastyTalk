@@ -10,41 +10,58 @@ const supportedLanguageCodes = languages.map((lang) => lang.code);
 
 interface LanguageState {
     language: string;
+    loading: boolean;
     setLanguage: (lang: string) => Promise<void>;
     loadLanguage: () => Promise<void>;
 }
 
 export const useLanguageStore = create<LanguageState>((set) => ({
     language: 'en',
+    loading: false,
 
     setLanguage: async (lang: string) => {
-        const { user } = useAuthStore.getState();
+        set({ loading: true });
+        try {
+            const { user } = useAuthStore.getState();
 
-        if (user) {
-            const userRef = doc(db, 'users', user.uid);
-            await setDoc(userRef, { language: lang }, { merge: true });
-        } else {
-            localStorage.setItem('language', lang);
+            if (user) {
+                const userRef = doc(db, 'users', user.uid);
+                await setDoc(userRef, { language: lang }, { merge: true });
+            } else {
+                localStorage.setItem('language', lang);
+            }
+
+            i18n.changeLanguage(lang);
+            set({ language: lang });
+        } catch (error) {
+            console.error('Error setting language:', error);
+        } finally {
+            set({ loading: false });
         }
-
-        i18n.changeLanguage(lang);
-        set({ language: lang });
     },
 
     loadLanguage: async () => {
-        const { user } = useAuthStore.getState();
-        let lang = 'en';
+        set({ loading: true });
+        try {
+            const { user } = useAuthStore.getState();
+            let lang = 'en';
 
-        if (user) {
-            const userRef = doc(db, 'users', user.uid);
-            const userSnap = await getDoc(userRef);
-            lang = (userSnap.exists() && userSnap.data()?.language) || 'en';
-        } else {
-            lang = localStorage.getItem('language') || detectSystemLanguage();
+            if (user) {
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                lang = (userSnap.exists() && userSnap.data()?.language) || 'en';
+            } else {
+                lang =
+                    localStorage.getItem('language') || detectSystemLanguage();
+            }
+
+            i18n.changeLanguage(lang);
+            set({ language: lang });
+        } catch (error) {
+            console.error('Error loading language:', error);
+        } finally {
+            set({ loading: false });
         }
-
-        i18n.changeLanguage(lang);
-        set({ language: lang });
     }
 }));
 
