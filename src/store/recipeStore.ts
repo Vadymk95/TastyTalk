@@ -31,13 +31,11 @@ export const useRecipeStore = create<RecipeStoreState>((set) => ({
     addRecipe: async (recipe: Recipe) => {
         set({ loading: true });
         try {
-            // Получение текущего пользователя
             const currentUser = auth.currentUser;
             if (!currentUser) {
                 throw new Error('User is not authenticated.');
             }
 
-            // Преобразование фото в Base64 (если это файл)
             if (recipe.previewPhoto && recipe.previewPhoto instanceof File) {
                 const base64Image = await convertFileToBase64(
                     recipe.previewPhoto
