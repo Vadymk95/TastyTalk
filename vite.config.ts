@@ -6,13 +6,27 @@ import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
     server: {
-        port: 3000
+        port: 3000,
+        cors: true
     },
     plugins: [react(), eslint(), svgr()],
     base: './',
     build: {
         minify: 'esbuild',
-        target: 'esnext'
+        target: 'esnext',
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    react: ['react', 'react-dom', 'react-router-dom'],
+                    firebase: [
+                        'firebase/app',
+                        'firebase/auth',
+                        'firebase/firestore',
+                        'firebase/storage'
+                    ]
+                }
+            }
+        }
     },
     resolve: {
         alias: {
