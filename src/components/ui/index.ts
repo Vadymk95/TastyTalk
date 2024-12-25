@@ -13,6 +13,7 @@ export { Link } from './Link';
 export { Loader } from './Loader';
 export { Modal } from './Modal';
 export { MultiSelectWithSearchAndCheckboxes } from './MultiSelectWithSearchAndCheckboxes';
+export { PhoneNumberInput } from './PhoneNumberInput';
 export { PhotoUpload } from './PhotoUpload';
 export { PricingCard } from './PricingCard';
 export { ProgressBar } from './ProgressBar';

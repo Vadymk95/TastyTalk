@@ -160,6 +160,7 @@ export const en = {
                 RegisterForm: {
                     signUp: 'Register',
                     email: 'Email',
+                    enterNumber: 'Enter a number',
                     username: 'Username',
                     lastName: 'Last Name',
                     firstName: 'First Name',
@@ -706,7 +707,8 @@ export const en = {
                 clickHere: 'Click here',
                 or: 'Or',
                 selected: 'Selected',
-                oops: 'Oops!'
+                oops: 'Oops!',
+                enterPhoneNumber: 'Enter a number'
             }
         }
     }

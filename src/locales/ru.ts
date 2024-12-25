@@ -161,6 +161,7 @@ export const ru = {
                 RegisterForm: {
                     signUp: 'Регистрация',
                     email: 'Email',
+                    enterNumber: 'Введите номер телефона',
                     username: 'Имя пользователя',
                     firstName: 'Имя',
                     lastName: 'Фамилия',
@@ -695,7 +696,8 @@ export const ru = {
                 clickHere: 'Нажмите сюда',
                 or: 'Или',
                 selected: 'Выбрано',
-                oops: 'Упс!'
+                oops: 'Упс!',
+                enterPhoneNumber: 'Введите номер телефона'
             }
         }
     }

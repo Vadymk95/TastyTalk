@@ -10,6 +10,7 @@ import {
     ErrorCard,
     Input,
     Link,
+    PhoneNumberInput,
     UsernameInput
 } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
@@ -228,6 +229,19 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     isRequired
                                     label={t('Forms.RegisterForm.email')}
                                 />
+
+                                <div className="w-full">
+                                    <PhoneNumberInput
+                                        className="auth-input-wrapper"
+                                        name="phone"
+                                        label={t(
+                                            'Forms.RegisterForm.enterNumber'
+                                        )}
+                                        placeholder={t(
+                                            'Forms.RegisterForm.enterNumber'
+                                        )}
+                                    />
+                                </div>
 
                                 <Input
                                     className="auth-input-wrapper"
