@@ -19,3 +19,6 @@ export default {
         'header-max-length': [2, 'always', 72]
     }
 };
+
+//? Example commit message
+// feat(blog): add comment section
