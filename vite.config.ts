@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
 import eslint from 'vite-plugin-eslint2';
+import compression from 'vite-plugin-compression';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -9,7 +10,16 @@ export default defineConfig({
         port: 3000,
         cors: true
     },
-    plugins: [react(), eslint(), svgr()],
+    plugins: [
+        react(),
+        eslint(),
+        svgr(),
+        compression({
+            algorithm: 'brotliCompress',
+            ext: '.br',
+            deleteOriginFile: false
+        })
+    ],
     base: '/',
     build: {
         minify: 'esbuild',
@@ -25,6 +35,11 @@ export default defineConfig({
                         'firebase/storage'
                     ]
                 }
+            }
+        },
+        terserOptions: {
+            format: {
+                comments: false
             }
         },
         outDir: 'dist'
