@@ -2,7 +2,10 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { LoginForm, RegisterForm } from '@root/components/forms';
+import { Image } from '@root/components/ui';
 import { useAuthStore } from '@root/store';
+
+import logo from '@root/assets/images/logo.svg';
 
 const AuthPage: FC = () => {
     const { t } = useTranslation();
@@ -16,6 +19,10 @@ const AuthPage: FC = () => {
         <div
             className={`plate ${signInCondition ? 'auth-form--login' : 'auth-form--register'}`}
         >
+            <div className="w-full flex justify-center mb-4">
+                <Image className="h-[75px]" src={logo} alt="TastyTalks" />
+            </div>
+
             <h2 className="text-center text-2xl mb-8">
                 {t(
                     signInCondition

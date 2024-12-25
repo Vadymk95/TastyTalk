@@ -1,5 +1,4 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { HeaderNavigation } from '@root/components/common';
@@ -11,7 +10,6 @@ import logo from '@root/assets/images/logo.svg';
 
 export const Header: FC = () => {
     const { initialized } = useAuthStore();
-    const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(true);
     const lastScrollY = useRef(0);
     const threshold = 10;
@@ -47,11 +45,10 @@ export const Header: FC = () => {
             <div className="container flex justify-between">
                 <Link to={routes.home} className="link-primary nav-link p-4">
                     <Image
-                        className="w-[54px] h-[54px] mr-2"
+                        className="h-[50px] w-auto"
                         src={logo}
                         alt="TastyTalks"
                     />
-                    <span className="sm:hidden">{t('Header.brand')}</span>
                 </Link>
 
                 {initialized && <HeaderNavigation />}
