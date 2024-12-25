@@ -1,10 +1,10 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { HeaderNavigation } from '@root/components/common';
-import { Image } from '@root/components/ui';
+import { HeaderNavigation } from '@root/components/common/HeaderNavigation';
+import { Image } from '@root/components/ui/Image';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store';
+import { useAuthStore } from '@root/store/authStore';
 
 import logo from '@root/assets/images/logo.svg';
 

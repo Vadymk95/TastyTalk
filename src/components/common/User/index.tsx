@@ -2,8 +2,8 @@ import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { ProfilePhoto } from '@root/components/common';
-import { Button } from '@root/components/ui';
+import { ProfilePhoto } from '@root/components/common/ProfilePhoto';
+import { Button } from '@root/components/ui/Button';
 import { getProfileRoute, isMobileDevice } from '@root/helpers';
 import { useAuthStore, useUsersStore } from '@root/store';
 import { UserProfile } from '@root/types';

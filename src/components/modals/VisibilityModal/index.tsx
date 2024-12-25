@@ -9,7 +9,7 @@ import {
     Tooltip
 } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

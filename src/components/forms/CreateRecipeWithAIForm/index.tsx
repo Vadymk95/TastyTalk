@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { Query, RecipeTypingEffect } from '@root/components/common';
-import { VisibilityModal } from '@root/components/modals';
+import { VisibilityModal } from '@root/components/modals/VisibilityModal';
 import { Button, Loader, Textarea, Tooltip } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { getProfileRoute } from '@root/helpers';
+import { getProfileRoute } from '@root/helpers/getProfileRoute';
 import {
     useAuthStore,
     useModalStore,

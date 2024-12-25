@@ -2,9 +2,9 @@ import { FC, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { Tooltip } from '@root/components/ui';
+import { Tooltip } from '@root/components/ui/Tooltip';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store';
+import { useAuthStore } from '@root/store/authStore';
 import { UserProfile } from '@root/types';
 
 import { faBan } from '@fortawesome/free-solid-svg-icons';

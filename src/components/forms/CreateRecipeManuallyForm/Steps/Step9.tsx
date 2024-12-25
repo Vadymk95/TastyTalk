@@ -2,10 +2,10 @@ import { FormikProps } from 'formik';
 import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RecipePreviewModal } from '@root/components/modals';
-import { Button } from '@root/components/ui';
+import { RecipePreviewModal } from '@root/components/modals/RecipePreviewModal';
+import { Button } from '@root/components/ui/Button';
 import { ModalsEnum } from '@root/constants/modals';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 import { EStepStatus, Recipe as RecipeType, StepStatus } from '@root/types';
 
 import {

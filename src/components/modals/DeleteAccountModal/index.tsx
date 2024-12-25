@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DeleteAccountForm } from '@root/components/forms';
-import { Modal } from '@root/components/ui';
+import { DeleteAccountForm } from '@root/components/forms/DeleteAccountForm';
+import { Modal } from '@root/components/ui/Modal';
 import { ModalsEnum } from '@root/constants/modals';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 
 export const DeleteAccountModal: FC = () => {
     const { t } = useTranslation();

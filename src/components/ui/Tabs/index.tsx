@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Tab } from '@root/components/ui';
+import { Tab } from '@root/components/ui/Tab';
 
 interface TabsProps {
     tabs: { key: string; label: string }[];

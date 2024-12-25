@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FormikMultiSelect, FormikSelect, Input } from '@root/components/ui';
-import { useCategories } from '@root/hooks';
+import { useCategories } from '@root/hooks/useCategories';
 import {
     Difficulty,
     EDifficulty,

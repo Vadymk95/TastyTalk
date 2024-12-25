@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@root/components/ui';
-import { isMobileDevice } from '@root/helpers';
+import { Button } from '@root/components/ui/Button';
+import { isMobileDevice } from '@root/helpers/isMobileDevice';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

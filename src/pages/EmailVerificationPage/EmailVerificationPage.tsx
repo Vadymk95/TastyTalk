@@ -2,12 +2,12 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { Button, Link } from '@root/components/ui';
 import { routes } from '@root/router/routes';
-import { useAuthStore } from '@root/store';
+import { useAuthStore } from '@root/store/authStore';
+
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const EmailVerificationPage: FC = () => {
     const { t } = useTranslation();

@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { ForgotPasswordModal } from '@root/components/modals';
+import { ForgotPasswordModal } from '@root/components/modals/ForgotPasswordModal';
 import { Button, ErrorCard, Image, Input, Link } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { useGetAuthErrorMessage } from '@root/hooks';
+import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
 

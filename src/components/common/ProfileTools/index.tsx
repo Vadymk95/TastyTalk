@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
-import { Button } from '@root/components/ui';
+import { Button } from '@root/components/ui/Button';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useUsersStore } from '@root/store';
 import { UserProfile } from '@root/types';

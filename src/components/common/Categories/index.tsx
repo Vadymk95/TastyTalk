@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { Badge } from '@root/components/ui';
-import { getCategoryColor } from '@root/helpers';
-import { useCategories } from '@root/hooks';
+import { Badge } from '@root/components/ui/Badge';
+import { getCategoryColor } from '@root/helpers/getCategoryColor';
+import { useCategories } from '@root/hooks/useCategories';
 import { Category } from '@root/types';
 
 interface CategoriesProps {

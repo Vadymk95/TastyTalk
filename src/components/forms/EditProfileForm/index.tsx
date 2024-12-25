@@ -15,7 +15,7 @@ import {
     UsernameInput
 } from '@root/components/ui';
 import { countries } from '@root/constants/countries';
-import { useGetAuthErrorMessage } from '@root/hooks';
+import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
 import { useAuthStore } from '@root/store/authStore';
 import { UpdateProfileData } from '@root/types';
 

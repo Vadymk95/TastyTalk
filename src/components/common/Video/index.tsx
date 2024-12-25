@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { extractYouTubeVideoId } from '@root/helpers';
+import { extractYouTubeVideoId } from '@root/helpers/extractYouTubeVideoId';
 
 interface RecipeProps {
     videoUrl: string;

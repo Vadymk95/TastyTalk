@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC, ReactNode, useEffect } from 'react';
 
-import { Button } from '@root/components/ui';
+import { Button } from '@root/components/ui/Button';
 
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

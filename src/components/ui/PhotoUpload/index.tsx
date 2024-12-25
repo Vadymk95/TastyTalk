@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Image } from '@root/components/ui';
+import { Image } from '@root/components/ui/Image';
 
 import { faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Input } from '@root/components/ui';
+import { Input } from '@root/components/ui/Input';
 
 export const Step8: FC = () => {
     const { t } = useTranslation();

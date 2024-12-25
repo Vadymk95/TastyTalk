@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Rules } from '@root/components/common';
+import { Rules } from '@root/components/common/Rules';
 
 const RulesPage: FC = () => {
     const { t } = useTranslation();

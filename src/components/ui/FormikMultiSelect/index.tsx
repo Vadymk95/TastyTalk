@@ -3,7 +3,7 @@ import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, Button } from '@root/components/ui';
-import { getCategoryColor } from '@root/helpers';
+import { getCategoryColor } from '@root/helpers/getCategoryColor';
 import { Category } from '@root/types';
 
 import { faBook, faBookOpenReader } from '@fortawesome/free-solid-svg-icons';

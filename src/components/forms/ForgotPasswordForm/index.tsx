@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 import { Button, ErrorCard, Input, SuccessCard } from '@root/components/ui';
-import { useAuthStore } from '@root/store';
+import { useAuthStore } from '@root/store/authStore';
 
 export const ForgotPasswordForm: FC<{ onClose: () => void }> = ({
     onClose

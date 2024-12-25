@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { LoginForm, RegisterForm } from '@root/components/forms';
-import { Image } from '@root/components/ui';
-import { useAuthStore } from '@root/store';
+import { Image } from '@root/components/ui/Image';
+import { useAuthStore } from '@root/store/authStore';
 
 import logo from '@root/assets/images/logo.svg';
 

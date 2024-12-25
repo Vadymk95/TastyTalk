@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { PricingCard } from '@root/components/ui';
-import { useAuthStore } from '@root/store';
+import { PricingCard } from '@root/components/ui/PricingCard';
+import { useAuthStore } from '@root/store/authStore';
 
 interface PricingProps {
     isPreviewMode?: boolean;

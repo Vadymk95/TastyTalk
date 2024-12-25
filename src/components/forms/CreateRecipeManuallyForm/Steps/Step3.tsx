@@ -2,7 +2,7 @@ import { Field } from 'formik';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { DragAndDrop } from '@root/components/ui';
+import { DragAndDrop } from '@root/components/ui/DragAndDrop';
 
 export const Step3: FC = () => {
     const { t } = useTranslation();

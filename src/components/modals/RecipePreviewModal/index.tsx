@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Recipe } from '@root/components/common';
-import { Modal } from '@root/components/ui';
+import { Recipe } from '@root/components/common/Recipe';
+import { Modal } from '@root/components/ui/Modal';
 import { ModalsEnum } from '@root/constants/modals';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 import { Recipe as RecipeType } from '@root/types';
 
 type RecipePreviewModalProps = {

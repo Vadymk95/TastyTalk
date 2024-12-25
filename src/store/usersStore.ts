@@ -12,11 +12,11 @@ import {
     where
 } from 'firebase/firestore';
 import { create } from 'zustand';
+import debounce from 'lodash/debounce';
 
 import { db } from '@root/firebase/firebaseConfig';
-import { useAuthStore } from '@root/store';
+import { useAuthStore } from '@root/store/authStore';
 import { UserProfile } from '@root/types';
-import { debounce } from 'lodash';
 
 interface UsersState {
     users: UserProfile[];

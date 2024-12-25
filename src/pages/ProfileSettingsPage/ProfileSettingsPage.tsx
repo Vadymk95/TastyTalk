@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ProfileSettingsModals } from '@root/components/common';
+import { ProfileSettingsModals } from '@root/components/common/ProfileSettingsModals';
 import { EditProfileForm } from '@root/components/forms';
 import { Button, Select } from '@root/components/ui';
 import { languages } from '@root/constants/languages';

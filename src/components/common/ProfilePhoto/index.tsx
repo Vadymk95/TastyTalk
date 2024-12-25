@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Image } from '@root/components/ui';
-import { isMobileDevice } from '@root/helpers';
+import { Image } from '@root/components/ui/Image';
+import { isMobileDevice } from '@root/helpers/isMobileDevice';
 
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

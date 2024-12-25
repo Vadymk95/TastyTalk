@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Textarea } from '@root/components/ui';
+import { Textarea } from '@root/components/ui/Textarea';
 
 export const Step2: FC = () => {
     const { t } = useTranslation();

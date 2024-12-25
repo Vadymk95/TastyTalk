@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { Button } from '@root/components/ui';
 import { useTranslation } from 'react-i18next';
+
+import { Button } from '@root/components/ui/Button';
 
 interface ErrorComponentProps {
     message?: string;

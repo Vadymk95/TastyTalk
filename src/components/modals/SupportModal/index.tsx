@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Link, Modal } from '@root/components/ui';
 import { emails } from '@root/constants/emails';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 import { ModalsEnum } from '@root/constants/modals';
 
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';

@@ -1,9 +1,9 @@
 import { FC, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { User } from '@root/components/common';
-import { SearchInput } from '@root/components/ui';
-import { useUsersStore } from '@root/store';
+import { User } from '@root/components/common/User';
+import { SearchInput } from '@root/components/ui/SearchInput';
+import { useUsersStore } from '@root/store/usersStore';
 
 const SearchProfilePage: FC = () => {
     const { t } = useTranslation();

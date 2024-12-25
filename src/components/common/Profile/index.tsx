@@ -6,7 +6,7 @@ import {
     ProfileStats,
     ProfileTools
 } from '@root/components/common';
-import { useAuthStore } from '@root/store';
+import { useAuthStore } from '@root/store/authStore';
 import { UserProfile } from '@root/types';
 
 interface ProfileProps {

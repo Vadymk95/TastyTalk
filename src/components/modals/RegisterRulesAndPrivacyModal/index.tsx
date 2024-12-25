@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RulesAndPrivacy } from '@root/components/common';
+import { RulesAndPrivacy } from '@root/components/common/RulesAndPrivacy';
 import { Checkbox, ErrorCard, Modal } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { useAuthStore, useModalStore } from '@root/store';

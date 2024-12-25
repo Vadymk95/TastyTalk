@@ -1,7 +1,7 @@
 import { FieldHookConfig, useField } from 'formik';
 import { FC } from 'react';
 
-import { Select as BaseSelect } from '@root/components/ui';
+import { Select as BaseSelect } from '@root/components/ui/Select';
 import { Option } from '@root/types';
 
 type FormikSelectProps = {

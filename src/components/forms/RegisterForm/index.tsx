@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { RegisterRulesAndPrivacyModal } from '@root/components/modals';
+import { RegisterRulesAndPrivacyModal } from '@root/components/modals/RegisterRulesAndPrivacyModal';
 import {
     Button,
     ErrorCard,
@@ -13,8 +13,8 @@ import {
     UsernameInput
 } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { generateUsername } from '@root/helpers';
-import { useGetAuthErrorMessage } from '@root/hooks';
+import { generateUsername } from '@root/helpers/generateUsername';
+import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
 

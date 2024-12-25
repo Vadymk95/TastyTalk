@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Typewriter from 'typewriter-effect';
 
 import { Categories, DifficultyMap } from '@root/components/common';
-import { ScrollIndicator } from '@root/components/ui';
+import { ScrollIndicator } from '@root/components/ui/ScrollIndicator';
 import { Recipe } from '@root/types';
 
 import {

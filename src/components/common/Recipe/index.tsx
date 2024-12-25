@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { Categories, DifficultyMap, Video } from '@root/components/common';
-import { Image } from '@root/components/ui';
+import { Image } from '@root/components/ui/Image';
 import { Recipe as RecipeType } from '@root/types';
 
 import {

@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useTemporaryRecipeStore } from '@root/store';
+import { useTemporaryRecipeStore } from '@root/store/temporaryRecipeStore';
 import { Recipe as RecipeType } from '@root/types';
 
 import {

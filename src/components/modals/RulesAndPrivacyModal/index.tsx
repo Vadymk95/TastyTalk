@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RulesAndPrivacy } from '@root/components/common';
-import { Modal } from '@root/components/ui';
+import { RulesAndPrivacy } from '@root/components/common/RulesAndPrivacy';
+import { Modal } from '@root/components/ui/Modal';
 import { ModalsEnum } from '@root/constants/modals';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 
 export const RulesAndPrivacyModal: FC = () => {
     const { t } = useTranslation();

@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Loader } from '@root/components/ui';
+import { Loader } from '@root/components/ui/Loader';
 import { AppRouter } from '@root/router/AppRouter';
 import { routes } from '@root/router/routes';
-import { useLanguageStore } from '@root/store';
+import { useLanguageStore } from '@root/store/languageStore';
 
 export const Main: FC = () => {
     const location = useLocation();

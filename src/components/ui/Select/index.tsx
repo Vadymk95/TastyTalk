@@ -1,7 +1,8 @@
-import { Button } from '@root/components/ui';
-import { Option } from '@root/types';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { FC, useEffect, useRef, useState } from 'react';
+
+import { Button } from '@root/components/ui/Button';
+import { Option } from '@root/types';
 
 type SelectProps = {
     options: Option[];

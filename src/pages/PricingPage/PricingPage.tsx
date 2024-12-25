@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Pricing } from '@root/components/common';
+import { Pricing } from '@root/components/common/Pricing';
 
 const PricingPage: FC = () => {
     const { t } = useTranslation();

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, Modal } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { useModalStore } from '@root/store';
+import { useModalStore } from '@root/store/modalStore';
 
 type ResetStepperModalProps = {
     handleReset: () => void;

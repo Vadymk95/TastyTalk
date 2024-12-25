@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { isInWebViewOrIframe } from '@root/helpers/isInWebViewOrIframe';
+
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isInWebViewOrIframe } from '@root/helpers';
 
 export const IFrameWarning: FC = () => {
     const { t } = useTranslation();

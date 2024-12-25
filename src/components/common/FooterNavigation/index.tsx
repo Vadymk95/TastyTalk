@@ -2,7 +2,7 @@ import { FC, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { getProfileRoute } from '@root/helpers';
+import { getProfileRoute } from '@root/helpers/getProfileRoute';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
