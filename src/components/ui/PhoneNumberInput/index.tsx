@@ -43,7 +43,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
     const phoneInputeClasses =
         '!w-full !h-full !rounded-lg !bg-neutral-light !border-neutral input input-primary hover:!bg-neutral hover:!border-secondary-light';
     const phoneButtonClasses =
-        '!bg-neutral-light !rounded-l-lg !border-neutral input-primary hover:!bg-neutral hover:!border-secondary-light';
+        '!bg-neutral-light !rounded-l-lg !border-neutral input-primary hover:!bg-neutral hover:!border-secondary-light hover:!border-r-0';
 
     return (
         <div className={`relative ${className || ''}`}>
