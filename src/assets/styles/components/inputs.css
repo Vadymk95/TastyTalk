@@ -45,3 +45,7 @@
 .label-large {
     @apply text-lg;
 }
+
+.react-tel-input .selected-flag:hover {
+    @apply bg-neutral-light !rounded-l-lg !border-neutral input-primary hover:!bg-neutral hover:!border-secondary-light;
+}
