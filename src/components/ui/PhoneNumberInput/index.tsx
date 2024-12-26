@@ -69,6 +69,8 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                                 placeholder:
                                     placeholder || t('General.enterNumber')
                             }}
+                            searchPlaceholder={t('General.search')}
+                            searchNotFound={t('General.noResultsFound')}
                             disableDropdown={false}
                             countryCodeEditable={false}
                             masks={{
@@ -80,8 +82,8 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                             }`}
                             containerClass=""
                             buttonClass={`left-0 ${phoneButtonClasses}`}
-                            dropdownClass="phone-dropdown"
-                            specialLabel=""
+                            dropdownClass="!rounded-l-lg"
+                            searchClass="flex items-center my-search-input !pr-2 !pt-1 !rounded-none input"
                             enableAreaCodes
                             enableSearch
                         />
