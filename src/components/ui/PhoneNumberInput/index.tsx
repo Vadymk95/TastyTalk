@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import PhoneInput, { CountryData } from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
+import { localization } from '@root/helpers/localization';
+
 type PhoneInputProps = {
     name: string;
     label: string;
@@ -57,6 +59,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                     <div className="relative">
                         <PhoneInput
                             country="ua"
+                            localization={localization}
                             value={field.value}
                             onChange={(value, countryData) => {
                                 form.setFieldValue(name, value);
