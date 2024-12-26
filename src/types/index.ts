@@ -81,6 +81,7 @@ export interface StepStatus {
 }
 
 export type SubscriptionPlan = 'Free' | 'Basic' | 'Standard' | 'Premium';
+export type VerificationMethod = 'email' | 'phone';
 
 export interface UpdateProfileData {
     firstName?: string;
@@ -103,6 +104,8 @@ export interface UserProfile {
     username: string;
     usernameLower: string;
     email: string | null;
+    phoneNumber: string | null;
+    verificationMethod: VerificationMethod;
     bio?: string;
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];

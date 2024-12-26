@@ -18,14 +18,17 @@ import { generateUsername } from '@root/helpers/generateUsername';
 import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
+import { VerificationMethod } from '@root/types';
 
 type RegisterFormValues = {
     username: string;
     firstName: string;
     lastName: string;
     email: string;
+    phoneNumber: string;
     password: string;
     confirmPassword: string;
+    verificationMethod: VerificationMethod | null;
 };
 
 type RegisterFormProps = {
@@ -61,10 +64,26 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         openModal(ModalsEnum.RegisterRulesAndPrivacy);
 
     const handleRegisterSubmit = async (values: RegisterFormValues) => {
+        const { email, phoneNumber, verificationMethod } = values;
+
+        if (!email && !phoneNumber) {
+            console.error('Either email or phone number is required');
+            return;
+        }
+
+        if (email && phoneNumber && !verificationMethod) {
+            console.error(
+                'Verification method is required when both email and phone number are provided'
+            );
+            return;
+        }
+
         clearError();
         try {
             await registerWithEmailAndProfile(
-                values.email,
+                email,
+                phoneNumber,
+                verificationMethod || (email ? 'email' : 'phone'),
                 values.username,
                 values.password,
                 values.firstName,
@@ -78,60 +97,82 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             closeModal(ModalsEnum.RegisterRulesAndPrivacy);
 
             const updatedUserProfile = useAuthStore.getState().userProfile;
+            const verificationPage =
+                verificationMethod === 'email'
+                    ? navigation(routes.emailVerification)
+                    : navigation(routes.phoneNumberVerification);
 
             return updatedUserProfile?.verified
                 ? navigation(routes.greeting)
-                : navigation(routes.emailVerification);
+                : verificationPage;
         } catch (error) {
             console.error('Registration failed:', error);
         }
     };
 
-    const RegisterSchema = Yup.object().shape({
-        username: Yup.string()
-            .matches(/^[a-zA-Z0-9_]+$/, t('Forms.RegisterForm.usernameInvalid'))
-            .matches(
-                /[a-zA-Z]/,
-                t('Forms.RegisterForm.usernameMustContainLetter')
-            )
-            .min(4, t('Forms.RegisterForm.usernameMinLength'))
-            .max(16, t('Forms.RegisterForm.usernameMaxLength'))
-            .required(t('Forms.RegisterForm.requiredField')),
-        firstName: Yup.string()
-            .matches(
-                /^[a-zA-Zа-яА-Я]+$/,
-                t('Forms.RegisterForm.firstNameInvalid')
-            )
-            .min(2, t('Forms.RegisterForm.firstNameMinLength'))
-            .max(16, t('Forms.RegisterForm.firstNameMaxLength'))
-            .required(t('Forms.RegisterForm.requiredField')),
-        lastName: Yup.string()
-            .matches(
-                /^[a-zA-Zа-яА-Я]+$/,
-                t('Forms.RegisterForm.lastNameInvalid')
-            )
-            .min(2, t('Forms.RegisterForm.lastNameMinLength'))
-            .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
-            .required(t('Forms.RegisterForm.requiredField')),
-        email: Yup.string()
-            .email(t('Forms.RegisterForm.emailNotValid'))
-            .min(6, t('Forms.RegisterForm.emailMinLength'))
-            .max(50, t('Forms.RegisterForm.emailMaxLength'))
-            .required(t('Forms.RegisterForm.requiredField')),
-        password: Yup.string()
-            .min(6, t('Forms.RegisterForm.passwordMinLength'))
-            .matches(
-                /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/,
-                t('Forms.RegisterForm.passwordComplexity')
-            )
-            .required(t('Forms.RegisterForm.requiredField')),
-        confirmPassword: Yup.string()
-            .oneOf(
-                [Yup.ref('password')],
-                t('Forms.RegisterForm.passwordsMustMatch')
-            )
-            .required(t('Forms.RegisterForm.requiredField'))
-    });
+    const RegisterSchema = Yup.object()
+        .shape({
+            username: Yup.string()
+                .matches(
+                    /^[a-zA-Z0-9_]+$/,
+                    t('Forms.RegisterForm.usernameInvalid')
+                )
+                .matches(
+                    /[a-zA-Z]/,
+                    t('Forms.RegisterForm.usernameMustContainLetter')
+                )
+                .min(4, t('Forms.RegisterForm.usernameMinLength'))
+                .max(16, t('Forms.RegisterForm.usernameMaxLength'))
+                .required(t('Forms.RegisterForm.requiredField')),
+            firstName: Yup.string()
+                .matches(
+                    /^[a-zA-Zа-яА-Я]+$/,
+                    t('Forms.RegisterForm.firstNameInvalid')
+                )
+                .min(2, t('Forms.RegisterForm.firstNameMinLength'))
+                .max(16, t('Forms.RegisterForm.firstNameMaxLength'))
+                .required(t('Forms.RegisterForm.requiredField')),
+            lastName: Yup.string()
+                .matches(
+                    /^[a-zA-Zа-яА-Я]+$/,
+                    t('Forms.RegisterForm.lastNameInvalid')
+                )
+                .min(2, t('Forms.RegisterForm.lastNameMinLength'))
+                .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
+                .required(t('Forms.RegisterForm.requiredField')),
+            email: Yup.string()
+                .email(t('Forms.RegisterForm.emailNotValid'))
+                .min(6, t('Forms.RegisterForm.emailMinLength'))
+                .max(50, t('Forms.RegisterForm.emailMaxLength'))
+                .notRequired(),
+            phoneNumber: Yup.string().nullable().notRequired(),
+            verificationMethod: Yup.string()
+                .nullable()
+                .oneOf(
+                    ['email', 'phone'],
+                    t('Forms.RegisterForm.selectVerificationMethod')
+                ),
+            password: Yup.string()
+                .min(6, t('Forms.RegisterForm.passwordMinLength'))
+                .matches(
+                    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/,
+                    t('Forms.RegisterForm.passwordComplexity')
+                )
+                .required(t('Forms.RegisterForm.requiredField')),
+            confirmPassword: Yup.string()
+                .oneOf(
+                    [Yup.ref('password')],
+                    t('Forms.RegisterForm.passwordsMustMatch')
+                )
+                .required(t('Forms.RegisterForm.requiredField'))
+        })
+        .test(
+            'email-or-phone',
+            t('Forms.RegisterForm.emailOrPhoneRequired'),
+            (values) => {
+                return !!(values.email || values.phoneNumber);
+            }
+        );
 
     useEffect(() => {
         clearError();
@@ -147,9 +188,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 ? user.displayName?.split(' ')[1] || ''
                 : '',
             email: isTemporaryUser ? user.email || '' : '',
+            phoneNumber: '',
             password: '',
             confirmPassword: '',
-            isChecking: false
+            isChecking: false,
+            verificationMethod: null
         }),
         [isTemporaryUser, user]
     );
@@ -226,14 +269,13 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     placeholder={t(
                                         'Forms.RegisterForm.enterYourEmail'
                                     )}
-                                    isRequired
                                     label={t('Forms.RegisterForm.email')}
                                 />
 
                                 <div className="w-full">
                                     <PhoneNumberInput
                                         className="auth-input-wrapper"
-                                        name="phone"
+                                        name="phoneNumber"
                                         label={t(
                                             'Forms.RegisterForm.enterNumber'
                                         )}

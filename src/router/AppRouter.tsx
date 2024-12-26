@@ -18,6 +18,7 @@ import {
     HomePage,
     MealsPlanPage,
     NotFoundPage,
+    PhoneNumberVerificationPage,
     PricingPage,
     PrivacyPage,
     ProfilePage,
@@ -75,6 +76,15 @@ export const AppRouter: FC = () => {
                 element={
                     <PrivateRoute
                         element={withSuspense(<EmailVerificationPage />)}
+                    />
+                }
+            />
+
+            <Route
+                path={routes.phoneNumberVerification}
+                element={
+                    <PrivateRoute
+                        element={withSuspense(<PhoneNumberVerificationPage />)}
                     />
                 }
             />

@@ -24,7 +24,8 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const protectedRoutesForRegistered = [
         routes.settings,
         routes.greeting,
-        routes.emailVerification
+        routes.emailVerification,
+        routes.phoneNumberVerification
     ];
     const protectedRoutesForVerified = [
         routes.recipesCreate,

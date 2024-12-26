@@ -32,7 +32,12 @@ import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import { convertFileToBase64, isInWebViewOrIframe } from '@root/helpers';
-import { SubscriptionPlan, UpdateProfileData, UserProfile } from '@root/types';
+import {
+    SubscriptionPlan,
+    UpdateProfileData,
+    UserProfile,
+    VerificationMethod
+} from '@root/types';
 
 interface AuthState {
     user: User | null;
@@ -54,6 +59,8 @@ interface AuthState {
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
+        phoneNumber: string,
+        verificationMethod: VerificationMethod,
         username: string,
         password: string,
         firstName: string,
@@ -250,6 +257,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     registerWithEmailAndProfile: async (
         email,
+        phoneNumber,
+        verificationMethod,
         username,
         password,
         firstName,
@@ -276,6 +285,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             const userProfile: UserProfile = {
                 id: user.uid,
                 email: user.email,
+                phoneNumber,
+                verificationMethod,
                 username,
                 usernameLower,
                 firstName,
