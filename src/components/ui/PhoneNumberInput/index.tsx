@@ -60,7 +60,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                 {({ field, form }: FieldProps) => (
                     <div className="relative">
                         <PhoneInput
-                            country={defaultCountry || 'us'}
+                            country={defaultCountry}
                             localization={localization}
                             value={field.value}
                             onChange={(value, countryData) => {

@@ -2,6 +2,7 @@ export { convertFileToBase64 } from './convertFileToBase64';
 export { extractYouTubeVideoId } from './extractYouTubeVideoId';
 export { generateUsername } from './generateUsername';
 export { getCategoryColor } from './getCategoryColor';
+export { getCountryFromLanguage } from './getCountryFromLanguage';
 export { getProfileRoute } from './getProfileRoute';
 export { isInWebViewOrIframe } from './isInWebViewOrIframe';
 export { isMobileDevice } from './isMobileDevice';
