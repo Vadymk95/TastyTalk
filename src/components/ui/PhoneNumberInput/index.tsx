@@ -5,6 +5,7 @@ import PhoneInput, { CountryData } from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 import { localization } from '@root/helpers/localization';
+import { useUserCountry } from '@root/hooks/useUserCountry';
 
 type PhoneInputProps = {
     name: string;
@@ -26,6 +27,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
     className = ''
 }) => {
     const { t } = useTranslation();
+    const { data: defaultCountry, isLoading } = useUserCountry();
     const [country, setCountry] = useState<CountryData | null>(null);
 
     console.log('country', country);
@@ -58,7 +60,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                 {({ field, form }: FieldProps) => (
                     <div className="relative">
                         <PhoneInput
-                            country="ua"
+                            country={defaultCountry || 'us'}
                             localization={localization}
                             value={field.value}
                             onChange={(value, countryData) => {
@@ -81,10 +83,12 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                                 us: '(...) ...-....'
                             }}
                             inputClass={`${sizeInputStyle[size]} ${phoneInputeClasses} ${
-                                disabled ? 'input-disabled' : ''
+                                disabled || isLoading ? 'input-disabled' : ''
                             }`}
                             containerClass=""
-                            buttonClass={`left-0 ${phoneButtonClasses}`}
+                            buttonClass={`left-0 ${phoneButtonClasses} ${
+                                disabled || isLoading ? 'input-disabled' : ''
+                            }`}
                             dropdownClass="!rounded-l-lg"
                             searchClass="flex items-center my-search-input !pr-2 !pt-1 !rounded-none input"
                             enableAreaCodes
