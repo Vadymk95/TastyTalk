@@ -152,9 +152,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .max(50, t('Forms.RegisterForm.emailMaxLength'))
                 .notRequired(),
             phoneNumber: Yup.string()
-                .test('is-valid-phone', 'Invalid phone number', (value) => {
-                    return validatePhoneNumber(value || '', countryCode);
-                })
+                .test(
+                    'is-valid-phone',
+                    t('Forms.RegisterForm.phoneNumberNotValid'),
+                    (value) => validatePhoneNumber(value || '', countryCode)
+                )
+                .notRequired()
                 .nullable(),
             verificationMethod: Yup.string()
                 .nullable()

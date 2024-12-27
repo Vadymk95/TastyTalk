@@ -195,6 +195,7 @@ export const en = {
                     emailMinLength: 'Email must be at least 6 characters long',
                     emailMaxLength:
                         'Email must be less than 50 characters long',
+                    phoneNumberNotValid: 'Phone number is not valid',
                     passwordMinLength:
                         'Password must be at least 6 characters long',
                     passwordsMustMatch: 'Passwords must match',

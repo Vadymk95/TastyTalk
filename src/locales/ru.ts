@@ -193,6 +193,7 @@ export const ru = {
                     emailNotValid: 'Email не валидный',
                     emailMinLength: 'Email должен быть не менее 6 символов',
                     emailMaxLength: 'Email должен быть не более 50 символов',
+                    phoneNumberNotValid: 'Номер телефона не валидный',
                     passwordMinLength: 'Пароль должен быть не менее 6 символов',
                     passwordsMustMatch: 'Пароли должны совпадать',
                     enterYourEmail: 'Введите ваш email',
