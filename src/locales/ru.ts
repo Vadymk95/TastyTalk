@@ -199,6 +199,7 @@ export const ru = {
                     enterYourEmail: 'Введите ваш email',
                     enterYourName: 'Введите ваше имя',
                     enterYourLastName: 'Введите вашу фамилию',
+                    emailOrPhoneRequired: 'Email или телефон обязательны',
                     haveAccount: 'Уже есть аккаунт?',
                     registerFinish: 'Завершите процесс регистрации'
                 },

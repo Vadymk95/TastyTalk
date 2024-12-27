@@ -202,6 +202,7 @@ export const en = {
                     enterYourEmail: 'Enter your email',
                     enterYourName: 'Enter your name',
                     enterYourLastName: 'Enter your last name',
+                    emailOrPhoneRequired: 'Email or phone number is required',
                     haveAccount: 'Already have an account?',
                     registerFinish: 'Finish your registration process'
                 },
