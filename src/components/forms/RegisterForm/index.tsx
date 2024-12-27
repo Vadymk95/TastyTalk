@@ -235,182 +235,190 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             validationSchema={RegisterSchema}
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
-            {({ isValid, isSubmitting, values, setFieldValue }) => (
-                <Form>
-                    <section className="flex gap-10 md:block">
-                        <div className="w-full">
-                            <UsernameInput
-                                validationSchema={usernameValidationSchema}
-                                className="auth-input-wrapper"
-                                name="username"
-                                label={t('Forms.RegisterForm.username')}
-                                isRequired
-                                checkUsernameAvailability={
-                                    checkUsernameAvailability
-                                }
-                            />
-
-                            <Input
-                                className="auth-input-wrapper"
-                                name="firstName"
-                                type="text"
-                                placeholder={t(
-                                    'Forms.RegisterForm.enterYourName'
-                                )}
-                                isRequired
-                                label={t('Forms.RegisterForm.firstName')}
-                            />
-
-                            <Input
-                                className="auth-input-wrapper"
-                                name="lastName"
-                                type="text"
-                                placeholder={t(
-                                    'Forms.RegisterForm.enterYourLastName'
-                                )}
-                                isRequired
-                                label={t('Forms.RegisterForm.lastName')}
-                            />
-
-                            <Input
-                                className="auth-input-wrapper"
-                                name="email"
-                                type="email"
-                                disabled={isTemporaryUser}
-                                placeholder={t(
-                                    'Forms.RegisterForm.enterYourEmail'
-                                )}
-                                label={t('Forms.RegisterForm.email')}
-                            />
-                        </div>
-
-                        <div className="w-full">
+            {({ isValid, isSubmitting, values, setFieldValue }) => {
+                return (
+                    <Form>
+                        <section className="flex gap-10 md:block">
                             <div className="w-full">
-                                <PhoneNumberInput
-                                    setCode={handleSetCode}
+                                <UsernameInput
+                                    validationSchema={usernameValidationSchema}
                                     className="auth-input-wrapper"
-                                    name="phoneNumber"
-                                    label={t('Forms.RegisterForm.enterNumber')}
+                                    name="username"
+                                    label={t('Forms.RegisterForm.username')}
+                                    isRequired
+                                    checkUsernameAvailability={
+                                        checkUsernameAvailability
+                                    }
+                                />
+
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="firstName"
+                                    type="text"
                                     placeholder={t(
-                                        'Forms.RegisterForm.enterNumber'
+                                        'Forms.RegisterForm.enterYourName'
                                     )}
+                                    isRequired
+                                    label={t('Forms.RegisterForm.firstName')}
+                                />
+
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="lastName"
+                                    type="text"
+                                    placeholder={t(
+                                        'Forms.RegisterForm.enterYourLastName'
+                                    )}
+                                    isRequired
+                                    label={t('Forms.RegisterForm.lastName')}
+                                />
+
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="email"
+                                    type="email"
+                                    disabled={isTemporaryUser}
+                                    placeholder={t(
+                                        'Forms.RegisterForm.enterYourEmail'
+                                    )}
+                                    label={t('Forms.RegisterForm.email')}
                                 />
                             </div>
 
-                            <Input
-                                className="auth-input-wrapper"
-                                name="password"
-                                type="password"
-                                placeholder="******"
-                                isRequired
-                                label={t('Forms.RegisterForm.password')}
-                            />
+                            <div className="w-full">
+                                <div className="w-full">
+                                    <PhoneNumberInput
+                                        setCode={handleSetCode}
+                                        className="auth-input-wrapper"
+                                        name="phoneNumber"
+                                        label={t(
+                                            'Forms.RegisterForm.enterNumber'
+                                        )}
+                                        placeholder={t(
+                                            'Forms.RegisterForm.enterNumber'
+                                        )}
+                                    />
+                                </div>
 
-                            <Input
-                                className="auth-input-wrapper"
-                                name="confirmPassword"
-                                type="password"
-                                placeholder="******"
-                                isRequired
-                                label={t('Forms.RegisterForm.confirmPassword')}
-                            />
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="password"
+                                    type="password"
+                                    placeholder="******"
+                                    isRequired
+                                    label={t('Forms.RegisterForm.password')}
+                                />
 
-                            {values.email &&
-                                values.phoneNumber.length >= 10 && (
-                                    <div className="auth-input-wrapper">
-                                        <p className="text-sm label">
-                                            {t(
-                                                'Forms.RegisterForm.verificationMethodTitle'
-                                            )}
-                                        </p>
-                                        <div className="flex gap-2 mt-0.5 h-[50.6px]">
-                                            <RadioButton
-                                                className="w-full"
-                                                name="verificationMethod"
-                                                value="email"
-                                                selectedValue={
-                                                    values.verificationMethod
-                                                }
-                                                onChange={(value) =>
-                                                    setFieldValue(
-                                                        'verificationMethod',
-                                                        value
-                                                    )
-                                                }
-                                                label={t(
-                                                    'Forms.RegisterForm.viaEmail'
+                                <Input
+                                    className="auth-input-wrapper"
+                                    name="confirmPassword"
+                                    type="password"
+                                    placeholder="******"
+                                    isRequired
+                                    label={t(
+                                        'Forms.RegisterForm.confirmPassword'
+                                    )}
+                                />
+
+                                {values.email &&
+                                    values.phoneNumber.length >= 10 && (
+                                        <div className="auth-input-wrapper">
+                                            <p className="text-sm label">
+                                                {t(
+                                                    'Forms.RegisterForm.verificationMethodTitle'
                                                 )}
-                                            />
-                                            <RadioButton
-                                                className="w-full"
-                                                name="verificationMethod"
-                                                value="phone"
-                                                selectedValue={
-                                                    values.verificationMethod
-                                                }
-                                                onChange={(value) =>
-                                                    setFieldValue(
-                                                        'verificationMethod',
-                                                        value
-                                                    )
-                                                }
-                                                label={t(
-                                                    'Forms.RegisterForm.viaPhone'
-                                                )}
-                                            />
+                                            </p>
+                                            <div className="flex gap-2 mt-0.5 h-[50.6px]">
+                                                <RadioButton
+                                                    className="w-full"
+                                                    name="verificationMethod"
+                                                    value="email"
+                                                    selectedValue={
+                                                        values.verificationMethod
+                                                    }
+                                                    onChange={(value) =>
+                                                        setFieldValue(
+                                                            'verificationMethod',
+                                                            value
+                                                        )
+                                                    }
+                                                    label={t(
+                                                        'Forms.RegisterForm.viaEmail'
+                                                    )}
+                                                />
+                                                <RadioButton
+                                                    className="w-full"
+                                                    name="verificationMethod"
+                                                    value="phone"
+                                                    selectedValue={
+                                                        values.verificationMethod
+                                                    }
+                                                    onChange={(value) =>
+                                                        setFieldValue(
+                                                            'verificationMethod',
+                                                            value
+                                                        )
+                                                    }
+                                                    label={t(
+                                                        'Forms.RegisterForm.viaPhone'
+                                                    )}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                        </div>
-                    </section>
-
-                    <section>
-                        <Button
-                            size="large"
-                            className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
-                            onClick={handleRulesAndPrivacyModalOpen}
-                            disabled={
-                                !isValid ||
-                                isSubmitting ||
-                                loading ||
-                                values.isChecking
-                            }
-                        >
-                            {t('Forms.RegisterForm.signUp')}
-                        </Button>
-
-                        {error && (
-                            <div className="mb-8 md:mb-7 duration-300">
-                                <ErrorCard errorMessage={authError} />
+                                    )}
                             </div>
-                        )}
+                        </section>
 
-                        <div className="text-center">
-                            {isTemporaryUser ? (
-                                <span>
-                                    {t('Forms.RegisterForm.registerFinish')}
-                                </span>
-                            ) : (
-                                <span>
-                                    {t('Forms.RegisterForm.haveAccount')}{' '}
-                                    <Link
-                                        className="underline"
-                                        variant="secondary"
-                                        onClick={signInAction}
-                                    >
-                                        {t('Forms.RegisterForm.actionSignIn')}
-                                    </Link>
-                                </span>
+                        <section>
+                            <Button
+                                size="large"
+                                className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
+                                onClick={handleRulesAndPrivacyModalOpen}
+                                disabled={
+                                    !isValid ||
+                                    isSubmitting ||
+                                    loading ||
+                                    values.isChecking
+                                }
+                            >
+                                {t('Forms.RegisterForm.signUp')}
+                            </Button>
+
+                            {error && (
+                                <div className="mb-8 md:mb-7 duration-300">
+                                    <ErrorCard errorMessage={authError} />
+                                </div>
                             )}
-                        </div>
-                    </section>
 
-                    <RegisterRulesAndPrivacyModal
-                        loading={loading}
-                        modalError={modalError}
-                    />
-                </Form>
-            )}
+                            <div className="text-center">
+                                {isTemporaryUser ? (
+                                    <span>
+                                        {t('Forms.RegisterForm.registerFinish')}
+                                    </span>
+                                ) : (
+                                    <span>
+                                        {t('Forms.RegisterForm.haveAccount')}{' '}
+                                        <Link
+                                            className="underline"
+                                            variant="secondary"
+                                            onClick={signInAction}
+                                        >
+                                            {t(
+                                                'Forms.RegisterForm.actionSignIn'
+                                            )}
+                                        </Link>
+                                    </span>
+                                )}
+                            </div>
+                        </section>
+
+                        <RegisterRulesAndPrivacyModal
+                            loading={loading}
+                            modalError={modalError}
+                        />
+                    </Form>
+                );
+            }}
         </Formik>
     );
 };
