@@ -156,7 +156,8 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .test(
                     'is-valid-phone',
                     t('Forms.RegisterForm.phoneNumberNotValid'),
-                    (value) => validatePhoneNumber(value || '', countryCode)
+                    (value) =>
+                        !value || validatePhoneNumber(value || '', countryCode)
                 )
                 .nullable(),
             verificationMethod: Yup.string()
@@ -314,51 +315,52 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 label={t('Forms.RegisterForm.confirmPassword')}
                             />
 
-                            {values.email && values.phoneNumber.length > 7 && (
-                                <div className="auth-input-wrapper">
-                                    <p className="text-sm label">
-                                        {t(
-                                            'Forms.RegisterForm.verificationMethodTitle'
-                                        )}
-                                    </p>
-                                    <div className="flex gap-2 mt-0.5 h-[50.6px]">
-                                        <RadioButton
-                                            className="w-full"
-                                            name="verificationMethod"
-                                            value="email"
-                                            selectedValue={
-                                                values.verificationMethod
-                                            }
-                                            onChange={(value) =>
-                                                setFieldValue(
-                                                    'verificationMethod',
-                                                    value
-                                                )
-                                            }
-                                            label={t(
-                                                'Forms.RegisterForm.viaEmail'
+                            {values.email &&
+                                values.phoneNumber.length >= 10 && (
+                                    <div className="auth-input-wrapper">
+                                        <p className="text-sm label">
+                                            {t(
+                                                'Forms.RegisterForm.verificationMethodTitle'
                                             )}
-                                        />
-                                        <RadioButton
-                                            className="w-full"
-                                            name="verificationMethod"
-                                            value="phone"
-                                            selectedValue={
-                                                values.verificationMethod
-                                            }
-                                            onChange={(value) =>
-                                                setFieldValue(
-                                                    'verificationMethod',
-                                                    value
-                                                )
-                                            }
-                                            label={t(
-                                                'Forms.RegisterForm.viaPhone'
-                                            )}
-                                        />
+                                        </p>
+                                        <div className="flex gap-2 mt-0.5 h-[50.6px]">
+                                            <RadioButton
+                                                className="w-full"
+                                                name="verificationMethod"
+                                                value="email"
+                                                selectedValue={
+                                                    values.verificationMethod
+                                                }
+                                                onChange={(value) =>
+                                                    setFieldValue(
+                                                        'verificationMethod',
+                                                        value
+                                                    )
+                                                }
+                                                label={t(
+                                                    'Forms.RegisterForm.viaEmail'
+                                                )}
+                                            />
+                                            <RadioButton
+                                                className="w-full"
+                                                name="verificationMethod"
+                                                value="phone"
+                                                selectedValue={
+                                                    values.verificationMethod
+                                                }
+                                                onChange={(value) =>
+                                                    setFieldValue(
+                                                        'verificationMethod',
+                                                        value
+                                                    )
+                                                }
+                                                label={t(
+                                                    'Forms.RegisterForm.viaPhone'
+                                                )}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
                         </div>
                     </section>
 
