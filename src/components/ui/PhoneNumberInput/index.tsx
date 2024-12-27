@@ -1,5 +1,5 @@
-import { Field, FieldProps } from 'formik';
-import { FC, useState } from 'react';
+import { ErrorMessage, Field, FieldProps } from 'formik';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PhoneInput, { CountryData } from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -15,6 +15,7 @@ type PhoneInputProps = {
     placeholder?: string;
     size?: 'small' | 'medium' | 'large';
     className?: string;
+    setCode: (code: string) => void;
 };
 
 export const PhoneNumberInput: FC<PhoneInputProps> = ({
@@ -24,13 +25,12 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
     disabled = false,
     placeholder = '',
     size = 'medium',
-    className = ''
+    className = '',
+    setCode
 }) => {
     const { t } = useTranslation();
     const { data: defaultCountry, isLoading } = useUserCountry();
     const [country, setCountry] = useState<CountryData | null>(null);
-
-    console.log('country', country);
 
     const sizeInputStyle = {
         small: 'input-small',
@@ -48,6 +48,12 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
         '!w-full !h-full !rounded-lg !bg-neutral-light !border-neutral input input-primary hover:!bg-neutral hover:!border-secondary-light';
     const phoneButtonClasses =
         '!bg-neutral-light !rounded-l-lg !border-neutral input-primary hover:!bg-neutral hover:!border-secondary-light hover:!border-r-0';
+
+    useEffect(() => {
+        if (country) {
+            setCode(country.countryCode);
+        }
+    }, [country, setCode]);
 
     return (
         <div className={`relative ${className || ''}`}>
@@ -67,6 +73,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                                 form.setFieldValue(name, value);
                                 setCountry(countryData as CountryData);
                             }}
+                            onBlur={() => form.setFieldTouched(name, true)}
                             inputProps={{
                                 name,
                                 required: isRequired,
@@ -78,14 +85,15 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                             searchNotFound={t('General.noResultsFound')}
                             disableDropdown={false}
                             countryCodeEditable={false}
+                            defaultMask="(...) ...-...."
                             masks={{
-                                ru: '(...) ...-..-..',
+                                ru: '(...) ...-....',
+                                ua: '(..) ...-..-..',
                                 us: '(...) ...-....'
                             }}
                             inputClass={`${sizeInputStyle[size]} ${phoneInputeClasses} ${
                                 disabled || isLoading ? 'input-disabled' : ''
                             }`}
-                            containerClass=""
                             buttonClass={`left-0 ${phoneButtonClasses} ${
                                 disabled || isLoading ? 'input-disabled' : ''
                             }`}
@@ -94,10 +102,19 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                             enableAreaCodes
                             enableSearch
                         />
-                        {form.errors[name] && form.touched[name] && (
-                            <div className="error text-primary text-sm mt-1">
-                                {form.errors[name] as string}
-                            </div>
+                        {!!form.errors[name] && form.touched[name] && (
+                            <ErrorMessage
+                                name={name}
+                                render={(msg) =>
+                                    typeof msg === 'string' ? (
+                                        <div
+                                            className={`error-absolute ${size === 'small' ? 'top-8' : ''}`}
+                                        >
+                                            {msg}
+                                        </div>
+                                    ) : null
+                                }
+                            />
                         )}
                     </div>
                 )}

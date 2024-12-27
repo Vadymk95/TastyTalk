@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -11,11 +11,12 @@ import {
     Input,
     Link,
     PhoneNumberInput,
+    RadioButton,
     UsernameInput
 } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { generateUsername } from '@root/helpers/generateUsername';
-import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
+import { generateUsername, validatePhoneNumber } from '@root/helpers';
+import { useGetAuthErrorMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
 import { VerificationMethod } from '@root/types';
@@ -49,6 +50,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         userProfile,
         loadUserProfile
     } = useAuthStore();
+    const [countryCode, setCountryCode] = useState('');
     const { openModal, closeModal } = useModalStore();
     const isTemporaryUser = !!user && !isRegistered;
 
@@ -110,6 +112,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         }
     };
 
+    const handleSetCode = (code: string) => {
+        setCountryCode(code);
+    };
+
     const RegisterSchema = Yup.object()
         .shape({
             username: Yup.string()
@@ -145,7 +151,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .min(6, t('Forms.RegisterForm.emailMinLength'))
                 .max(50, t('Forms.RegisterForm.emailMaxLength'))
                 .notRequired(),
-            phoneNumber: Yup.string().nullable().notRequired(),
+            phoneNumber: Yup.string()
+                .test('is-valid-phone', 'Invalid phone number', (value) => {
+                    return validatePhoneNumber(value || '', countryCode);
+                })
+                .nullable(),
             verificationMethod: Yup.string()
                 .nullable()
                 .oneOf(
@@ -222,7 +232,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 validationSchema={RegisterSchema}
                 onSubmit={(values) => handleRegisterSubmit(values)}
             >
-                {({ isValid, isSubmitting, values }) => (
+                {({ isValid, isSubmitting, values, setFieldValue }) => (
                     <Form>
                         <section className="flex gap-10 md:block">
                             <div className="w-full">
@@ -258,9 +268,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     isRequired
                                     label={t('Forms.RegisterForm.lastName')}
                                 />
-                            </div>
 
-                            <div className="w-full">
                                 <Input
                                     className="auth-input-wrapper"
                                     name="email"
@@ -271,9 +279,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     )}
                                     label={t('Forms.RegisterForm.email')}
                                 />
+                            </div>
 
+                            <div className="w-full">
                                 <div className="w-full">
                                     <PhoneNumberInput
+                                        setCode={handleSetCode}
                                         className="auth-input-wrapper"
                                         name="phoneNumber"
                                         label={t(
@@ -304,6 +315,53 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         'Forms.RegisterForm.confirmPassword'
                                     )}
                                 />
+
+                                {values.email &&
+                                    values.phoneNumber.length > 7 && (
+                                        <div className="auth-input-wrapper">
+                                            <p className="text-sm label">
+                                                {t(
+                                                    'Forms.RegisterForm.verificationMethodTitle'
+                                                )}
+                                            </p>
+                                            <div className="flex gap-2 mt-0.5 h-[50.6px]">
+                                                <RadioButton
+                                                    className="w-full"
+                                                    name="verificationMethod"
+                                                    value="email"
+                                                    selectedValue={
+                                                        values.verificationMethod
+                                                    }
+                                                    onChange={(value) =>
+                                                        setFieldValue(
+                                                            'verificationMethod',
+                                                            value
+                                                        )
+                                                    }
+                                                    label={t(
+                                                        'Forms.RegisterForm.viaEmail'
+                                                    )}
+                                                />
+                                                <RadioButton
+                                                    className="w-full"
+                                                    name="verificationMethod"
+                                                    value="phone"
+                                                    selectedValue={
+                                                        values.verificationMethod
+                                                    }
+                                                    onChange={(value) =>
+                                                        setFieldValue(
+                                                            'verificationMethod',
+                                                            value
+                                                        )
+                                                    }
+                                                    label={t(
+                                                        'Forms.RegisterForm.viaPhone'
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
                             </div>
                         </section>
 

@@ -8,3 +8,4 @@ export { isInWebViewOrIframe } from './isInWebViewOrIframe';
 export { isMobileDevice } from './isMobileDevice';
 export { localization } from './localization';
 export { uploadFileToStorage } from './uploadFileToStorage';
+export { validatePhoneNumber } from './validatePhoneNumber';

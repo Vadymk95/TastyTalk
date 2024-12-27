@@ -166,6 +166,9 @@ export const en = {
                     firstName: 'First Name',
                     password: 'Password',
                     confirmPassword: 'Confirm Password',
+                    verificationMethodTitle: 'Choose a verification method',
+                    viaPhone: 'Via Phone',
+                    viaEmail: 'Via Email',
                     usernameInvalid:
                         'Username can only contain letters, numbers and underscores',
                     usernameMustContainLetter:

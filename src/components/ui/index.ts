@@ -17,6 +17,7 @@ export { PhoneNumberInput } from './PhoneNumberInput';
 export { PhotoUpload } from './PhotoUpload';
 export { PricingCard } from './PricingCard';
 export { ProgressBar } from './ProgressBar';
+export { RadioButton } from './RadioButton';
 export { ScrollIndicator } from './ScrollIndicator';
 export { SearchInput } from './SearchInput';
 export { Select } from './Select';
