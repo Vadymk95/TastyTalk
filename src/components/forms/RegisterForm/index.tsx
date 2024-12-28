@@ -184,17 +184,39 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             'email-or-phone',
             t('Forms.RegisterForm.emailOrPhoneRequired'),
             function (values) {
-                const { email, phoneNumber } = values;
-                const hasAnyField = !!email || !!phoneNumber;
+                const {
+                    email,
+                    phoneNumber,
+                    username,
+                    password,
+                    confirmPassword,
+                    firstName,
+                    lastName
+                } = values;
+                const hasEmailOrPhoneNumber = !!email || !!phoneNumber;
+                const hasEmailAndPhoneNumber = !!email && !!phoneNumber;
+                const hasAllFields =
+                    !!username &&
+                    !!password &&
+                    !!confirmPassword &&
+                    !!firstName &&
+                    !!lastName;
 
-                if (!hasAnyField) {
+                if (hasEmailOrPhoneNumber) return true;
+
+                if (hasAllFields && !hasEmailAndPhoneNumber) {
                     return this.createError({
                         path: 'email',
                         message: t('Forms.RegisterForm.emailOrPhoneRequired')
                     });
                 }
 
-                return true;
+                if (!hasEmailOrPhoneNumber) {
+                    return this.createError({
+                        path: 'email',
+                        message: t('Forms.RegisterForm.emailOrPhoneRequired')
+                    });
+                }
             }
         );
 
