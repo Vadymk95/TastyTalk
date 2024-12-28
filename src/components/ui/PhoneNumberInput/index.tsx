@@ -70,12 +70,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                             localization={localization}
                             value={
                                 field.value ||
-                                `${
-                                    country &&
-                                    'dialCode' in country &&
-                                    typeof country.dialCode === 'string' &&
-                                    country.dialCode
-                                }`
+                                `${country?.dialCode || defaultCountry || ''}`
                             }
                             onChange={(value, countryData) => {
                                 if (
@@ -87,13 +82,15 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                                         .replace(prefix, '')
                                         .trim();
 
-                                    if (!inputWithoutPrefix) {
+                                    if (
+                                        country?.dialCode !==
+                                        countryData.dialCode
+                                    ) {
+                                        form.setFieldValue(name, '');
+                                    } else if (!inputWithoutPrefix) {
                                         form.setFieldValue(name, '');
                                     } else {
-                                        form.setFieldValue(
-                                            name,
-                                            `${prefix}${inputWithoutPrefix}`
-                                        );
+                                        form.setFieldValue(name, value);
                                     }
 
                                     setCountry(countryData as CountryData);
@@ -112,11 +109,6 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                             disableDropdown={false}
                             countryCodeEditable={false}
                             defaultMask="(...) ...-...."
-                            masks={{
-                                ru: '(...) ...-....',
-                                ua: '(..) ...-..-..',
-                                us: '(...) ...-....'
-                            }}
                             inputClass={`${sizeInputStyle[size]} ${phoneInputeClasses} ${
                                 disabled || isLoading ? 'input-disabled' : ''
                             }`}
