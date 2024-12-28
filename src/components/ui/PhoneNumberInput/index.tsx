@@ -68,10 +68,36 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                         <PhoneInput
                             country={defaultCountry}
                             localization={localization}
-                            value={field.value}
+                            value={
+                                field.value ||
+                                `${
+                                    country &&
+                                    'dialCode' in country &&
+                                    typeof country.dialCode === 'string' &&
+                                    country.dialCode
+                                }`
+                            }
                             onChange={(value, countryData) => {
-                                form.setFieldValue(name, value);
-                                setCountry(countryData as CountryData);
+                                if (
+                                    'dialCode' in countryData &&
+                                    typeof countryData.dialCode === 'string'
+                                ) {
+                                    const prefix = `${countryData.dialCode}`;
+                                    const inputWithoutPrefix = value
+                                        .replace(prefix, '')
+                                        .trim();
+
+                                    if (!inputWithoutPrefix) {
+                                        form.setFieldValue(name, '');
+                                    } else {
+                                        form.setFieldValue(
+                                            name,
+                                            `${prefix}${inputWithoutPrefix}`
+                                        );
+                                    }
+
+                                    setCountry(countryData as CountryData);
+                                }
                             }}
                             onBlur={() => form.setFieldTouched(name, true)}
                             inputProps={{
