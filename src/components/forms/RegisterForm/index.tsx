@@ -183,8 +183,18 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         .test(
             'email-or-phone',
             t('Forms.RegisterForm.emailOrPhoneRequired'),
-            (values) => {
-                return !!(values.email || values.phoneNumber);
+            function (values) {
+                const { email, phoneNumber } = values;
+                const hasAnyField = !!email || !!phoneNumber;
+
+                if (!hasAnyField) {
+                    return this.createError({
+                        path: 'email',
+                        message: t('Forms.RegisterForm.emailOrPhoneRequired')
+                    });
+                }
+
+                return true;
             }
         );
 
