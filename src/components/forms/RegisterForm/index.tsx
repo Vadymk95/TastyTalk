@@ -162,10 +162,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .nullable(),
             verificationMethod: Yup.string()
                 .nullable()
-                .oneOf(
-                    ['email', 'phone'],
-                    t('Forms.RegisterForm.selectVerificationMethod')
-                ),
+                .when(['email', 'phoneNumber'], {
+                    is: (email: string | null, phoneNumber: string | null) =>
+                        !!email && !!phoneNumber,
+                    then: (schema) =>
+                        schema.required(
+                            t('Forms.RegisterForm.selectVerificationMethod')
+                        ),
+                    otherwise: (schema) => schema.nullable()
+                }),
             password: Yup.string()
                 .min(6, t('Forms.RegisterForm.passwordMinLength'))
                 .matches(
@@ -268,6 +273,27 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
             {({ isValid, isSubmitting, values, setFieldValue }) => {
+                const handleVerificationMethod = (
+                    values: RegisterFormValues,
+                    setFieldValue: (field: string, value: any) => void
+                ) => {
+                    const isEmailValid =
+                        !!values.email &&
+                        /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(values.email);
+                    const isPhoneNumberValid =
+                        !!values.phoneNumber && values.phoneNumber.length >= 10;
+
+                    if (!isEmailValid && !isPhoneNumberValid) {
+                        setFieldValue('verificationMethod', null);
+                    } else if (isEmailValid && !isPhoneNumberValid) {
+                        setFieldValue('verificationMethod', 'email');
+                    } else if (!isEmailValid && isPhoneNumberValid) {
+                        setFieldValue('verificationMethod', 'phone');
+                    } else {
+                        setFieldValue('verificationMethod', null);
+                    }
+                };
+
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
@@ -314,6 +340,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         'Forms.RegisterForm.enterYourEmail'
                                     )}
                                     label={t('Forms.RegisterForm.email')}
+                                    onCustomChange={() =>
+                                        handleVerificationMethod(
+                                            values,
+                                            setFieldValue
+                                        )
+                                    }
                                 />
                             </div>
 
@@ -329,6 +361,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         placeholder={t(
                                             'Forms.RegisterForm.enterNumber'
                                         )}
+                                        onCustomChange={() =>
+                                            handleVerificationMethod(
+                                                values,
+                                                setFieldValue
+                                            )
+                                        }
                                     />
                                 </div>
 

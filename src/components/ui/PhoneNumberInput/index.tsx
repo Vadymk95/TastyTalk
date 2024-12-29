@@ -16,6 +16,7 @@ type PhoneInputProps = {
     size?: 'small' | 'medium' | 'large';
     className?: string;
     setCode: (code: string) => void;
+    onCustomChange?: () => void;
 };
 
 export const PhoneNumberInput: FC<PhoneInputProps> = ({
@@ -26,7 +27,8 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
     placeholder = '',
     size = 'medium',
     className = '',
-    setCode
+    setCode,
+    onCustomChange
 }) => {
     const { t } = useTranslation();
     const { data: defaultCountry, isLoading } = useUserCountry();
@@ -95,6 +97,8 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
 
                                     setCountry(countryData as CountryData);
                                 }
+
+                                if (onCustomChange) onCustomChange();
                             }}
                             onBlur={() => form.setFieldTouched(name, true)}
                             inputProps={{
