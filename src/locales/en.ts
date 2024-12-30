@@ -204,7 +204,8 @@ export const en = {
                     enterYourLastName: 'Enter your last name',
                     emailOrPhoneRequired: 'Email or phone number is required',
                     haveAccount: 'Already have an account?',
-                    registerFinish: 'Finish your registration process'
+                    registerFinish: 'Finish your registration process',
+                    selectVerificationMethod: 'Select a verification method'
                 },
                 EditProfileForm: {
                     firstName: 'First Name',

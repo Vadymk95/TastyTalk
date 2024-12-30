@@ -201,7 +201,8 @@ export const ru = {
                     enterYourLastName: 'Введите вашу фамилию',
                     emailOrPhoneRequired: 'Email или телефон обязательны',
                     haveAccount: 'Уже есть аккаунт?',
-                    registerFinish: 'Завершите процесс регистрации'
+                    registerFinish: 'Завершите процесс регистрации',
+                    selectVerificationMethod: 'Выберите способ подтверждения'
                 },
                 EditProfileForm: {
                     firstName: 'Имя',
