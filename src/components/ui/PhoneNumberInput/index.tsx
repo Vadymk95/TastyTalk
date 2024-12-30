@@ -16,6 +16,7 @@ type PhoneInputProps = {
     size?: 'small' | 'medium' | 'large';
     className?: string;
     setCode: (code: string) => void;
+    code: string;
     onCustomChange?: () => void;
 };
 
@@ -28,6 +29,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
     size = 'medium',
     className = '',
     setCode,
+    code,
     onCustomChange
 }) => {
     const { t } = useTranslation();
@@ -86,7 +88,8 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
 
                                     if (
                                         country?.dialCode !==
-                                        countryData.dialCode
+                                            countryData.dialCode &&
+                                        !!code
                                     ) {
                                         form.setFieldValue(name, '');
                                     } else if (!inputWithoutPrefix) {

@@ -353,6 +353,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                 <div className="w-full">
                                     <PhoneNumberInput
                                         setCode={handleSetCode}
+                                        code={countryCode}
                                         className="auth-input-wrapper"
                                         name="phoneNumber"
                                         label={t(
