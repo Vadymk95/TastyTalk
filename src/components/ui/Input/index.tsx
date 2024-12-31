@@ -14,7 +14,6 @@ type InputProps = {
     disabled?: boolean;
     size?: 'small' | 'medium' | 'large';
     min?: number;
-    onCustomChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Input: FC<InputProps> = ({
@@ -26,8 +25,7 @@ export const Input: FC<InputProps> = ({
     className = '',
     disabled = false,
     size = 'medium',
-    min = 1,
-    onCustomChange
+    min = 1
 }) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
@@ -70,8 +68,6 @@ export const Input: FC<InputProps> = ({
         formChange: (e: ChangeEvent<HTMLInputElement>) => void
     ) => {
         formChange(event);
-
-        if (onCustomChange) onCustomChange(event);
     };
 
     return (

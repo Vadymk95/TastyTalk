@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -277,8 +277,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             validationSchema={RegisterSchema}
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
-            {({ isValid, isSubmitting, values, setFieldValue, errors }) => {
-                const handleVerificationMethod = (
+            {({
+                isValid,
+                isSubmitting,
+                values,
+                setFieldValue,
+                errors,
+                validateField
+            }) => {
+                const handleVerificationMethod = async (
                     updatedField: { email?: string; phoneNumber?: string },
                     setFieldValue: (field: string, value: any) => void
                 ) => {
@@ -290,14 +297,16 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     const isPhoneNumberValid = phoneNumber?.length >= 10;
 
                     if (isEmailValid && isPhoneNumberValid) {
-                        setFieldValue('verificationMethod', null);
+                        await setFieldValue('verificationMethod', null);
                     } else if (isEmailValid) {
-                        setFieldValue('verificationMethod', 'email');
+                        await setFieldValue('verificationMethod', 'email');
                     } else if (isPhoneNumberValid) {
-                        setFieldValue('verificationMethod', 'phone');
+                        await setFieldValue('verificationMethod', 'phone');
                     } else {
-                        setFieldValue('verificationMethod', null);
+                        await setFieldValue('verificationMethod', null);
                     }
+
+                    validateField('verificationMethod');
                 };
 
                 return (
@@ -346,14 +355,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         'Forms.RegisterForm.enterYourEmail'
                                     )}
                                     label={t('Forms.RegisterForm.email')}
-                                    onCustomChange={(
-                                        e: ChangeEvent<HTMLInputElement>
-                                    ) =>
-                                        handleVerificationMethod(
-                                            { email: e.target.value },
-                                            setFieldValue
-                                        )
-                                    }
                                 />
                             </div>
 
