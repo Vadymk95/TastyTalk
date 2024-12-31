@@ -277,38 +277,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             validationSchema={RegisterSchema}
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
-            {({
-                isValid,
-                isSubmitting,
-                values,
-                setFieldValue,
-                errors,
-                validateField
-            }) => {
-                const handleVerificationMethod = async (
-                    updatedField: { email?: string; phoneNumber?: string },
-                    setFieldValue: (field: string, value: any) => void
-                ) => {
-                    const email = updatedField.email ?? values.email;
-                    const phoneNumber =
-                        updatedField.phoneNumber ?? values.phoneNumber;
-
-                    const isEmailValid = email?.match(emailValidationRegExp);
-                    const isPhoneNumberValid = phoneNumber?.length >= 10;
-
-                    if (isEmailValid && isPhoneNumberValid) {
-                        await setFieldValue('verificationMethod', null);
-                    } else if (isEmailValid) {
-                        await setFieldValue('verificationMethod', 'email');
-                    } else if (isPhoneNumberValid) {
-                        await setFieldValue('verificationMethod', 'phone');
-                    } else {
-                        await setFieldValue('verificationMethod', null);
-                    }
-
-                    validateField('verificationMethod');
-                };
-
+            {({ isValid, isSubmitting, values, setFieldValue, errors }) => {
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
@@ -371,12 +340,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         placeholder={t(
                                             'Forms.RegisterForm.enterNumber'
                                         )}
-                                        onCustomChange={(value) =>
-                                            handleVerificationMethod(
-                                                { phoneNumber: value },
-                                                setFieldValue
-                                            )
-                                        }
                                     />
                                 </div>
 
