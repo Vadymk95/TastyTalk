@@ -14,7 +14,7 @@ type InputProps = {
     disabled?: boolean;
     size?: 'small' | 'medium' | 'large';
     min?: number;
-    onCustomChange?: () => void;
+    onCustomChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Input: FC<InputProps> = ({
@@ -71,7 +71,7 @@ export const Input: FC<InputProps> = ({
     ) => {
         formChange(event);
 
-        if (onCustomChange) onCustomChange();
+        if (onCustomChange) onCustomChange(event);
     };
 
     return (

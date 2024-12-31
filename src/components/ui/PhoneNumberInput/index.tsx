@@ -17,7 +17,7 @@ type PhoneInputProps = {
     className?: string;
     setCode: (code: string) => void;
     code: string;
-    onCustomChange?: () => void;
+    onCustomChange?: (value: string) => void;
 };
 
 export const PhoneNumberInput: FC<PhoneInputProps> = ({
@@ -103,7 +103,7 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                                     setCountry(countryData as CountryData);
                                 }
 
-                                if (onCustomChange) onCustomChange();
+                                if (onCustomChange) onCustomChange(value);
                             }}
                             onBlur={() => form.setFieldTouched(name, true)}
                             inputProps={{

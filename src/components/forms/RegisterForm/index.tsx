@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -267,26 +267,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         }
     }, [checkUsernameAvailability, initialValues]);
 
-    const handleVerificationMethod = (
-        values: RegisterFormValues,
-        setFieldValue: (field: string, value: any) => void
-    ) => {
-        const isEmailValid =
-            !!values.email && emailValidationRegExp.test(values.email);
-        const isPhoneNumberValid =
-            !!values.phoneNumber && values.phoneNumber.length >= 10;
-
-        if (!isEmailValid && !isPhoneNumberValid) {
-            setFieldValue('verificationMethod', null);
-        } else if (isEmailValid && !isPhoneNumberValid) {
-            setFieldValue('verificationMethod', 'email');
-        } else if (!isEmailValid && isPhoneNumberValid) {
-            setFieldValue('verificationMethod', 'phone');
-        } else {
-            setFieldValue('verificationMethod', null);
-        }
-    };
-
     return (
         <Formik
             preventDefault
@@ -298,6 +278,28 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
             {({ isValid, isSubmitting, values, setFieldValue, errors }) => {
+                const handleVerificationMethod = (
+                    updatedField: { email?: string; phoneNumber?: string },
+                    setFieldValue: (field: string, value: any) => void
+                ) => {
+                    const email = updatedField.email ?? values.email;
+                    const phoneNumber =
+                        updatedField.phoneNumber ?? values.phoneNumber;
+
+                    const isEmailValid = email?.match(emailValidationRegExp);
+                    const isPhoneNumberValid = phoneNumber?.length >= 10;
+
+                    if (isEmailValid && isPhoneNumberValid) {
+                        setFieldValue('verificationMethod', null);
+                    } else if (isEmailValid) {
+                        setFieldValue('verificationMethod', 'email');
+                    } else if (isPhoneNumberValid) {
+                        setFieldValue('verificationMethod', 'phone');
+                    } else {
+                        setFieldValue('verificationMethod', null);
+                    }
+                };
+
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
@@ -344,9 +346,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         'Forms.RegisterForm.enterYourEmail'
                                     )}
                                     label={t('Forms.RegisterForm.email')}
-                                    onCustomChange={() =>
+                                    onCustomChange={(
+                                        e: ChangeEvent<HTMLInputElement>
+                                    ) =>
                                         handleVerificationMethod(
-                                            values,
+                                            { email: e.target.value },
                                             setFieldValue
                                         )
                                     }
@@ -366,9 +370,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                         placeholder={t(
                                             'Forms.RegisterForm.enterNumber'
                                         )}
-                                        onCustomChange={() =>
+                                        onCustomChange={(value) =>
                                             handleVerificationMethod(
-                                                values,
+                                                { phoneNumber: value },
                                                 setFieldValue
                                             )
                                         }
