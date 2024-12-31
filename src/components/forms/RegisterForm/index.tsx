@@ -302,11 +302,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     }
                 };
 
-                console.log('values', values);
-                console.log('isValid', isValid);
-                console.log('isSubmitting', isSubmitting);
-                console.log('errors', errors);
-
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
