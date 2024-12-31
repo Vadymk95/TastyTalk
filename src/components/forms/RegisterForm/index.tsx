@@ -15,6 +15,13 @@ import {
     UsernameInput
 } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
+import {
+    emailValidationRegExp,
+    nameRegExp,
+    passwordRegExp,
+    userNameMatchesRegExp,
+    userNameRegExp
+} from '@root/constants/regExps';
 import { generateUsername, validatePhoneNumber } from '@root/helpers';
 import { useGetAuthErrorMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
@@ -120,29 +127,23 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         .shape({
             username: Yup.string()
                 .matches(
-                    /^[a-zA-Z0-9_]+$/,
+                    userNameRegExp,
                     t('Forms.RegisterForm.usernameInvalid')
                 )
                 .matches(
-                    /[a-zA-Z]/,
+                    userNameMatchesRegExp,
                     t('Forms.RegisterForm.usernameMustContainLetter')
                 )
                 .min(4, t('Forms.RegisterForm.usernameMinLength'))
                 .max(16, t('Forms.RegisterForm.usernameMaxLength'))
                 .required(t('Forms.RegisterForm.requiredField')),
             firstName: Yup.string()
-                .matches(
-                    /^[a-zA-Zа-яА-Я]+$/,
-                    t('Forms.RegisterForm.firstNameInvalid')
-                )
+                .matches(nameRegExp, t('Forms.RegisterForm.firstNameInvalid'))
                 .min(2, t('Forms.RegisterForm.firstNameMinLength'))
                 .max(16, t('Forms.RegisterForm.firstNameMaxLength'))
                 .required(t('Forms.RegisterForm.requiredField')),
             lastName: Yup.string()
-                .matches(
-                    /^[a-zA-Zа-яА-Я]+$/,
-                    t('Forms.RegisterForm.lastNameInvalid')
-                )
+                .matches(nameRegExp, t('Forms.RegisterForm.lastNameInvalid'))
                 .min(2, t('Forms.RegisterForm.lastNameMinLength'))
                 .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
                 .required(t('Forms.RegisterForm.requiredField')),
@@ -151,7 +152,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .min(6, t('Forms.RegisterForm.emailMinLength'))
                 .max(50, t('Forms.RegisterForm.emailMaxLength'))
                 .matches(
-                    /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+                    emailValidationRegExp,
                     t('Forms.RegisterForm.emailNotValid')
                 )
                 .nullable(),
@@ -178,7 +179,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             password: Yup.string()
                 .min(6, t('Forms.RegisterForm.passwordMinLength'))
                 .matches(
-                    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/,
+                    passwordRegExp,
                     t('Forms.RegisterForm.passwordComplexity')
                 )
                 .required(t('Forms.RegisterForm.requiredField')),
@@ -286,7 +287,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 ) => {
                     const isEmailValid =
                         !!values.email &&
-                        /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(values.email);
+                        emailValidationRegExp.test(values.email);
                     const isPhoneNumberValid =
                         !!values.phoneNumber && values.phoneNumber.length >= 10;
 
@@ -300,6 +301,11 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                         setFieldValue('verificationMethod', null);
                     }
                 };
+
+                console.log('values', values);
+                console.log('isValid', isValid);
+                console.log('isSubmitting', isSubmitting);
+                console.log('errors', errors);
 
                 return (
                     <Form>

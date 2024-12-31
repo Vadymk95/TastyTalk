@@ -98,6 +98,8 @@ export const PhoneNumberInput: FC<PhoneInputProps> = ({
                                         form.setFieldValue(name, value);
                                     }
 
+                                    form.validateField(name);
+
                                     setCountry(countryData as CountryData);
                                 }
 
