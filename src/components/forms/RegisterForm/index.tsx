@@ -150,6 +150,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .email(t('Forms.RegisterForm.emailNotValid'))
                 .min(6, t('Forms.RegisterForm.emailMinLength'))
                 .max(50, t('Forms.RegisterForm.emailMaxLength'))
+                .matches(
+                    /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+                    t('Forms.RegisterForm.emailNotValid')
+                )
                 .nullable(),
             phoneNumber: Yup.string()
                 .min(10, t('Forms.RegisterForm.phoneNumberNotValid'))
@@ -164,7 +168,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .nullable()
                 .when(['email', 'phoneNumber'], {
                     is: (email: string | null, phoneNumber: string | null) =>
-                        !!email && !!phoneNumber,
+                        !!email && !!phoneNumber && phoneNumber.length >= 10,
                     then: (schema) =>
                         schema.required(
                             t('Forms.RegisterForm.selectVerificationMethod')
@@ -198,8 +202,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     firstName,
                     lastName
                 } = values;
-                const hasEmailOrPhoneNumber = !!email || !!phoneNumber;
-                const hasEmailAndPhoneNumber = !!email && !!phoneNumber;
+                const isPhoneValid = !!phoneNumber && phoneNumber.length >= 10;
+                const hasEmailOrPhoneNumber =
+                    (!!email && !phoneNumber) || isPhoneValid;
+                const hasEmailAndPhoneNumber = !!email && isPhoneValid;
                 const hasAllFields =
                     !!username &&
                     !!password &&
@@ -267,12 +273,13 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         <Formik
             preventDefault
             validateOnBlur
+            validateOnChange
             validateOnMount
             initialValues={initialValues}
             validationSchema={RegisterSchema}
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
-            {({ isValid, isSubmitting, values, setFieldValue }) => {
+            {({ isValid, isSubmitting, values, setFieldValue, errors }) => {
                 const handleVerificationMethod = (
                     values: RegisterFormValues,
                     setFieldValue: (field: string, value: any) => void
@@ -391,7 +398,9 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     )}
                                 />
 
-                                {values.email &&
+                                {!errors['phoneNumber'] &&
+                                    !errors['email'] &&
+                                    values.email &&
                                     values.phoneNumber.length >= 10 && (
                                         <div className="auth-input-wrapper">
                                             <p className="text-sm label">

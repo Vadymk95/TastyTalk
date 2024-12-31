@@ -12,17 +12,25 @@ export const useUserCountry = () => {
             try {
                 const response = await fetch(ipapi);
                 if (!response.ok) {
+                    console.error(
+                        `API response not OK. Status: ${response.status}`
+                    );
                     throw new Error('Failed to fetch user country');
                 }
                 const data = await response.json();
 
                 if (data?.country_code) {
-                    return data.country_code.toLowerCase();
+                    const countryCode = data.country_code.toLowerCase();
+                    return countryCode;
                 } else {
+                    console.warn('Country code missing in API response');
                     throw new Error('Invalid country code');
                 }
             } catch (error) {
-                console.error('Error fetching user country:', error);
+                console.error(
+                    'Error occurred while fetching user country:',
+                    error
+                );
 
                 const languageBasedCountry = getCountryFromLanguage();
                 if (languageBasedCountry) {
