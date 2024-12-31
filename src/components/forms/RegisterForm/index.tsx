@@ -148,14 +148,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                 .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
                 .required(t('Forms.RegisterForm.requiredField')),
             email: Yup.string()
-                .email(t('Forms.RegisterForm.emailNotValid'))
                 .min(6, t('Forms.RegisterForm.emailMinLength'))
                 .max(50, t('Forms.RegisterForm.emailMaxLength'))
                 .matches(
                     emailValidationRegExp,
                     t('Forms.RegisterForm.emailNotValid')
-                )
-                .nullable(),
+                ),
             phoneNumber: Yup.string()
                 .min(10, t('Forms.RegisterForm.phoneNumberNotValid'))
                 .test(
@@ -163,8 +161,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     t('Forms.RegisterForm.phoneNumberNotValid'),
                     (value) =>
                         !value || validatePhoneNumber(value || '', countryCode)
-                )
-                .nullable(),
+                ),
             verificationMethod: Yup.string()
                 .nullable()
                 .when(['email', 'phoneNumber'], {
@@ -270,6 +267,26 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         }
     }, [checkUsernameAvailability, initialValues]);
 
+    const handleVerificationMethod = (
+        values: RegisterFormValues,
+        setFieldValue: (field: string, value: any) => void
+    ) => {
+        const isEmailValid =
+            !!values.email && emailValidationRegExp.test(values.email);
+        const isPhoneNumberValid =
+            !!values.phoneNumber && values.phoneNumber.length >= 10;
+
+        if (!isEmailValid && !isPhoneNumberValid) {
+            setFieldValue('verificationMethod', null);
+        } else if (isEmailValid && !isPhoneNumberValid) {
+            setFieldValue('verificationMethod', 'email');
+        } else if (!isEmailValid && isPhoneNumberValid) {
+            setFieldValue('verificationMethod', 'phone');
+        } else {
+            setFieldValue('verificationMethod', null);
+        }
+    };
+
     return (
         <Formik
             preventDefault
@@ -281,27 +298,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
             {({ isValid, isSubmitting, values, setFieldValue, errors }) => {
-                const handleVerificationMethod = (
-                    values: RegisterFormValues,
-                    setFieldValue: (field: string, value: any) => void
-                ) => {
-                    const isEmailValid =
-                        !!values.email &&
-                        emailValidationRegExp.test(values.email);
-                    const isPhoneNumberValid =
-                        !!values.phoneNumber && values.phoneNumber.length >= 10;
-
-                    if (!isEmailValid && !isPhoneNumberValid) {
-                        setFieldValue('verificationMethod', null);
-                    } else if (isEmailValid && !isPhoneNumberValid) {
-                        setFieldValue('verificationMethod', 'email');
-                    } else if (!isEmailValid && isPhoneNumberValid) {
-                        setFieldValue('verificationMethod', 'phone');
-                    } else {
-                        setFieldValue('verificationMethod', null);
-                    }
-                };
-
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
