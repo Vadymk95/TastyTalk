@@ -48,7 +48,7 @@ const PhoneNumberVerificationPage: FC = () => {
             }, 1000);
         } catch (error: any) {
             setResendStatus('error');
-            console.error('Error when resending the email:', error);
+            console.error('Error when resending the code:', error);
         }
     };
 
@@ -84,25 +84,27 @@ const PhoneNumberVerificationPage: FC = () => {
                 </div>
 
                 <h2 className="text-2xl font-semibold text-neutral-dark mb-2">
-                    {t('EmailVerificationPage.title')}
+                    {t('PhoneNumberVerificationPage.title')}
                 </h2>
 
                 <p className="text-neutral-400 text-base mb-6">
-                    {t('EmailVerificationPage.text')}
+                    {t('PhoneNumberVerificationPage.text')}
                 </p>
 
                 <Button onClick={handleGoToHome}>
-                    {t('EmailVerificationPage.goToHome')}
+                    {t('PhoneNumberVerificationPage.goToHome')}
                 </Button>
 
                 <p className="text-sm text-neutral-400 mt-4">
                     {resendStatus === 'sent' ? (
-                        <span>{t('EmailVerificationPage.emailSent')}</span>
+                        <span>{t('PhoneNumberVerificationPage.codeSent')}</span>
                     ) : resendStatus === 'error' ? (
-                        <span>{t('EmailVerificationPage.emailSendError')}</span>
+                        <span>
+                            {t('PhoneNumberVerificationPage.codeSendError')}
+                        </span>
                     ) : (
                         <>
-                            {t('EmailVerificationPage.resendEmailText')}{' '}
+                            {t('PhoneNumberVerificationPage.resendCodeText')}{' '}
                             <Link
                                 href="#"
                                 onClick={handleResendEmail}
@@ -113,8 +115,10 @@ const PhoneNumberVerificationPage: FC = () => {
                                 }`}
                             >
                                 {isCooldown
-                                    ? `${t('EmailVerificationPage.resendEmail')} (${cooldownTime}s)`
-                                    : t('EmailVerificationPage.resendEmail')}
+                                    ? `${t('PhoneNumberVerificationPage.resendCode')} (${cooldownTime}s)`
+                                    : t(
+                                          'PhoneNumberVerificationPage.resendCode'
+                                      )}
                             </Link>
                         </>
                     )}

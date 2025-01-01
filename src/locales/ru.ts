@@ -14,6 +14,15 @@ export const ru = {
                 emailSent: 'Письмо отправлено',
                 emailSendError: 'Ошибка отправки письма'
             },
+            PhoneNumberVerificationPage: {
+                title: 'Подтвердите свой номер телефона',
+                text: 'На ваш номер телефона отправлен 6-значный код. Пожалуйста, введите его, чтобы завершить регистрацию.',
+                goToHome: 'Перейти на главную',
+                resendCodeText: 'Не получили код?',
+                resendCode: 'Отправить еще раз',
+                codeSent: 'Код отправлен',
+                codeSendError: 'Ошибка отправки кода'
+            },
             FollowingPage: {
                 title: 'Подписки',
                 description:

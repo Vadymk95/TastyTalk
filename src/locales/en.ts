@@ -14,6 +14,15 @@ export const en = {
                 emailSent: 'Email has been sent',
                 emailSendError: 'Error sending email'
             },
+            PhoneNumberVerificationPage: {
+                title: 'Confirm your phone number',
+                text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
+                goToHome: 'Go to Homepage',
+                resendCodeText: 'Didn’t receive the code?',
+                resendCode: 'Resend code',
+                codeSent: 'Code has been sent',
+                codeSendError: 'Error sending code'
+            },
             FollowingPage: {
                 title: 'Following',
                 description: 'Here you can see the users you follow.'
