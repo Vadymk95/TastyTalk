@@ -167,10 +167,9 @@ export const ru = {
                     lastName: 'Фамилия',
                     password: 'Пароль',
                     confirmPassword: 'Подтвердите пароль',
-                    verificationMethodTitle:
-                        'Способ подтверждения учетной записи',
-                    viaPhone: 'Через телефон',
-                    viaEmail: 'Через Email',
+                    verificationMethodTitle: 'Способ подтверждения',
+                    viaPhone: 'Телефон',
+                    viaEmail: 'Email',
                     usernameInvalid:
                         'Имя пользователя может содержать только буквы, цифры и подчеркивания',
                     usernameMustContainLetter:

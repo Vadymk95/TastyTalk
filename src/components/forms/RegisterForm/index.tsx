@@ -291,8 +291,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                     setSelectedWithRadio(false);
                 };
 
-                console.log(values);
-
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
@@ -380,12 +378,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
                                 {shouldShowRadio && (
                                     <div className="auth-input-wrapper">
-                                        <p className="text-sm label">
+                                        <p className="label">
                                             {t(
                                                 'Forms.RegisterForm.verificationMethodTitle'
                                             )}
                                         </p>
-                                        <div className="flex gap-2 mt-0.5 h-[50.6px]">
+                                        <div className="flex gap-2 h-[50.6px]">
                                             <RadioButton
                                                 className="w-full"
                                                 name="verificationMethod"
