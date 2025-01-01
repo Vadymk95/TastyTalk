@@ -51,10 +51,7 @@ interface AuthState {
         currentPassword: string,
         newPassword: string
     ) => Promise<boolean>;
-    signInWithEmailOrUsername: (
-        emailOrUsername: string,
-        password: string
-    ) => Promise<boolean | null>;
+    signIn: (loginData: string, password: string) => Promise<boolean | null>;
     signInWithGoogle: () => Promise<boolean | null>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
@@ -163,21 +160,28 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     setError: (error) => set({ error }),
     clearError: () => set({ error: null }),
 
-    signInWithEmailOrUsername: async (
-        emailOrUsername: string,
-        password: string
-    ) => {
+    signIn: async (loginData: string, password: string) => {
         set({ loading: true });
         try {
             set({ error: null });
-            let email = emailOrUsername;
-
-            if (!/\S+@\S+\.\S+/.test(emailOrUsername)) {
+            let email = loginData;
+            if (loginData.startsWith('+')) {
+                const phoneWithoutPlus = loginData.slice(1);
                 const usersRef = collection(db, 'users');
                 const q = query(
                     usersRef,
-                    where('username', '==', emailOrUsername)
+                    where('phoneNumber', '==', phoneWithoutPlus)
                 );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const userDoc = querySnapshot.docs[0];
+                    email = userDoc.data().email;
+                } else {
+                    throw new Error('auth/invalid-phone-number');
+                }
+            } else if (!/\S+@\S+\.\S+/.test(loginData)) {
+                const usersRef = collection(db, 'users');
+                const q = query(usersRef, where('username', '==', loginData));
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
                     const userDoc = querySnapshot.docs[0];
