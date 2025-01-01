@@ -36,10 +36,7 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const protectedRoutesForPaid = [routes.mealsPlan];
     const protectedRoutesForStandard = [routes.mealsPlanCreate];
 
-    console.log(userProfile);
-
     if (!initialized) {
-        console.log(1);
         return <Loader />;
     }
 
@@ -48,7 +45,6 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
             location.pathname === routes.phoneNumberVerification) &&
         userProfile?.verified
     ) {
-        console.log(2);
         return <Navigate to={routes.home} />;
     }
 
@@ -56,7 +52,6 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
         protectedRoutesForRegistered.includes(location.pathname) &&
         !isRegistered
     ) {
-        console.log(3);
         return <Navigate to={routes.home} />;
     }
 
@@ -64,17 +59,14 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
         protectedRoutesForVerified.includes(location.pathname) &&
         !userProfile?.verified
     ) {
-        console.log(4);
         return <Navigate to={routes.home} />;
     }
 
     if (protectedRoutesForPaid.includes(location.pathname) && !hasPlan) {
-        console.log(5);
         return <Navigate to={routes.home} />;
     }
 
     if (protectedRoutesForStandard.includes(location.pathname) && !isStandard) {
-        console.log(6);
         return <Navigate to={routes.home} />;
     }
 

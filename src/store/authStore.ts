@@ -95,30 +95,37 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             if (user) {
-                const isEmailVerified = user.emailVerified;
-                const shouldVerifyEmail = !isEmailVerified && !isRegistered;
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                const userProfile = userSnap.exists()
+                    ? (userSnap.data() as UserProfile)
+                    : null;
+
+                const isVerified =
+                    user.emailVerified || (userProfile?.verified ?? false);
 
                 set({
                     user,
                     isRegistered,
                     initialized: true,
-                    userProfile: null
+                    userProfile: userProfile
+                        ? { ...userProfile, verified: isVerified }
+                        : null
                 });
 
-                if (isRegistered) {
-                    await get().loadUserProfile(user.uid);
-                    const { userProfile } = get();
-                    if (userProfile) {
-                        set({
-                            userProfile: {
-                                ...userProfile,
-                                verified: true
-                            }
-                        });
-                    }
+                if (
+                    isRegistered &&
+                    userProfile &&
+                    userProfile.verified !== isVerified
+                ) {
+                    await setDoc(
+                        userRef,
+                        { verified: isVerified },
+                        { merge: true }
+                    );
                 }
 
-                if (shouldVerifyEmail) {
+                if (!isVerified && !isRegistered) {
                     await sendEmailVerification(user);
                 }
             } else {
