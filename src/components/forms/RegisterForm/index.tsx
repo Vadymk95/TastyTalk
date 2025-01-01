@@ -58,6 +58,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         loadUserProfile
     } = useAuthStore();
     const [countryCode, setCountryCode] = useState('');
+    const [selectedWithRadio, setSelectedWithRadio] = useState(false);
     const { openModal, closeModal } = useModalStore();
     const isTemporaryUser = !!user && !isRegistered;
 
@@ -73,26 +74,12 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         openModal(ModalsEnum.RegisterRulesAndPrivacy);
 
     const handleRegisterSubmit = async (values: RegisterFormValues) => {
-        const { email, phoneNumber, verificationMethod } = values;
-
-        if (!email && !phoneNumber) {
-            console.error('Either email or phone number is required');
-            return;
-        }
-
-        if (email && phoneNumber && !verificationMethod) {
-            console.error(
-                'Verification method is required when both email and phone number are provided'
-            );
-            return;
-        }
-
         clearError();
         try {
             await registerWithEmailAndProfile(
-                email,
-                phoneNumber,
-                verificationMethod || (email ? 'email' : 'phone'),
+                values.email,
+                values.phoneNumber,
+                values.verificationMethod as VerificationMethod,
                 values.username,
                 values.password,
                 values.firstName,
@@ -107,7 +94,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
             const updatedUserProfile = useAuthStore.getState().userProfile;
             const verificationPage =
-                verificationMethod === 'email'
+                values.verificationMethod === 'email'
                     ? navigation(routes.emailVerification)
                     : navigation(routes.phoneNumberVerification);
 
@@ -278,6 +265,34 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             onSubmit={(values) => handleRegisterSubmit(values)}
         >
             {({ isValid, isSubmitting, values, setFieldValue, errors }) => {
+                const shouldShowRadio =
+                    !errors['phoneNumber'] &&
+                    !errors['email'] &&
+                    !!values.email &&
+                    !!values.phoneNumber;
+                const updateVerificationMethod = () => {
+                    const isEmailValid = !!values.email && !errors['email'];
+                    const isPhoneValid =
+                        !!values.phoneNumber && !errors['phoneNumber'];
+                    const bothValid = isEmailValid && isPhoneValid;
+
+                    if (selectedWithRadio && bothValid) return;
+
+                    if (bothValid) {
+                        setFieldValue('verificationMethod', null);
+                    } else if (isEmailValid) {
+                        setFieldValue('verificationMethod', 'email');
+                    } else if (isPhoneValid) {
+                        setFieldValue('verificationMethod', 'phone');
+                    } else {
+                        setFieldValue('verificationMethod', null);
+                    }
+
+                    setSelectedWithRadio(false);
+                };
+
+                console.log(values);
+
                 return (
                     <Form>
                         <section className="flex gap-10 md:block">
@@ -363,54 +378,53 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     )}
                                 />
 
-                                {!errors['phoneNumber'] &&
-                                    !errors['email'] &&
-                                    values.email &&
-                                    values.phoneNumber.length >= 10 && (
-                                        <div className="auth-input-wrapper">
-                                            <p className="text-sm label">
-                                                {t(
-                                                    'Forms.RegisterForm.verificationMethodTitle'
+                                {shouldShowRadio && (
+                                    <div className="auth-input-wrapper">
+                                        <p className="text-sm label">
+                                            {t(
+                                                'Forms.RegisterForm.verificationMethodTitle'
+                                            )}
+                                        </p>
+                                        <div className="flex gap-2 mt-0.5 h-[50.6px]">
+                                            <RadioButton
+                                                className="w-full"
+                                                name="verificationMethod"
+                                                value="email"
+                                                selectedValue={
+                                                    values.verificationMethod
+                                                }
+                                                onChange={(value) => {
+                                                    setSelectedWithRadio(true);
+                                                    setFieldValue(
+                                                        'verificationMethod',
+                                                        value
+                                                    );
+                                                }}
+                                                label={t(
+                                                    'Forms.RegisterForm.viaEmail'
                                                 )}
-                                            </p>
-                                            <div className="flex gap-2 mt-0.5 h-[50.6px]">
-                                                <RadioButton
-                                                    className="w-full"
-                                                    name="verificationMethod"
-                                                    value="email"
-                                                    selectedValue={
-                                                        values.verificationMethod
-                                                    }
-                                                    onChange={(value) =>
-                                                        setFieldValue(
-                                                            'verificationMethod',
-                                                            value
-                                                        )
-                                                    }
-                                                    label={t(
-                                                        'Forms.RegisterForm.viaEmail'
-                                                    )}
-                                                />
-                                                <RadioButton
-                                                    className="w-full"
-                                                    name="verificationMethod"
-                                                    value="phone"
-                                                    selectedValue={
-                                                        values.verificationMethod
-                                                    }
-                                                    onChange={(value) =>
-                                                        setFieldValue(
-                                                            'verificationMethod',
-                                                            value
-                                                        )
-                                                    }
-                                                    label={t(
-                                                        'Forms.RegisterForm.viaPhone'
-                                                    )}
-                                                />
-                                            </div>
+                                            />
+                                            <RadioButton
+                                                className="w-full"
+                                                name="verificationMethod"
+                                                value="phone"
+                                                selectedValue={
+                                                    values.verificationMethod
+                                                }
+                                                onChange={(value) => {
+                                                    setSelectedWithRadio(true);
+                                                    setFieldValue(
+                                                        'verificationMethod',
+                                                        value
+                                                    );
+                                                }}
+                                                label={t(
+                                                    'Forms.RegisterForm.viaPhone'
+                                                )}
+                                            />
                                         </div>
-                                    )}
+                                    </div>
+                                )}
                             </div>
                         </section>
 
@@ -418,7 +432,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                             <Button
                                 size="large"
                                 className={`w-full ${error ? 'mb-5 md:mb-3' : 'mb-8 md:mb-7'}`}
-                                onClick={handleRulesAndPrivacyModalOpen}
+                                onClick={() => {
+                                    updateVerificationMethod();
+                                    handleRulesAndPrivacyModalOpen();
+                                }}
                                 disabled={
                                     !isValid ||
                                     isSubmitting ||
