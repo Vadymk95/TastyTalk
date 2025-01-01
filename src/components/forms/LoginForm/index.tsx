@@ -120,16 +120,18 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
 
                         <div className="divider" />
 
-                        <Input
-                            className="auth-input-wrapper"
-                            name="emailOrUsername"
-                            type="text"
-                            placeholder={t(
-                                'Forms.LoginForm.emailOrUsernamePlaceholder'
-                            )}
-                            isRequired
-                            label={t('Forms.LoginForm.emailOrUsername')}
-                        />
+                        <div className="auth-input-wrapper">
+                            <Input
+                                name="emailOrUsername"
+                                type="text"
+                                placeholder={t('Forms.LoginForm.login')}
+                                isRequired
+                                label={t('Forms.LoginForm.login')}
+                            />
+                            <p className="mt-3 text-xs label">
+                                {t('Forms.LoginForm.loginDescription')}
+                            </p>
+                        </div>
 
                         <Input
                             className="auth-input-wrapper"

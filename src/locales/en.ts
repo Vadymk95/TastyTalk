@@ -147,8 +147,9 @@ export const en = {
                     actionSignUp: 'Sign Up',
                     signIn: 'Sign In',
                     dontHaveAccount: "Don't have an account?",
-                    emailOrUsername: 'Email or Username',
-                    emailOrUsernamePlaceholder: 'Enter your email or username',
+                    login: 'Login',
+                    loginDescription:
+                        '*Enter your username, email, or phone number in international format (starting with "+").',
                     password: 'Password',
                     requiredField: 'This field is required',
                     emailNotValid: 'Email is not valid',

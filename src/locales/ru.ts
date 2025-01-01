@@ -148,9 +148,9 @@ export const ru = {
                     actionSignUp: 'Зарегистрироваться',
                     signIn: 'Войти',
                     dontHaveAccount: 'У вас еще нет аккаунта?',
-                    emailOrUsername: 'Email или имя пользователя',
-                    emailOrUsernamePlaceholder:
-                        'Введите ваш email или имя пользователя',
+                    login: 'Логин',
+                    loginDescription:
+                        '*Введите имя пользователя, email или номер телефона в международном формате (начиная с "+").',
                     password: 'Пароль',
                     requiredField: 'Это поле обязательно',
                     emailNotValid: 'Email не валидный',
