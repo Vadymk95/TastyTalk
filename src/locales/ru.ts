@@ -10,9 +10,10 @@ export const ru = {
                 text: 'На вашу электронную почту отправлено письмо. Пожалуйста, подтвердите его, чтобы завершить регистрацию.',
                 goToHome: 'На главную',
                 goToPhoneNumberVerify: 'Подтвердить через телефон',
+                editEmail: 'Изменить email',
                 resendEmailText: 'Не получили письмо?',
                 resendEmail: 'Отправить еще раз',
-                emailSent: 'Письмо отправлено',
+                emailSent: 'Письмо отправлено. Повторно можно отправить через',
                 emailSendError: 'Ошибка отправки письма'
             },
             PhoneNumberVerificationPage: {
@@ -20,9 +21,10 @@ export const ru = {
                 text: 'На ваш номер телефона отправлен 6-значный код. Пожалуйста, введите его, чтобы завершить регистрацию.',
                 goToHome: 'На главную',
                 goToEmailVerify: 'Подтвердить через Email',
+                editPhoneNumber: 'Изменить номер телефона',
                 resendCodeText: 'Не получили код?',
                 resendCode: 'Отправить еще раз',
-                codeSent: 'Код отправлен',
+                codeSent: 'Код отправлен. Повторно можно отправить через',
                 codeSendError: 'Ошибка отправки кода'
             },
             FollowingPage: {

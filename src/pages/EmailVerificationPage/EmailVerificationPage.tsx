@@ -1,12 +1,17 @@
+import { Form, Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Link } from '@root/components/ui';
+import { Button, Input } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCancel,
+    faCheck,
+    faEnvelope
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const EmailVerificationPage: FC = () => {
@@ -17,6 +22,7 @@ const EmailVerificationPage: FC = () => {
         userProfile,
         checkEmailVerificationStatus
     } = useAuthStore();
+    const [showEditForm, setShowEditForm] = useState(false);
     const [checking, setChecking] = useState(false);
 
     const [resendStatus, setResendStatus] = useState<'idle' | 'sent' | 'error'>(
@@ -54,6 +60,12 @@ const EmailVerificationPage: FC = () => {
             setResendStatus('error');
             console.error('Error when resending the email:', error);
         }
+    };
+
+    const handleShowEditForm = () => setShowEditForm((prev) => !prev);
+
+    const handleSubmit = async (values: { email: string }) => {
+        console.log(values);
     };
 
     useEffect(() => {
@@ -111,28 +123,74 @@ const EmailVerificationPage: FC = () => {
 
                 <p className="text-sm text-neutral-400 mt-4">
                     {resendStatus === 'sent' ? (
-                        <span>{t('EmailVerificationPage.emailSent')}</span>
+                        <span>
+                            {t('EmailVerificationPage.emailSent')}{' '}
+                            {`(${cooldownTime}s)`}
+                        </span>
                     ) : resendStatus === 'error' ? (
                         <span>{t('EmailVerificationPage.emailSendError')}</span>
                     ) : (
                         <>
                             {t('EmailVerificationPage.resendEmailText')}{' '}
-                            <Link
-                                href="#"
-                                onClick={handleResendEmail}
-                                className={`text-primary hover:text-primary-dark underline ${
-                                    isCooldown
-                                        ? 'pointer-events-none opacity-50'
-                                        : ''
-                                }`}
-                            >
-                                {isCooldown
-                                    ? `${t('EmailVerificationPage.resendEmail')} (${cooldownTime}s)`
-                                    : t('EmailVerificationPage.resendEmail')}
-                            </Link>
+                            <Button variant="link" onClick={handleResendEmail}>
+                                {t('EmailVerificationPage.resendEmail')}
+                            </Button>
                         </>
                     )}
                 </p>
+
+                {showEditForm ? (
+                    <Formik
+                        preventDefault
+                        validateOnChange
+                        validateOnBlur
+                        initialValues={{ email: '' }}
+                        onSubmit={handleSubmit}
+                    >
+                        {() => (
+                            <Form>
+                                <div className="w-full mt-6 text-start">
+                                    <Input
+                                        name="email"
+                                        label={'edit email asdasd asdas'}
+                                    />
+
+                                    <div className="flex justify-center gap-2 mt-4">
+                                        <Button
+                                            className="flex gap-2 items-center"
+                                            onClick={handleShowEditForm}
+                                        >
+                                            <FontAwesomeIcon icon={faCancel} />
+                                            <span>{t('General.cancel')}</span>
+                                        </Button>
+
+                                        <Button
+                                            className="flex gap-2 items-center"
+                                            type="submit"
+                                            variant="secondary"
+                                        >
+                                            <FontAwesomeIcon icon={faCheck} />
+                                            <span>{t('General.confirm')}</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                ) : (
+                    <p>
+                        <span className="text-neutral-400">
+                            {t('General.or')}
+                        </span>
+                        <Button
+                            onClick={handleShowEditForm}
+                            variant="link"
+                            className="ml-1"
+                        >
+                            {t('EmailVerificationPage.editEmail')}
+                        </Button>
+                    </p>
+                )}
             </div>
         </div>
     );

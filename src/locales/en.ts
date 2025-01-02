@@ -10,9 +10,10 @@ export const en = {
                 text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
                 goToHome: 'Home',
                 goToPhoneNumberVerify: 'Phone number Verification',
+                editEmail: 'Edit Email',
                 resendEmailText: 'Didn’t receive the email?',
                 resendEmail: 'Resend Email',
-                emailSent: 'Email has been sent',
+                emailSent: 'Email has been sent. You can resend it in',
                 emailSendError: 'Error sending email'
             },
             PhoneNumberVerificationPage: {
@@ -20,9 +21,10 @@ export const en = {
                 text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
                 goToHome: 'Home',
                 goToEmailVerify: 'Email Verification',
+                editPhoneNumber: 'Edit Phone Number',
                 resendCodeText: 'Didn’t receive the code?',
                 resendCode: 'Resend code',
-                codeSent: 'Code has been sent',
+                codeSent: 'Code has been sent. You can resend it in',
                 codeSendError: 'Error sending code'
             },
             FollowingPage: {

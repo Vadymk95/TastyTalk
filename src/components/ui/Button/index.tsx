@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary' | 'accent' | 'close' | 'neutral';
+    variant?: 'primary' | 'secondary' | 'accent' | 'close' | 'neutral' | 'link';
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
     className?: string;

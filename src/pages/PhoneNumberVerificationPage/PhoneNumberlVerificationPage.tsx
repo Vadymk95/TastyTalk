@@ -1,12 +1,13 @@
+import { Form, Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Link } from '@root/components/ui';
+import { Button, PhoneNumberInput } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faCancel, faCheck, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PhoneNumberVerificationPage: FC = () => {
@@ -17,7 +18,9 @@ const PhoneNumberVerificationPage: FC = () => {
         userProfile,
         checkEmailVerificationStatus
     } = useAuthStore();
+    const [showEditForm, setShowEditForm] = useState(false);
     const [checking, setChecking] = useState(false);
+    const [countryCode, setCountryCode] = useState('');
 
     const [resendStatus, setResendStatus] = useState<'idle' | 'sent' | 'error'>(
         'idle'
@@ -51,6 +54,12 @@ const PhoneNumberVerificationPage: FC = () => {
             setResendStatus('error');
             console.error('Error when resending the code:', error);
         }
+    };
+
+    const handleShowEditForm = () => setShowEditForm((prev) => !prev);
+
+    const handleSubmit = async (values: { phoneNumber: string }) => {
+        console.log(values);
     };
 
     useEffect(() => {
@@ -108,7 +117,10 @@ const PhoneNumberVerificationPage: FC = () => {
 
                 <p className="text-sm text-neutral-400 mt-4">
                     {resendStatus === 'sent' ? (
-                        <span>{t('PhoneNumberVerificationPage.codeSent')}</span>
+                        <span>
+                            {t('PhoneNumberVerificationPage.codeSent')}{' '}
+                            {`(${cooldownTime}s)`}
+                        </span>
                     ) : resendStatus === 'error' ? (
                         <span>
                             {t('PhoneNumberVerificationPage.codeSendError')}
@@ -116,24 +128,67 @@ const PhoneNumberVerificationPage: FC = () => {
                     ) : (
                         <>
                             {t('PhoneNumberVerificationPage.resendCodeText')}{' '}
-                            <Link
-                                href="#"
-                                onClick={handleResendEmail}
-                                className={`text-primary hover:text-primary-dark underline ${
-                                    isCooldown
-                                        ? 'pointer-events-none opacity-50'
-                                        : ''
-                                }`}
-                            >
-                                {isCooldown
-                                    ? `${t('PhoneNumberVerificationPage.resendCode')} (${cooldownTime}s)`
-                                    : t(
-                                          'PhoneNumberVerificationPage.resendCode'
-                                      )}
-                            </Link>
+                            <Button onClick={handleResendEmail} variant="link">
+                                {t('PhoneNumberVerificationPage.resendCode')}
+                            </Button>
                         </>
                     )}
                 </p>
+
+                {showEditForm ? (
+                    <Formik
+                        preventDefault
+                        validateOnChange
+                        validateOnBlur
+                        initialValues={{ phoneNumber: '' }}
+                        onSubmit={handleSubmit}
+                    >
+                        {() => (
+                            <Form>
+                                <div className="w-full mt-6 text-start">
+                                    <PhoneNumberInput
+                                        name="phoneNumber"
+                                        label={'edit phone asdasdas as'}
+                                        setCode={setCountryCode}
+                                        code={countryCode}
+                                    />
+
+                                    <div className="flex justify-center gap-2 mt-4">
+                                        <Button
+                                            className="flex gap-2 items-center"
+                                            onClick={handleShowEditForm}
+                                        >
+                                            <FontAwesomeIcon icon={faCancel} />
+                                            <span>{t('General.cancel')}</span>
+                                        </Button>
+
+                                        <Button
+                                            className="flex gap-2 items-center"
+                                            type="submit"
+                                            variant="secondary"
+                                        >
+                                            <FontAwesomeIcon icon={faCheck} />
+                                            <span>{t('General.confirm')}</span>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                ) : (
+                    <p>
+                        <span className="text-neutral-400">
+                            {t('General.or')}
+                        </span>
+                        <Button
+                            onClick={handleShowEditForm}
+                            variant="link"
+                            className="ml-1"
+                        >
+                            {t('PhoneNumberVerificationPage.editPhoneNumber')}
+                        </Button>
+                    </p>
+                )}
             </div>
         </div>
     );
