@@ -8,9 +8,9 @@ export const ru = {
             EmailVerificationPage: {
                 title: 'Подтвердите свой адрес электронной почты',
                 text: 'На вашу электронную почту отправлено письмо. Пожалуйста, подтвердите его, чтобы завершить регистрацию.',
+                goTo: 'Перейти на:',
                 goToHome: 'На главную',
                 goToPhoneNumberVerify: 'Подтвердить через телефон',
-                editEmail: 'Изменить email',
                 resendEmailText: 'Не получили письмо?',
                 resendEmail: 'Отправить еще раз',
                 emailSent: 'Письмо отправлено. Повторно можно отправить через',
@@ -19,9 +19,9 @@ export const ru = {
             PhoneNumberVerificationPage: {
                 title: 'Подтвердите свой номер телефона',
                 text: 'На ваш номер телефона отправлен 6-значный код. Пожалуйста, введите его, чтобы завершить регистрацию.',
+                goTo: 'Перейти на:',
                 goToHome: 'На главную',
                 goToEmailVerify: 'Подтвердить через Email',
-                editPhoneNumber: 'Изменить номер телефона',
                 resendCodeText: 'Не получили код?',
                 resendCode: 'Отправить еще раз',
                 codeSent: 'Код отправлен. Повторно можно отправить через',
@@ -266,6 +266,27 @@ export const ru = {
                     addSocialNetwork: 'Добавить соц. сеть',
                     save: 'Сохранить изменения',
                     successMessage: 'Изменения сохранены'
+                },
+                EditEmailForm: {
+                    editEmail: 'Изменить email',
+                    editEmailPlaceholder: 'Введите ваш Email',
+                    emailNotValid: 'Email не валидный',
+                    emailMinLength: 'Email должен быть не менее 6 символов',
+                    emailMaxLength: 'Email должен быть не более 50 символов',
+                    successMessage:
+                        'Изменения сохранены. Письмо повторно отправлено.',
+                    password: 'Пароль',
+                    passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                    requiredField: 'Это поле обязательно'
+                },
+                EditPhoneNumberForm: {
+                    editPhoneNumber: 'Изменить номер телефона',
+                    successMessage:
+                        'Изменения сохранены. Код повторно отправлен.',
+                    password: 'Пароль',
+                    passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                    requiredField: 'Это поле обязательно',
+                    phoneNumberNotValid: 'Номер телефона не валидный'
                 },
                 ChangePasswordForm: {
                     description:

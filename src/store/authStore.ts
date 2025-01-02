@@ -13,6 +13,7 @@ import {
     signInWithPopup,
     signInWithRedirect,
     signOut,
+    updateEmail,
     updatePassword,
     updateProfile,
     User,
@@ -47,6 +48,7 @@ interface AuthState {
     isRegistered: boolean;
     initialized: boolean;
     editProfile: (profileData: UpdateProfileData) => Promise<boolean>;
+    editEmail: (newEmail: string, currentPassword: string) => Promise<boolean>;
     changePassword: (
         currentPassword: string,
         newPassword: string
@@ -73,7 +75,7 @@ interface AuthState {
     clearError: () => void;
     setUser: (user: User | null, isRegistered?: boolean) => void;
     loadUserProfile: (uid: string) => Promise<void>;
-    checkEmailAndFirestoreAvailability: (email: string) => Promise<void>;
+    checkEmailAndFirestoreAvailability: (email: string) => Promise<boolean>;
     updateSubscriptionPlan: (plan: SubscriptionPlan) => Promise<void>;
     isMe: (username: string) => boolean;
     hasPaidPlan: () => boolean;
@@ -451,7 +453,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         profileData.username
                     );
                     if (!isAvailable) {
-                        throw new Error('Этот юзернейм уже занят');
+                        console.error('This username is already taken.');
+                        throw new Error('This username is already taken.');
                     }
                     const usernameLower = profileData.username.toLowerCase();
                     firestoreUpdates.username = profileData.username;
@@ -516,6 +519,62 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
 
+    editEmail: async (newEmail: string, currentPassword: string) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            const user = auth.currentUser;
+            if (!user) {
+                throw new Error('No user is currently signed in.');
+            }
+
+            const userRef = doc(db, 'users', user.uid);
+
+            const isAvailable =
+                await get().checkEmailAndFirestoreAvailability(newEmail);
+            if (!isAvailable) {
+                throw new Error('This email is already in use.');
+            }
+
+            const credential = EmailAuthProvider.credential(
+                user.email!,
+                currentPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+
+            const { userProfile } = get();
+            const firestoreUpdates: Partial<UserProfile> = {};
+
+            if (userProfile?.verified) {
+                await updateEmail(user, newEmail);
+                firestoreUpdates.email = newEmail;
+
+                await sendEmailVerification(user);
+            } else {
+                throw new Error('User is not verified.');
+            }
+
+            await setDoc(userRef, firestoreUpdates, { merge: true });
+
+            await user.reload();
+            set({ user: auth.currentUser });
+
+            const updatedUserSnap = await getDoc(userRef);
+            if (updatedUserSnap.exists()) {
+                set({ userProfile: updatedUserSnap.data() as UserProfile });
+            }
+
+            return true;
+        } catch (error: any) {
+            console.error('Edit Email Error:', error);
+            set({ error: error.message });
+            return false;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
     changePassword: async (currentPassword: string, newPassword: string) => {
         set({ loading: true });
         try {
@@ -543,14 +602,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     checkEmailAndFirestoreAvailability: async (
         email: string
-    ): Promise<void> => {
+    ): Promise<boolean> => {
         try {
             const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 
             if (signInMethods.length > 0) {
-                throw new Error(
+                console.error(
                     'This email is already registered. Please log in or verify your email.'
                 );
+                return false;
             }
 
             const usersRef = collection(db, 'users');
@@ -558,16 +618,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                throw new Error(
+                console.error(
                     'This email is already in use. Please try another email.'
                 );
+                return false;
             }
+
+            return true;
         } catch (error: any) {
             console.error('Email availability check failed:', error);
-            throw new Error(
-                error.message ||
-                    'An error occurred while checking email availability.'
-            );
+            return false;
         }
     },
 

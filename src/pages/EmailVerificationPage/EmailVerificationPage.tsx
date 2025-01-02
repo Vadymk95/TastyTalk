@@ -1,17 +1,12 @@
-import { Form, Formik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Input } from '@root/components/ui';
+import { Button } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
-import {
-    faCancel,
-    faCheck,
-    faEnvelope
-} from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const EmailVerificationPage: FC = () => {
@@ -22,7 +17,6 @@ const EmailVerificationPage: FC = () => {
         userProfile,
         checkEmailVerificationStatus
     } = useAuthStore();
-    const [showEditForm, setShowEditForm] = useState(false);
     const [checking, setChecking] = useState(false);
 
     const [resendStatus, setResendStatus] = useState<'idle' | 'sent' | 'error'>(
@@ -62,12 +56,6 @@ const EmailVerificationPage: FC = () => {
         }
     };
 
-    const handleShowEditForm = () => setShowEditForm((prev) => !prev);
-
-    const handleSubmit = async (values: { email: string }) => {
-        console.log(values);
-    };
-
     useEffect(() => {
         if (!userProfile?.verified) {
             const intervalId = setInterval(async () => {
@@ -103,21 +91,26 @@ const EmailVerificationPage: FC = () => {
                     {t('EmailVerificationPage.title')}
                 </h2>
 
-                <p className="text-neutral-400 text-base mb-6">
+                <p className="text-neutral-400 text-base mb-4">
                     {t('EmailVerificationPage.text')}
                 </p>
 
+                <p className="mb-2 label text-xl font-semibold">
+                    {t('EmailVerificationPage.goTo')}
+                </p>
+
                 <div className="flex justify-center gap-4 flex-wrap">
-                    <Button
-                        onClick={() => handleRedirect('phone-verification')}
-                    >
-                        {t('EmailVerificationPage.goToPhoneNumberVerify')}
-                    </Button>
                     <Button
                         variant="secondary"
                         onClick={() => handleRedirect('home')}
                     >
                         {t('EmailVerificationPage.goToHome')}
+                    </Button>
+
+                    <Button
+                        onClick={() => handleRedirect('phone-verification')}
+                    >
+                        {t('EmailVerificationPage.goToPhoneNumberVerify')}
                     </Button>
                 </div>
 
@@ -138,59 +131,6 @@ const EmailVerificationPage: FC = () => {
                         </>
                     )}
                 </p>
-
-                {showEditForm ? (
-                    <Formik
-                        preventDefault
-                        validateOnChange
-                        validateOnBlur
-                        initialValues={{ email: '' }}
-                        onSubmit={handleSubmit}
-                    >
-                        {() => (
-                            <Form>
-                                <div className="w-full mt-6 text-start">
-                                    <Input
-                                        name="email"
-                                        label={'edit email asdasd asdas'}
-                                    />
-
-                                    <div className="flex justify-center gap-2 mt-4">
-                                        <Button
-                                            className="flex gap-2 items-center"
-                                            onClick={handleShowEditForm}
-                                        >
-                                            <FontAwesomeIcon icon={faCancel} />
-                                            <span>{t('General.cancel')}</span>
-                                        </Button>
-
-                                        <Button
-                                            className="flex gap-2 items-center"
-                                            type="submit"
-                                            variant="secondary"
-                                        >
-                                            <FontAwesomeIcon icon={faCheck} />
-                                            <span>{t('General.confirm')}</span>
-                                        </Button>
-                                    </div>
-                                </div>
-                            </Form>
-                        )}
-                    </Formik>
-                ) : (
-                    <p>
-                        <span className="text-neutral-400">
-                            {t('General.or')}
-                        </span>
-                        <Button
-                            onClick={handleShowEditForm}
-                            variant="link"
-                            className="ml-1"
-                        >
-                            {t('EmailVerificationPage.editEmail')}
-                        </Button>
-                    </p>
-                )}
             </div>
         </div>
     );

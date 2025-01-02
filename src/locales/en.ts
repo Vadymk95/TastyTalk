@@ -6,22 +6,22 @@ export const en = {
                 signUp: 'Sign Up'
             },
             EmailVerificationPage: {
-                title: 'Confirm your email address',
-                text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
+                title: 'Confirm your Email address',
+                text: 'An Email has been sent to your Email address. Please confirm it to complete the registration.',
+                goTo: 'Go to:',
                 goToHome: 'Home',
                 goToPhoneNumberVerify: 'Phone number Verification',
-                editEmail: 'Edit Email',
-                resendEmailText: 'Didn’t receive the email?',
+                resendEmailText: 'Didn’t receive the Email?',
                 resendEmail: 'Resend Email',
                 emailSent: 'Email has been sent. You can resend it in',
-                emailSendError: 'Error sending email'
+                emailSendError: 'Error sending Email'
             },
             PhoneNumberVerificationPage: {
                 title: 'Confirm your phone number',
                 text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
+                goTo: 'Go to:',
                 goToHome: 'Home',
                 goToEmailVerify: 'Email Verification',
-                editPhoneNumber: 'Edit Phone Number',
                 resendCodeText: 'Didn’t receive the code?',
                 resendCode: 'Resend code',
                 codeSent: 'Code has been sent. You can resend it in',
@@ -275,6 +275,30 @@ export const en = {
                     addSocialNetwork: 'Add Social Network',
                     save: 'Save Changes',
                     successMessage: 'Profile updated successfully'
+                },
+                EditEmailForm: {
+                    editEmail: 'Edit Email',
+                    editEmailPlaceholder: 'Enter your Email',
+                    emailNotValid: 'Email is not valid',
+                    emailMinLength: 'Email must be at least 6 characters long',
+                    emailMaxLength:
+                        'Email must be less than 50 characters long',
+                    successMessage:
+                        'Email updated successfully. An Email has been sent to your new Email address.',
+                    password: 'Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    requiredField: 'This field is required'
+                },
+                EditPhoneNumberForm: {
+                    editPhoneNumber: 'Edit Phone Number',
+                    successMessage:
+                        'Phone number updated successfully. A code has been sent to your new phone number.',
+                    password: 'Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    requiredField: 'This field is required',
+                    phoneNumberNotValid: 'Phone number is not valid'
                 },
                 ChangePasswordForm: {
                     description:
