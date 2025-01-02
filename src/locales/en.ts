@@ -8,7 +8,8 @@ export const en = {
             EmailVerificationPage: {
                 title: 'Confirm your email address',
                 text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
-                goToHome: 'Go to Homepage',
+                goToHome: 'Home',
+                goToPhoneNumberVerify: 'Phone number Verification',
                 resendEmailText: 'Didn’t receive the email?',
                 resendEmail: 'Resend Email',
                 emailSent: 'Email has been sent',
@@ -17,7 +18,8 @@ export const en = {
             PhoneNumberVerificationPage: {
                 title: 'Confirm your phone number',
                 text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
-                goToHome: 'Go to Homepage',
+                goToHome: 'Home',
+                goToEmailVerify: 'Email Verification',
                 resendCodeText: 'Didn’t receive the code?',
                 resendCode: 'Resend code',
                 codeSent: 'Code has been sent',

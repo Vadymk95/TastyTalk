@@ -8,7 +8,8 @@ export const ru = {
             EmailVerificationPage: {
                 title: 'Подтвердите свой адрес электронной почты',
                 text: 'На вашу электронную почту отправлено письмо. Пожалуйста, подтвердите его, чтобы завершить регистрацию.',
-                goToHome: 'Перейти на главную',
+                goToHome: 'На главную',
+                goToPhoneNumberVerify: 'Подтвердить через телефон',
                 resendEmailText: 'Не получили письмо?',
                 resendEmail: 'Отправить еще раз',
                 emailSent: 'Письмо отправлено',
@@ -17,7 +18,8 @@ export const ru = {
             PhoneNumberVerificationPage: {
                 title: 'Подтвердите свой номер телефона',
                 text: 'На ваш номер телефона отправлен 6-значный код. Пожалуйста, введите его, чтобы завершить регистрацию.',
-                goToHome: 'Перейти на главную',
+                goToHome: 'На главную',
+                goToEmailVerify: 'Подтвердить через Email',
                 resendCodeText: 'Не получили код?',
                 resendCode: 'Отправить еще раз',
                 codeSent: 'Код отправлен',

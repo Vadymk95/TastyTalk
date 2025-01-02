@@ -25,7 +25,11 @@ const EmailVerificationPage: FC = () => {
     const [isCooldown, setIsCooldown] = useState(false);
     const [cooldownTime, setCooldownTime] = useState(60);
 
-    const handleGoToHome = () => navigate(routes.home);
+    const handleRedirect = (path: 'home' | 'phone-verification') => {
+        navigate(
+            path === 'home' ? routes.home : routes.phoneNumberVerification
+        );
+    };
 
     const handleResendEmail = async () => {
         if (isCooldown) return;
@@ -91,9 +95,19 @@ const EmailVerificationPage: FC = () => {
                     {t('EmailVerificationPage.text')}
                 </p>
 
-                <Button onClick={handleGoToHome}>
-                    {t('EmailVerificationPage.goToHome')}
-                </Button>
+                <div className="flex justify-center gap-4 flex-wrap">
+                    <Button
+                        onClick={() => handleRedirect('phone-verification')}
+                    >
+                        {t('EmailVerificationPage.goToPhoneNumberVerify')}
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        onClick={() => handleRedirect('home')}
+                    >
+                        {t('EmailVerificationPage.goToHome')}
+                    </Button>
+                </div>
 
                 <p className="text-sm text-neutral-400 mt-4">
                     {resendStatus === 'sent' ? (
