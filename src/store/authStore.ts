@@ -1,4 +1,5 @@
 import {
+    ApplicationVerifier,
     createUserWithEmailAndPassword,
     deleteUser,
     EmailAuthProvider,
@@ -10,6 +11,7 @@ import {
     reauthenticateWithCredential,
     sendEmailVerification,
     signInWithEmailAndPassword,
+    signInWithPhoneNumber,
     signInWithPopup,
     signInWithRedirect,
     signOut,
@@ -83,6 +85,14 @@ interface AuthState {
     isStandardPlan: () => boolean;
     isPremiumPlan: () => boolean;
     handleRedirectResult: () => Promise<void>;
+    verifyPhoneNumber: (
+        phoneNumber: string,
+        appVerifier: ApplicationVerifier
+    ) => Promise<any>;
+    confirmPhoneVerificationCode: (
+        verificationCode: string,
+        confirmationResult: any
+    ) => Promise<boolean>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -424,6 +434,96 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         } catch (error) {
             console.error('Error checking email verification status:', error);
             set({ error: 'Failed to check email verification status' });
+        }
+    },
+
+    verifyPhoneNumber: async (
+        phoneNumber: string,
+        appVerifier: ApplicationVerifier
+    ) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+            const currentUser = get().user;
+            const userProfile = get().userProfile;
+
+            if (!currentUser || !userProfile) {
+                set({
+                    error: 'User is not authenticated or profile is missing.'
+                });
+                return;
+            }
+
+            // Отправляем код на указанный номер телефона
+            const confirmationResult = await signInWithPhoneNumber(
+                auth,
+                phoneNumber,
+                appVerifier
+            );
+
+            // Сохраняем `confirmationResult` в состоянии для дальнейшей верификации кода
+            set({
+                userProfile: {
+                    ...userProfile,
+                    phoneNumber: phoneNumber
+                }
+            });
+
+            return confirmationResult;
+        } catch (error: any) {
+            console.error('Phone Verification Error:', error);
+            set({ error: error.message });
+            throw error;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    confirmPhoneVerificationCode: async (
+        verificationCode: string,
+        confirmationResult: any
+    ) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            // Подтверждаем код из SMS
+            const userCredential =
+                await confirmationResult.confirm(verificationCode);
+            const user = userCredential.user;
+            const userProfile = get().userProfile;
+
+            if (!user || !userProfile) {
+                set({
+                    error: 'User is not authenticated or profile is missing.'
+                });
+                return false;
+            }
+
+            // Обновляем информацию о пользователе в Firestore
+            const userRef = doc(db, 'users', user.uid);
+            await setDoc(
+                userRef,
+                { phoneNumber: user.phoneNumber },
+                { merge: true }
+            );
+
+            // Обновляем состояние
+            set({
+                user,
+                userProfile: {
+                    ...userProfile,
+                    phoneNumber: user.phoneNumber
+                }
+            });
+
+            return true;
+        } catch (error: any) {
+            console.error('Code Confirmation Error:', error);
+            set({ error: error.message });
+            return false;
+        } finally {
+            set({ loading: false });
         }
     },
 
