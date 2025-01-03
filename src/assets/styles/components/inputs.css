@@ -45,3 +45,20 @@
 .label-large {
     @apply text-lg;
 }
+
+.react-tel-input .selected-flag:hover {
+    @apply bg-neutral-light !rounded-l-lg !border-neutral input-primary hover:!bg-neutral hover:!border-secondary-light hover:!border-r-0;
+}
+
+.selected-flag:active,
+.selected-flag:focus,
+.open,
+.react-tel-input .flag-dropdown.open .selected-flag {
+    @apply !bg-neutral-light !rounded-l-lg !border-neutral input-primary active:!bg-neutral active:!border-secondary-light active:!border-r-0;
+}
+
+.my-search-input {
+    input {
+        @apply input input-primary !ml-0 !py-2 !rounded-lg;
+    }
+}

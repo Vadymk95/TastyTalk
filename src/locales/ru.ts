@@ -8,11 +8,24 @@ export const ru = {
             EmailVerificationPage: {
                 title: 'Подтвердите свой адрес электронной почты',
                 text: 'На вашу электронную почту отправлено письмо. Пожалуйста, подтвердите его, чтобы завершить регистрацию.',
-                goToHome: 'Перейти на главную',
+                goTo: 'Перейти на:',
+                goToHome: 'На главную',
+                goToPhoneNumberVerify: 'Подтвердить через телефон',
                 resendEmailText: 'Не получили письмо?',
                 resendEmail: 'Отправить еще раз',
-                emailSent: 'Письмо отправлено',
+                emailSent: 'Письмо отправлено. Повторно можно отправить через',
                 emailSendError: 'Ошибка отправки письма'
+            },
+            PhoneNumberVerificationPage: {
+                title: 'Подтвердите свой номер телефона',
+                text: 'На ваш номер телефона отправлен 6-значный код. Пожалуйста, введите его, чтобы завершить регистрацию.',
+                goTo: 'Перейти на:',
+                goToHome: 'На главную',
+                goToEmailVerify: 'Подтвердить через Email',
+                resendCodeText: 'Не получили код?',
+                resendCode: 'Отправить еще раз',
+                codeSent: 'Код отправлен. Повторно можно отправить через',
+                codeSendError: 'Ошибка отправки кода'
             },
             FollowingPage: {
                 title: 'Подписки',
@@ -148,9 +161,9 @@ export const ru = {
                     actionSignUp: 'Зарегистрироваться',
                     signIn: 'Войти',
                     dontHaveAccount: 'У вас еще нет аккаунта?',
-                    emailOrUsername: 'Email или имя пользователя',
-                    emailOrUsernamePlaceholder:
-                        'Введите ваш email или имя пользователя',
+                    login: 'Логин',
+                    loginDescription:
+                        '*Введите имя пользователя, email или номер телефона в международном формате (начиная с "+").',
                     password: 'Пароль',
                     requiredField: 'Это поле обязательно',
                     emailNotValid: 'Email не валидный',
@@ -161,11 +174,15 @@ export const ru = {
                 RegisterForm: {
                     signUp: 'Регистрация',
                     email: 'Email',
+                    enterNumber: 'Введите номер телефона',
                     username: 'Имя пользователя',
                     firstName: 'Имя',
                     lastName: 'Фамилия',
                     password: 'Пароль',
                     confirmPassword: 'Подтвердите пароль',
+                    verificationMethodTitle: 'Способ подтверждения',
+                    viaPhone: 'Телефон',
+                    viaEmail: 'Email',
                     usernameInvalid:
                         'Имя пользователя может содержать только буквы, цифры и подчеркивания',
                     usernameMustContainLetter:
@@ -188,13 +205,16 @@ export const ru = {
                     emailNotValid: 'Email не валидный',
                     emailMinLength: 'Email должен быть не менее 6 символов',
                     emailMaxLength: 'Email должен быть не более 50 символов',
+                    phoneNumberNotValid: 'Номер телефона не валидный',
                     passwordMinLength: 'Пароль должен быть не менее 6 символов',
                     passwordsMustMatch: 'Пароли должны совпадать',
                     enterYourEmail: 'Введите ваш email',
                     enterYourName: 'Введите ваше имя',
                     enterYourLastName: 'Введите вашу фамилию',
+                    emailOrPhoneRequired: 'Email или телефон обязательны',
                     haveAccount: 'Уже есть аккаунт?',
-                    registerFinish: 'Завершите процесс регистрации'
+                    registerFinish: 'Завершите процесс регистрации',
+                    selectVerificationMethod: 'Выберите способ подтверждения'
                 },
                 EditProfileForm: {
                     firstName: 'Имя',
@@ -246,6 +266,27 @@ export const ru = {
                     addSocialNetwork: 'Добавить соц. сеть',
                     save: 'Сохранить изменения',
                     successMessage: 'Изменения сохранены'
+                },
+                EditEmailForm: {
+                    editEmail: 'Изменить email',
+                    editEmailPlaceholder: 'Введите ваш Email',
+                    emailNotValid: 'Email не валидный',
+                    emailMinLength: 'Email должен быть не менее 6 символов',
+                    emailMaxLength: 'Email должен быть не более 50 символов',
+                    successMessage:
+                        'Изменения сохранены. Письмо повторно отправлено.',
+                    password: 'Пароль',
+                    passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                    requiredField: 'Это поле обязательно'
+                },
+                EditPhoneNumberForm: {
+                    editPhoneNumber: 'Изменить номер телефона',
+                    successMessage:
+                        'Изменения сохранены. Код повторно отправлен.',
+                    password: 'Пароль',
+                    passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                    requiredField: 'Это поле обязательно',
+                    phoneNumberNotValid: 'Номер телефона не валидный'
                 },
                 ChangePasswordForm: {
                     description:
@@ -695,7 +736,8 @@ export const ru = {
                 clickHere: 'Нажмите сюда',
                 or: 'Или',
                 selected: 'Выбрано',
-                oops: 'Упс!'
+                oops: 'Упс!',
+                enterPhoneNumber: 'Введите номер телефона'
             }
         }
     }

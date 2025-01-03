@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,18 +6,13 @@ import { Button } from '@root/components/ui';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const EmailVerificationPage: FC = () => {
+const PhoneNumberVerificationPage: FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const {
-        resendVerificationEmail,
-        userProfile,
-        checkEmailVerificationStatus
-    } = useAuthStore();
-    const [checking, setChecking] = useState(false);
+    const { resendVerificationEmail } = useAuthStore();
 
     const [resendStatus, setResendStatus] = useState<'idle' | 'sent' | 'error'>(
         'idle'
@@ -25,13 +20,10 @@ const EmailVerificationPage: FC = () => {
     const [isCooldown, setIsCooldown] = useState(false);
     const [cooldownTime, setCooldownTime] = useState(60);
 
-    const handleRedirect = (path: 'home' | 'phone-verification') => {
-        navigate(
-            path === 'home' ? routes.home : routes.phoneNumberVerification
-        );
-    };
+    const handleRedirect = (path: 'home' | 'email-verification') =>
+        navigate(path === 'home' ? routes.home : routes.emailVerification);
 
-    const handleResendEmail = async () => {
+    const handleResendCode = async () => {
         if (isCooldown) return;
 
         try {
@@ -52,51 +44,30 @@ const EmailVerificationPage: FC = () => {
             }, 1000);
         } catch (error: any) {
             setResendStatus('error');
-            console.error('Error when resending the email:', error);
+            console.error('Error when resending the code:', error);
         }
     };
-
-    useEffect(() => {
-        if (!userProfile?.verified) {
-            const intervalId = setInterval(async () => {
-                try {
-                    setChecking(true);
-                    await checkEmailVerificationStatus();
-                } finally {
-                    setChecking(false);
-                }
-            }, 5000);
-
-            return () => clearInterval(intervalId);
-        }
-    }, [userProfile?.verified, checkEmailVerificationStatus]);
-
-    useEffect(() => {
-        if (userProfile?.verified && !checking) {
-            navigate(routes.home);
-        }
-    }, [checking, userProfile?.verified, navigate]);
 
     return (
         <div className="flex-all-center">
             <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-custom-light text-center">
                 <div className="w-16 h-16 mx-auto mb-4 bg-gradient-main rounded-full flex items-center justify-center">
                     <FontAwesomeIcon
-                        icon={faEnvelope}
+                        icon={faPhone}
                         className="text-white text-3xl animate-spin-slow"
                     />
                 </div>
 
                 <h2 className="text-2xl font-semibold text-neutral-dark mb-2">
-                    {t('EmailVerificationPage.title')}
+                    {t('PhoneNumberVerificationPage.title')}
                 </h2>
 
-                <p className="text-neutral-400 text-base mb-4">
-                    {t('EmailVerificationPage.text')}
+                <p className="text-neutral-400 text-base mb-2">
+                    {t('PhoneNumberVerificationPage.text')}
                 </p>
 
                 <p className="mb-2 label text-xl font-semibold">
-                    {t('EmailVerificationPage.goTo')}
+                    {t('PhoneNumberVerificationPage.goTo')}
                 </p>
 
                 <div className="flex justify-center gap-4 flex-wrap">
@@ -104,29 +75,30 @@ const EmailVerificationPage: FC = () => {
                         variant="secondary"
                         onClick={() => handleRedirect('home')}
                     >
-                        {t('EmailVerificationPage.goToHome')}
+                        {t('PhoneNumberVerificationPage.goToHome')}
                     </Button>
-
                     <Button
-                        onClick={() => handleRedirect('phone-verification')}
+                        onClick={() => handleRedirect('email-verification')}
                     >
-                        {t('EmailVerificationPage.goToPhoneNumberVerify')}
+                        {t('PhoneNumberVerificationPage.goToEmailVerify')}
                     </Button>
                 </div>
 
                 <p className="text-sm text-neutral-400 mt-4">
                     {resendStatus === 'sent' ? (
                         <span>
-                            {t('EmailVerificationPage.emailSent')}{' '}
+                            {t('PhoneNumberVerificationPage.codeSent')}{' '}
                             {`(${cooldownTime}s)`}
                         </span>
                     ) : resendStatus === 'error' ? (
-                        <span>{t('EmailVerificationPage.emailSendError')}</span>
+                        <span>
+                            {t('PhoneNumberVerificationPage.codeSendError')}
+                        </span>
                     ) : (
                         <>
-                            {t('EmailVerificationPage.resendEmailText')}{' '}
-                            <Button variant="link" onClick={handleResendEmail}>
-                                {t('EmailVerificationPage.resendEmail')}
+                            {t('PhoneNumberVerificationPage.resendCodeText')}{' '}
+                            <Button onClick={handleResendCode} variant="link">
+                                {t('PhoneNumberVerificationPage.resendCode')}
                             </Button>
                         </>
                     )}
@@ -136,4 +108,4 @@ const EmailVerificationPage: FC = () => {
     );
 };
 
-export default EmailVerificationPage;
+export default PhoneNumberVerificationPage;

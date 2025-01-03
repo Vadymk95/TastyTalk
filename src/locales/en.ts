@@ -6,13 +6,26 @@ export const en = {
                 signUp: 'Sign Up'
             },
             EmailVerificationPage: {
-                title: 'Confirm your email address',
-                text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
-                goToHome: 'Go to Homepage',
-                resendEmailText: 'Didn’t receive the email?',
+                title: 'Confirm your Email address',
+                text: 'An Email has been sent to your Email address. Please confirm it to complete the registration.',
+                goTo: 'Go to:',
+                goToHome: 'Home',
+                goToPhoneNumberVerify: 'Phone number Verification',
+                resendEmailText: 'Didn’t receive the Email?',
                 resendEmail: 'Resend Email',
-                emailSent: 'Email has been sent',
-                emailSendError: 'Error sending email'
+                emailSent: 'Email has been sent. You can resend it in',
+                emailSendError: 'Error sending Email'
+            },
+            PhoneNumberVerificationPage: {
+                title: 'Confirm your phone number',
+                text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
+                goTo: 'Go to:',
+                goToHome: 'Home',
+                goToEmailVerify: 'Email Verification',
+                resendCodeText: 'Didn’t receive the code?',
+                resendCode: 'Resend code',
+                codeSent: 'Code has been sent. You can resend it in',
+                codeSendError: 'Error sending code'
             },
             FollowingPage: {
                 title: 'Following',
@@ -147,8 +160,9 @@ export const en = {
                     actionSignUp: 'Sign Up',
                     signIn: 'Sign In',
                     dontHaveAccount: "Don't have an account?",
-                    emailOrUsername: 'Email or Username',
-                    emailOrUsernamePlaceholder: 'Enter your email or username',
+                    login: 'Login',
+                    loginDescription:
+                        '*Enter your username, email, or phone number in international format (starting with "+").',
                     password: 'Password',
                     requiredField: 'This field is required',
                     emailNotValid: 'Email is not valid',
@@ -160,11 +174,15 @@ export const en = {
                 RegisterForm: {
                     signUp: 'Register',
                     email: 'Email',
+                    enterNumber: 'Enter a number',
                     username: 'Username',
                     lastName: 'Last Name',
                     firstName: 'First Name',
                     password: 'Password',
                     confirmPassword: 'Confirm Password',
+                    verificationMethodTitle: 'Choose a verification method',
+                    viaPhone: 'Phone',
+                    viaEmail: 'Email',
                     usernameInvalid:
                         'Username can only contain letters, numbers and underscores',
                     usernameMustContainLetter:
@@ -191,14 +209,17 @@ export const en = {
                     emailMinLength: 'Email must be at least 6 characters long',
                     emailMaxLength:
                         'Email must be less than 50 characters long',
+                    phoneNumberNotValid: 'Phone number is not valid',
                     passwordMinLength:
                         'Password must be at least 6 characters long',
                     passwordsMustMatch: 'Passwords must match',
                     enterYourEmail: 'Enter your email',
                     enterYourName: 'Enter your name',
                     enterYourLastName: 'Enter your last name',
+                    emailOrPhoneRequired: 'Email or phone number is required',
                     haveAccount: 'Already have an account?',
-                    registerFinish: 'Finish your registration process'
+                    registerFinish: 'Finish your registration process',
+                    selectVerificationMethod: 'Select a verification method'
                 },
                 EditProfileForm: {
                     firstName: 'First Name',
@@ -254,6 +275,30 @@ export const en = {
                     addSocialNetwork: 'Add Social Network',
                     save: 'Save Changes',
                     successMessage: 'Profile updated successfully'
+                },
+                EditEmailForm: {
+                    editEmail: 'Edit Email',
+                    editEmailPlaceholder: 'Enter your Email',
+                    emailNotValid: 'Email is not valid',
+                    emailMinLength: 'Email must be at least 6 characters long',
+                    emailMaxLength:
+                        'Email must be less than 50 characters long',
+                    successMessage:
+                        'Email updated successfully. An Email has been sent to your new Email address.',
+                    password: 'Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    requiredField: 'This field is required'
+                },
+                EditPhoneNumberForm: {
+                    editPhoneNumber: 'Edit Phone Number',
+                    successMessage:
+                        'Phone number updated successfully. A code has been sent to your new phone number.',
+                    password: 'Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    requiredField: 'This field is required',
+                    phoneNumberNotValid: 'Phone number is not valid'
                 },
                 ChangePasswordForm: {
                     description:
@@ -706,7 +751,8 @@ export const en = {
                 clickHere: 'Click here',
                 or: 'Or',
                 selected: 'Selected',
-                oops: 'Oops!'
+                oops: 'Oops!',
+                enterPhoneNumber: 'Enter a number'
             }
         }
     }

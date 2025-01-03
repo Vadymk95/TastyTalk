@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@root/components/ui/Button';
 import { Option } from '@root/types';
@@ -27,6 +28,7 @@ export const Select: FC<SelectProps> = ({
     variant = 'neutral',
     onSelect
 }) => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -115,7 +117,7 @@ export const Select: FC<SelectProps> = ({
                         {searchable && (
                             <input
                                 type="text"
-                                placeholder="Search..."
+                                placeholder={t('General.search')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="select-input p-2 w-full border-b"

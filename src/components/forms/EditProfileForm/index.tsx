@@ -243,6 +243,7 @@ export const EditProfileForm: FC = () => {
                             </label>
 
                             <FormikSelect
+                                searchable
                                 name="country"
                                 value={initialValues.country}
                                 options={options}

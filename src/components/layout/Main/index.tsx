@@ -12,13 +12,13 @@ export const Main: FC = () => {
     const centeredPages = [
         routes.auth,
         routes.emailVerification,
+        routes.phoneNumberVerification,
         routes.greeting,
         routes.recipesCreate
     ];
     const shouldDisplayCenter = centeredPages.includes(location.pathname);
     const centered = shouldDisplayCenter ? 'flex-all-center duration-300' : '';
 
-    //bg-styles - backdrop-bg bg-gradient-main
     return (
         <main className={`main-content container ${centered}`}>
             {languageLoading ? <Loader /> : <AppRouter />}

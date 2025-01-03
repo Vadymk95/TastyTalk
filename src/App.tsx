@@ -13,6 +13,7 @@ export const App: FC = () => {
     const backgroundImgPages = [
         routes.auth,
         routes.emailVerification,
+        routes.phoneNumberVerification,
         routes.greeting
     ];
     const shouldDisplayBackground = backgroundImgPages.includes(

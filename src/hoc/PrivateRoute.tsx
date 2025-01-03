@@ -24,7 +24,8 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     const protectedRoutesForRegistered = [
         routes.settings,
         routes.greeting,
-        routes.emailVerification
+        routes.emailVerification,
+        routes.phoneNumberVerification
     ];
     const protectedRoutesForVerified = [
         routes.recipesCreate,
@@ -40,7 +41,8 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     }
 
     if (
-        location.pathname === routes.emailVerification &&
+        (location.pathname === routes.emailVerification ||
+            location.pathname === routes.phoneNumberVerification) &&
         userProfile?.verified
     ) {
         return <Navigate to={routes.home} />;

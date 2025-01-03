@@ -75,5 +75,9 @@
 }
 
 .btn-link {
-    @apply underline bg-transparent hover:bg-transparent text-sm text-neutral-dark/70 p-0 hover:text-neutral scale-100 hover:scale-100;
+    @apply underline text-sm rounded-none text-neutral-dark/70 p-0 hover:text-secondary-dark shadow-none;
+}
+
+.btn-link:active {
+    @apply text-secondary-light;
 }

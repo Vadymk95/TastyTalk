@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, FieldProps } from 'formik';
-import { FC, FocusEvent, useState } from 'react';
+import { ChangeEvent, FC, FocusEvent, useState } from 'react';
 
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -63,6 +63,13 @@ export const Input: FC<InputProps> = ({
         }
     };
 
+    const handleChange = (
+        event: ChangeEvent<HTMLInputElement>,
+        formChange: (e: ChangeEvent<HTMLInputElement>) => void
+    ) => {
+        formChange(event);
+    };
+
     return (
         <div className={`relative ${className || ''}`}>
             <label className={`label ${sizeLabelStyle[size]}`}>
@@ -90,6 +97,9 @@ export const Input: FC<InputProps> = ({
                                     isPasswordType && isPasswordVisible
                                         ? label
                                         : placeholder
+                                }
+                                onChange={(event) =>
+                                    handleChange(event, form.handleChange)
                                 }
                                 disabled={disabled}
                                 onBlur={(event) =>
