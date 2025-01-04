@@ -143,7 +143,8 @@ export const en = {
                     'This email is already in use. Please try another email.',
                 emailRegistered:
                     'This email is already registered. Please log in or verify your email.',
-                phoneNumberInUse: 'This phone number is already in use.'
+                phoneNumberInUse: 'This phone number is already in use.',
+                invalidVerificationCode: 'Invalid verification code.'
             },
             UsernameInput: {
                 chooseUsername: 'Choose a username',
@@ -296,7 +297,8 @@ export const en = {
                     phoneNumberNotValid: 'Phone number is not valid'
                 },
                 PhoneVerificationForm: {
-                    codeLength: 'Code must be 6 characters long'
+                    codeLength: 'Code must be 6 characters long',
+                    typeCode: 'Type the code you received'
                 },
                 ChangePasswordForm: {
                     description:

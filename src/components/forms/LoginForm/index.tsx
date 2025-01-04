@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { ForgotPasswordModal } from '@root/components/modals/ForgotPasswordModal';
 import { Button, ErrorCard, Image, Input, Link } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
+import { useErrorsMessage } from '@root/hooks/useErrorsMessage';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
 
@@ -29,7 +29,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     const { signIn, signInWithGoogle, loading, error, clearError } =
         useAuthStore();
 
-    const authError = useGetAuthErrorMessage(
+    const authError = useErrorsMessage(
         error || t('General.somethingWentWrong')
     );
 

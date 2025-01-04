@@ -16,6 +16,7 @@ const isDev = import.meta.env.VITE_ENV === 'development';
 const PhoneNumberVerificationPage: FC = () => {
     const { t } = useTranslation();
     const [isCodeSent, setIsCodeSent] = useState(false);
+    const [unableButton, setUnableButton] = useState(true);
     const { verifyPhoneNumber, userProfile } = useAuthStore();
     const [recaptchaInitialized, setRecaptchaInitialized] = useState(false);
     const [confirmationResult, setConfirmationResult] = useState<any | null>(
@@ -80,8 +81,7 @@ const PhoneNumberVerificationPage: FC = () => {
             {
                 size: 'normal',
                 callback: () => {
-                    console.log('reCAPTCHA verified:');
-                    // Здесь можно активировать кнопку отправки или другие действия
+                    setUnableButton(false);
                 },
                 'expired-callback': () => {
                     console.error('reCAPTCHA expired. Re-rendering...');
@@ -191,7 +191,10 @@ const PhoneNumberVerificationPage: FC = () => {
                     </>
                 ) : (
                     recaptchaInitialized && (
-                        <Button onClick={handleSendCode}>
+                        <Button
+                            onClick={handleSendCode}
+                            disabled={unableButton}
+                        >
                             {t('PhoneNumberVerificationPage.sendCode')}
                         </Button>
                     )

@@ -143,7 +143,8 @@ export const ru = {
                     'Этот email уже используется. Пожалуйста, попробуйте другой email.',
                 emailRegistered:
                     'Этот email уже зарегистрирован. Пожалуйста, войдите или восстановите пароль.',
-                phoneNumberInUse: 'Этот номер телефона уже используется.'
+                phoneNumberInUse: 'Этот номер телефона уже используется.',
+                invalidVerificationCode: 'Неверный код подтверждения.'
             },
             UsernameInput: {
                 username: 'Имя пользователя',
@@ -284,7 +285,8 @@ export const ru = {
                     phoneNumberNotValid: 'Номер телефона не валидный'
                 },
                 PhoneVerificationForm: {
-                    codeLength: 'Код должен быть длиной 6 символов'
+                    codeLength: 'Код должен быть длиной 6 символов',
+                    typeCode: 'Введите код'
                 },
                 ChangePasswordForm: {
                     description:

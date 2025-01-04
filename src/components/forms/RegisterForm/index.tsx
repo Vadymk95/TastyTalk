@@ -23,7 +23,7 @@ import {
     userNameRegExp
 } from '@root/constants/regExps';
 import { generateUsername, validatePhoneNumber } from '@root/helpers';
-import { useGetAuthErrorMessage } from '@root/hooks';
+import { useErrorsMessage } from '@root/hooks';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
 import { VerificationMethod } from '@root/types';
@@ -62,7 +62,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
     const { openModal, closeModal } = useModalStore();
     const isTemporaryUser = !!user && !isRegistered;
 
-    const authError = useGetAuthErrorMessage(
+    const authError = useErrorsMessage(
         error || t('General.somethingWentWrong')
     );
     const modalError = {

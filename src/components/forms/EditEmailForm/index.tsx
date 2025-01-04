@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 import { Button, ErrorCard, Input, SuccessCard } from '@root/components/ui';
 import { emailValidationRegExp } from '@root/constants/regExps';
-import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
+import { useErrorsMessage } from '@root/hooks/useErrorsMessage';
 import { useAuthStore } from '@root/store/authStore';
 
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -54,7 +54,7 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ className = '' }) => {
         }
     };
 
-    const editEmailError = useGetAuthErrorMessage(
+    const editEmailError = useErrorsMessage(
         error || t('General.somethingWentWrong')
     );
 

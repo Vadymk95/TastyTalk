@@ -1,10 +1,11 @@
 import { Form, Formik } from 'formik';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { Button, Input } from '@root/components/ui';
+import { Button, ErrorCard, Input } from '@root/components/ui';
+import { useErrorsMessage } from '@root/hooks/useErrorsMessage';
 import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
@@ -17,12 +18,14 @@ export const PhoneVerificationForm: FC<PhoneVerificationFormProps> = (
 ) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { confirmPhoneVerificationCode, loading } = useAuthStore();
+    const { confirmPhoneVerificationCode, loading, error, clearError } =
+        useAuthStore();
+    const codeError = useErrorsMessage(
+        error || t('General.somethingWentWrong')
+    );
 
     const handleSubmit = async (values: { verificationCode: string }) => {
-        console.log('values:', values);
         try {
-            console.log('confirmationResult:', confirmationResult);
             const success = await confirmPhoneVerificationCode(
                 values.verificationCode,
                 confirmationResult
@@ -57,6 +60,10 @@ export const PhoneVerificationForm: FC<PhoneVerificationFormProps> = (
         verificationCode: ''
     };
 
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
+
     return (
         <Formik
             preventDefault
@@ -71,7 +78,7 @@ export const PhoneVerificationForm: FC<PhoneVerificationFormProps> = (
                 <Form className="flex flex-col gap-6 text-start">
                     <Input
                         name="verificationCode"
-                        label=""
+                        label={t('Forms.PhoneVerificationForm.typeCode')}
                         placeholder="000000"
                         isRequired
                     />
@@ -83,6 +90,12 @@ export const PhoneVerificationForm: FC<PhoneVerificationFormProps> = (
                     >
                         {t('General.confirm')}
                     </Button>
+
+                    {error && (
+                        <div className="duration-300">
+                            <ErrorCard errorMessage={codeError} />
+                        </div>
+                    )}
                 </Form>
             )}
         </Formik>
