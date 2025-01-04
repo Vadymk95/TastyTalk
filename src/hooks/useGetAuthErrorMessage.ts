@@ -17,8 +17,10 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'This email is already in use. Please try another email.': t(
             'AuthErrors.emailInUse'
         ),
+        'auth/email-already-in-use': t('AuthErrors.emailInUse'),
         'This email is already registered. Please log in or verify your email.':
-            t('AuthErrors.emailRegistered')
+            t('AuthErrors.emailRegistered'),
+        'This phone number is already in use.': t('AuthErrors.phoneNumberInUse')
     };
 
     return errorMessages[errorCode] || t('General.somethingWentWrong');

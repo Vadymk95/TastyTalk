@@ -8,9 +8,6 @@ export const en = {
             EmailVerificationPage: {
                 title: 'Confirm your Email address',
                 text: 'An Email has been sent to your Email address. Please confirm it to complete the registration.',
-                goTo: 'Go to:',
-                goToHome: 'Home',
-                goToPhoneNumberVerify: 'Phone number Verification',
                 resendEmailText: 'Didn’t receive the Email?',
                 resendEmail: 'Resend Email',
                 emailSent: 'Email has been sent. You can resend it in',
@@ -19,13 +16,11 @@ export const en = {
             PhoneNumberVerificationPage: {
                 title: 'Confirm your phone number',
                 text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
-                goTo: 'Go to:',
-                goToHome: 'Home',
-                goToEmailVerify: 'Email Verification',
                 resendCodeText: 'Didn’t receive the code?',
                 resendCode: 'Resend code',
                 codeSent: 'Code has been sent. You can resend it in',
-                codeSendError: 'Error sending code'
+                codeSendError: 'Error sending code',
+                sendCode: 'Send code'
             },
             FollowingPage: {
                 title: 'Following',
@@ -147,7 +142,8 @@ export const en = {
                 emailInUse:
                     'This email is already in use. Please try another email.',
                 emailRegistered:
-                    'This email is already registered. Please log in or verify your email.'
+                    'This email is already registered. Please log in or verify your email.',
+                phoneNumberInUse: 'This phone number is already in use.'
             },
             UsernameInput: {
                 chooseUsername: 'Choose a username',
@@ -216,7 +212,6 @@ export const en = {
                     enterYourEmail: 'Enter your email',
                     enterYourName: 'Enter your name',
                     enterYourLastName: 'Enter your last name',
-                    emailOrPhoneRequired: 'Email or phone number is required',
                     haveAccount: 'Already have an account?',
                     registerFinish: 'Finish your registration process',
                     selectVerificationMethod: 'Select a verification method'
@@ -299,6 +294,9 @@ export const en = {
                         'Password must be at least 6 characters long',
                     requiredField: 'This field is required',
                     phoneNumberNotValid: 'Phone number is not valid'
+                },
+                PhoneVerificationForm: {
+                    codeLength: 'Code must be 6 characters long'
                 },
                 ChangePasswordForm: {
                     description:
@@ -745,6 +743,7 @@ export const en = {
                 selectAll: 'Select All',
                 apply: 'Apply',
                 noResultsFound: 'No results found',
+                requiredField: 'This field is required',
                 back: 'Back',
                 follow: 'Follow',
                 unfollow: 'Unfollow',
@@ -752,7 +751,8 @@ export const en = {
                 or: 'Or',
                 selected: 'Selected',
                 oops: 'Oops!',
-                enterPhoneNumber: 'Enter a number'
+                enterPhoneNumber: 'Enter a number',
+                send: 'Send'
             }
         }
     }

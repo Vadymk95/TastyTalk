@@ -292,6 +292,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             set({ error: null });
             await get().checkEmailAndFirestoreAvailability(email);
 
+            if (phoneNumber) {
+                const usersRef = collection(db, 'users');
+                const q = query(
+                    usersRef,
+                    where('phoneNumber', '==', phoneNumber)
+                );
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    throw new Error('This phone number is already in use.');
+                }
+            }
+
             const userCredential = await createUserWithEmailAndPassword(
                 auth,
                 email,
@@ -454,6 +467,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 return;
             }
 
+            if (!phoneNumber.startsWith('+')) {
+                throw new Error('Phone number must be in E.164 format.');
+            }
+
             // Отправляем код на указанный номер телефона
             const confirmationResult = await signInWithPhoneNumber(
                 auth,
@@ -487,9 +504,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         try {
             set({ error: null });
 
-            // Подтверждаем код из SMS
             const userCredential =
-                await confirmationResult.confirm(verificationCode);
+                await confirmationResult.confirmationResult.confirm(
+                    verificationCode
+                );
             const user = userCredential.user;
             const userProfile = get().userProfile;
 
@@ -513,7 +531,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 user,
                 userProfile: {
                     ...userProfile,
-                    phoneNumber: user.phoneNumber
+                    phoneNumber: user.phoneNumber,
+                    verified: true
                 }
             });
 

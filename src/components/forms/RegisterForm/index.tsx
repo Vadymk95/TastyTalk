@@ -110,111 +110,64 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
         setCountryCode(code);
     };
 
-    const RegisterSchema = Yup.object()
-        .shape({
-            username: Yup.string()
-                .matches(
-                    userNameRegExp,
-                    t('Forms.RegisterForm.usernameInvalid')
-                )
-                .matches(
-                    userNameMatchesRegExp,
-                    t('Forms.RegisterForm.usernameMustContainLetter')
-                )
-                .min(4, t('Forms.RegisterForm.usernameMinLength'))
-                .max(16, t('Forms.RegisterForm.usernameMaxLength'))
-                .required(t('Forms.RegisterForm.requiredField')),
-            firstName: Yup.string()
-                .matches(nameRegExp, t('Forms.RegisterForm.firstNameInvalid'))
-                .min(2, t('Forms.RegisterForm.firstNameMinLength'))
-                .max(16, t('Forms.RegisterForm.firstNameMaxLength'))
-                .required(t('Forms.RegisterForm.requiredField')),
-            lastName: Yup.string()
-                .matches(nameRegExp, t('Forms.RegisterForm.lastNameInvalid'))
-                .min(2, t('Forms.RegisterForm.lastNameMinLength'))
-                .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
-                .required(t('Forms.RegisterForm.requiredField')),
-            email: Yup.string()
-                .min(6, t('Forms.RegisterForm.emailMinLength'))
-                .max(50, t('Forms.RegisterForm.emailMaxLength'))
-                .matches(
-                    emailValidationRegExp,
-                    t('Forms.RegisterForm.emailNotValid')
-                ),
-            phoneNumber: Yup.string()
-                .min(10, t('Forms.RegisterForm.phoneNumberNotValid'))
-                .test(
-                    'is-valid-phone',
-                    t('Forms.RegisterForm.phoneNumberNotValid'),
-                    (value) =>
-                        !value || validatePhoneNumber(value || '', countryCode)
-                ),
-            verificationMethod: Yup.string()
-                .nullable()
-                .when(['email', 'phoneNumber'], {
-                    is: (email: string | null, phoneNumber: string | null) =>
-                        !!email && !!phoneNumber && phoneNumber.length >= 10,
-                    then: (schema) =>
-                        schema.required(
-                            t('Forms.RegisterForm.selectVerificationMethod')
-                        ),
-                    otherwise: (schema) => schema.nullable()
-                }),
-            password: Yup.string()
-                .min(6, t('Forms.RegisterForm.passwordMinLength'))
-                .matches(
-                    passwordRegExp,
-                    t('Forms.RegisterForm.passwordComplexity')
-                )
-                .required(t('Forms.RegisterForm.requiredField')),
-            confirmPassword: Yup.string()
-                .oneOf(
-                    [Yup.ref('password')],
-                    t('Forms.RegisterForm.passwordsMustMatch')
-                )
-                .required(t('Forms.RegisterForm.requiredField'))
-        })
-        .test(
-            'email-or-phone',
-            t('Forms.RegisterForm.emailOrPhoneRequired'),
-            function (values) {
-                const {
-                    email,
-                    phoneNumber,
-                    username,
-                    password,
-                    confirmPassword,
-                    firstName,
-                    lastName
-                } = values;
-                const isPhoneValid = !!phoneNumber && phoneNumber.length >= 10;
-                const hasEmailOrPhoneNumber =
-                    (!!email && !phoneNumber) || isPhoneValid;
-                const hasEmailAndPhoneNumber = !!email && isPhoneValid;
-                const hasAllFields =
-                    !!username &&
-                    !!password &&
-                    !!confirmPassword &&
-                    !!firstName &&
-                    !!lastName;
-
-                if (hasEmailOrPhoneNumber) return true;
-
-                if (hasAllFields && !hasEmailAndPhoneNumber) {
-                    return this.createError({
-                        path: 'email',
-                        message: t('Forms.RegisterForm.emailOrPhoneRequired')
-                    });
-                }
-
-                if (!hasEmailOrPhoneNumber) {
-                    return this.createError({
-                        path: 'email',
-                        message: t('Forms.RegisterForm.emailOrPhoneRequired')
-                    });
-                }
-            }
-        );
+    const RegisterSchema = Yup.object().shape({
+        username: Yup.string()
+            .matches(userNameRegExp, t('Forms.RegisterForm.usernameInvalid'))
+            .matches(
+                userNameMatchesRegExp,
+                t('Forms.RegisterForm.usernameMustContainLetter')
+            )
+            .min(4, t('Forms.RegisterForm.usernameMinLength'))
+            .max(16, t('Forms.RegisterForm.usernameMaxLength'))
+            .required(t('Forms.RegisterForm.requiredField')),
+        firstName: Yup.string()
+            .matches(nameRegExp, t('Forms.RegisterForm.firstNameInvalid'))
+            .min(2, t('Forms.RegisterForm.firstNameMinLength'))
+            .max(16, t('Forms.RegisterForm.firstNameMaxLength'))
+            .required(t('Forms.RegisterForm.requiredField')),
+        lastName: Yup.string()
+            .matches(nameRegExp, t('Forms.RegisterForm.lastNameInvalid'))
+            .min(2, t('Forms.RegisterForm.lastNameMinLength'))
+            .max(16, t('Forms.RegisterForm.lastNameMaxLength'))
+            .required(t('Forms.RegisterForm.requiredField')),
+        email: Yup.string()
+            .min(6, t('Forms.RegisterForm.emailMinLength'))
+            .max(50, t('Forms.RegisterForm.emailMaxLength'))
+            .matches(
+                emailValidationRegExp,
+                t('Forms.RegisterForm.emailNotValid')
+            )
+            .required(t('Forms.RegisterForm.requiredField')),
+        phoneNumber: Yup.string()
+            .min(10, t('Forms.RegisterForm.phoneNumberNotValid'))
+            .test(
+                'is-valid-phone',
+                t('Forms.RegisterForm.phoneNumberNotValid'),
+                (value) =>
+                    !value || validatePhoneNumber(value || '', countryCode)
+            ),
+        verificationMethod: Yup.string()
+            .nullable()
+            .when(['email', 'phoneNumber'], {
+                is: (email: string | null, phoneNumber: string | null) =>
+                    !!email && !!phoneNumber && phoneNumber.length >= 10,
+                then: (schema) =>
+                    schema.required(
+                        t('Forms.RegisterForm.selectVerificationMethod')
+                    ),
+                otherwise: (schema) => schema.nullable()
+            }),
+        password: Yup.string()
+            .min(6, t('Forms.RegisterForm.passwordMinLength'))
+            .matches(passwordRegExp, t('Forms.RegisterForm.passwordComplexity'))
+            .required(t('Forms.RegisterForm.requiredField')),
+        confirmPassword: Yup.string()
+            .oneOf(
+                [Yup.ref('password')],
+                t('Forms.RegisterForm.passwordsMustMatch')
+            )
+            .required(t('Forms.RegisterForm.requiredField'))
+    });
 
     useEffect(() => {
         clearError();
@@ -332,6 +285,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     className="auth-input-wrapper"
                                     name="email"
                                     type="email"
+                                    isRequired
                                     disabled={isTemporaryUser}
                                     placeholder={t(
                                         'Forms.RegisterForm.enterYourEmail'

@@ -7,4 +7,5 @@ export { EditPhoneNumberForm } from './EditPhoneNumberForm';
 export { EditProfileForm } from './EditProfileForm';
 export { ForgotPasswordForm } from './ForgotPasswordForm';
 export { LoginForm } from './LoginForm';
+export { PhoneVerificationForm } from './PhoneVerificationForm';
 export { RegisterForm } from './RegisterForm';
