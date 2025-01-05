@@ -11,7 +11,9 @@ export const en = {
                 resendEmailText: 'Didn’t receive the Email?',
                 resendEmail: 'Resend Email',
                 emailSent: 'Email has been sent. You can resend it in',
-                emailSendError: 'Error sending Email'
+                emailSendError: 'Error sending Email',
+                preferPhoneNumber: 'Prefer phone number?',
+                preferPhoneNumberLink: 'Verify via phone number'
             },
             PhoneNumberVerificationPage: {
                 title: 'Confirm your phone number',
@@ -20,7 +22,9 @@ export const en = {
                 resendCode: 'Resend code',
                 codeSent: 'Code has been sent. You can resend it in',
                 codeSendError: 'Error sending code',
-                sendCode: 'Send code'
+                sendCode: 'Send code',
+                preferEmail: 'Prefer email?',
+                preferEmailLink: 'Verify via email'
             },
             FollowingPage: {
                 title: 'Following',

@@ -11,7 +11,9 @@ export const ru = {
                 resendEmailText: 'Не получили письмо?',
                 resendEmail: 'Отправить еще раз',
                 emailSent: 'Письмо отправлено. Повторно можно отправить через',
-                emailSendError: 'Ошибка отправки письма'
+                emailSendError: 'Ошибка отправки письма',
+                preferPhoneNumber: 'Предпочитаю номер телефона?',
+                preferPhoneNumberLink: 'Подтвердите через номер телефона'
             },
             PhoneNumberVerificationPage: {
                 title: 'Подтвердите свой номер телефона',
@@ -20,7 +22,9 @@ export const ru = {
                 resendCode: 'Отправить еще раз',
                 codeSent: 'Код отправлен. Повторно можно отправить через',
                 codeSendError: 'Ошибка отправки кода',
-                sendCode: 'Отправить код'
+                sendCode: 'Отправить код',
+                preferEmail: 'Предпочитаю email?',
+                preferEmailLink: 'Подтвердите через email'
             },
             FollowingPage: {
                 title: 'Подписки',

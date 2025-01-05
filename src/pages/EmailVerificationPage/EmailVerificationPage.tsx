@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@root/components/ui';
 import { routes } from '@root/router/routes';
@@ -81,9 +81,22 @@ const EmailVerificationPage: FC = () => {
                     />
                 </div>
 
-                <h2 className="text-2xl font-semibold text-neutral-dark mb-2">
+                <h2 className="text-2xl font-semibold text-neutral-dark">
                     {t('EmailVerificationPage.title')}
                 </h2>
+
+                {(userProfile?.verificationMethod === 'phone' ||
+                    userProfile?.phoneNumber) && (
+                    <p className="text-sm text-neutral-400 mb-6">
+                        {t('EmailVerificationPage.preferPhoneNumber')}
+                        <Link
+                            to={routes.phoneNumberVerification}
+                            className="ml-1 link-secondary"
+                        >
+                            {t('EmailVerificationPage.preferPhoneNumberLink')}
+                        </Link>
+                    </p>
+                )}
 
                 <p className="text-neutral-400 text-base mb-4">
                     {t('EmailVerificationPage.text')}

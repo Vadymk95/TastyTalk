@@ -2,10 +2,12 @@ import { auth } from '@root/firebase/firebaseConfig';
 import { RecaptchaVerifier } from 'firebase/auth';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import { PhoneVerificationForm } from '@root/components/forms/PhoneVerificationForm';
 import { Button } from '@root/components/ui/Button';
 import { testPhone } from '@root/data';
+import { routes } from '@root/router/routes';
 import { useAuthStore } from '@root/store/authStore';
 
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -140,9 +142,21 @@ const PhoneNumberVerificationPage: FC = () => {
                     />
                 </div>
 
-                <h2 className="text-2xl font-semibold text-neutral-dark mb-2">
+                <h2 className="text-2xl font-semibold text-neutral-dark">
                     {t('PhoneNumberVerificationPage.title')}
                 </h2>
+
+                {userProfile?.verificationMethod === 'phone' && (
+                    <p className="text-sm text-neutral-400 mb-6">
+                        {t('PhoneNumberVerificationPage.preferEmail')}
+                        <Link
+                            to={routes.emailVerification}
+                            className="ml-1 link-secondary"
+                        >
+                            {t('PhoneNumberVerificationPage.preferEmailLink')}
+                        </Link>
+                    </p>
+                )}
 
                 {!isCodeSent && (
                     <div className="flex w-full justify-center my-4">
