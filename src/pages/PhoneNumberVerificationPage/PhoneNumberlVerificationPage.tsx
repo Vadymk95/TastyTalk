@@ -25,34 +25,9 @@ const PhoneNumberVerificationPage: FC = () => {
         null
     );
 
-    const [resendStatus, setResendStatus] = useState<'idle' | 'sent' | 'error'>(
-        'idle'
-    );
-    const [isCooldown, setIsCooldown] = useState(false);
-    const [cooldownTime, setCooldownTime] = useState(60);
-
     const handleResendCode = async () => {
-        if (isCooldown) return;
-
-        try {
-            setResendStatus('sent');
-            setIsCooldown(true);
-            const timer = setInterval(() => {
-                setCooldownTime((prevTime) => {
-                    if (prevTime <= 1) {
-                        clearInterval(timer);
-                        setIsCooldown(false);
-                        setCooldownTime(60);
-                        setResendStatus('idle');
-                        return 60;
-                    }
-                    return prevTime - 1;
-                });
-            }, 1000);
-        } catch (error: any) {
-            setResendStatus('error');
-            console.error('Error when resending the code:', error);
-        }
+        setIsCodeSent(false);
+        renderRecaptcha();
     };
 
     const renderRecaptcha = async () => {
@@ -175,32 +150,10 @@ const PhoneNumberVerificationPage: FC = () => {
                         />
 
                         <p className="text-sm text-neutral-400 mt-4">
-                            {resendStatus === 'sent' ? (
-                                <span>
-                                    {t('PhoneNumberVerificationPage.codeSent')}{' '}
-                                    {`(${cooldownTime}s)`}
-                                </span>
-                            ) : resendStatus === 'error' ? (
-                                <span>
-                                    {t(
-                                        'PhoneNumberVerificationPage.codeSendError'
-                                    )}
-                                </span>
-                            ) : (
-                                <>
-                                    {t(
-                                        'PhoneNumberVerificationPage.resendCodeText'
-                                    )}{' '}
-                                    <Button
-                                        onClick={handleResendCode}
-                                        variant="link"
-                                    >
-                                        {t(
-                                            'PhoneNumberVerificationPage.resendCode'
-                                        )}
-                                    </Button>
-                                </>
-                            )}
+                            {t('PhoneNumberVerificationPage.resendCodeText')}{' '}
+                            <Button onClick={handleResendCode} variant="link">
+                                {t('PhoneNumberVerificationPage.resendCode')}
+                            </Button>
                         </p>
                     </>
                 ) : (
