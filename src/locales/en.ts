@@ -18,7 +18,8 @@ export const en = {
             PhoneNumberVerificationPage: {
                 title: 'Confirm your phone number',
                 text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
-                resendCodeText: 'Didn’t receive the code?',
+                resendCodeText:
+                    'Didn’t receive the code? Complete Recaptha again and click the button',
                 resendCode: 'Resend code',
                 codeSent: 'Code has been sent. You can resend it in',
                 codeSendError: 'Error sending code',

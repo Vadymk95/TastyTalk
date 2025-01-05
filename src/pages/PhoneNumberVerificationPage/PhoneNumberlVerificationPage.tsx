@@ -26,16 +26,17 @@ const PhoneNumberVerificationPage: FC = () => {
     );
 
     const handleResendCode = async () => {
-        setIsCodeSent(false);
-        renderRecaptcha();
+        try {
+            await handleSendCode();
+        } catch (error) {
+            console.error('Error resending code:', error);
+        }
     };
 
     const renderRecaptcha = async () => {
         try {
             if (window.recaptchaVerifier) {
-                console.log(
-                    'reCAPTCHA already exists, skipping initialization.'
-                );
+                window.recaptchaVerifier.clear();
                 return;
             }
 
@@ -45,7 +46,6 @@ const PhoneNumberVerificationPage: FC = () => {
                 window.recaptchaVerifier = setup;
                 await window.recaptchaVerifier.render();
                 setRecaptchaInitialized(true);
-                console.log('reCAPTCHA rendered successfully.');
             }
         } catch (error) {
             console.error('Failed to render reCAPTCHA:', error);
@@ -104,16 +104,12 @@ const PhoneNumberVerificationPage: FC = () => {
     };
 
     useEffect(() => {
-        if (!window.recaptchaVerifier) {
-            renderRecaptcha();
-        }
+        renderRecaptcha();
 
         return () => {
             if (window.recaptchaVerifier) {
-                // Очищаем только если есть существующая капча
-                window.recaptchaVerifier.clear(); // Убедитесь, что используется `clear()` вместо простого null
+                window.recaptchaVerifier.clear();
                 window.recaptchaVerifier = null;
-                console.log('reCAPTCHA cleared on unmount.');
             }
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,11 +141,9 @@ const PhoneNumberVerificationPage: FC = () => {
                     </p>
                 )}
 
-                {!isCodeSent && (
-                    <div className="flex w-full justify-center my-4">
-                        <div id="recaptcha-container" />
-                    </div>
-                )}
+                <div className="flex w-full justify-center my-4">
+                    <div id="recaptcha-container" />
+                </div>
 
                 {isCodeSent ? (
                     <>
