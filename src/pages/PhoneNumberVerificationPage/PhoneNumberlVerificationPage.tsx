@@ -33,16 +33,19 @@ const PhoneNumberVerificationPage: FC = () => {
     const renderRecaptcha = async () => {
         try {
             if (window.recaptchaVerifier) {
+                console.log(
+                    'reCAPTCHA already exists, skipping initialization.'
+                );
+                return;
+            }
+
+            const setup = setupRecaptcha();
+
+            if (setup) {
+                window.recaptchaVerifier = setup;
                 await window.recaptchaVerifier.render();
                 setRecaptchaInitialized(true);
-            } else {
-                const setup = setupRecaptcha();
-
-                if (setup) {
-                    window.recaptchaVerifier = setup;
-                    await window.recaptchaVerifier.render();
-                    setRecaptchaInitialized(true);
-                }
+                console.log('reCAPTCHA rendered successfully.');
             }
         } catch (error) {
             console.error('Failed to render reCAPTCHA:', error);
@@ -84,7 +87,7 @@ const PhoneNumberVerificationPage: FC = () => {
             const phoneNumber = '+' + (userProfile?.phoneNumber || '');
             const result = await verifyPhoneNumber(
                 isDev ? testPhone.phoneNumber : phoneNumber,
-                appVerifier
+                appVerifier as RecaptchaVerifier
             );
 
             window.confirmationResult = result;
@@ -104,6 +107,15 @@ const PhoneNumberVerificationPage: FC = () => {
         if (!window.recaptchaVerifier) {
             renderRecaptcha();
         }
+
+        return () => {
+            if (window.recaptchaVerifier) {
+                // Очищаем только если есть существующая капча
+                window.recaptchaVerifier.clear(); // Убедитесь, что используется `clear()` вместо простого null
+                window.recaptchaVerifier = null;
+                console.log('reCAPTCHA cleared on unmount.');
+            }
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

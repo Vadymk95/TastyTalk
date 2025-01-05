@@ -23,7 +23,7 @@ export interface ImportMeta {
 
 declare global {
     interface Window {
-        recaptchaVerifier: RecaptchaVerifier;
+        recaptchaVerifier: RecaptchaVerifier | null;
         confirmationResult: any;
     }
 }
