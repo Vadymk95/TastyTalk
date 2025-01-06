@@ -70,10 +70,7 @@ export const DeleteAccountForm: FC<DeleteAccountFormProps> = ({
             {() => (
                 <Form>
                     <p className="text-sm text-neutral-dark mb-4">
-                        {t(
-                            'Forms.DeleteAccountForm.description',
-                            'Please confirm your email and password to delete your account. This action cannot be undone.'
-                        )}
+                        {t('Forms.DeleteAccountForm.description')}
                     </p>
 
                     <div className="space-y-6">
