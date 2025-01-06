@@ -88,6 +88,7 @@ export interface UpdateProfileData {
     lastName?: string;
     username?: string;
     email?: string;
+    phoneNumber?: string;
     bio?: string;
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];

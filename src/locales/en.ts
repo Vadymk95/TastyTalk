@@ -227,6 +227,7 @@ export const en = {
                     lastName: 'Last Name',
                     username: 'Username',
                     email: 'Email',
+                    phoneNumber: 'Phone Number',
                     nameCheckboxLabel: 'Show name on profile',
                     countryCheckboxLabel: 'Show country on profile',
                     usernameInvalid:

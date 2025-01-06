@@ -222,6 +222,7 @@ export const ru = {
                     lastName: 'Фамилия',
                     username: 'Имя пользователя',
                     email: 'Email',
+                    phoneNumber: 'Номер телефона',
                     nameCheckboxLabel: 'Отображать имя и фамилию в профиле',
                     countryCheckboxLabel: 'Отображать страну в профиле',
                     usernameInvalid:

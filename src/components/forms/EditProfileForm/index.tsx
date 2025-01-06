@@ -107,6 +107,7 @@ export const EditProfileForm: FC = () => {
             .max(5, t('Forms.EditProfileForm.maxSocialNetworks')),
         profileImage: Yup.mixed().nullable(),
         email: Yup.string(),
+        phoneNumber: Yup.string(),
         showName: Yup.boolean(),
         showCountry: Yup.boolean()
     });
@@ -120,6 +121,7 @@ export const EditProfileForm: FC = () => {
         socialNetworks: userProfile?.socialNetworks || [],
         profileImage: userProfile?.profileImage || null,
         email: userProfile?.email || '',
+        phoneNumber: userProfile?.phoneNumber || '',
         showCountry: userProfile?.showCountry || false,
         showName: userProfile?.showName || false
     };
@@ -222,6 +224,16 @@ export const EditProfileForm: FC = () => {
                                 label={t('Forms.EditProfileForm.email')}
                                 disabled
                             />
+
+                            {!!values.phoneNumber && (
+                                <Input
+                                    name="phoneNumber"
+                                    label={t(
+                                        'Forms.EditProfileForm.phoneNumber'
+                                    )}
+                                    disabled
+                                />
+                            )}
                         </div>
                     </section>
 
