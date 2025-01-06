@@ -64,7 +64,7 @@ export const en = {
                 title: 'Edit Profile',
                 resendEmailTitle: 'Resend Email Confirmation',
                 resendEmailDescription:
-                    'If you didn’t receive the email, you can resend it by clicking the button below.',
+                    'Your email is not verified. If you didn’t receive the email, you can resend it by clicking the button below.',
                 resendEmailButton: 'Resend Email',
                 changeLanguageTitle: 'Change Language',
                 changeLanguageDescription:

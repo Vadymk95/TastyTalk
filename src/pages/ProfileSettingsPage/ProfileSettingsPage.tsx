@@ -75,7 +75,8 @@ const ProfileSettingsPage: FC = () => {
                 <EditProfileForm />
             </section>
 
-            {!userProfile?.verified && (
+            {(!userProfile?.verified ||
+                userProfile?.verificationMethod === 'phone') && (
                 <section className="plate w-full">
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('ProfileSettingsPage.resendEmailTitle')}

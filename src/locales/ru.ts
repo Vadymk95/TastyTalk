@@ -66,7 +66,7 @@ export const ru = {
                 title: 'Настройки профиля',
                 resendEmailTitle: 'Отправить письмо с подтверждением',
                 resendEmailDescription:
-                    'Отправьте письмо с подтверждением на ваш email',
+                    'У вас не верифицирована почта. Отправьте письмо с подтверждением на ваш email',
                 resendEmailButton: 'Отправить письмо',
                 changeLanguageTitle: 'Изменить язык',
                 changeLanguageDescription: 'Измените язык интерфейса на другой',
