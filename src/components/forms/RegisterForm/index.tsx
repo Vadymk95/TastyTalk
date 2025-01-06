@@ -150,7 +150,10 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
             .nullable()
             .when(['email', 'phoneNumber'], {
                 is: (email: string | null, phoneNumber: string | null) =>
-                    !!email && !!phoneNumber && phoneNumber.length >= 10,
+                    !!email &&
+                    !!phoneNumber &&
+                    phoneNumber.length >= 10 &&
+                    !isTemporaryUser,
                 then: (schema) =>
                     schema.required(
                         t('Forms.RegisterForm.selectVerificationMethod')
@@ -231,7 +234,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
 
                     if (selectedWithRadio && bothValid) return;
 
-                    if (bothValid) {
+                    if (bothValid && !isTemporaryUser) {
                         setFieldValue('verificationMethod', null);
                     } else if (isEmailValid) {
                         setFieldValue('verificationMethod', 'email');
@@ -330,7 +333,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ signInAction }) => {
                                     )}
                                 />
 
-                                {shouldShowRadio && (
+                                {shouldShowRadio && !isTemporaryUser && (
                                     <div className="auth-input-wrapper">
                                         <p className="label">
                                             {t(
