@@ -8,10 +8,10 @@ import {
     GoogleAuthProvider,
     linkWithCredential,
     onAuthStateChanged,
+    PhoneAuthProvider,
     reauthenticateWithCredential,
     sendEmailVerification,
     signInWithEmailAndPassword,
-    signInWithPhoneNumber,
     signInWithPopup,
     signInWithRedirect,
     signOut,
@@ -91,7 +91,7 @@ interface AuthState {
     ) => Promise<any>;
     confirmPhoneVerificationCode: (
         verificationCode: string,
-        confirmationResult: any
+        verificationId: string
     ) => Promise<boolean>;
 }
 
@@ -499,6 +499,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             set({ error: null });
+
             const currentUser = get().user;
             const userProfile = get().userProfile;
 
@@ -513,22 +514,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 throw new Error('Phone number must be in E.164 format.');
             }
 
-            // Отправляем код на указанный номер телефона
-            const confirmationResult = await signInWithPhoneNumber(
-                auth,
+            // Генерация verificationId через PhoneAuthProvider
+            const phoneAuthProvider = new PhoneAuthProvider(auth);
+            const verificationId = await phoneAuthProvider.verifyPhoneNumber(
                 phoneNumber,
                 appVerifier
             );
 
-            // Сохраняем `confirmationResult` в состоянии для дальнейшей верификации кода
-            set({
-                userProfile: {
-                    ...userProfile,
-                    phoneNumber: phoneNumber
-                }
-            });
-
-            return confirmationResult;
+            return verificationId; // Возвращаем verificationId
         } catch (error: any) {
             console.error('Phone Verification Error:', error);
             set({ error: error.message });
@@ -540,17 +533,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     confirmPhoneVerificationCode: async (
         verificationCode: string,
-        confirmationResult: any
+        verificationId: string
     ) => {
         set({ loading: true });
         try {
             set({ error: null });
 
-            const userCredential =
-                await confirmationResult.confirmationResult.confirm(
-                    verificationCode
-                );
-            const user = userCredential.user;
+            const user = auth.currentUser;
             const userProfile = get().userProfile;
 
             if (!user || !userProfile) {
@@ -560,11 +549,29 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 return false;
             }
 
-            // Обновляем информацию о пользователе в Firestore
+            // Создаем PhoneAuthCredential с помощью verificationId и verificationCode
+            const phoneCredential = PhoneAuthProvider.credential(
+                verificationId,
+                verificationCode
+            );
+
+            // Линкуем телефон к текущему юзеру
+            await linkWithCredential(user, phoneCredential);
+
+            const phoneNumberWithoutPlus = user.phoneNumber?.slice(1) || '';
             const userRef = doc(db, 'users', user.uid);
+
+            // Обновляем данные в Firestore
             await setDoc(
                 userRef,
-                { phoneNumber: user.phoneNumber },
+                {
+                    phoneNumber: phoneNumberWithoutPlus,
+                    verified: true,
+                    verificationMethod:
+                        userProfile.verificationMethod === 'email'
+                            ? 'full'
+                            : 'phone'
+                },
                 { merge: true }
             );
 
@@ -573,8 +580,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 user,
                 userProfile: {
                     ...userProfile,
-                    phoneNumber: user.phoneNumber,
-                    verified: true
+                    phoneNumber: phoneNumberWithoutPlus,
+                    verified: true,
+                    verificationMethod:
+                        userProfile.verificationMethod === 'email'
+                            ? 'full'
+                            : 'phone'
                 }
             });
 

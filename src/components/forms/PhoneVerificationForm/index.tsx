@@ -28,7 +28,7 @@ export const PhoneVerificationForm: FC<PhoneVerificationFormProps> = (
         try {
             const success = await confirmPhoneVerificationCode(
                 values.verificationCode,
-                confirmationResult
+                confirmationResult.confirmationResult
             );
 
             if (!success) {
