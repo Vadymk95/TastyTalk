@@ -19,7 +19,8 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
         useAuthStore();
 
     const EmailSchema = Yup.object().shape({
-        email: Yup.string()
+        email: Yup.string(),
+        newEmail: Yup.string()
             .min(6, t('Forms.EditEmailForm.emailMinLength'))
             .max(50, t('Forms.EditEmailForm.emailMaxLength'))
             .matches(
@@ -33,14 +34,19 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
 
     const initialValues = {
         email: userProfile?.email || '',
+        newEmail: '',
         password: ''
     };
 
     const handleSubmit = async (values: {
-        email: string;
+        newEmail: string;
         password: string;
     }) => {
-        const success = await editEmail(values.email, values.password);
+        if (values.newEmail === userProfile?.email) {
+            return;
+        }
+
+        const success = await editEmail(values.newEmail, values.password);
 
         if (success) {
             setShowSuccess(true);
@@ -70,7 +76,7 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
             validationSchema={EmailSchema}
             onSubmit={handleSubmit}
         >
-            {({ isValid, isSubmitting }) => (
+            {({ isValid, isSubmitting, values }) => (
                 <Form>
                     <p className="text-sm text-neutral-dark mb-4">
                         {t('Forms.EditEmailForm.description')}
@@ -80,10 +86,21 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
                         className="input-wrapper"
                         name="email"
                         type="email"
-                        isRequired
+                        disabled
                         label={t('Forms.EditEmailForm.editEmail')}
                         placeholder={t(
                             'Forms.EditEmailForm.editEmailPlaceholder'
+                        )}
+                    />
+
+                    <Input
+                        className="input-wrapper"
+                        name="newEmail"
+                        type="email"
+                        isRequired
+                        label={t('Forms.EditEmailForm.newEmail')}
+                        placeholder={t(
+                            'Forms.EditEmailForm.newEmailPlaceholder'
                         )}
                     />
 
@@ -104,7 +121,12 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
                         <Button
                             type="submit"
                             variant="secondary"
-                            disabled={!isValid || isSubmitting || loading}
+                            disabled={
+                                !isValid ||
+                                isSubmitting ||
+                                loading ||
+                                values.newEmail === userProfile?.email
+                            }
                         >
                             <span>{t('General.confirm')}</span>
                         </Button>

@@ -690,43 +690,58 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 throw new Error('No user is currently signed in.');
             }
 
-            const userRef = doc(db, 'users', user.uid);
-
+            // Проверяем, доступен ли новый email
             const isAvailable =
                 await get().checkEmailAndFirestoreAvailability(newEmail);
             if (!isAvailable) {
                 throw new Error('This email is already in use.');
             }
 
+            // Реаутентификация пользователя
             const credential = EmailAuthProvider.credential(
                 user.email!,
                 currentPassword
             );
             await reauthenticateWithCredential(user, credential);
 
-            const { userProfile } = get();
-            const firestoreUpdates: Partial<UserProfile> = {};
+            // Обновление email пользователя в Firebase Authentication
+            await updateEmail(user, newEmail);
 
-            if (userProfile?.verified) {
-                await updateEmail(user, newEmail);
-                firestoreUpdates.email = newEmail;
+            // Отправляем письмо для подтверждения нового email
+            await sendEmailVerification(user);
 
-                await sendEmailVerification(user);
-            } else {
-                throw new Error('User is not verified.');
+            const userProfile = get().userProfile;
+
+            if (!userProfile) {
+                throw new Error('User profile not found in store.');
             }
 
-            await setDoc(userRef, firestoreUpdates, { merge: true });
+            const isVerified =
+                userProfile.verificationMethod === 'full' ? true : false;
+            const verifMethod =
+                userProfile.verificationMethod !== 'email' ? 'phone' : 'email';
 
-            await user.reload();
-            set({ user: auth.currentUser });
+            const userRef = doc(db, 'users', user.uid); // Здесь user.uid — это идентификатор пользователя
+            await setDoc(
+                userRef,
+                {
+                    email: newEmail,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                },
+                { merge: true } // Указываем merge, чтобы не затереть остальные поля
+            );
 
-            const updatedUserSnap = await getDoc(userRef);
-            if (updatedUserSnap.exists()) {
-                set({ userProfile: updatedUserSnap.data() as UserProfile });
-            }
+            set({
+                userProfile: {
+                    ...userProfile,
+                    email: newEmail,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                }
+            });
 
-            return true;
+            return true; // Обновление завершено
         } catch (error: any) {
             console.error('Edit Email Error:', error);
             set({ error: error.message });

@@ -280,8 +280,10 @@ export const ru = {
                 EditEmailForm: {
                     description:
                         'Введите новый email и ваш текущий пароль для подтверждения изменений.',
-                    editEmail: 'Изменить email',
+                    editEmail: 'Ваш email',
                     editEmailPlaceholder: 'Введите ваш Email',
+                    newEmail: 'Новый email',
+                    newEmailPlaceholder: 'Введите ваш новый Email',
                     emailNotValid: 'Email не валидный',
                     emailMinLength: 'Email должен быть не менее 6 символов',
                     emailMaxLength: 'Email должен быть не более 50 символов',

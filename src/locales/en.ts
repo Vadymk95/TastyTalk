@@ -289,8 +289,10 @@ export const en = {
                 EditEmailForm: {
                     description:
                         'Update your email address to keep your account secure.',
-                    editEmail: 'Edit Email',
+                    editEmail: 'Your Email',
                     editEmailPlaceholder: 'Enter your Email',
+                    newEmail: 'New Email',
+                    newEmailPlaceholder: 'Enter your new Email',
                     emailNotValid: 'Email is not valid',
                     emailMinLength: 'Email must be at least 6 characters long',
                     emailMaxLength:
