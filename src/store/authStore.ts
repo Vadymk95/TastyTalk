@@ -694,7 +694,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             const isAvailable =
                 await get().checkEmailAndFirestoreAvailability(newEmail);
             if (!isAvailable) {
-                throw new Error('This email is already in use.');
+                throw new Error(
+                    'This email is already in use. Please try another email.'
+                );
             }
 
             // Реаутентификация пользователя
@@ -743,7 +745,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
             return true; // Обновление завершено
         } catch (error: any) {
-            console.error('Edit Email Error:', error);
+            console.error(error);
             set({ error: error.message });
             return false;
         } finally {
