@@ -1,14 +1,17 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { ProfileSettingsModals } from '@root/components/common/ProfileSettingsModals';
 import { EditProfileForm } from '@root/components/forms';
 import { Button, Select } from '@root/components/ui';
 import { languages } from '@root/constants/languages';
 import { ModalsEnum } from '@root/constants/modals';
+import { routes } from '@root/router/routes';
 import { useAuthStore, useLanguageStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const [isCooldown, setIsCooldown] = useState(false);
     const [cooldownTime, setCooldownTime] = useState(60);
@@ -20,6 +23,13 @@ const ProfileSettingsPage: FC = () => {
     } = useAuthStore();
     const { openModal } = useModalStore();
     const { setLanguage } = useLanguageStore();
+
+    const shouldShowVerificationPhoneNumber =
+        (!userProfile?.verified &&
+            (userProfile?.phoneNumber ||
+                userProfile?.verificationMethod === 'phone')) ||
+        (userProfile?.verificationMethod === 'email' &&
+            userProfile?.phoneNumber);
 
     const handleOpenModal = (modalId: string) => {
         openModal(modalId);
@@ -50,6 +60,10 @@ const ProfileSettingsPage: FC = () => {
         } catch (error: any) {
             console.error('Error when resending the email:', error);
         }
+    };
+
+    const handleVerifyPhoneNumber = () => {
+        navigate(routes.phoneNumberVerification);
     };
 
     const verificationMethod = (method: 'email' | 'phone') => {
@@ -95,6 +109,21 @@ const ProfileSettingsPage: FC = () => {
                         {isCooldown
                             ? `${t('ProfileSettingsPage.resendEmailButton')} (${cooldownTime}s)`
                             : t('ProfileSettingsPage.resendEmailButton')}
+                    </Button>
+                </section>
+            )}
+
+            {shouldShowVerificationPhoneNumber && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.verifiyPhoneNumberTitle')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.verifiyPhoneNumberDescription')}
+                    </p>
+
+                    <Button onClick={handleVerifyPhoneNumber}>
+                        {t('ProfileSettingsPage.verificationPhoneNumberButton')}
                     </Button>
                 </section>
             )}

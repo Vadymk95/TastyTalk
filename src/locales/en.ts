@@ -66,6 +66,10 @@ export const en = {
                 resendEmailDescription:
                     'Your email is not verified. If you didn’t receive the email, you can resend it by clicking the button below.',
                 resendEmailButton: 'Resend Email',
+                verifiyPhoneNumberTitle: 'Verify Phone Number',
+                verifiyPhoneNumberDescription:
+                    'Your phone number is not verified. You can verify it by clicking the button below.',
+                verificationPhoneNumberButton: 'Verify Phone Number',
                 changeLanguageTitle: 'Change Language',
                 changeLanguageDescription:
                     'Select your preferred language for the app',

@@ -68,6 +68,10 @@ export const ru = {
                 resendEmailDescription:
                     'У вас не верифицирована почта. Отправьте письмо с подтверждением на ваш email',
                 resendEmailButton: 'Отправить письмо',
+                verifiyPhoneNumberTitle: 'Подтверждение номера телефона',
+                verifiyPhoneNumberDescription:
+                    'Подтвердите ваш номер телефона для безопасности вашей учетной записи',
+                verificationPhoneNumberButton: 'Подтвердить',
                 changeLanguageTitle: 'Изменить язык',
                 changeLanguageDescription: 'Измените язык интерфейса на другой',
                 changeLanguageButton: 'Изменить язык',
