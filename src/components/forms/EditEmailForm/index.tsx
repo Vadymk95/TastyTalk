@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
@@ -47,6 +47,7 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
 
             setTimeout(() => {
                 setShowSuccess(false);
+                handleCloseModal();
             }, 3000);
         }
     };
@@ -55,9 +56,10 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
         error || t('General.somethingWentWrong')
     );
 
-    useEffect(() => {
+    const handleClose = () => {
         clearError();
-    }, [clearError]);
+        handleCloseModal();
+    };
 
     return (
         <Formik
@@ -95,7 +97,7 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
                     />
 
                     <div className="flex justify-end space-x-4">
-                        <Button onClick={handleCloseModal}>
+                        <Button onClick={handleClose}>
                             <span>{t('General.cancel')}</span>
                         </Button>
 
