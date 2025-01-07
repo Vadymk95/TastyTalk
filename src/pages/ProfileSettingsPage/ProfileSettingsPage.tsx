@@ -52,6 +52,12 @@ const ProfileSettingsPage: FC = () => {
         }
     };
 
+    const verificationMethod = (method: 'email' | 'phone') => {
+        return (
+            userProfile?.verified && userProfile?.verificationMethod !== method
+        );
+    };
+
     useEffect(() => {
         if (!userProfile?.verified) {
             const intervalId = setInterval(async () => {
@@ -68,7 +74,7 @@ const ProfileSettingsPage: FC = () => {
     }));
 
     return (
-        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8 sm:gap-y-4">
+        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-6 sm:gap-y-4">
             <h1 className="main-heading">{t('ProfileSettingsPage.title')}</h1>
 
             <section className="w-full">
@@ -123,6 +129,42 @@ const ProfileSettingsPage: FC = () => {
                     {t('ProfileSettingsPage.pricingAction')}
                 </Button>
             </section>
+
+            {verificationMethod('phone') && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.changeEmail')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.changeEmailDescription')}
+                    </p>
+                    <Button
+                        onClick={() => handleOpenModal(ModalsEnum.ChangeEmail)}
+                        variant="secondary"
+                    >
+                        {t('ProfileSettingsPage.changeEmailButton')}
+                    </Button>
+                </section>
+            )}
+
+            {verificationMethod('email') && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.changePhoneNumber')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.changePhoneNumberDescription')}
+                    </p>
+                    <Button
+                        onClick={() =>
+                            handleOpenModal(ModalsEnum.ChangePhoneNumber)
+                        }
+                        variant="secondary"
+                    >
+                        {t('ProfileSettingsPage.changePhoneNumberButton')}
+                    </Button>
+                </section>
+            )}
 
             <section className="plate w-full">
                 <h2 className="text-xl font-semibold text-primary mb-4">

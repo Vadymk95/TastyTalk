@@ -1,11 +1,13 @@
 import { FC } from 'react';
 
 import {
+    ChangeEmailModal,
     ChangePasswordModal,
+    ChangePhoneNumberModal,
     DeleteAccountModal,
     PricingModal,
-    SupportModal,
-    RulesAndPrivacyModal
+    RulesAndPrivacyModal,
+    SupportModal
 } from '@root/components/modals';
 
 export const ProfileSettingsModals: FC = () => {
@@ -13,6 +15,8 @@ export const ProfileSettingsModals: FC = () => {
         <>
             <SupportModal />
             <ChangePasswordModal />
+            <ChangeEmailModal />
+            <ChangePhoneNumberModal />
             <DeleteAccountModal />
             <PricingModal />
             <RulesAndPrivacyModal />

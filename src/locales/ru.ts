@@ -88,6 +88,14 @@ export const ru = {
                 changePassword: 'Изменить пароль',
                 passwordDescription: 'Измените пароль для вашей учетной записи',
                 changePasswordButton: 'Изменить пароль',
+                changeEmail: 'Изменить email',
+                changeEmailDescription:
+                    'Измените email для вашей учетной записи',
+                changeEmailButton: 'Изменить email',
+                changePhoneNumber: 'Изменить номер телефона',
+                changePhoneNumberDescription:
+                    'Измените номер телефона для вашей учетной записи',
+                changePhoneNumberButton: 'Изменить номер телефона',
                 deleteAccount: 'Удалить учетную запись',
                 deleteDescription: 'Удалите свою учетную запись навсегда',
                 deleteButton: 'Удалить учетную запись'
@@ -270,6 +278,8 @@ export const ru = {
                     successMessage: 'Изменения сохранены'
                 },
                 EditEmailForm: {
+                    description:
+                        'Введите новый email и ваш текущий пароль для подтверждения изменений.',
                     editEmail: 'Изменить email',
                     editEmailPlaceholder: 'Введите ваш Email',
                     emailNotValid: 'Email не валидный',
@@ -282,6 +292,8 @@ export const ru = {
                     requiredField: 'Это поле обязательно'
                 },
                 EditPhoneNumberForm: {
+                    description:
+                        'Введите новый номер телефона и ваш текущий пароль для подтверждения изменений.',
                     editPhoneNumber: 'Изменить номер телефона',
                     successMessage:
                         'Изменения сохранены. Код повторно отправлен.',
@@ -422,6 +434,12 @@ export const ru = {
                 },
                 ChangePasswordModal: {
                     title: 'Изменить пароль'
+                },
+                ChangeEmailModal: {
+                    title: 'Изменить email'
+                },
+                ChangePhoneNumberModal: {
+                    title: 'Изменить номер телефона'
                 },
                 DeleteAccountModal: {
                     title: 'Удалить учетную запись'

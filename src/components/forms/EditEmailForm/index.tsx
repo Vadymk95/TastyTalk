@@ -8,14 +8,11 @@ import { emailValidationRegExp } from '@root/constants/regExps';
 import { useErrorsMessage } from '@root/hooks/useErrorsMessage';
 import { useAuthStore } from '@root/store/authStore';
 
-import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 interface EditEmailFormProps {
-    className?: string;
+    handleCloseModal: () => void;
 }
 
-export const EditEmailForm: FC<EditEmailFormProps> = ({ className = '' }) => {
+export const EditEmailForm: FC<EditEmailFormProps> = ({ handleCloseModal }) => {
     const { t } = useTranslation();
     const [showSuccess, setShowSuccess] = useState(false);
     const { loading, userProfile, editEmail, error, clearError } =
@@ -73,45 +70,42 @@ export const EditEmailForm: FC<EditEmailFormProps> = ({ className = '' }) => {
         >
             {({ isValid, isSubmitting }) => (
                 <Form>
-                    <div className={className}>
-                        <Input
-                            className="mb-4"
-                            name="email"
-                            type="email"
-                            isRequired
-                            label={t('Forms.EditEmailForm.editEmail')}
-                            placeholder={t(
-                                'Forms.EditEmailForm.editEmailPlaceholder'
-                            )}
-                        />
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('Forms.EditEmailForm.description')}
+                    </p>
 
-                        <Input
-                            name="password"
-                            type="password"
-                            placeholder="******"
-                            isRequired
-                            label={t('Forms.EditEmailForm.password')}
-                        />
+                    <Input
+                        className="input-wrapper"
+                        name="email"
+                        type="email"
+                        isRequired
+                        label={t('Forms.EditEmailForm.editEmail')}
+                        placeholder={t(
+                            'Forms.EditEmailForm.editEmailPlaceholder'
+                        )}
+                    />
 
-                        <div className="flex justify-center gap-4 mt-4">
-                            <Button
-                                className="flex gap-2 items-center"
-                                onClick={() => {}}
-                            >
-                                <FontAwesomeIcon icon={faCancel} />
-                                <span>{t('General.cancel')}</span>
-                            </Button>
+                    <Input
+                        className="input-wrapper"
+                        name="password"
+                        type="password"
+                        placeholder="******"
+                        isRequired
+                        label={t('Forms.EditEmailForm.password')}
+                    />
 
-                            <Button
-                                className="flex gap-2 items-center"
-                                type="submit"
-                                variant="secondary"
-                                disabled={!isValid || isSubmitting || loading}
-                            >
-                                <FontAwesomeIcon icon={faCheck} />
-                                <span>{t('General.confirm')}</span>
-                            </Button>
-                        </div>
+                    <div className="flex justify-end space-x-4">
+                        <Button onClick={handleCloseModal}>
+                            <span>{t('General.cancel')}</span>
+                        </Button>
+
+                        <Button
+                            type="submit"
+                            variant="secondary"
+                            disabled={!isValid || isSubmitting || loading}
+                        >
+                            <span>{t('General.confirm')}</span>
+                        </Button>
                     </div>
 
                     {showSuccess && (

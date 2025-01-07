@@ -89,6 +89,14 @@ export const en = {
                 passwordDescription:
                     'Update your password to keep your account secure',
                 changePasswordButton: 'Change Password',
+                changeEmail: 'Change Email',
+                changeEmailDescription:
+                    'Update your email address to keep your account secure',
+                changeEmailButton: 'Change Email',
+                changePhoneNumber: 'Change Phone Number',
+                changePhoneNumberDescription:
+                    'Update your phone number to keep your account secure',
+                changePhoneNumberButton: 'Change Phone Number',
                 deleteAccount: 'Delete Account',
                 deleteDescription:
                     'Permanently delete your account. This action cannot be undone.',
@@ -279,6 +287,8 @@ export const en = {
                     successMessage: 'Profile updated successfully'
                 },
                 EditEmailForm: {
+                    description:
+                        'Update your email address to keep your account secure.',
                     editEmail: 'Edit Email',
                     editEmailPlaceholder: 'Enter your Email',
                     emailNotValid: 'Email is not valid',
@@ -293,6 +303,8 @@ export const en = {
                     requiredField: 'This field is required'
                 },
                 EditPhoneNumberForm: {
+                    description:
+                        'Update your phone number to keep your account secure.',
                     editPhoneNumber: 'Edit Phone Number',
                     successMessage:
                         'Phone number updated successfully. A code has been sent to your new phone number.',
@@ -434,6 +446,12 @@ export const en = {
                 },
                 ChangePasswordModal: {
                     title: 'Change Password'
+                },
+                ChangeEmailModal: {
+                    title: 'Change Email'
+                },
+                ChangePhoneNumberModal: {
+                    title: 'Change Phone Number'
                 },
                 DeleteAccountModal: {
                     title: 'Delete Account'

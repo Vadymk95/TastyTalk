@@ -77,7 +77,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
 
                     <div className="space-y-6">
                         <Input
-                            className="auth-input-wrapper"
+                            className="input-wrapper"
                             type="password"
                             isRequired
                             name="currentPassword"
@@ -90,7 +90,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
                         />
 
                         <Input
-                            className="auth-input-wrapper"
+                            className="input-wrapper"
                             type="password"
                             isRequired
                             name="newPassword"
@@ -101,7 +101,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = ({
                         />
 
                         <Input
-                            className="auth-input-wrapper"
+                            className="input-wrapper"
                             type="password"
                             isRequired
                             name="confirmNewPassword"
