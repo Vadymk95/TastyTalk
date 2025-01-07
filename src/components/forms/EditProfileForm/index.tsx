@@ -167,8 +167,6 @@ export const EditProfileForm: FC = () => {
         clearError();
     }, [clearError]);
 
-    console.log(userProfile);
-
     return (
         <Formik
             preventDefault
