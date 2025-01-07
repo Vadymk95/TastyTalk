@@ -41,11 +41,23 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({ element }) => {
     }
 
     if (
-        (location.pathname === routes.emailVerification ||
-            location.pathname === routes.phoneNumberVerification) &&
+        location.pathname === routes.emailVerification &&
         userProfile?.verified
     ) {
         return <Navigate to={routes.home} />;
+    }
+
+    if (location.pathname === routes.phoneNumberVerification) {
+        const shouldShowVerificationPhoneNumber =
+            (!userProfile?.verified &&
+                (userProfile?.phoneNumber ||
+                    userProfile?.verificationMethod === 'phone')) ||
+            (userProfile?.verificationMethod === 'email' &&
+                userProfile?.phoneNumber);
+
+        if (!shouldShowVerificationPhoneNumber) {
+            return <Navigate to={routes.home} />;
+        }
     }
 
     if (
