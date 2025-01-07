@@ -236,6 +236,7 @@ export const en = {
                     username: 'Username',
                     email: 'Email',
                     phoneNumber: 'Phone Number',
+                    phoneNumberNotValid: 'Phone number is not valid',
                     nameCheckboxLabel: 'Show name on profile',
                     countryCheckboxLabel: 'Show country on profile',
                     usernameInvalid:

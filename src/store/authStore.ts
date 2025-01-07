@@ -598,6 +598,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 const firestoreUpdates: Partial<UserProfile> = {};
                 const currentUsername = get().userProfile?.username;
 
+                if (profileData.phoneNumber) {
+                    firestoreUpdates.phoneNumber = profileData.phoneNumber;
+                }
+
                 if (profileData.firstName || profileData.lastName) {
                     const displayName =
                         `${profileData.firstName || ''} ${profileData.lastName || ''}`.trim();
