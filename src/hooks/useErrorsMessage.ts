@@ -23,6 +23,9 @@ export const useErrorsMessage = (errorMessage: string): string => {
         'This phone number is already in use.': t(
             'AuthErrors.phoneNumberInUse'
         ),
+        'This phone number is already in use. Please try another number.': t(
+            'AuthErrors.phoneNumberInUse'
+        ),
         'auth/invalid-verification-code': t(
             'AuthErrors.invalidVerificationCode'
         )

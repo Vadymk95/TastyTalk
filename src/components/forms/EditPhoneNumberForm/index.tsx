@@ -66,7 +66,9 @@ export const EditPhoneNumberForm: FC<EditPhoneNumberFormProps> = ({
     });
 
     const initialValues = {
-        phoneNumber: userProfile?.phoneNumber || '',
+        phoneNumber:
+            (!!userProfile?.phoneNumber && '+' + userProfile?.phoneNumber) ||
+            '',
         newPhoneNumber: '',
         password: ''
     };

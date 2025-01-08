@@ -616,6 +616,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 const currentUsername = get().userProfile?.username;
 
                 if (profileData.phoneNumber) {
+                    const isPhoneAvailable =
+                        await get().checkPhoneNumberAvailability(
+                            profileData.phoneNumber
+                        );
+                    if (!isPhoneAvailable) {
+                        throw new Error(
+                            'This phone number is already in use. Please try another number.'
+                        );
+                    }
+
                     firestoreUpdates.phoneNumber = profileData.phoneNumber;
                 }
 
@@ -693,7 +703,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 throw new Error('No user is currently signed in.');
             }
         } catch (error: any) {
-            console.error('Edit Profile Error:', error);
+            console.error(error);
             set({ error: error.message });
             return false;
         } finally {
