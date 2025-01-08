@@ -12,9 +12,18 @@
 }
 
 .select-dropdown {
-    @apply absolute w-full mt-1 bg-white shadow-custom-light rounded-lg border border-neutral overflow-y-auto;
+    @apply absolute w-full mt-1 bg-white shadow-custom-light rounded-lg border border-neutral z-[1050];
     max-height: calc(2.5rem * 6);
-    z-index: 1050;
+    overflow-y: auto;
+}
+
+.select-search-container {
+    @apply sticky top-0 bg-white z-10;
+    border-bottom: 1px solid #ccc;
+}
+
+.select-items-container {
+    @apply overflow-y-auto;
 }
 
 .select-item {

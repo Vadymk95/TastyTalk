@@ -115,23 +115,29 @@ export const Select: FC<SelectProps> = ({
                         transition={{ duration: 0.2 }}
                     >
                         {searchable && (
-                            <input
-                                type="text"
-                                placeholder={t('General.search')}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="select-input p-2 w-full border-b"
-                            />
-                        )}
-                        {filteredOptions.map((option) => (
-                            <div
-                                key={option.value}
-                                onClick={() => handleSelect(option.value)}
-                                className="select-item p-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                                {option.label}
+                            <div className="select-search-container">
+                                <input
+                                    type="text"
+                                    placeholder={t('General.search')}
+                                    value={searchQuery}
+                                    onChange={(e) =>
+                                        setSearchQuery(e.target.value)
+                                    }
+                                    className="select-input p-2 w-full border-b"
+                                />
                             </div>
-                        ))}
+                        )}
+                        <div className="select-items-container">
+                            {filteredOptions.map((option) => (
+                                <div
+                                    key={option.value}
+                                    onClick={() => handleSelect(option.value)}
+                                    className="select-item p-2 hover:bg-gray-100 cursor-pointer"
+                                >
+                                    {option.label}
+                                </div>
+                            ))}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
