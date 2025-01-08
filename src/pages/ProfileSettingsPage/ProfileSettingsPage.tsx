@@ -88,7 +88,7 @@ const ProfileSettingsPage: FC = () => {
     }));
 
     return (
-        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-6 sm:gap-y-4">
+        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-5xl mx-auto gap-y-6 sm:gap-y-4">
             <h1 className="main-heading">{t('ProfileSettingsPage.title')}</h1>
 
             <section className="w-full">
@@ -176,7 +176,7 @@ const ProfileSettingsPage: FC = () => {
                 </section>
             )}
 
-            {verificationMethod('email') && (
+            {userProfile?.phoneNumber && (
                 <section className="plate w-full">
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('ProfileSettingsPage.changePhoneNumber')}

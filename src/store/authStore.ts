@@ -15,6 +15,7 @@ import {
     signInWithPopup,
     signInWithRedirect,
     signOut,
+    unlink,
     updateEmail,
     updatePassword,
     updateProfile,
@@ -51,6 +52,10 @@ interface AuthState {
     initialized: boolean;
     editProfile: (profileData: UpdateProfileData) => Promise<boolean>;
     editEmail: (newEmail: string, currentPassword: string) => Promise<boolean>;
+    editPhoneNumber: (
+        newPhoneNumber: string,
+        currentPassword: string
+    ) => Promise<boolean>;
     changePassword: (
         currentPassword: string,
         newPassword: string
@@ -70,6 +75,7 @@ interface AuthState {
     resendVerificationEmail: () => Promise<void>;
     checkEmailVerificationStatus: () => Promise<void>;
     deleteUserAccount: (email: string, password: string) => Promise<boolean>;
+    checkPhoneNumberAvailability: (phoneNumber: string) => Promise<boolean>;
     reauthenticateUser: (email: string, password: string) => Promise<void>;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
     setLoading: (value: boolean) => void;
@@ -765,6 +771,102 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             return false;
         } finally {
             set({ loading: false });
+        }
+    },
+
+    editPhoneNumber: async (
+        newPhoneNumber: string,
+        currentPassword: string
+    ) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            const user = auth.currentUser;
+            if (!user) {
+                throw new Error('No user is currently signed in.');
+            }
+
+            const userProfile = get().userProfile;
+
+            if (!userProfile) {
+                throw new Error('User profile not found in store.');
+            }
+
+            // Проверяем, доступен ли новый номер
+            const phoneWithoutPlus = newPhoneNumber.startsWith('+')
+                ? newPhoneNumber.slice(1)
+                : newPhoneNumber;
+
+            const isPhoneAvailable =
+                await get().checkPhoneNumberAvailability(phoneWithoutPlus);
+            if (!isPhoneAvailable) {
+                throw new Error(
+                    'This phone number is already in use. Please try another number.'
+                );
+            }
+
+            // Реаутентификация пользователя
+            const credential = EmailAuthProvider.credential(
+                user.email!,
+                currentPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+
+            // Удаляем текущую привязку номера телефона
+            if (user.phoneNumber) {
+                await unlink(user, 'phone'); // Удаляем привязку номера телефона
+            }
+
+            // Обновляем номер телефона в Firestore
+            const userRef = doc(db, 'users', user.uid);
+            const isVerified =
+                userProfile.verificationMethod === 'full' ? true : false;
+            const verifMethod =
+                userProfile.verificationMethod !== 'phone' ? 'email' : 'phone';
+
+            await setDoc(
+                userRef,
+                {
+                    phoneNumber: phoneWithoutPlus,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                },
+                { merge: true }
+            );
+
+            // Обновляем состояние
+            set({
+                userProfile: {
+                    ...userProfile,
+                    phoneNumber: phoneWithoutPlus,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                }
+            });
+
+            return true; // Обновление завершено
+        } catch (error: any) {
+            console.error('Edit Phone Number Error:', error);
+            set({ error: error.message });
+            return false;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    checkPhoneNumberAvailability: async (
+        phoneNumber: string
+    ): Promise<boolean> => {
+        try {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('phoneNumber', '==', phoneNumber));
+            const querySnapshot = await getDocs(q);
+
+            return querySnapshot.empty;
+        } catch (error: any) {
+            console.error('Phone number availability check failed:', error);
+            return false;
         }
     },
 

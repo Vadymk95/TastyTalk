@@ -23,7 +23,8 @@ export const EditPhoneNumberForm: FC<EditPhoneNumberFormProps> = ({
 }) => {
     const { t } = useTranslation();
     const [showSuccess, setShowSuccess] = useState(false);
-    const { userProfile, loading, clearError, error } = useAuthStore();
+    const { userProfile, loading, clearError, error, editPhoneNumber } =
+        useAuthStore();
     const [countryCode, setCountryCode] = useState('');
 
     const handleSubmit = async (values: {
@@ -34,7 +35,10 @@ export const EditPhoneNumberForm: FC<EditPhoneNumberFormProps> = ({
             return;
         }
 
-        const success = true;
+        const success = await editPhoneNumber(
+            values.newPhoneNumber,
+            values.password
+        );
 
         if (success) {
             setShowSuccess(true);
@@ -88,6 +92,10 @@ export const EditPhoneNumberForm: FC<EditPhoneNumberFormProps> = ({
             {({ isValid, isSubmitting }) => (
                 <Form>
                     <div className="w-full mt-6 text-start">
+                        <p className="text-sm text-neutral-dark mb-4">
+                            {t('Forms.EditPhoneNumberForm.description')}
+                        </p>
+
                         <Input
                             className="input-wrapper"
                             name="phoneNumber"
