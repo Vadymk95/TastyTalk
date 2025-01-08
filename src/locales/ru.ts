@@ -301,7 +301,8 @@ export const ru = {
                 EditPhoneNumberForm: {
                     description:
                         'Введите новый номер телефона и ваш текущий пароль для подтверждения изменений.',
-                    editPhoneNumber: 'Изменить номер телефона',
+                    editPhoneNumber: 'Ваш номер телефона',
+                    newPhoneNumber: 'Новый номер телефона',
                     successMessage:
                         'Изменения сохранены. Код повторно отправлен.',
                     password: 'Пароль',

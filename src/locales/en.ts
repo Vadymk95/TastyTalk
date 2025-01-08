@@ -312,7 +312,8 @@ export const en = {
                 EditPhoneNumberForm: {
                     description:
                         'Update your phone number to keep your account secure.',
-                    editPhoneNumber: 'Edit Phone Number',
+                    editPhoneNumber: 'Your Phone Number',
+                    newPhoneNumber: 'New Phone Number',
                     successMessage:
                         'Phone number updated successfully. A code has been sent to your new phone number.',
                     password: 'Password',
