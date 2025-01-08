@@ -2,31 +2,17 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UserList } from '@root/components/common';
+import { useAuthStore } from '@root/store';
 
 const FollowingPage: FC = () => {
     const { t } = useTranslation();
-
-    const fetchUsers = async () => {
-        console.log('Fetching users...');
-
-        return [
-            {
-                id: '1',
-                username: 'john_doe',
-                name: 'John Doe'
-            },
-            {
-                id: '2',
-                username: 'jane_doe',
-                name: 'Jane Doe'
-            }
-        ];
-    };
+    const { userProfile } = useAuthStore();
 
     return (
         <UserList
             title={t('FollowingPage.title')}
-            fetchUsers={fetchUsers}
+            type="following"
+            userId={userProfile?.id || ''}
             description={t('FollowingPage.description')}
         />
     );

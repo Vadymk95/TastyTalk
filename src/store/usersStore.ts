@@ -3,6 +3,7 @@ import {
     arrayUnion,
     collection,
     doc,
+    getDoc,
     getDocs,
     limit,
     orderBy,
@@ -11,8 +12,8 @@ import {
     updateDoc,
     where
 } from 'firebase/firestore';
-import { create } from 'zustand';
 import debounce from 'lodash/debounce';
+import { create } from 'zustand';
 
 import { db } from '@root/firebase/firebaseConfig';
 import { useAuthStore } from '@root/store/authStore';
@@ -32,6 +33,8 @@ interface UsersState {
     unfollowUser: (userId: string) => Promise<void>;
     debouncedFetchUsers: () => void;
     fetchMoreUsers: () => Promise<void>;
+    getFollowers: (userId: string) => Promise<UserProfile[]>;
+    getFollowing: (userId: string) => Promise<UserProfile[]>;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -256,6 +259,112 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         } catch (error: any) {
             console.error('Unfollow Error:', error.message);
             set({ error: error.message });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    getFollowers: async (userId: string) => {
+        set({ loading: true, error: null });
+        try {
+            // Получение документа пользователя
+            const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                set({ error: 'User not found' });
+                return [];
+            }
+
+            // Извлечение массива followers
+            const followersIds: string[] = userDoc.data()?.followers || [];
+
+            if (followersIds.length === 0) {
+                return [];
+            }
+
+            // Бьём массив на части для Firestore (ограничение `in` на 10 элементов)
+            const batches = [];
+            while (followersIds.length) {
+                batches.push(followersIds.splice(0, 10));
+            }
+
+            const followersPromises = batches.map((batch) => {
+                const followersQuery = query(
+                    collection(db, 'users'),
+                    where('id', 'in', batch)
+                );
+                return getDocs(followersQuery);
+            });
+
+            const snapshots = await Promise.all(followersPromises);
+
+            // Объединяем результаты
+            const followers: UserProfile[] = snapshots.flatMap((snapshot) =>
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }))
+            ) as UserProfile[];
+
+            return followers;
+        } catch (error: any) {
+            console.error('Error fetching followers:', error.message);
+            set({ error: error.message });
+            return [];
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    getFollowing: async (userId: string) => {
+        set({ loading: true, error: null });
+        try {
+            // Получение документа пользователя
+            const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                set({ error: 'User not found' });
+                return [];
+            }
+
+            // Извлечение массива following
+            const followingIds: string[] = userDoc.data()?.following || [];
+
+            if (followingIds.length === 0) {
+                return [];
+            }
+
+            // Бьём массив на части для Firestore (ограничение `in` на 10 элементов)
+            const batches = [];
+            while (followingIds.length) {
+                batches.push(followingIds.splice(0, 10));
+            }
+
+            const followingPromises = batches.map((batch) => {
+                const followingQuery = query(
+                    collection(db, 'users'),
+                    where('id', 'in', batch)
+                );
+                return getDocs(followingQuery);
+            });
+
+            const snapshots = await Promise.all(followingPromises);
+
+            // Объединяем результаты
+            const following: UserProfile[] = snapshots.flatMap((snapshot) =>
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }))
+            ) as UserProfile[];
+
+            return following;
+        } catch (error: any) {
+            console.error('Error fetching following:', error.message);
+            set({ error: error.message });
+            return [];
         } finally {
             set({ loading: false });
         }

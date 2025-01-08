@@ -3,20 +3,24 @@ import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
 import { Back, SearchInput } from '@root/components/ui';
+import { useUsersStore } from '@root/store/usersStore';
 import { UserProfile } from '@root/types';
 
 type UserListProps = {
     title: string;
     description: string;
-    fetchUsers: () => any;
+    type: 'followers' | 'following';
+    userId: string;
 };
 
 export const UserList: FC<UserListProps> = ({
     title,
     description,
-    fetchUsers
+    type,
+    userId
 }) => {
     const { t } = useTranslation();
+    const { getFollowing, getFollowers } = useUsersStore();
     const [users, setUsers] = useState<UserProfile[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(false);
@@ -25,7 +29,10 @@ export const UserList: FC<UserListProps> = ({
         const loadUsers = async () => {
             setLoading(true);
             try {
-                const data = await fetchUsers();
+                const data =
+                    type === 'following'
+                        ? await getFollowing(userId)
+                        : await getFollowers(userId);
                 setUsers(data);
             } catch (error) {
                 console.error(error);
@@ -35,7 +42,8 @@ export const UserList: FC<UserListProps> = ({
         };
 
         loadUsers();
-    }, [fetchUsers]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [type, userId]);
 
     const filteredUsers = users.filter((user) =>
         user.username.toLowerCase().includes(searchQuery.toLowerCase())
