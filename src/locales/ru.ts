@@ -8,11 +8,24 @@ export const ru = {
             EmailVerificationPage: {
                 title: 'Подтвердите свой адрес электронной почты',
                 text: 'На вашу электронную почту отправлено письмо. Пожалуйста, подтвердите его, чтобы завершить регистрацию.',
-                goToHome: 'Перейти на главную',
                 resendEmailText: 'Не получили письмо?',
                 resendEmail: 'Отправить еще раз',
-                emailSent: 'Письмо отправлено',
-                emailSendError: 'Ошибка отправки письма'
+                emailSent: 'Письмо отправлено. Повторно можно отправить через',
+                emailSendError: 'Ошибка отправки письма',
+                preferPhoneNumber: 'Предпочитаю номер телефона?',
+                preferPhoneNumberLink: 'Подтвердите через номер телефона'
+            },
+            PhoneNumberVerificationPage: {
+                title: 'Подтвердите свой номер телефона',
+                text: 'На ваш номер телефона отправлен 6-значный код. Пожалуйста, введите его, чтобы завершить регистрацию.',
+                resendCodeText:
+                    'Не получили код? Пройдите проверку снова и наэмите',
+                resendCode: 'Отправить еще раз',
+                codeSent: 'Код отправлен. Повторно можно отправить через',
+                codeSendError: 'Ошибка отправки кода',
+                sendCode: 'Отправить код',
+                preferEmail: 'Предпочитаю email?',
+                preferEmailLink: 'Подтвердите через email'
             },
             FollowingPage: {
                 title: 'Подписки',
@@ -53,8 +66,12 @@ export const ru = {
                 title: 'Настройки профиля',
                 resendEmailTitle: 'Отправить письмо с подтверждением',
                 resendEmailDescription:
-                    'Отправьте письмо с подтверждением на ваш email',
+                    'У вас не верифицирована почта. Отправьте письмо с подтверждением на ваш email',
                 resendEmailButton: 'Отправить письмо',
+                verifiyPhoneNumberTitle: 'Подтверждение номера телефона',
+                verifiyPhoneNumberDescription:
+                    'Подтвердите ваш номер телефона для безопасности вашей учетной записи',
+                verificationPhoneNumberButton: 'Подтвердить',
                 changeLanguageTitle: 'Изменить язык',
                 changeLanguageDescription: 'Измените язык интерфейса на другой',
                 changeLanguageButton: 'Изменить язык',
@@ -75,6 +92,14 @@ export const ru = {
                 changePassword: 'Изменить пароль',
                 passwordDescription: 'Измените пароль для вашей учетной записи',
                 changePasswordButton: 'Изменить пароль',
+                changeEmail: 'Изменить email',
+                changeEmailDescription:
+                    'Измените email для вашей учетной записи',
+                changeEmailButton: 'Изменить email',
+                changePhoneNumber: 'Изменить номер телефона',
+                changePhoneNumberDescription:
+                    'Измените номер телефона для вашей учетной записи',
+                changePhoneNumberButton: 'Изменить номер телефона',
                 deleteAccount: 'Удалить учетную запись',
                 deleteDescription: 'Удалите свою учетную запись навсегда',
                 deleteButton: 'Удалить учетную запись'
@@ -134,7 +159,9 @@ export const ru = {
                 emailInUse:
                     'Этот email уже используется. Пожалуйста, попробуйте другой email.',
                 emailRegistered:
-                    'Этот email уже зарегистрирован. Пожалуйста, войдите или восстановите пароль.'
+                    'Этот email уже зарегистрирован. Пожалуйста, войдите или восстановите пароль.',
+                phoneNumberInUse: 'Этот номер телефона уже используется.',
+                invalidVerificationCode: 'Неверный код подтверждения.'
             },
             UsernameInput: {
                 username: 'Имя пользователя',
@@ -148,9 +175,9 @@ export const ru = {
                     actionSignUp: 'Зарегистрироваться',
                     signIn: 'Войти',
                     dontHaveAccount: 'У вас еще нет аккаунта?',
-                    emailOrUsername: 'Email или имя пользователя',
-                    emailOrUsernamePlaceholder:
-                        'Введите ваш email или имя пользователя',
+                    login: 'Логин',
+                    loginDescription:
+                        '*Введите имя пользователя, email или номер телефона в международном формате (начиная с "+").',
                     password: 'Пароль',
                     requiredField: 'Это поле обязательно',
                     emailNotValid: 'Email не валидный',
@@ -161,11 +188,15 @@ export const ru = {
                 RegisterForm: {
                     signUp: 'Регистрация',
                     email: 'Email',
+                    enterNumber: 'Введите номер телефона',
                     username: 'Имя пользователя',
                     firstName: 'Имя',
                     lastName: 'Фамилия',
                     password: 'Пароль',
                     confirmPassword: 'Подтвердите пароль',
+                    verificationMethodTitle: 'Способ подтверждения',
+                    viaPhone: 'Телефон',
+                    viaEmail: 'Email',
                     usernameInvalid:
                         'Имя пользователя может содержать только буквы, цифры и подчеркивания',
                     usernameMustContainLetter:
@@ -188,19 +219,23 @@ export const ru = {
                     emailNotValid: 'Email не валидный',
                     emailMinLength: 'Email должен быть не менее 6 символов',
                     emailMaxLength: 'Email должен быть не более 50 символов',
+                    phoneNumberNotValid: 'Номер телефона не валидный',
                     passwordMinLength: 'Пароль должен быть не менее 6 символов',
                     passwordsMustMatch: 'Пароли должны совпадать',
                     enterYourEmail: 'Введите ваш email',
                     enterYourName: 'Введите ваше имя',
                     enterYourLastName: 'Введите вашу фамилию',
                     haveAccount: 'Уже есть аккаунт?',
-                    registerFinish: 'Завершите процесс регистрации'
+                    registerFinish: 'Завершите процесс регистрации',
+                    selectVerificationMethod: 'Выберите способ подтверждения'
                 },
                 EditProfileForm: {
                     firstName: 'Имя',
                     lastName: 'Фамилия',
                     username: 'Имя пользователя',
                     email: 'Email',
+                    phoneNumber: 'Номер телефона',
+                    phoneNumberNotValid: 'Номер телефона не валидный',
                     nameCheckboxLabel: 'Отображать имя и фамилию в профиле',
                     countryCheckboxLabel: 'Отображать страну в профиле',
                     usernameInvalid:
@@ -246,6 +281,38 @@ export const ru = {
                     addSocialNetwork: 'Добавить соц. сеть',
                     save: 'Сохранить изменения',
                     successMessage: 'Изменения сохранены'
+                },
+                EditEmailForm: {
+                    description:
+                        'Введите новый email и ваш текущий пароль для подтверждения изменений.',
+                    editEmail: 'Ваш email',
+                    editEmailPlaceholder: 'Введите ваш Email',
+                    newEmail: 'Новый email',
+                    newEmailPlaceholder: 'Введите ваш новый Email',
+                    emailNotValid: 'Email не валидный',
+                    emailMinLength: 'Email должен быть не менее 6 символов',
+                    emailMaxLength: 'Email должен быть не более 50 символов',
+                    successMessage:
+                        'Изменения сохранены. Письмо повторно отправлено.',
+                    password: 'Пароль',
+                    passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                    requiredField: 'Это поле обязательно'
+                },
+                EditPhoneNumberForm: {
+                    description:
+                        'Введите новый номер телефона и ваш текущий пароль для подтверждения изменений.',
+                    editPhoneNumber: 'Ваш номер телефона',
+                    newPhoneNumber: 'Новый номер телефона',
+                    successMessage:
+                        'Изменения сохранены. Код повторно отправлен.',
+                    password: 'Пароль',
+                    passwordMinLength: 'Пароль должен быть не менее 6 символов',
+                    requiredField: 'Это поле обязательно',
+                    phoneNumberNotValid: 'Номер телефона не валидный'
+                },
+                PhoneVerificationForm: {
+                    codeLength: 'Код должен быть длиной 6 символов',
+                    typeCode: 'Введите код'
                 },
                 ChangePasswordForm: {
                     description:
@@ -375,6 +442,12 @@ export const ru = {
                 },
                 ChangePasswordModal: {
                     title: 'Изменить пароль'
+                },
+                ChangeEmailModal: {
+                    title: 'Изменить email'
+                },
+                ChangePhoneNumberModal: {
+                    title: 'Изменить номер телефона'
                 },
                 DeleteAccountModal: {
                     title: 'Удалить учетную запись'
@@ -689,13 +762,16 @@ export const ru = {
                 selectAll: 'Выбрать всеx',
                 apply: 'Применить',
                 noResultsFound: 'Ничего не найдено',
+                requiredField: 'Это поле обязательно',
                 back: 'Назад',
                 follow: 'Подписаться',
                 unfollow: 'Отписаться',
                 clickHere: 'Нажмите сюда',
                 or: 'Или',
                 selected: 'Выбрано',
-                oops: 'Упс!'
+                oops: 'Упс!',
+                enterPhoneNumber: 'Введите номер телефона',
+                send: 'Отправить'
             }
         }
     }

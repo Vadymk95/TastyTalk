@@ -7,14 +7,14 @@ import * as Yup from 'yup';
 import { ForgotPasswordModal } from '@root/components/modals/ForgotPasswordModal';
 import { Button, ErrorCard, Image, Input, Link } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
-import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
+import { useErrorsMessage } from '@root/hooks/useErrorsMessage';
 import { routes } from '@root/router/routes';
 import { useAuthStore, useModalStore } from '@root/store';
 
 import googleLogo from '@root/assets/images/google_logo.png';
 
 type LoginFormValues = {
-    emailOrUsername: string;
+    loginData: string;
     password: string;
 };
 
@@ -26,15 +26,10 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     const { t } = useTranslation();
     const { openModal } = useModalStore();
     const navigate = useNavigate();
-    const {
-        signInWithEmailOrUsername,
-        signInWithGoogle,
-        loading,
-        error,
-        clearError
-    } = useAuthStore();
+    const { signIn, signInWithGoogle, loading, error, clearError } =
+        useAuthStore();
 
-    const authError = useGetAuthErrorMessage(
+    const authError = useErrorsMessage(
         error || t('General.somethingWentWrong')
     );
 
@@ -51,10 +46,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     };
 
     const handleLoginSubmit = async (values: LoginFormValues) => {
-        const shouldRedirect = await signInWithEmailOrUsername(
-            values.emailOrUsername,
-            values.password
-        );
+        const shouldRedirect = await signIn(values.loginData, values.password);
 
         if (shouldRedirect === null) return;
 
@@ -70,9 +62,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     };
 
     const LoginSchema = Yup.object().shape({
-        emailOrUsername: Yup.string().required(
-            t('Forms.LoginForm.requiredField')
-        ),
+        loginData: Yup.string().required(t('Forms.LoginForm.requiredField')),
         password: Yup.string()
             .min(6, t('Forms.LoginForm.passwordMinLength'))
             .required(t('Forms.LoginForm.requiredField'))
@@ -81,7 +71,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
     const handleModalOpen = () => openModal(ModalsEnum.ForgotPassword);
 
     const initialValues: LoginFormValues = {
-        emailOrUsername: '',
+        loginData: '',
         password: ''
     };
 
@@ -120,16 +110,18 @@ export const LoginForm: FC<LoginFormProps> = ({ setIsSignIn }) => {
 
                         <div className="divider" />
 
-                        <Input
-                            className="auth-input-wrapper"
-                            name="emailOrUsername"
-                            type="text"
-                            placeholder={t(
-                                'Forms.LoginForm.emailOrUsernamePlaceholder'
-                            )}
-                            isRequired
-                            label={t('Forms.LoginForm.emailOrUsername')}
-                        />
+                        <div className="auth-input-wrapper">
+                            <Input
+                                name="loginData"
+                                type="text"
+                                placeholder={t('Forms.LoginForm.login')}
+                                isRequired
+                                label={t('Forms.LoginForm.login')}
+                            />
+                            <p className="mt-3 text-xs label">
+                                {t('Forms.LoginForm.loginDescription')}
+                            </p>
+                        </div>
 
                         <Input
                             className="auth-input-wrapper"

@@ -1,4 +1,6 @@
+export { ChangeEmailModal } from './ChangeEmailModal';
 export { ChangePasswordModal } from './ChangePasswordModal';
+export { ChangePhoneNumberModal } from './ChangePhoneNumberModal';
 export { DeleteAccountModal } from './DeleteAccountModal';
 export { ForgotPasswordModal } from './ForgotPasswordModal';
 export { PricingModal } from './PricingModal';

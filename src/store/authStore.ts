@@ -1,4 +1,5 @@
 import {
+    ApplicationVerifier,
     createUserWithEmailAndPassword,
     deleteUser,
     EmailAuthProvider,
@@ -7,12 +8,15 @@ import {
     GoogleAuthProvider,
     linkWithCredential,
     onAuthStateChanged,
+    PhoneAuthProvider,
     reauthenticateWithCredential,
     sendEmailVerification,
     signInWithEmailAndPassword,
     signInWithPopup,
     signInWithRedirect,
     signOut,
+    unlink,
+    updateEmail,
     updatePassword,
     updateProfile,
     User,
@@ -32,7 +36,12 @@ import { create } from 'zustand';
 
 import { auth, db, googleProvider } from '@root/firebase/firebaseConfig';
 import { convertFileToBase64, isInWebViewOrIframe } from '@root/helpers';
-import { SubscriptionPlan, UpdateProfileData, UserProfile } from '@root/types';
+import {
+    SubscriptionPlan,
+    UpdateProfileData,
+    UserProfile,
+    VerificationMethod
+} from '@root/types';
 
 interface AuthState {
     user: User | null;
@@ -42,18 +51,22 @@ interface AuthState {
     isRegistered: boolean;
     initialized: boolean;
     editProfile: (profileData: UpdateProfileData) => Promise<boolean>;
+    editEmail: (newEmail: string, currentPassword: string) => Promise<boolean>;
+    editPhoneNumber: (
+        newPhoneNumber: string,
+        currentPassword: string
+    ) => Promise<boolean>;
     changePassword: (
         currentPassword: string,
         newPassword: string
     ) => Promise<boolean>;
-    signInWithEmailOrUsername: (
-        emailOrUsername: string,
-        password: string
-    ) => Promise<boolean | null>;
+    signIn: (loginData: string, password: string) => Promise<boolean | null>;
     signInWithGoogle: () => Promise<boolean | null>;
     signOutUser: () => Promise<void>;
     registerWithEmailAndProfile: (
         email: string,
+        phoneNumber: string,
+        verificationMethod: VerificationMethod,
         username: string,
         password: string,
         firstName: string,
@@ -62,6 +75,7 @@ interface AuthState {
     resendVerificationEmail: () => Promise<void>;
     checkEmailVerificationStatus: () => Promise<void>;
     deleteUserAccount: (email: string, password: string) => Promise<boolean>;
+    checkPhoneNumberAvailability: (phoneNumber: string) => Promise<boolean>;
     reauthenticateUser: (email: string, password: string) => Promise<void>;
     checkUsernameAvailability: (username: string) => Promise<boolean>;
     setLoading: (value: boolean) => void;
@@ -69,7 +83,7 @@ interface AuthState {
     clearError: () => void;
     setUser: (user: User | null, isRegistered?: boolean) => void;
     loadUserProfile: (uid: string) => Promise<void>;
-    checkEmailAndFirestoreAvailability: (email: string) => Promise<void>;
+    checkEmailAndFirestoreAvailability: (email: string) => Promise<boolean>;
     updateSubscriptionPlan: (plan: SubscriptionPlan) => Promise<void>;
     isMe: (username: string) => boolean;
     hasPaidPlan: () => boolean;
@@ -77,6 +91,14 @@ interface AuthState {
     isStandardPlan: () => boolean;
     isPremiumPlan: () => boolean;
     handleRedirectResult: () => Promise<void>;
+    verifyPhoneNumber: (
+        phoneNumber: string,
+        appVerifier: ApplicationVerifier
+    ) => Promise<any>;
+    confirmPhoneVerificationCode: (
+        verificationCode: string,
+        verificationId: string
+    ) => Promise<boolean>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -91,30 +113,37 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             if (user) {
-                const isEmailVerified = user.emailVerified;
-                const shouldVerifyEmail = !isEmailVerified && !isRegistered;
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                const userProfile = userSnap.exists()
+                    ? (userSnap.data() as UserProfile)
+                    : null;
+
+                const isVerified =
+                    user.emailVerified || (userProfile?.verified ?? false);
 
                 set({
                     user,
                     isRegistered,
                     initialized: true,
-                    userProfile: null
+                    userProfile: userProfile
+                        ? { ...userProfile, verified: isVerified }
+                        : null
                 });
 
-                if (isRegistered) {
-                    await get().loadUserProfile(user.uid);
-                    const { userProfile } = get();
-                    if (userProfile) {
-                        set({
-                            userProfile: {
-                                ...userProfile,
-                                verified: true
-                            }
-                        });
-                    }
+                if (
+                    isRegistered &&
+                    userProfile &&
+                    userProfile.verified !== isVerified
+                ) {
+                    await setDoc(
+                        userRef,
+                        { verified: isVerified },
+                        { merge: true }
+                    );
                 }
 
-                if (shouldVerifyEmail) {
+                if (!isVerified && !isRegistered) {
                     await sendEmailVerification(user);
                 }
             } else {
@@ -156,21 +185,28 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     setError: (error) => set({ error }),
     clearError: () => set({ error: null }),
 
-    signInWithEmailOrUsername: async (
-        emailOrUsername: string,
-        password: string
-    ) => {
+    signIn: async (loginData: string, password: string) => {
         set({ loading: true });
         try {
             set({ error: null });
-            let email = emailOrUsername;
-
-            if (!/\S+@\S+\.\S+/.test(emailOrUsername)) {
+            let email = loginData;
+            if (loginData.startsWith('+')) {
+                const phoneWithoutPlus = loginData.slice(1);
                 const usersRef = collection(db, 'users');
                 const q = query(
                     usersRef,
-                    where('username', '==', emailOrUsername)
+                    where('phoneNumber', '==', phoneWithoutPlus)
                 );
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const userDoc = querySnapshot.docs[0];
+                    email = userDoc.data().email;
+                } else {
+                    throw new Error('auth/invalid-phone-number');
+                }
+            } else if (!/\S+@\S+\.\S+/.test(loginData)) {
+                const usersRef = collection(db, 'users');
+                const q = query(usersRef, where('username', '==', loginData));
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
                     const userDoc = querySnapshot.docs[0];
@@ -250,6 +286,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     registerWithEmailAndProfile: async (
         email,
+        phoneNumber,
+        verificationMethod,
         username,
         password,
         firstName,
@@ -258,48 +296,105 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loading: true });
         try {
             set({ error: null });
-            await get().checkEmailAndFirestoreAvailability(email);
 
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            const user = userCredential.user;
-            const usernameLower = username.toLowerCase();
+            if (phoneNumber) {
+                const usersRef = collection(db, 'users');
+                const q = query(
+                    usersRef,
+                    where('phoneNumber', '==', phoneNumber)
+                );
+                const querySnapshot = await getDocs(q);
 
-            await updateProfile(user, {
-                displayName: `${firstName} ${lastName}`
-            });
-            await user.reload();
+                if (!querySnapshot.empty) {
+                    throw new Error('This phone number is already in use.');
+                }
+            }
 
-            const userProfile: UserProfile = {
-                id: user.uid,
-                email: user.email,
-                username,
-                usernameLower,
-                firstName,
-                lastName,
-                createdAt: new Date(),
-                followers: [],
-                following: [],
-                verified: false,
-                subscriptionPlan: 'Free',
-                recipesCount: 0,
-                mealPlansCount: 0,
-                followersCount: 0,
-                followingCount: 0
-            };
+            const currentUser = auth.currentUser;
 
-            await setDoc(doc(db, 'users', user.uid), userProfile);
-            await get().loadUserProfile(user.uid);
+            if (currentUser && currentUser.email === email) {
+                const credential = EmailAuthProvider.credential(
+                    email,
+                    password
+                );
+                const usernameLower = username.toLowerCase();
+                await linkWithCredential(currentUser, credential);
 
-            set({
-                user,
-                userProfile,
-                isRegistered: true,
-                error: null
-            });
+                const userProfile = {
+                    id: currentUser.uid,
+                    email: currentUser.email,
+                    phoneNumber,
+                    verificationMethod,
+                    username,
+                    usernameLower,
+                    firstName,
+                    lastName,
+                    createdAt: new Date(),
+                    followers: [],
+                    following: [],
+                    verified: true,
+                    subscriptionPlan: 'Free' as SubscriptionPlan,
+                    recipesCount: 0,
+                    mealPlansCount: 0,
+                    followersCount: 0,
+                    followingCount: 0
+                };
+
+                await setDoc(doc(db, 'users', currentUser.uid), userProfile);
+                await get().loadUserProfile(currentUser.uid);
+
+                set({
+                    user: currentUser,
+                    userProfile,
+                    isRegistered: true,
+                    error: null
+                });
+            } else {
+                await get().checkEmailAndFirestoreAvailability(email);
+
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+                const user = userCredential.user;
+                const usernameLower = username.toLowerCase();
+
+                await updateProfile(user, {
+                    displayName: `${firstName} ${lastName}`
+                });
+                await user.reload();
+
+                const userProfile = {
+                    id: user.uid,
+                    email: user.email,
+                    phoneNumber,
+                    verificationMethod,
+                    username,
+                    usernameLower,
+                    firstName,
+                    lastName,
+                    createdAt: new Date(),
+                    followers: [],
+                    following: [],
+                    verified: false,
+                    subscriptionPlan: 'Free' as SubscriptionPlan,
+                    recipesCount: 0,
+                    mealPlansCount: 0,
+                    followersCount: 0,
+                    followingCount: 0
+                };
+
+                await setDoc(doc(db, 'users', user.uid), userProfile);
+                await get().loadUserProfile(user.uid);
+
+                set({
+                    user,
+                    userProfile,
+                    isRegistered: true,
+                    error: null
+                });
+            }
         } catch (error: any) {
             set({ error: error.message });
             throw error;
@@ -403,6 +498,113 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
     },
 
+    verifyPhoneNumber: async (
+        phoneNumber: string,
+        appVerifier: ApplicationVerifier
+    ) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            const currentUser = get().user;
+            const userProfile = get().userProfile;
+
+            if (!currentUser || !userProfile) {
+                set({
+                    error: 'User is not authenticated or profile is missing.'
+                });
+                return;
+            }
+
+            if (!phoneNumber.startsWith('+')) {
+                throw new Error('Phone number must be in E.164 format.');
+            }
+
+            // Генерация verificationId через PhoneAuthProvider
+            const phoneAuthProvider = new PhoneAuthProvider(auth);
+            const verificationId = await phoneAuthProvider.verifyPhoneNumber(
+                phoneNumber,
+                appVerifier
+            );
+
+            return verificationId; // Возвращаем verificationId
+        } catch (error: any) {
+            console.error('Phone Verification Error:', error);
+            set({ error: error.message });
+            throw error;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    confirmPhoneVerificationCode: async (
+        verificationCode: string,
+        verificationId: string
+    ) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            const user = auth.currentUser;
+            const userProfile = get().userProfile;
+
+            if (!user || !userProfile) {
+                set({
+                    error: 'User is not authenticated or profile is missing.'
+                });
+                return false;
+            }
+
+            // Создаем PhoneAuthCredential с помощью verificationId и verificationCode
+            const phoneCredential = PhoneAuthProvider.credential(
+                verificationId,
+                verificationCode
+            );
+
+            // Линкуем телефон к текущему юзеру
+            await linkWithCredential(user, phoneCredential);
+
+            const phoneNumberWithoutPlus = user.phoneNumber?.slice(1) || '';
+            const userRef = doc(db, 'users', user.uid);
+
+            // Обновляем данные в Firestore
+            await setDoc(
+                userRef,
+                {
+                    phoneNumber: phoneNumberWithoutPlus,
+                    verified: true,
+                    verificationMethod:
+                        userProfile.verificationMethod === 'email'
+                            ? 'full'
+                            : 'phone'
+                },
+                { merge: true }
+            );
+
+            // Обновляем состояние
+            set({
+                user,
+                userProfile: {
+                    ...userProfile,
+                    phoneNumber: phoneNumberWithoutPlus,
+                    verified: true,
+                    verificationMethod:
+                        userProfile.verificationMethod === 'email'
+                            ? 'full'
+                            : 'phone'
+                }
+            });
+
+            return true;
+        } catch (error: any) {
+            console.error('Code Confirmation Error:', error);
+            set({ error: error.message });
+            return false;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
     editProfile: async (profileData: UpdateProfileData): Promise<boolean> => {
         set({ loading: true });
         try {
@@ -412,6 +614,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 const userRef = doc(db, 'users', user.uid);
                 const firestoreUpdates: Partial<UserProfile> = {};
                 const currentUsername = get().userProfile?.username;
+
+                if (profileData.phoneNumber) {
+                    const isPhoneAvailable =
+                        await get().checkPhoneNumberAvailability(
+                            profileData.phoneNumber
+                        );
+                    if (!isPhoneAvailable) {
+                        throw new Error(
+                            'This phone number is already in use. Please try another number.'
+                        );
+                    }
+
+                    firestoreUpdates.phoneNumber = profileData.phoneNumber;
+                }
 
                 if (profileData.firstName || profileData.lastName) {
                     const displayName =
@@ -429,7 +645,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                         profileData.username
                     );
                     if (!isAvailable) {
-                        throw new Error('Этот юзернейм уже занят');
+                        console.error('This username is already taken.');
+                        throw new Error('This username is already taken.');
                     }
                     const usernameLower = profileData.username.toLowerCase();
                     firestoreUpdates.username = profileData.username;
@@ -486,11 +703,180 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 throw new Error('No user is currently signed in.');
             }
         } catch (error: any) {
-            console.error('Edit Profile Error:', error);
+            console.error(error);
             set({ error: error.message });
             return false;
         } finally {
             set({ loading: false });
+        }
+    },
+
+    editEmail: async (newEmail: string, currentPassword: string) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            const user = auth.currentUser;
+            if (!user) {
+                throw new Error('No user is currently signed in.');
+            }
+
+            // Проверяем, доступен ли новый email
+            const isAvailable =
+                await get().checkEmailAndFirestoreAvailability(newEmail);
+            if (!isAvailable) {
+                throw new Error(
+                    'This email is already in use. Please try another email.'
+                );
+            }
+
+            // Реаутентификация пользователя
+            const credential = EmailAuthProvider.credential(
+                user.email!,
+                currentPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+
+            // Обновление email пользователя в Firebase Authentication
+            await updateEmail(user, newEmail);
+
+            // Отправляем письмо для подтверждения нового email
+            await sendEmailVerification(user);
+
+            const userProfile = get().userProfile;
+
+            if (!userProfile) {
+                throw new Error('User profile not found in store.');
+            }
+
+            const isVerified =
+                userProfile.verificationMethod === 'full' ? true : false;
+            const verifMethod =
+                userProfile.verificationMethod !== 'email' ? 'phone' : 'email';
+
+            const userRef = doc(db, 'users', user.uid); // Здесь user.uid — это идентификатор пользователя
+            await setDoc(
+                userRef,
+                {
+                    email: newEmail,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                },
+                { merge: true } // Указываем merge, чтобы не затереть остальные поля
+            );
+
+            set({
+                userProfile: {
+                    ...userProfile,
+                    email: newEmail,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                }
+            });
+
+            return true; // Обновление завершено
+        } catch (error: any) {
+            console.error(error);
+            set({ error: error.message });
+            return false;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    editPhoneNumber: async (
+        newPhoneNumber: string,
+        currentPassword: string
+    ) => {
+        set({ loading: true });
+        try {
+            set({ error: null });
+
+            const user = auth.currentUser;
+            if (!user) {
+                throw new Error('No user is currently signed in.');
+            }
+
+            const userProfile = get().userProfile;
+
+            if (!userProfile) {
+                throw new Error('User profile not found in store.');
+            }
+
+            // Проверяем, доступен ли новый номер
+            const phoneWithoutPlus = newPhoneNumber.startsWith('+')
+                ? newPhoneNumber.slice(1)
+                : newPhoneNumber;
+
+            const isPhoneAvailable =
+                await get().checkPhoneNumberAvailability(phoneWithoutPlus);
+            if (!isPhoneAvailable) {
+                throw new Error(
+                    'This phone number is already in use. Please try another number.'
+                );
+            }
+
+            // Реаутентификация пользователя
+            const credential = EmailAuthProvider.credential(
+                user.email!,
+                currentPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+
+            // Удаляем текущую привязку номера телефона
+            if (user.phoneNumber) {
+                await unlink(user, 'phone'); // Удаляем привязку номера телефона
+            }
+
+            // Обновляем номер телефона в Firestore
+            const userRef = doc(db, 'users', user.uid);
+            const isVerified =
+                userProfile.verificationMethod === 'full' ? true : false;
+            const verifMethod =
+                userProfile.verificationMethod !== 'phone' ? 'email' : 'phone';
+
+            await setDoc(
+                userRef,
+                {
+                    phoneNumber: phoneWithoutPlus,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                },
+                { merge: true }
+            );
+
+            // Обновляем состояние
+            set({
+                userProfile: {
+                    ...userProfile,
+                    phoneNumber: phoneWithoutPlus,
+                    verified: isVerified,
+                    verificationMethod: verifMethod
+                }
+            });
+
+            return true; // Обновление завершено
+        } catch (error: any) {
+            console.error('Edit Phone Number Error:', error);
+            set({ error: error.message });
+            return false;
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    checkPhoneNumberAvailability: async (
+        phoneNumber: string
+    ): Promise<boolean> => {
+        try {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('phoneNumber', '==', phoneNumber));
+            const querySnapshot = await getDocs(q);
+
+            return querySnapshot.empty;
+        } catch (error: any) {
+            console.error('Phone number availability check failed:', error);
+            return false;
         }
     },
 
@@ -521,14 +907,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     checkEmailAndFirestoreAvailability: async (
         email: string
-    ): Promise<void> => {
+    ): Promise<boolean> => {
         try {
             const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 
             if (signInMethods.length > 0) {
-                throw new Error(
+                console.error(
                     'This email is already registered. Please log in or verify your email.'
                 );
+                return false;
             }
 
             const usersRef = collection(db, 'users');
@@ -536,16 +923,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                throw new Error(
+                console.error(
                     'This email is already in use. Please try another email.'
                 );
+                return false;
             }
+
+            return true;
         } catch (error: any) {
             console.error('Email availability check failed:', error);
-            throw new Error(
-                error.message ||
-                    'An error occurred while checking email availability.'
-            );
+            return false;
         }
     },
 

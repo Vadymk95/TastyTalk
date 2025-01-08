@@ -1,3 +1,4 @@
 export { useCategories } from './useCategories';
+export { useErrorsMessage } from './useErrorsMessage';
 export { useFooterPosition } from './useFooterPosition';
-export { useGetAuthErrorMessage } from './useGetAuthErrorMessage';
+export { useUserCountry } from './useUserCountry';

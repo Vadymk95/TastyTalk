@@ -81,12 +81,14 @@ export interface StepStatus {
 }
 
 export type SubscriptionPlan = 'Free' | 'Basic' | 'Standard' | 'Premium';
+export type VerificationMethod = 'email' | 'phone' | 'full';
 
 export interface UpdateProfileData {
     firstName?: string;
     lastName?: string;
     username?: string;
     email?: string;
+    phoneNumber?: string;
     bio?: string;
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];
@@ -103,6 +105,8 @@ export interface UserProfile {
     username: string;
     usernameLower: string;
     email: string | null;
+    phoneNumber: string | null;
+    verificationMethod: VerificationMethod;
     bio?: string;
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];

@@ -1,14 +1,17 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { ProfileSettingsModals } from '@root/components/common/ProfileSettingsModals';
 import { EditProfileForm } from '@root/components/forms';
 import { Button, Select } from '@root/components/ui';
 import { languages } from '@root/constants/languages';
 import { ModalsEnum } from '@root/constants/modals';
+import { routes } from '@root/router/routes';
 import { useAuthStore, useLanguageStore, useModalStore } from '@root/store';
 
 const ProfileSettingsPage: FC = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const [isCooldown, setIsCooldown] = useState(false);
     const [cooldownTime, setCooldownTime] = useState(60);
@@ -20,6 +23,13 @@ const ProfileSettingsPage: FC = () => {
     } = useAuthStore();
     const { openModal } = useModalStore();
     const { setLanguage } = useLanguageStore();
+
+    const shouldShowVerificationPhoneNumber =
+        (!userProfile?.verified &&
+            (userProfile?.phoneNumber ||
+                userProfile?.verificationMethod === 'phone')) ||
+        (userProfile?.verificationMethod === 'email' &&
+            userProfile?.phoneNumber);
 
     const handleOpenModal = (modalId: string) => {
         openModal(modalId);
@@ -52,6 +62,16 @@ const ProfileSettingsPage: FC = () => {
         }
     };
 
+    const handleVerifyPhoneNumber = () => {
+        navigate(routes.phoneNumberVerification);
+    };
+
+    const verificationMethod = (method: 'email' | 'phone') => {
+        return (
+            userProfile?.verified && userProfile?.verificationMethod !== method
+        );
+    };
+
     useEffect(() => {
         if (!userProfile?.verified) {
             const intervalId = setInterval(async () => {
@@ -68,14 +88,15 @@ const ProfileSettingsPage: FC = () => {
     }));
 
     return (
-        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-3xl mx-auto gap-y-8 sm:gap-y-4">
+        <div className="flex flex-col items-center p-6 lg:p-12 sm:!p-4 max-w-5xl mx-auto gap-y-6 sm:gap-y-4">
             <h1 className="main-heading">{t('ProfileSettingsPage.title')}</h1>
 
             <section className="w-full">
                 <EditProfileForm />
             </section>
 
-            {!userProfile?.verified && (
+            {(!userProfile?.verified ||
+                userProfile?.verificationMethod === 'phone') && (
                 <section className="plate w-full">
                     <h2 className="text-xl font-semibold text-primary mb-4">
                         {t('ProfileSettingsPage.resendEmailTitle')}
@@ -88,6 +109,21 @@ const ProfileSettingsPage: FC = () => {
                         {isCooldown
                             ? `${t('ProfileSettingsPage.resendEmailButton')} (${cooldownTime}s)`
                             : t('ProfileSettingsPage.resendEmailButton')}
+                    </Button>
+                </section>
+            )}
+
+            {shouldShowVerificationPhoneNumber && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.verifiyPhoneNumberTitle')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.verifiyPhoneNumberDescription')}
+                    </p>
+
+                    <Button onClick={handleVerifyPhoneNumber}>
+                        {t('ProfileSettingsPage.verificationPhoneNumberButton')}
                     </Button>
                 </section>
             )}
@@ -122,6 +158,42 @@ const ProfileSettingsPage: FC = () => {
                     {t('ProfileSettingsPage.pricingAction')}
                 </Button>
             </section>
+
+            {verificationMethod('phone') && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.changeEmail')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.changeEmailDescription')}
+                    </p>
+                    <Button
+                        onClick={() => handleOpenModal(ModalsEnum.ChangeEmail)}
+                        variant="secondary"
+                    >
+                        {t('ProfileSettingsPage.changeEmailButton')}
+                    </Button>
+                </section>
+            )}
+
+            {userProfile?.phoneNumber && (
+                <section className="plate w-full">
+                    <h2 className="text-xl font-semibold text-primary mb-4">
+                        {t('ProfileSettingsPage.changePhoneNumber')}
+                    </h2>
+                    <p className="text-sm text-neutral-dark mb-4">
+                        {t('ProfileSettingsPage.changePhoneNumberDescription')}
+                    </p>
+                    <Button
+                        onClick={() =>
+                            handleOpenModal(ModalsEnum.ChangePhoneNumber)
+                        }
+                        variant="secondary"
+                    >
+                        {t('ProfileSettingsPage.changePhoneNumberButton')}
+                    </Button>
+                </section>
+            )}
 
             <section className="plate w-full">
                 <h2 className="text-xl font-semibold text-primary mb-4">

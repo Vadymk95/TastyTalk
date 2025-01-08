@@ -38,16 +38,33 @@ export const Modal: FC<ModalProps> = ({
     disabled = false
 }) => {
     useEffect(() => {
+        const footer = document.querySelector('.footer') as HTMLElement;
+
         if (isOpen) {
             document.body.style.overflow = 'hidden';
             document.body.style.height = '100%';
+            document.body.style.paddingRight = '11px';
+
+            if (footer) {
+                footer.style.paddingRight = '11px';
+            }
         } else {
             document.body.style.overflow = '';
             document.body.style.height = '';
+            document.body.style.paddingRight = '';
+
+            if (footer) {
+                footer.style.paddingRight = '';
+            }
         }
         return () => {
             document.body.style.overflow = '';
             document.body.style.height = '';
+            document.body.style.paddingRight = '';
+
+            if (footer) {
+                footer.style.paddingRight = '';
+            }
         };
     }, [isOpen]);
 

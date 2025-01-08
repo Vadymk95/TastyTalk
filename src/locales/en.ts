@@ -6,13 +6,26 @@ export const en = {
                 signUp: 'Sign Up'
             },
             EmailVerificationPage: {
-                title: 'Confirm your email address',
-                text: 'An email has been sent to your email address. Please confirm it to complete the registration.',
-                goToHome: 'Go to Homepage',
-                resendEmailText: 'Didn’t receive the email?',
+                title: 'Confirm your Email address',
+                text: 'An Email has been sent to your Email address. Please confirm it to complete the registration.',
+                resendEmailText: 'Didn’t receive the Email?',
                 resendEmail: 'Resend Email',
-                emailSent: 'Email has been sent',
-                emailSendError: 'Error sending email'
+                emailSent: 'Email has been sent. You can resend it in',
+                emailSendError: 'Error sending Email',
+                preferPhoneNumber: 'Prefer phone number?',
+                preferPhoneNumberLink: 'Verify via phone number'
+            },
+            PhoneNumberVerificationPage: {
+                title: 'Confirm your phone number',
+                text: 'A code has been sent to your phone number. Please confirm it to complete the registration.',
+                resendCodeText:
+                    'Didn’t receive the code? Complete Recaptha again and click the button',
+                resendCode: 'Resend code',
+                codeSent: 'Code has been sent. You can resend it in',
+                codeSendError: 'Error sending code',
+                sendCode: 'Send code',
+                preferEmail: 'Prefer email?',
+                preferEmailLink: 'Verify via email'
             },
             FollowingPage: {
                 title: 'Following',
@@ -51,8 +64,12 @@ export const en = {
                 title: 'Edit Profile',
                 resendEmailTitle: 'Resend Email Confirmation',
                 resendEmailDescription:
-                    'If you didn’t receive the email, you can resend it by clicking the button below.',
+                    'Your email is not verified. If you didn’t receive the email, you can resend it by clicking the button below.',
                 resendEmailButton: 'Resend Email',
+                verifiyPhoneNumberTitle: 'Verify Phone Number',
+                verifiyPhoneNumberDescription:
+                    'Your phone number is not verified. You can verify it by clicking the button below.',
+                verificationPhoneNumberButton: 'Verify Phone Number',
                 changeLanguageTitle: 'Change Language',
                 changeLanguageDescription:
                     'Select your preferred language for the app',
@@ -76,6 +93,14 @@ export const en = {
                 passwordDescription:
                     'Update your password to keep your account secure',
                 changePasswordButton: 'Change Password',
+                changeEmail: 'Change Email',
+                changeEmailDescription:
+                    'Update your email address to keep your account secure',
+                changeEmailButton: 'Change Email',
+                changePhoneNumber: 'Change Phone Number',
+                changePhoneNumberDescription:
+                    'Update your phone number to keep your account secure',
+                changePhoneNumberButton: 'Change Phone Number',
                 deleteAccount: 'Delete Account',
                 deleteDescription:
                     'Permanently delete your account. This action cannot be undone.',
@@ -134,7 +159,9 @@ export const en = {
                 emailInUse:
                     'This email is already in use. Please try another email.',
                 emailRegistered:
-                    'This email is already registered. Please log in or verify your email.'
+                    'This email is already registered. Please log in or verify your email.',
+                phoneNumberInUse: 'This phone number is already in use.',
+                invalidVerificationCode: 'Invalid verification code.'
             },
             UsernameInput: {
                 chooseUsername: 'Choose a username',
@@ -147,8 +174,9 @@ export const en = {
                     actionSignUp: 'Sign Up',
                     signIn: 'Sign In',
                     dontHaveAccount: "Don't have an account?",
-                    emailOrUsername: 'Email or Username',
-                    emailOrUsernamePlaceholder: 'Enter your email or username',
+                    login: 'Login',
+                    loginDescription:
+                        '*Enter your username, email, or phone number in international format (starting with "+").',
                     password: 'Password',
                     requiredField: 'This field is required',
                     emailNotValid: 'Email is not valid',
@@ -160,11 +188,15 @@ export const en = {
                 RegisterForm: {
                     signUp: 'Register',
                     email: 'Email',
+                    enterNumber: 'Enter a number',
                     username: 'Username',
                     lastName: 'Last Name',
                     firstName: 'First Name',
                     password: 'Password',
                     confirmPassword: 'Confirm Password',
+                    verificationMethodTitle: 'Choose a verification method',
+                    viaPhone: 'Phone',
+                    viaEmail: 'Email',
                     usernameInvalid:
                         'Username can only contain letters, numbers and underscores',
                     usernameMustContainLetter:
@@ -191,6 +223,7 @@ export const en = {
                     emailMinLength: 'Email must be at least 6 characters long',
                     emailMaxLength:
                         'Email must be less than 50 characters long',
+                    phoneNumberNotValid: 'Phone number is not valid',
                     passwordMinLength:
                         'Password must be at least 6 characters long',
                     passwordsMustMatch: 'Passwords must match',
@@ -198,13 +231,16 @@ export const en = {
                     enterYourName: 'Enter your name',
                     enterYourLastName: 'Enter your last name',
                     haveAccount: 'Already have an account?',
-                    registerFinish: 'Finish your registration process'
+                    registerFinish: 'Finish your registration process',
+                    selectVerificationMethod: 'Select a verification method'
                 },
                 EditProfileForm: {
                     firstName: 'First Name',
                     lastName: 'Last Name',
                     username: 'Username',
                     email: 'Email',
+                    phoneNumber: 'Phone Number',
+                    phoneNumberNotValid: 'Phone number is not valid',
                     nameCheckboxLabel: 'Show name on profile',
                     countryCheckboxLabel: 'Show country on profile',
                     usernameInvalid:
@@ -254,6 +290,41 @@ export const en = {
                     addSocialNetwork: 'Add Social Network',
                     save: 'Save Changes',
                     successMessage: 'Profile updated successfully'
+                },
+                EditEmailForm: {
+                    description:
+                        'Update your email address to keep your account secure.',
+                    editEmail: 'Your Email',
+                    editEmailPlaceholder: 'Enter your Email',
+                    newEmail: 'New Email',
+                    newEmailPlaceholder: 'Enter your new Email',
+                    emailNotValid: 'Email is not valid',
+                    emailMinLength: 'Email must be at least 6 characters long',
+                    emailMaxLength:
+                        'Email must be less than 50 characters long',
+                    successMessage:
+                        'Email updated successfully. An Email has been sent to your new Email address.',
+                    password: 'Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    requiredField: 'This field is required'
+                },
+                EditPhoneNumberForm: {
+                    description:
+                        'Update your phone number to keep your account secure.',
+                    editPhoneNumber: 'Your Phone Number',
+                    newPhoneNumber: 'New Phone Number',
+                    successMessage:
+                        'Phone number updated successfully. A code has been sent to your new phone number.',
+                    password: 'Password',
+                    passwordMinLength:
+                        'Password must be at least 6 characters long',
+                    requiredField: 'This field is required',
+                    phoneNumberNotValid: 'Phone number is not valid'
+                },
+                PhoneVerificationForm: {
+                    codeLength: 'Code must be 6 characters long',
+                    typeCode: 'Type the code you received'
                 },
                 ChangePasswordForm: {
                     description:
@@ -383,6 +454,12 @@ export const en = {
                 },
                 ChangePasswordModal: {
                     title: 'Change Password'
+                },
+                ChangeEmailModal: {
+                    title: 'Change Email'
+                },
+                ChangePhoneNumberModal: {
+                    title: 'Change Phone Number'
                 },
                 DeleteAccountModal: {
                     title: 'Delete Account'
@@ -700,13 +777,16 @@ export const en = {
                 selectAll: 'Select All',
                 apply: 'Apply',
                 noResultsFound: 'No results found',
+                requiredField: 'This field is required',
                 back: 'Back',
                 follow: 'Follow',
                 unfollow: 'Unfollow',
                 clickHere: 'Click here',
                 or: 'Or',
                 selected: 'Selected',
-                oops: 'Oops!'
+                oops: 'Oops!',
+                enterPhoneNumber: 'Enter a number',
+                send: 'Send'
             }
         }
     }

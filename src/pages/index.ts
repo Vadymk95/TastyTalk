@@ -8,6 +8,7 @@ export { GreetingPage } from './GreetingPage';
 export { HomePage } from './HomePage/HomePage';
 export { MealsPlanPage } from './MealsPlanPage';
 export { NotFoundPage } from './NotFoundPage';
+export { PhoneNumberVerificationPage } from './PhoneNumberVerificationPage';
 export { PricingPage } from './PricingPage';
 export { PrivacyPage } from './PrivacyPage';
 export { ProfilePage } from './ProfilePage';

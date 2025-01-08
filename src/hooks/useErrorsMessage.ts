@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-export const useGetAuthErrorMessage = (errorMessage: string): string => {
+export const useErrorsMessage = (errorMessage: string): string => {
     const { t } = useTranslation();
 
     const match = errorMessage.match(/\(([^)]+)\)/);
@@ -17,8 +17,18 @@ export const useGetAuthErrorMessage = (errorMessage: string): string => {
         'This email is already in use. Please try another email.': t(
             'AuthErrors.emailInUse'
         ),
+        'auth/email-already-in-use': t('AuthErrors.emailInUse'),
         'This email is already registered. Please log in or verify your email.':
-            t('AuthErrors.emailRegistered')
+            t('AuthErrors.emailRegistered'),
+        'This phone number is already in use.': t(
+            'AuthErrors.phoneNumberInUse'
+        ),
+        'This phone number is already in use. Please try another number.': t(
+            'AuthErrors.phoneNumberInUse'
+        ),
+        'auth/invalid-verification-code': t(
+            'AuthErrors.invalidVerificationCode'
+        )
     };
 
     return errorMessages[errorCode] || t('General.somethingWentWrong');

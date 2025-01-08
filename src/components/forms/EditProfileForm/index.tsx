@@ -9,13 +9,15 @@ import {
     ErrorCard,
     FormikSelect,
     Input,
+    PhoneNumberInput,
     PhotoUpload,
     SuccessCard,
     Textarea,
     UsernameInput
 } from '@root/components/ui';
 import { countries } from '@root/constants/countries';
-import { useGetAuthErrorMessage } from '@root/hooks/useGetAuthErrorMessage';
+import { validatePhoneNumber } from '@root/helpers/validatePhoneNumber';
+import { useErrorsMessage } from '@root/hooks/useErrorsMessage';
 import { useAuthStore } from '@root/store/authStore';
 import { UpdateProfileData } from '@root/types';
 
@@ -25,6 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const EditProfileForm: FC = () => {
     const { t } = useTranslation();
     const [showSuccess, setShowSuccess] = useState(false);
+    const [countryCode, setCountryCode] = useState('');
     const {
         userProfile,
         loading,
@@ -107,6 +110,14 @@ export const EditProfileForm: FC = () => {
             .max(5, t('Forms.EditProfileForm.maxSocialNetworks')),
         profileImage: Yup.mixed().nullable(),
         email: Yup.string(),
+        phoneNumber: Yup.string()
+            .min(10, t('Forms.EditProfileForm.phoneNumberNotValid'))
+            .test(
+                'is-valid-phone',
+                t('Forms.EditProfileForm.phoneNumberNotValid'),
+                (value) =>
+                    !value || validatePhoneNumber(value || '', countryCode)
+            ),
         showName: Yup.boolean(),
         showCountry: Yup.boolean()
     });
@@ -120,6 +131,7 @@ export const EditProfileForm: FC = () => {
         socialNetworks: userProfile?.socialNetworks || [],
         profileImage: userProfile?.profileImage || null,
         email: userProfile?.email || '',
+        phoneNumber: '+' + userProfile?.phoneNumber || '',
         showCountry: userProfile?.showCountry || false,
         showName: userProfile?.showName || false
     };
@@ -127,9 +139,13 @@ export const EditProfileForm: FC = () => {
     const usernameValidationSchema = EditProfileSchema.fields
         .username as Yup.StringSchema;
 
-    const editProfileError = useGetAuthErrorMessage(
+    const editProfileError = useErrorsMessage(
         error || t('General.somethingWentWrong')
     );
+
+    const handleSetCode = (code: string) => {
+        setCountryCode(code);
+    };
 
     const onSubmit = async (values: UpdateProfileData) => {
         const success = await editProfile(values);
@@ -153,6 +169,7 @@ export const EditProfileForm: FC = () => {
 
     return (
         <Formik
+            key={userProfile?.phoneNumber || userProfile?.email || ''}
             preventDefault
             validationSchema={EditProfileSchema}
             initialValues={initialValues}
@@ -222,6 +239,31 @@ export const EditProfileForm: FC = () => {
                                 label={t('Forms.EditProfileForm.email')}
                                 disabled
                             />
+
+                            {userProfile?.phoneNumber ? (
+                                <Input
+                                    name="phoneNumber"
+                                    label={t(
+                                        'Forms.EditProfileForm.phoneNumber'
+                                    )}
+                                    disabled
+                                />
+                            ) : (
+                                <div className="w-full">
+                                    <PhoneNumberInput
+                                        setCode={handleSetCode}
+                                        code={countryCode}
+                                        className="input-wrapper"
+                                        name="phoneNumber"
+                                        label={t(
+                                            'Forms.EditProfileForm.phoneNumber'
+                                        )}
+                                        placeholder={t(
+                                            'Forms.EditProfileForm.phoneNumber'
+                                        )}
+                                    />
+                                </div>
+                            )}
                         </div>
                     </section>
 
@@ -243,6 +285,7 @@ export const EditProfileForm: FC = () => {
                             </label>
 
                             <FormikSelect
+                                searchable
                                 name="country"
                                 value={initialValues.country}
                                 options={options}
