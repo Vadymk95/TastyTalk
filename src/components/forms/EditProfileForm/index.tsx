@@ -169,6 +169,7 @@ export const EditProfileForm: FC = () => {
 
     return (
         <Formik
+            key={userProfile?.phoneNumber || userProfile?.email || ''}
             preventDefault
             validationSchema={EditProfileSchema}
             initialValues={initialValues}

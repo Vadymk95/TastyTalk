@@ -89,7 +89,7 @@ export const EditPhoneNumberForm: FC<EditPhoneNumberFormProps> = ({
             validationSchema={PhoneNumberSchema}
             onSubmit={handleSubmit}
         >
-            {({ isValid, isSubmitting }) => (
+            {({ isValid, isSubmitting, values }) => (
                 <Form>
                     <div className="w-full mt-6 text-start">
                         <p className="text-sm text-neutral-dark mb-4">
@@ -131,7 +131,13 @@ export const EditPhoneNumberForm: FC<EditPhoneNumberFormProps> = ({
 
                             <Button
                                 type="submit"
-                                disabled={!isValid || isSubmitting || loading}
+                                disabled={
+                                    !isValid ||
+                                    isSubmitting ||
+                                    loading ||
+                                    values.newPhoneNumber ===
+                                        userProfile?.phoneNumber
+                                }
                                 variant="secondary"
                             >
                                 <span>{t('General.confirm')}</span>
