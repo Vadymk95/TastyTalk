@@ -6,10 +6,12 @@ import { Back, SearchInput } from '@root/components/ui';
 import { useUsersStore } from '@root/store/usersStore';
 import { UserProfile } from '@root/types';
 
+type UsersType = 'followers' | 'following';
+
 type UserListProps = {
     title: string;
     description: string;
-    type: 'followers' | 'following';
+    type: UsersType;
     userId: string;
 };
 
