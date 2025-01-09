@@ -276,10 +276,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchRelationships: async (userId, type, reset = false) => {
-        const { followers, following, hasMore } = get();
-        const currentState = type === 'followers' ? followers : following;
+        const { searchQuery } = get();
+        const currentState = get()[type]; // followers или following
+        const normalizedQuery = searchQuery.trim().toLowerCase();
 
-        if (!reset && !hasMore) return;
+        if (!reset && !get().hasMore) return;
 
         set({ loading: true, error: null });
 
@@ -292,19 +293,42 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return;
             }
 
+            // IDs фолловеров или фолловингов
             const ids: string[] = userDoc.data()?.[type] || [];
-            if (ids.length === 0) {
-                set({
-                    [type]: [],
-                    hasMore: false
-                });
+
+            if (reset) {
+                set({ [type]: [], lastVisible: null, hasMore: true });
+            }
+
+            // Если есть фильтр по searchQuery
+            let filteredIds = ids;
+            if (normalizedQuery) {
+                const usersRef = collection(db, 'users');
+                const filterQuery = query(
+                    usersRef,
+                    where('id', 'in', ids.slice(0, 10)), // Ограничиваем до 10 из-за Firestore
+                    where('usernameLower', '>=', normalizedQuery),
+                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
+                    orderBy('usernameLower')
+                );
+                const snapshot = await getDocs(filterQuery);
+                filteredIds = snapshot.docs.map((doc) => doc.id);
+            }
+
+            // Пагинация (ограничение по 15 пользователей за раз)
+            const batchIds = reset
+                ? filteredIds.slice(0, 15)
+                : filteredIds.slice(
+                      currentState.length,
+                      currentState.length + 15
+                  );
+
+            if (batchIds.length === 0) {
+                set({ hasMore: false });
                 return;
             }
 
-            const batchIds = reset
-                ? ids.slice(0, 15)
-                : ids.slice(currentState.length, currentState.length + 15);
-
+            // Загружаем пользователей
             const usersRef = collection(db, 'users');
             const q = query(usersRef, where('id', 'in', batchIds));
             const snapshot = await getDocs(q);
@@ -318,7 +342,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 [type]: reset
                     ? fetchedUsers
                     : [...currentState, ...fetchedUsers],
-                hasMore: fetchedUsers.length === 15
+                hasMore: fetchedUsers.length === 15,
+                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null
             });
         } catch (error: any) {
             console.error(`Error fetching ${type}:`, error.message);
@@ -329,6 +354,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchMoreRelationships: async (userId, type) => {
-        await get().fetchRelationships(userId, type);
+        await get().fetchRelationships(userId, type, false);
     }
 }));

@@ -27,29 +27,26 @@ export const UserList: FC<UserListProps> = ({
         setSearchQuery,
         loading,
         followers,
-        following
+        following,
+        hasMore
     } = useUsersStore();
     const users = type === 'followers' ? followers : following;
     const observerRef = useRef<HTMLDivElement>(null);
 
     const fetchMore = useCallback(() => {
-        if (!loading) {
-            console.log(2);
+        if (!loading && hasMore) {
             fetchMoreRelationships(userId, type);
         }
-    }, [fetchMoreRelationships, loading, type, userId]);
+    }, [fetchMoreRelationships, loading, hasMore, type, userId]);
 
     const filteredUsers = useMemo(() => {
-        console.log(3);
         return users.filter((user) =>
             user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users]);
+    }, [users, searchQuery]);
 
     useEffect(() => {
         if (users.length === 0) {
-            console.log(1);
             fetchRelationships(userId, type, true);
         }
     }, [fetchRelationships, type, userId, users.length]);
@@ -57,7 +54,7 @@ export const UserList: FC<UserListProps> = ({
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting && !loading) {
+                if (entry.isIntersecting && !loading && hasMore) {
                     fetchMore();
                 }
             },
@@ -75,10 +72,9 @@ export const UserList: FC<UserListProps> = ({
                 observer.unobserve(currentRef);
             }
         };
-    }, [fetchMore, fetchMoreRelationships, loading, type, userId]);
+    }, [fetchMore, hasMore, loading]);
 
     useEffect(() => {
-        console.log(4);
         return () => setSearchQuery('');
     }, [setSearchQuery]);
 
