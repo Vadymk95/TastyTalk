@@ -82,6 +82,12 @@ const SearchProfilePage: FC = () => {
                     ))}
                 </ul>
 
+                {searchQuery && filteredUsers.length === 0 && !loading && (
+                    <p className="text-center label p-4">
+                        {t('General.noResultsFound')}
+                    </p>
+                )}
+
                 {loading && (
                     <p className="text-center label p-4">
                         {t('General.loading')}

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
@@ -22,14 +22,13 @@ export const UserList: FC<UserListProps> = ({
     userId
 }) => {
     const { t } = useTranslation();
-    const { getFollowing, getFollowers } = useUsersStore();
+    const { getFollowing, getFollowers, searchQuery, setSearchQuery, loading } =
+        useUsersStore();
     const [users, setUsers] = useState<UserProfile[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [loading, setLoading] = useState(false);
+    const observerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const loadUsers = async () => {
-            setLoading(true);
             try {
                 const data =
                     type === 'following'
@@ -38,8 +37,6 @@ export const UserList: FC<UserListProps> = ({
                 setUsers(data);
             } catch (error) {
                 console.error(error);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -47,9 +44,16 @@ export const UserList: FC<UserListProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [type, userId]);
 
-    const filteredUsers = users.filter((user) =>
-        user.username.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredUsers = useMemo(() => {
+        return users.filter((user) =>
+            user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [users]);
+
+    useEffect(() => {
+        return () => setSearchQuery('');
+    }, [setSearchQuery]);
 
     return (
         <div className="plate relative">
@@ -64,19 +68,23 @@ export const UserList: FC<UserListProps> = ({
                 placeholder={t('General.search')}
             />
 
-            {loading ? (
-                <p className="text-center label p-4">{t('General.loading')}</p>
-            ) : filteredUsers.length > 0 ? (
-                <ul className="space-y-4 mt-4">
-                    {filteredUsers.map((user) => (
-                        <User key={user.id} user={user} />
-                    ))}
-                </ul>
-            ) : (
+            <ul className="space-y-4 mt-4">
+                {filteredUsers.map((user) => (
+                    <User key={user.id} user={user} />
+                ))}
+            </ul>
+
+            {searchQuery && filteredUsers.length === 0 && !loading && (
                 <p className="text-center label p-4">
                     {t('General.noResultsFound')}
                 </p>
             )}
+
+            {loading && (
+                <p className="text-center label p-4">{t('General.loading')}</p>
+            )}
+
+            <div ref={observerRef} style={{ height: '1px' }} />
         </div>
     );
 };
