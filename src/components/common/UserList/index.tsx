@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
@@ -26,12 +26,30 @@ export const UserList: FC<UserListProps> = ({
         searchQuery,
         setSearchQuery,
         loading,
-        users
+        followers,
+        following
     } = useUsersStore();
+    const users = type === 'followers' ? followers : following;
     const observerRef = useRef<HTMLDivElement>(null);
+
+    const fetchMore = useCallback(() => {
+        if (!loading) {
+            console.log(2);
+            fetchMoreRelationships(userId, type);
+        }
+    }, [fetchMoreRelationships, loading, type, userId]);
+
+    const filteredUsers = useMemo(() => {
+        console.log(3);
+        return users.filter((user) =>
+            user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [users]);
 
     useEffect(() => {
         if (users.length === 0) {
+            console.log(1);
             fetchRelationships(userId, type, true);
         }
     }, [fetchRelationships, type, userId, users.length]);
@@ -40,7 +58,7 @@ export const UserList: FC<UserListProps> = ({
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting && !loading) {
-                    fetchMoreRelationships(userId, type);
+                    fetchMore();
                 }
             },
             { threshold: 1.0 }
@@ -57,16 +75,10 @@ export const UserList: FC<UserListProps> = ({
                 observer.unobserve(currentRef);
             }
         };
-    }, [fetchMoreRelationships, loading, type, userId]);
-
-    const filteredUsers = useMemo(() => {
-        return users.filter((user) =>
-            user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users]);
+    }, [fetchMore, fetchMoreRelationships, loading, type, userId]);
 
     useEffect(() => {
+        console.log(4);
         return () => setSearchQuery('');
     }, [setSearchQuery]);
 
@@ -75,31 +87,36 @@ export const UserList: FC<UserListProps> = ({
             <Back className="absolute" />
             <h1 className="main-heading text-primary">{title}</h1>
             <p className="label text-center mb-4">{description}</p>
-            <SearchInput
-                name="search"
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('General.search')}
-            />
 
-            <ul className="space-y-4 mt-4">
-                {filteredUsers.map((user) => (
-                    <User key={user.id} user={user} />
-                ))}
-            </ul>
+            <div className="h-100">
+                <SearchInput
+                    name="search"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t('General.search')}
+                />
 
-            {searchQuery && filteredUsers.length === 0 && !loading && (
-                <p className="text-center label p-4">
-                    {t('General.noResultsFound')}
-                </p>
-            )}
+                <ul className="space-y-4 mt-4">
+                    {filteredUsers.map((user) => (
+                        <User key={user.id} user={user} />
+                    ))}
+                </ul>
 
-            {loading && (
-                <p className="text-center label p-4">{t('General.loading')}</p>
-            )}
+                {searchQuery && filteredUsers.length === 0 && !loading && (
+                    <p className="text-center label p-4">
+                        {t('General.noResultsFound')}
+                    </p>
+                )}
 
-            <div ref={observerRef} style={{ height: '1px' }} />
+                {loading && (
+                    <p className="text-center label p-4">
+                        {t('General.loading')}
+                    </p>
+                )}
+
+                <div ref={observerRef} style={{ height: '1px' }} />
+            </div>
         </div>
     );
 };

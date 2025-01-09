@@ -21,6 +21,8 @@ import { RelationshipType, UserProfile } from '@root/types';
 
 interface UsersState {
     users: UserProfile[];
+    followers: UserProfile[];
+    following: UserProfile[];
     loading: boolean;
     error: string | null;
     searchQuery: string;
@@ -46,6 +48,8 @@ interface UsersState {
 
 export const useUsersStore = create<UsersState>((set, get) => ({
     users: [],
+    followers: [],
+    following: [],
     loading: false,
     error: null,
     searchQuery: '',
@@ -272,7 +276,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchRelationships: async (userId, type, reset = false) => {
-        const { hasMore, users } = get();
+        const { followers, following, hasMore } = get();
+        const currentState = type === 'followers' ? followers : following;
 
         if (!reset && !hasMore) return;
 
@@ -288,32 +293,35 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             }
 
             const ids: string[] = userDoc.data()?.[type] || [];
-
             if (ids.length === 0) {
-                set({ users: [], hasMore: false });
+                set({
+                    [type]: [],
+                    hasMore: false
+                });
                 return;
             }
 
             const batchIds = reset
                 ? ids.slice(0, 15)
-                : ids.slice(users.length, users.length + 15);
+                : ids.slice(currentState.length, currentState.length + 15);
 
             const usersRef = collection(db, 'users');
             const q = query(usersRef, where('id', 'in', batchIds));
             const snapshot = await getDocs(q);
 
-            const fetchedUsers: UserProfile[] = snapshot.docs.map((doc) => ({
+            const fetchedUsers = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data()
             })) as UserProfile[];
 
             set({
-                users: reset ? fetchedUsers : [...users, ...fetchedUsers],
-                hasMore: fetchedUsers.length > 0,
-                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null
+                [type]: reset
+                    ? fetchedUsers
+                    : [...currentState, ...fetchedUsers],
+                hasMore: fetchedUsers.length === 15
             });
         } catch (error: any) {
-            console.error('Error fetching relationships:', error.message);
+            console.error(`Error fetching ${type}:`, error.message);
             set({ error: error.message });
         } finally {
             set({ loading: false });
