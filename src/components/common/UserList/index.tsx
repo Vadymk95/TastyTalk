@@ -93,21 +93,21 @@ export const UserList: FC<UserListProps> = ({
                     placeholder={t('General.search')}
                 />
 
-                <ul className="space-y-4 mt-4">
-                    {filteredUsers.map((user) => (
-                        <User key={user.id} user={user} />
-                    ))}
-                </ul>
+                {loading ? (
+                    <p className="text-center label p-4">
+                        {t('General.loading')}
+                    </p>
+                ) : (
+                    <ul className="space-y-4 mt-4">
+                        {filteredUsers.map((user) => (
+                            <User key={user.id} user={user} />
+                        ))}
+                    </ul>
+                )}
 
                 {searchQuery && filteredUsers.length === 0 && !loading && (
                     <p className="text-center label p-4">
                         {t('General.noResultsFound')}
-                    </p>
-                )}
-
-                {loading && (
-                    <p className="text-center label p-4">
-                        {t('General.loading')}
                     </p>
                 )}
 

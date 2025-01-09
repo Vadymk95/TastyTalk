@@ -276,11 +276,18 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchRelationships: async (userId, type, reset = false) => {
-        const { searchQuery } = get();
+        const { searchQuery, hasMore } = get();
         const currentState = get()[type]; // followers или following
         const normalizedQuery = searchQuery.trim().toLowerCase();
 
-        if (!reset && !get().hasMore) return;
+        if (
+            !reset &&
+            currentState.length > 0 &&
+            searchQuery.trim() === '' &&
+            !hasMore
+        ) {
+            return;
+        }
 
         set({ loading: true, error: null });
 
