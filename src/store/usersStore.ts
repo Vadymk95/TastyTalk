@@ -17,7 +17,7 @@ import { create } from 'zustand';
 
 import { db } from '@root/firebase/firebaseConfig';
 import { useAuthStore } from '@root/store/authStore';
-import { UserProfile } from '@root/types';
+import { RelationshipType, UserProfile } from '@root/types';
 
 interface UsersState {
     users: UserProfile[];
@@ -33,8 +33,15 @@ interface UsersState {
     unfollowUser: (userId: string) => Promise<void>;
     debouncedFetchUsers: () => void;
     fetchMoreUsers: () => Promise<void>;
-    getFollowers: (userId: string) => Promise<UserProfile[]>;
-    getFollowing: (userId: string) => Promise<UserProfile[]>;
+    fetchRelationships: (
+        userId: string,
+        type: RelationshipType,
+        reset?: boolean
+    ) => Promise<void>;
+    fetchMoreRelationships: (
+        userId: string,
+        type: RelationshipType
+    ) => Promise<void>;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -264,109 +271,56 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    getFollowers: async (userId: string) => {
+    fetchRelationships: async (userId, type, reset = false) => {
+        const { hasMore, users } = get();
+
+        if (!reset && !hasMore) return;
+
         set({ loading: true, error: null });
+
         try {
-            // Получение документа пользователя
             const userRef = doc(db, 'users', userId);
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {
                 set({ error: 'User not found' });
-                return [];
+                return;
             }
 
-            // Извлечение массива followers
-            const followersIds: string[] = userDoc.data()?.followers || [];
+            const ids: string[] = userDoc.data()?.[type] || [];
 
-            if (followersIds.length === 0) {
-                return [];
+            if (ids.length === 0) {
+                set({ users: [], hasMore: false });
+                return;
             }
 
-            // Бьём массив на части для Firestore (ограничение `in` на 10 элементов)
-            const batches = [];
-            while (followersIds.length) {
-                batches.push(followersIds.splice(0, 10));
-            }
+            const batchIds = reset
+                ? ids.slice(0, 15)
+                : ids.slice(users.length, users.length + 15);
 
-            const followersPromises = batches.map((batch) => {
-                const followersQuery = query(
-                    collection(db, 'users'),
-                    where('id', 'in', batch)
-                );
-                return getDocs(followersQuery);
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('id', 'in', batchIds));
+            const snapshot = await getDocs(q);
+
+            const fetchedUsers: UserProfile[] = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })) as UserProfile[];
+
+            set({
+                users: reset ? fetchedUsers : [...users, ...fetchedUsers],
+                hasMore: fetchedUsers.length > 0,
+                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null
             });
-
-            const snapshots = await Promise.all(followersPromises);
-
-            // Объединяем результаты
-            const followers: UserProfile[] = snapshots.flatMap((snapshot) =>
-                snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
-                }))
-            ) as UserProfile[];
-
-            return followers;
         } catch (error: any) {
-            console.error('Error fetching followers:', error.message);
+            console.error('Error fetching relationships:', error.message);
             set({ error: error.message });
-            return [];
         } finally {
             set({ loading: false });
         }
     },
 
-    getFollowing: async (userId: string) => {
-        set({ loading: true, error: null });
-        try {
-            // Получение документа пользователя
-            const userRef = doc(db, 'users', userId);
-            const userDoc = await getDoc(userRef);
-
-            if (!userDoc.exists()) {
-                set({ error: 'User not found' });
-                return [];
-            }
-
-            // Извлечение массива following
-            const followingIds: string[] = userDoc.data()?.following || [];
-
-            if (followingIds.length === 0) {
-                return [];
-            }
-
-            // Бьём массив на части для Firestore (ограничение `in` на 10 элементов)
-            const batches = [];
-            while (followingIds.length) {
-                batches.push(followingIds.splice(0, 10));
-            }
-
-            const followingPromises = batches.map((batch) => {
-                const followingQuery = query(
-                    collection(db, 'users'),
-                    where('id', 'in', batch)
-                );
-                return getDocs(followingQuery);
-            });
-
-            const snapshots = await Promise.all(followingPromises);
-
-            // Объединяем результаты
-            const following: UserProfile[] = snapshots.flatMap((snapshot) =>
-                snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
-                }))
-            ) as UserProfile[];
-
-            return following;
-        } catch (error: any) {
-            console.error('Error fetching following:', error.message);
-            set({ error: error.message });
-            return [];
-        } finally {
-            set({ loading: false });
-        }
+    fetchMoreRelationships: async (userId, type) => {
+        await get().fetchRelationships(userId, type);
     }
 }));

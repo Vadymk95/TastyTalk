@@ -1,17 +1,15 @@
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
 import { Back, SearchInput } from '@root/components/ui';
 import { useUsersStore } from '@root/store/usersStore';
-import { UserProfile } from '@root/types';
-
-type UsersType = 'followers' | 'following';
+import { RelationshipType } from '@root/types';
 
 type UserListProps = {
     title: string;
     description: string;
-    type: UsersType;
+    type: RelationshipType;
     userId: string;
 };
 
@@ -22,27 +20,44 @@ export const UserList: FC<UserListProps> = ({
     userId
 }) => {
     const { t } = useTranslation();
-    const { getFollowing, getFollowers, searchQuery, setSearchQuery, loading } =
-        useUsersStore();
-    const [users, setUsers] = useState<UserProfile[]>([]);
+    const {
+        fetchRelationships,
+        fetchMoreRelationships,
+        searchQuery,
+        setSearchQuery,
+        loading,
+        users
+    } = useUsersStore();
     const observerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const loadUsers = async () => {
-            try {
-                const data =
-                    type === 'following'
-                        ? await getFollowing(userId)
-                        : await getFollowers(userId);
-                setUsers(data);
-            } catch (error) {
-                console.error(error);
+        if (users.length === 0) {
+            fetchRelationships(userId, type, true);
+        }
+    }, [fetchRelationships, type, userId, users.length]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !loading) {
+                    fetchMoreRelationships(userId, type);
+                }
+            },
+            { threshold: 1.0 }
+        );
+
+        const currentRef = observerRef.current;
+
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
             }
         };
-
-        loadUsers();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [type, userId]);
+    }, [fetchMoreRelationships, loading, type, userId]);
 
     const filteredUsers = useMemo(() => {
         return users.filter((user) =>

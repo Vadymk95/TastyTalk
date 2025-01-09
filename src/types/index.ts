@@ -123,3 +123,5 @@ export interface UserProfile {
     showName?: boolean;
     createdAt: Date;
 }
+
+export type RelationshipType = 'followers' | 'following';
