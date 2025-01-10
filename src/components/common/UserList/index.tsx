@@ -27,8 +27,7 @@ export const UserList: FC<UserListProps> = ({
         setSearchQuery,
         loading,
         followers,
-        following,
-        hasMore
+        following
     } = useUsersStore();
     const users = type === 'followers' ? followers : following;
     const observerRef = useRef<HTMLDivElement>(null);
@@ -49,7 +48,7 @@ export const UserList: FC<UserListProps> = ({
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting && !loading && hasMore) {
+                if (entry.isIntersecting && !loading) {
                     fetchMoreRelationships(userId, type);
                 }
             },
@@ -67,7 +66,7 @@ export const UserList: FC<UserListProps> = ({
                 observer.unobserve(currentRef);
             }
         };
-    }, [fetchMoreRelationships, loading, type, userId, hasMore]);
+    }, [fetchMoreRelationships, loading, type, userId]);
 
     useEffect(() => {
         return () => setSearchQuery('');

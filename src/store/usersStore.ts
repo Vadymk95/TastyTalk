@@ -354,6 +354,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     fetchMoreRelationships: async (userId, type) => {
         const { lastVisible, hasMore, [type]: currentState } = get();
 
+        // Прекращаем запросы, если больше данных нет
         if (!hasMore) return;
 
         set({ loading: true, error: null });
@@ -368,18 +369,25 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             }
 
             const ids: string[] = userDoc.data()?.[type] || [];
+            const remainingIds = ids.slice(currentState.length); // Оставшиеся IDs
+
+            // Прекращаем запросы, если больше нет IDs для обработки
+            if (remainingIds.length === 0) {
+                set({ hasMore: false, loading: false });
+                return;
+            }
+
             const usersRef = collection(db, 'users');
+
+            // Ограничиваем запрос оставшимися IDs (максимум 10)
+            const batchIds = remainingIds.slice(0, 10);
 
             const q = query(
                 usersRef,
-                where(
-                    'id',
-                    'in',
-                    ids.slice(currentState.length, currentState.length + 10)
-                ),
+                where('id', 'in', batchIds),
                 where('verified', '==', true),
                 orderBy('username'),
-                startAfter(lastVisible),
+                ...(lastVisible ? [startAfter(lastVisible)] : []),
                 limit(10)
             );
 
@@ -390,9 +398,15 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 ...doc.data()
             })) as UserProfile[];
 
+            // Прекращаем запросы, если больше нет пользователей
+            if (fetchedUsers.length === 0) {
+                set({ hasMore: false, loading: false });
+                return;
+            }
+
             set({
                 [type]: [...currentState, ...fetchedUsers],
-                hasMore: fetchedUsers.length === 10,
+                hasMore: fetchedUsers.length === 10, // Если данных меньше 10, прекращаем запросы
                 lastVisible:
                     snapshot.docs.length > 0
                         ? snapshot.docs[snapshot.docs.length - 1]
