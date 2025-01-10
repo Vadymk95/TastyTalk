@@ -43,7 +43,8 @@ export const UserList: FC<UserListProps> = ({
         return users.filter((user) =>
             user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
         );
-    }, [users, searchQuery]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [users]);
 
     useEffect(() => {
         if (users.length === 0) {
