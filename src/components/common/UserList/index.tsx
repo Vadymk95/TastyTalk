@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import { FC, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
@@ -33,12 +33,6 @@ export const UserList: FC<UserListProps> = ({
     const users = type === 'followers' ? followers : following;
     const observerRef = useRef<HTMLDivElement>(null);
 
-    const fetchMore = useCallback(() => {
-        if (!loading && hasMore) {
-            fetchMoreRelationships(userId, type);
-        }
-    }, [fetchMoreRelationships, loading, hasMore, type, userId]);
-
     const filteredUsers = useMemo(() => {
         return users.filter((user) =>
             user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
@@ -47,16 +41,16 @@ export const UserList: FC<UserListProps> = ({
     }, [users]);
 
     useEffect(() => {
-        if (users.length === 0 && !loading) {
+        if (users.length === 0) {
             fetchRelationships(userId, type, true);
         }
-    }, [fetchRelationships, type, userId, users.length, loading]);
+    }, [fetchRelationships, type, userId, users.length]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting && !loading && hasMore) {
-                    fetchMore();
+                    fetchMoreRelationships(userId, type);
                 }
             },
             { threshold: 1.0 }
@@ -73,7 +67,7 @@ export const UserList: FC<UserListProps> = ({
                 observer.unobserve(currentRef);
             }
         };
-    }, [fetchMore, hasMore, loading]);
+    }, [fetchMoreRelationships, loading, type, userId, hasMore]);
 
     useEffect(() => {
         return () => setSearchQuery('');
