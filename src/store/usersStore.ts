@@ -277,7 +277,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
     fetchRelationships: async (userId, type, reset = false) => {
         const { searchQuery, hasMore } = get();
-        const currentState = get()[type];
+        const currentState = get()[type]; // followers или following
         const normalizedQuery = searchQuery.trim().toLowerCase();
 
         if (
@@ -292,7 +292,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         set({ loading: true, error: null });
 
         try {
-            // Шаг 1: Получаем IDs (followers или following)
             const userRef = doc(db, 'users', userId);
             const userDoc = await getDoc(userRef);
 
@@ -301,48 +300,47 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return;
             }
 
+            // IDs фолловеров или фолловингов
             const ids: string[] = userDoc.data()?.[type] || [];
 
             if (reset) {
                 set({ [type]: [], lastVisible: null, hasMore: true });
             }
 
-            // Шаг 2: Разбиваем IDs на батчи по 10
-            const batchIds = ids.slice(
-                currentState.length,
-                currentState.length + 10
-            );
+            // Если есть фильтр по searchQuery
+            let filteredIds = ids;
+            if (normalizedQuery) {
+                const usersRef = collection(db, 'users');
+                const filterQuery = query(
+                    usersRef,
+                    where('id', 'in', ids.slice(0, 10)), // Ограничиваем до 10 из-за Firestore
+                    where('usernameLower', '>=', normalizedQuery),
+                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
+                    orderBy('usernameLower')
+                );
+                const snapshot = await getDocs(filterQuery);
+                filteredIds = snapshot.docs.map((doc) => doc.id);
+            }
+
+            // Пагинация (ограничение по 15 пользователей за раз)
+            const batchIds = reset
+                ? filteredIds.slice(0, 15)
+                : filteredIds.slice(
+                      currentState.length,
+                      currentState.length + 15
+                  );
 
             if (batchIds.length === 0) {
-                set({ hasMore: false, loading: false });
+                set({ hasMore: false });
                 return;
             }
 
-            // Шаг 3: Запрос данных с учетом `searchQuery`
+            // Загружаем пользователей
             const usersRef = collection(db, 'users');
-            let q;
-
-            if (normalizedQuery) {
-                q = query(
-                    usersRef,
-                    where('id', 'in', batchIds),
-                    where('usernameLower', '>=', normalizedQuery),
-                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
-                    orderBy('usernameLower'),
-                    limit(10)
-                );
-            } else {
-                q = query(
-                    usersRef,
-                    where('id', 'in', batchIds),
-                    orderBy('usernameLower'),
-                    limit(10)
-                );
-            }
-
+            const q = query(usersRef, where('id', 'in', batchIds));
             const snapshot = await getDocs(q);
 
-            const fetchedUsers: UserProfile[] = snapshot.docs.map((doc) => ({
+            const fetchedUsers = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data()
             })) as UserProfile[];
@@ -351,7 +349,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 [type]: reset
                     ? fetchedUsers
                     : [...currentState, ...fetchedUsers],
-                hasMore: fetchedUsers.length === 10
+                hasMore: fetchedUsers.length === 15,
+                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null
             });
         } catch (error: any) {
             console.error(`Error fetching ${type}:`, error.message);
