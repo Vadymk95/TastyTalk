@@ -47,10 +47,10 @@ export const UserList: FC<UserListProps> = ({
     }, [users]);
 
     useEffect(() => {
-        if (users.length === 0) {
+        if (users.length === 0 && !loading) {
             fetchRelationships(userId, type, true);
         }
-    }, [fetchRelationships, type, userId, users.length]);
+    }, [fetchRelationships, type, userId, users.length, loading]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
