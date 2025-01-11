@@ -34,7 +34,8 @@ export const UserList: FC<UserListProps> = ({
         return users.filter((user) =>
             user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
         );
-    }, [users, searchQuery]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [users]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -106,7 +107,7 @@ export const UserList: FC<UserListProps> = ({
             </div>
 
             {error && (
-                <p className="text-center text-red-500 p-4">
+                <p className="text-center text-primary p-4">
                     {t('General.errorOccurred')}: {error}
                 </p>
             )}
