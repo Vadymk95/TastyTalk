@@ -17,66 +17,113 @@ import { create } from 'zustand';
 
 import { db } from '@root/firebase/firebaseConfig';
 import { useAuthStore } from '@root/store/authStore';
-import { RelationshipType, UserProfile } from '@root/types';
+import { UserProfile } from '@root/types';
 
 interface UsersState {
     users: UserProfile[];
+    allSearchQuery: string;
+    allLastVisible: any;
+    allHasMore: boolean;
+
     followers: UserProfile[];
+    followersSearchQuery: string;
+    followersLastVisible: any;
+    followersHasMore: boolean;
+
     following: UserProfile[];
+    followingSearchQuery: string;
+    followingLastVisible: any;
+    followingHasMore: boolean;
+
+    currentUserId: string | null;
+
     loading: boolean;
     error: string | null;
-    searchQuery: string;
-    lastVisible: any;
-    hasMore: boolean;
+
+    setAllSearchQuery: (query: string) => void;
+    setFollowersSearchQuery: (query: string) => void;
+    setFollowingSearchQuery: (query: string) => void;
+
+    debouncedFetchUsers: () => void;
+    debouncedFetchFollowers: () => void;
+    debouncedFetchFollowing: () => void;
+
     fetchUsers: (reset?: boolean) => Promise<void>;
-    setSearchQuery: (query: string) => void;
-    fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
+    fetchMoreUsers: () => Promise<void>;
+
+    fetchFollowing: (userId: string, reset?: boolean) => Promise<void>;
+    fetchMoreFollowing: (userId: string) => Promise<void>;
+
+    fetchFollowers: (userId: string, reset?: boolean) => Promise<void>;
+    fetchMoreFollowers: (userId: string) => Promise<void>;
+
     followUser: (userId: string) => Promise<void>;
     unfollowUser: (userId: string) => Promise<void>;
-    debouncedFetchUsers: () => void;
-    fetchMoreUsers: () => Promise<void>;
-    fetchRelationships: (
-        userId: string,
-        type: RelationshipType,
-        reset?: boolean
-    ) => Promise<void>;
-    fetchMoreRelationships: (
-        userId: string,
-        type: RelationshipType
-    ) => Promise<void>;
+
+    fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
     users: [],
+    allSearchQuery: '',
+    allLastVisible: null,
+    allHasMore: true,
+
     followers: [],
+    followersSearchQuery: '',
+    followersLastVisible: null,
+    followersHasMore: true,
+
     following: [],
+    followingSearchQuery: '',
+    followingLastVisible: null,
+    followingHasMore: true,
+
+    currentUserId: null,
+
     loading: false,
     error: null,
-    searchQuery: '',
-    lastVisible: null,
-    hasMore: true,
+
+    setAllSearchQuery: (query: string) => {
+        set({ allSearchQuery: query });
+        get().debouncedFetchUsers();
+    },
+
+    setFollowersSearchQuery: (query: string) => {
+        set({ followersSearchQuery: query });
+        get().debouncedFetchFollowers();
+    },
+
+    setFollowingSearchQuery: (query: string) => {
+        set({ followingSearchQuery: query });
+        get().debouncedFetchFollowing();
+    },
+
+    debouncedFetchFollowers: debounce(() => {
+        const { fetchFollowers, currentUserId } = get();
+        if (!currentUserId) return;
+        fetchFollowers(currentUserId, true);
+    }, 300),
+
+    debouncedFetchFollowing: debounce(() => {
+        const { fetchFollowing, currentUserId } = get();
+        if (!currentUserId) return;
+        fetchFollowing(currentUserId, true);
+    }, 300),
+
     debouncedFetchUsers: debounce(() => {
         const { fetchUsers } = get();
         fetchUsers(true);
     }, 300),
 
-    setSearchQuery: (query: string) => {
-        const { searchQuery, loading } = get();
-
-        if (query !== searchQuery && !loading) {
-            set({ searchQuery: query });
-            get().debouncedFetchUsers();
-        }
-    },
-
     fetchUsers: async (reset = false) => {
-        const { searchQuery, users, lastVisible, hasMore } = get();
+        const { allSearchQuery, users, allLastVisible, allHasMore } = get();
 
         if (
             !reset &&
             users.length > 0 &&
-            searchQuery.trim() === '' &&
-            !hasMore
+            allSearchQuery.trim() === '' &&
+            !allHasMore
         ) {
             return;
         }
@@ -88,11 +135,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             let q;
 
             if (reset) {
-                set({ users: [], lastVisible: null, hasMore: true });
+                set({ users: [], allLastVisible: null, allHasMore: true });
             }
 
-            if (searchQuery.trim()) {
-                const normalizedQuery = searchQuery.trim().toLowerCase();
+            if (allSearchQuery.trim()) {
+                const normalizedQuery = allSearchQuery.trim().toLowerCase();
 
                 q = query(
                     usersRef,
@@ -109,7 +156,9 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     where('verified', '==', true),
                     orderBy('username'),
                     limit(15),
-                    ...(reset || !lastVisible ? [] : [startAfter(lastVisible)])
+                    ...(reset || !allLastVisible
+                        ? []
+                        : [startAfter(allLastVisible)])
                 );
             }
 
@@ -122,8 +171,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             set({
                 users: reset ? fetchedUsers : [...users, ...fetchedUsers],
-                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
-                hasMore: fetchedUsers.length === 15
+                allLastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
+                allHasMore: fetchedUsers.length === 15
             });
         } catch (error: any) {
             console.error('Error fetching users:', error.message);
@@ -134,9 +183,9 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchMoreUsers: async () => {
-        const { lastVisible, users, hasMore } = get();
+        const { allLastVisible, users, allHasMore } = get();
 
-        if (!hasMore) return;
+        if (!allHasMore) return;
 
         set({ loading: true, error: null });
 
@@ -146,7 +195,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 usersRef,
                 where('verified', '==', true),
                 orderBy('username'),
-                startAfter(lastVisible),
+                startAfter(allLastVisible),
                 limit(15)
             );
 
@@ -159,8 +208,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             set({
                 users: [...users, ...fetchedUsers],
-                lastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
-                hasMore: fetchedUsers.length === 15
+                allLastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
+                allHasMore: fetchedUsers.length === 15
             });
         } catch (error: any) {
             console.error('Error fetching more users:', error.message);
@@ -275,16 +324,20 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    fetchRelationships: async (userId, type, reset = false) => {
-        const { searchQuery, lastVisible } = get();
-        const normalizedQuery = searchQuery.trim().toLowerCase();
+    fetchFollowers: async (userId: string, reset = false) => {
+        const {
+            followersSearchQuery,
+            followers,
+            followersLastVisible,
+            followersHasMore
+        } = get();
+        const normalizedQuery = followersSearchQuery.trim().toLowerCase();
 
         if (
             !reset &&
             normalizedQuery === '' &&
-            !lastVisible &&
-            (type === 'followers' ? get().followers : get().following).length >
-                0
+            !followersHasMore &&
+            followers.length > 0
         ) {
             return;
         }
@@ -300,62 +353,72 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return;
             }
 
-            const ids: string[] = userDoc.data()?.[type] || [];
+            const ids: string[] = userDoc.data()?.followers || [];
 
             if (reset) {
-                set({ [type]: [], lastVisible: null, hasMore: true });
+                set({
+                    followers: [],
+                    followersLastVisible: null,
+                    followersHasMore: true
+                });
             }
 
             const usersRef = collection(db, 'users');
-            const filterQuery = normalizedQuery
-                ? query(
-                      usersRef,
-                      where('id', 'in', ids.slice(0, 10)),
-                      where('verified', '==', true),
-                      where('usernameLower', '>=', normalizedQuery),
-                      where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
-                      orderBy('usernameLower'),
-                      limit(10)
-                  )
-                : query(
-                      usersRef,
-                      where('id', 'in', ids.slice(0, 10)),
-                      where('verified', '==', true),
-                      orderBy('username'),
-                      limit(10),
-                      ...(reset || !lastVisible
-                          ? []
-                          : [startAfter(lastVisible)])
-                  );
+            let filterQuery;
+
+            if (normalizedQuery) {
+                // Firestore ограничивает 'in' до 10 элементов
+                const batchIds = ids.slice(0, 10);
+                filterQuery = query(
+                    usersRef,
+                    where('id', 'in', batchIds),
+                    where('verified', '==', true),
+                    where('usernameLower', '>=', normalizedQuery),
+                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
+                    orderBy('usernameLower'),
+                    limit(10)
+                );
+            } else {
+                const batchIds = ids.slice(0, 10);
+                filterQuery = query(
+                    usersRef,
+                    where('id', 'in', batchIds),
+                    where('verified', '==', true),
+                    orderBy('username'),
+                    limit(10),
+                    ...(reset || !followersLastVisible
+                        ? []
+                        : [startAfter(followersLastVisible)])
+                );
+            }
 
             const snapshot = await getDocs(filterQuery);
 
-            const fetchedUsers = snapshot.docs.map((doc) => ({
+            const fetchedFollowers = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data()
             })) as UserProfile[];
 
             set({
-                [type]: fetchedUsers,
-                hasMore: fetchedUsers.length === 10,
-                lastVisible:
-                    snapshot.docs.length > 0
-                        ? snapshot.docs[snapshot.docs.length - 1]
-                        : null
+                followers: reset
+                    ? fetchedFollowers
+                    : [...followers, ...fetchedFollowers],
+                followersLastVisible:
+                    snapshot.docs[snapshot.docs.length - 1] || null,
+                followersHasMore: fetchedFollowers.length === 10
             });
         } catch (error: any) {
-            console.error(`Error fetching ${type}:`, error.message);
+            console.error('Error fetching followers:', error.message);
             set({ error: error.message });
         } finally {
             set({ loading: false });
         }
     },
 
-    fetchMoreRelationships: async (userId, type) => {
-        const { lastVisible, hasMore, [type]: currentState } = get();
+    fetchMoreFollowers: async (userId: string) => {
+        const { followersHasMore, followers } = get();
 
-        // Прекращаем запросы, если больше данных нет
-        if (!hasMore) return;
+        if (!followersHasMore) return;
 
         set({ loading: true, error: null });
 
@@ -368,52 +431,180 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return;
             }
 
-            const ids: string[] = userDoc.data()?.[type] || [];
-            const remainingIds = ids.slice(currentState.length); // Оставшиеся IDs
+            const ids: string[] = userDoc.data()?.followers || [];
+            const currentCount = followers.length;
+            const nextBatchIds = ids.slice(currentCount, currentCount + 10); // Следующая порция ID
 
-            // Прекращаем запросы, если больше нет IDs для обработки
-            if (remainingIds.length === 0) {
-                set({ hasMore: false, loading: false });
+            if (nextBatchIds.length === 0) {
+                set({ followersHasMore: false, loading: false });
                 return;
             }
 
             const usersRef = collection(db, 'users');
-
-            // Ограничиваем запрос оставшимися IDs (максимум 10)
-            const batchIds = remainingIds.slice(0, 10);
-
-            const q = query(
+            const filterQuery = query(
                 usersRef,
-                where('id', 'in', batchIds),
+                where('id', 'in', nextBatchIds),
                 where('verified', '==', true),
-                orderBy('username'),
-                ...(lastVisible ? [startAfter(lastVisible)] : []),
+                orderBy('usernameLower'), // Опционально, если необходимо
                 limit(10)
             );
 
-            const snapshot = await getDocs(q);
+            const snapshot = await getDocs(filterQuery);
 
-            const fetchedUsers = snapshot.docs.map((doc) => ({
+            const fetchedFollowers = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data()
             })) as UserProfile[];
 
-            // Прекращаем запросы, если больше нет пользователей
-            if (fetchedUsers.length === 0) {
-                set({ hasMore: false, loading: false });
+            set({
+                followers: [...followers, ...fetchedFollowers],
+                followersHasMore: fetchedFollowers.length === 10
+            });
+        } catch (error: any) {
+            console.error('Error fetching more followers:', error.message);
+            set({ error: error.message });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    fetchFollowing: async (userId: string, reset = false) => {
+        const {
+            followingSearchQuery,
+            following,
+            followingLastVisible,
+            followingHasMore
+        } = get();
+        const normalizedQuery = followingSearchQuery.trim().toLowerCase();
+
+        if (
+            !reset &&
+            normalizedQuery === '' &&
+            !followingHasMore &&
+            following.length > 0
+        ) {
+            return;
+        }
+
+        set({ loading: true, error: null });
+
+        try {
+            const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                set({ error: 'User not found', loading: false });
                 return;
             }
 
+            const ids: string[] = userDoc.data()?.following || [];
+
+            if (reset) {
+                set({
+                    following: [],
+                    followingLastVisible: null,
+                    followingHasMore: true
+                });
+            }
+
+            const usersRef = collection(db, 'users');
+            let filterQuery;
+
+            if (normalizedQuery) {
+                const batchIds = ids.slice(0, 10);
+                filterQuery = query(
+                    usersRef,
+                    where('id', 'in', batchIds),
+                    where('verified', '==', true),
+                    where('usernameLower', '>=', normalizedQuery),
+                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
+                    orderBy('usernameLower'),
+                    limit(10)
+                );
+            } else {
+                const batchIds = ids.slice(0, 10);
+                filterQuery = query(
+                    usersRef,
+                    where('id', 'in', batchIds),
+                    where('verified', '==', true),
+                    orderBy('username'),
+                    limit(10),
+                    ...(reset || !followingLastVisible
+                        ? []
+                        : [startAfter(followingLastVisible)])
+                );
+            }
+
+            const snapshot = await getDocs(filterQuery);
+
+            const fetchedFollowing = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })) as UserProfile[];
+
             set({
-                [type]: [...currentState, ...fetchedUsers],
-                hasMore: fetchedUsers.length === 10, // Если данных меньше 10, прекращаем запросы
-                lastVisible:
-                    snapshot.docs.length > 0
-                        ? snapshot.docs[snapshot.docs.length - 1]
-                        : null
+                following: reset
+                    ? fetchedFollowing
+                    : [...following, ...fetchedFollowing],
+                followingLastVisible:
+                    snapshot.docs[snapshot.docs.length - 1] || null,
+                followingHasMore: fetchedFollowing.length === 10
             });
         } catch (error: any) {
-            console.error(`Error fetching more ${type}:`, error.message);
+            console.error('Error fetching following:', error.message);
+            set({ error: error.message });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    fetchMoreFollowing: async (userId: string) => {
+        const { followingHasMore, following } = get();
+
+        if (!followingHasMore) return;
+
+        set({ loading: true, error: null });
+
+        try {
+            const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                set({ error: 'User not found', loading: false });
+                return;
+            }
+
+            const ids: string[] = userDoc.data()?.following || [];
+            const currentCount = following.length;
+            const nextBatchIds = ids.slice(currentCount, currentCount + 10); // Следующая порция ID
+
+            if (nextBatchIds.length === 0) {
+                set({ followingHasMore: false, loading: false });
+                return;
+            }
+
+            const usersRef = collection(db, 'users');
+            const filterQuery = query(
+                usersRef,
+                where('id', 'in', nextBatchIds),
+                where('verified', '==', true),
+                orderBy('usernameLower'), // Опционально, если необходимо
+                limit(10)
+            );
+
+            const snapshot = await getDocs(filterQuery);
+
+            const fetchedFollowing = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })) as UserProfile[];
+
+            set({
+                following: [...following, ...fetchedFollowing],
+                followingHasMore: fetchedFollowing.length === 10
+            });
+        } catch (error: any) {
+            console.error('Error fetching more following:', error.message);
             set({ error: error.message });
         } finally {
             set({ loading: false });

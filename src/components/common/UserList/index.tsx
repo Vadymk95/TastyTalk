@@ -1,55 +1,46 @@
+// components/common/UserList.tsx
 import { FC, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
 import { Back, SearchInput } from '@root/components/ui';
-import { useUsersStore } from '@root/store/usersStore';
-import { RelationshipType } from '@root/types';
+import { UserProfile } from '@root/types';
 
 type UserListProps = {
     title: string;
     description: string;
-    type: RelationshipType;
-    userId: string;
+    users: UserProfile[];
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
+    loadMore: () => void;
+    loading: boolean;
+    error: string | null;
 };
 
 export const UserList: FC<UserListProps> = ({
     title,
     description,
-    type,
-    userId
+    users,
+    searchQuery,
+    setSearchQuery,
+    loadMore,
+    loading,
+    error
 }) => {
     const { t } = useTranslation();
-    const {
-        fetchRelationships,
-        fetchMoreRelationships,
-        searchQuery,
-        setSearchQuery,
-        loading,
-        followers,
-        following
-    } = useUsersStore();
-    const users = type === 'followers' ? followers : following;
     const observerRef = useRef<HTMLDivElement>(null);
 
     const filteredUsers = useMemo(() => {
         return users.filter((user) =>
             user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users]);
-
-    useEffect(() => {
-        if (users.length === 0) {
-            fetchRelationships(userId, type, true);
-        }
-    }, [fetchRelationships, type, userId, users.length]);
+    }, [users, searchQuery]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting && !loading) {
-                    fetchMoreRelationships(userId, type);
+                    loadMore();
                 }
             },
             { threshold: 1.0 }
@@ -66,7 +57,7 @@ export const UserList: FC<UserListProps> = ({
                 observer.unobserve(currentRef);
             }
         };
-    }, [fetchMoreRelationships, loading, type, userId]);
+    }, [loadMore, loading]);
 
     useEffect(() => {
         return () => setSearchQuery('');
@@ -87,7 +78,7 @@ export const UserList: FC<UserListProps> = ({
                     placeholder={t('General.search')}
                 />
 
-                {loading ? (
+                {loading && users.length === 0 ? (
                     <p className="text-center label p-4">
                         {t('General.loading')}
                     </p>
@@ -105,8 +96,20 @@ export const UserList: FC<UserListProps> = ({
                     </p>
                 )}
 
+                {loading && users.length > 0 && (
+                    <p className="text-center label p-4">
+                        {t('General.loading')}
+                    </p>
+                )}
+
                 <div ref={observerRef} style={{ height: '1px' }} />
             </div>
+
+            {error && (
+                <p className="text-center text-red-500 p-4">
+                    {t('General.errorOccurred')}: {error}
+                </p>
+            )}
         </div>
     );
 };

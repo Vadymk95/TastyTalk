@@ -9,8 +9,8 @@ const SearchProfilePage: FC = () => {
     const { t } = useTranslation();
     const {
         users,
-        searchQuery,
-        setSearchQuery,
+        allSearchQuery,
+        setAllSearchQuery,
         loading,
         fetchUsers,
         fetchMoreUsers
@@ -20,7 +20,9 @@ const SearchProfilePage: FC = () => {
 
     const filteredUsers = useMemo(() => {
         return users.filter((user) =>
-            user.usernameLower.toLowerCase().includes(searchQuery.toLowerCase())
+            user.usernameLower
+                .toLowerCase()
+                .includes(allSearchQuery.toLowerCase())
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [users]);
@@ -55,8 +57,8 @@ const SearchProfilePage: FC = () => {
     }, [fetchMoreUsers, loading]);
 
     useEffect(() => {
-        return () => setSearchQuery('');
-    }, [setSearchQuery]);
+        return () => setAllSearchQuery('');
+    }, [setAllSearchQuery]);
 
     return (
         <section className="h-100">
@@ -71,8 +73,8 @@ const SearchProfilePage: FC = () => {
                 <SearchInput
                     name="search"
                     type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={allSearchQuery}
+                    onChange={(e) => setAllSearchQuery(e.target.value)}
                     placeholder={t('General.search')}
                 />
 
@@ -82,7 +84,7 @@ const SearchProfilePage: FC = () => {
                     ))}
                 </ul>
 
-                {searchQuery && filteredUsers.length === 0 && !loading && (
+                {allSearchQuery && filteredUsers.length === 0 && !loading && (
                     <p className="text-center label p-4">
                         {t('General.noResultsFound')}
                     </p>
