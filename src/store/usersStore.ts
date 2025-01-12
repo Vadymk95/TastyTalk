@@ -58,7 +58,7 @@ interface UsersState {
     fetchMoreFollowing: () => Promise<void>;
 
     fetchFollowers: (reset?: boolean) => Promise<void>;
-    fetchMoreFollowers: (userId: string) => Promise<void>;
+    fetchMoreFollowers: () => Promise<void>;
 
     followUser: (userId: string) => Promise<void>;
     unfollowUser: (userId: string) => Promise<void>;
@@ -442,15 +442,15 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    fetchMoreFollowers: async (userId: string) => {
-        const { followersHasMore, followers } = get();
+    fetchMoreFollowers: async () => {
+        const { followersHasMore, followers, currentUserId } = get();
 
-        if (!followersHasMore) return;
+        if (!followersHasMore || !currentUserId) return;
 
         set({ loading: true, error: null });
 
         try {
-            const userRef = doc(db, 'users', userId);
+            const userRef = doc(db, 'users', currentUserId);
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {

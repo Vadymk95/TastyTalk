@@ -10,18 +10,25 @@ export const useFollowers = (userId: string) => {
         fetchMoreFollowers,
         followersHasMore,
         loading,
-        error
+        error,
+        setCurrentUserId,
+        currentUserId
     } = useUsersStore();
 
     useEffect(() => {
-        if (followers.length === 0) {
-            fetchFollowers(userId, true);
+        if (userId) {
+            setCurrentUserId(userId);
+
+            if (followers.length === 0) {
+                fetchFollowers(true);
+            }
         }
-    }, [fetchFollowers, userId, followers.length]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setCurrentUserId, userId]);
 
     const loadMore = () => {
-        if (followersHasMore && !loading) {
-            fetchMoreFollowers(userId);
+        if (followersHasMore && !loading && currentUserId) {
+            fetchMoreFollowers();
         }
     };
 
