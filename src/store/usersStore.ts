@@ -24,16 +24,19 @@ interface UsersState {
     allSearchQuery: string;
     allLastVisible: any;
     allHasMore: boolean;
+    isAllInitialized: boolean;
 
     followers: UserProfile[];
     followersSearchQuery: string;
     followersLastVisible: any;
     followersHasMore: boolean;
+    isFollowersInitialized: boolean;
 
     following: UserProfile[];
     followingSearchQuery: string;
     followingLastVisible: any;
     followingHasMore: boolean;
+    isFollowingInitialized: boolean;
 
     currentUserId: string | null;
 
@@ -51,16 +54,17 @@ interface UsersState {
     fetchUsers: (reset?: boolean) => Promise<void>;
     fetchMoreUsers: () => Promise<void>;
 
-    fetchFollowing: (userId: string, reset?: boolean) => Promise<void>;
-    fetchMoreFollowing: (userId: string) => Promise<void>;
+    fetchFollowing: (reset?: boolean) => Promise<void>;
+    fetchMoreFollowing: () => Promise<void>;
 
-    fetchFollowers: (userId: string, reset?: boolean) => Promise<void>;
+    fetchFollowers: (reset?: boolean) => Promise<void>;
     fetchMoreFollowers: (userId: string) => Promise<void>;
 
     followUser: (userId: string) => Promise<void>;
     unfollowUser: (userId: string) => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
+    setCurrentUserId: (userId: string) => void;
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -68,16 +72,19 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     allSearchQuery: '',
     allLastVisible: null,
     allHasMore: true,
+    isAllInitialized: false,
 
     followers: [],
     followersSearchQuery: '',
     followersLastVisible: null,
     followersHasMore: true,
+    isFollowersInitialized: false,
 
     following: [],
     followingSearchQuery: '',
     followingLastVisible: null,
     followingHasMore: true,
+    isFollowingInitialized: false,
 
     currentUserId: null,
 
@@ -86,29 +93,38 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
     setAllSearchQuery: (query: string) => {
         set({ allSearchQuery: query });
-        get().debouncedFetchUsers();
+
+        if (get().isAllInitialized) {
+            get().debouncedFetchUsers();
+        }
     },
 
     setFollowersSearchQuery: (query: string) => {
         set({ followersSearchQuery: query });
-        get().debouncedFetchFollowers();
+
+        if (get().isFollowersInitialized) {
+            get().debouncedFetchFollowers();
+        }
     },
 
     setFollowingSearchQuery: (query: string) => {
         set({ followingSearchQuery: query });
-        get().debouncedFetchFollowing();
+
+        if (get().isFollowingInitialized) {
+            get().debouncedFetchFollowing();
+        }
     },
 
     debouncedFetchFollowers: debounce(() => {
         const { fetchFollowers, currentUserId } = get();
         if (!currentUserId) return;
-        fetchFollowers(currentUserId, true);
+        fetchFollowers(true);
     }, 300),
 
     debouncedFetchFollowing: debounce(() => {
         const { fetchFollowing, currentUserId } = get();
         if (!currentUserId) return;
-        fetchFollowing(currentUserId, true);
+        fetchFollowing(true);
     }, 300),
 
     debouncedFetchUsers: debounce(() => {
@@ -135,7 +151,12 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             let q;
 
             if (reset) {
-                set({ users: [], allLastVisible: null, allHasMore: true });
+                set({
+                    users: [],
+                    allLastVisible: null,
+                    allHasMore: true,
+                    isAllInitialized: false
+                });
             }
 
             if (allSearchQuery.trim()) {
@@ -172,7 +193,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({
                 users: reset ? fetchedUsers : [...users, ...fetchedUsers],
                 allLastVisible: snapshot.docs[snapshot.docs.length - 1] || null,
-                allHasMore: fetchedUsers.length === 15
+                allHasMore: fetchedUsers.length === 15,
+                isAllInitialized: true
             });
         } catch (error: any) {
             console.error('Error fetching users:', error.message);
@@ -324,14 +346,17 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    fetchFollowers: async (userId: string, reset = false) => {
+    fetchFollowers: async (reset = false) => {
         const {
             followersSearchQuery,
             followers,
             followersLastVisible,
-            followersHasMore
+            followersHasMore,
+            currentUserId
         } = get();
         const normalizedQuery = followersSearchQuery.trim().toLowerCase();
+
+        if (!currentUserId) return;
 
         if (
             !reset &&
@@ -345,7 +370,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         set({ loading: true, error: null });
 
         try {
-            const userRef = doc(db, 'users', userId);
+            const userRef = doc(db, 'users', currentUserId);
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {
@@ -359,7 +384,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 set({
                     followers: [],
                     followersLastVisible: null,
-                    followersHasMore: true
+                    followersHasMore: true,
+                    isFollowersInitialized: false
                 });
             }
 
@@ -405,7 +431,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     : [...followers, ...fetchedFollowers],
                 followersLastVisible:
                     snapshot.docs[snapshot.docs.length - 1] || null,
-                followersHasMore: fetchedFollowers.length === 10
+                followersHasMore: fetchedFollowers.length === 10,
+                isFollowersInitialized: true
             });
         } catch (error: any) {
             console.error('Error fetching followers:', error.message);
@@ -468,14 +495,17 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    fetchFollowing: async (userId: string, reset = false) => {
+    fetchFollowing: async (reset = false) => {
         const {
             followingSearchQuery,
             following,
             followingLastVisible,
-            followingHasMore
+            followingHasMore,
+            currentUserId
         } = get();
         const normalizedQuery = followingSearchQuery.trim().toLowerCase();
+
+        if (!currentUserId) return;
 
         if (
             !reset &&
@@ -489,7 +519,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         set({ loading: true, error: null });
 
         try {
-            const userRef = doc(db, 'users', userId);
+            const userRef = doc(db, 'users', currentUserId);
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {
@@ -497,15 +527,16 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return;
             }
 
-            const ids: string[] = userDoc.data()?.following || [];
-
             if (reset) {
                 set({
                     following: [],
                     followingLastVisible: null,
-                    followingHasMore: true
+                    followingHasMore: true,
+                    isFollowingInitialized: false
                 });
             }
+
+            const ids: string[] = userDoc.data()?.following || [];
 
             const usersRef = collection(db, 'users');
             let filterQuery;
@@ -548,7 +579,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     : [...following, ...fetchedFollowing],
                 followingLastVisible:
                     snapshot.docs[snapshot.docs.length - 1] || null,
-                followingHasMore: fetchedFollowing.length === 10
+                followingHasMore: fetchedFollowing.length === 10,
+                isFollowingInitialized: true
             });
         } catch (error: any) {
             console.error('Error fetching following:', error.message);
@@ -558,15 +590,15 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    fetchMoreFollowing: async (userId: string) => {
-        const { followingHasMore, following } = get();
+    fetchMoreFollowing: async () => {
+        const { followingHasMore, following, currentUserId } = get();
 
-        if (!followingHasMore) return;
+        if (!followingHasMore || !currentUserId) return;
 
         set({ loading: true, error: null });
 
         try {
-            const userRef = doc(db, 'users', userId);
+            const userRef = doc(db, 'users', currentUserId);
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {
@@ -608,6 +640,12 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({ error: error.message });
         } finally {
             set({ loading: false });
+        }
+    },
+
+    setCurrentUserId: (userId: string) => {
+        if (get().currentUserId !== userId) {
+            set({ currentUserId: userId });
         }
     }
 }));

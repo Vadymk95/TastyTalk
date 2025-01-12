@@ -13,7 +13,8 @@ const SearchProfilePage: FC = () => {
         setAllSearchQuery,
         loading,
         fetchUsers,
-        fetchMoreUsers
+        fetchMoreUsers,
+        error
     } = useUsersStore();
 
     const observerRef = useRef<HTMLDivElement>(null);
@@ -98,6 +99,12 @@ const SearchProfilePage: FC = () => {
 
                 <div ref={observerRef} style={{ height: '1px' }} />
             </div>
+
+            {error && (
+                <p className="text-center text-primary p-4 truncate">
+                    {t('General.errorOccurred')}: {error}
+                </p>
+            )}
         </section>
     );
 };

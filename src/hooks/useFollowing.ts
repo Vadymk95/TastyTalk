@@ -7,21 +7,28 @@ export const useFollowing = (userId: string) => {
         followingSearchQuery,
         setFollowingSearchQuery,
         fetchFollowing,
-        fetchMoreFollowing,
         followingHasMore,
         loading,
-        error
+        error,
+        setCurrentUserId,
+        currentUserId,
+        fetchMoreFollowing
     } = useUsersStore();
 
     useEffect(() => {
-        if (following.length === 0) {
-            fetchFollowing(userId, true);
+        if (userId) {
+            setCurrentUserId(userId);
+
+            if (following.length === 0) {
+                fetchFollowing(true);
+            }
         }
-    }, [fetchFollowing, userId, following.length]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setCurrentUserId, userId]);
 
     const loadMore = () => {
-        if (followingHasMore && !loading) {
-            fetchMoreFollowing(userId);
+        if (followingHasMore && !loading && currentUserId) {
+            fetchMoreFollowing();
         }
     };
 

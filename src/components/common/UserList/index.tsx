@@ -79,7 +79,7 @@ export const UserList: FC<UserListProps> = ({
                     placeholder={t('General.search')}
                 />
 
-                {loading && users.length === 0 ? (
+                {loading ? (
                     <p className="text-center label p-4">
                         {t('General.loading')}
                     </p>
@@ -97,17 +97,11 @@ export const UserList: FC<UserListProps> = ({
                     </p>
                 )}
 
-                {loading && users.length > 0 && (
-                    <p className="text-center label p-4">
-                        {t('General.loading')}
-                    </p>
-                )}
-
                 <div ref={observerRef} style={{ height: '1px' }} />
             </div>
 
             {error && (
-                <p className="text-center text-primary p-4">
+                <p className="text-center text-primary p-4 truncate">
                     {t('General.errorOccurred')}: {error}
                 </p>
             )}
