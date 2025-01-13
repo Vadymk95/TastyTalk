@@ -5,6 +5,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    increment,
     limit,
     orderBy,
     query,
@@ -39,6 +40,8 @@ interface UsersState {
     isFollowingInitialized: boolean;
 
     currentUserId: string | null;
+    loadingFollowId: string | null;
+    loadingUnfollowId: string | null;
 
     loadingFollow: boolean;
     loadingUnfollow: boolean;
@@ -62,8 +65,8 @@ interface UsersState {
     fetchFollowers: (reset?: boolean) => Promise<void>;
     fetchMoreFollowers: () => Promise<void>;
 
-    followUser: (userId: string) => Promise<void>;
-    unfollowUser: (userId: string) => Promise<void>;
+    followUser: (targetUserId: string) => Promise<void>;
+    unfollowUser: (targetUserId: string) => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     setCurrentUserId: (userId: string) => void;
@@ -89,6 +92,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     isFollowingInitialized: false,
 
     currentUserId: null,
+    loadingFollowId: null,
+    loadingUnfollowId: null,
 
     loadingFollow: false,
     loadingUnfollow: false,
@@ -289,12 +294,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({ loading: false });
         }
     },
-
-    followUser: async (targetUserId) => {
+    followUser: async (targetUserId: string) => {
         const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
-        set({ loadingFollow: true });
+        set({ loadingFollowId: targetUserId });
 
         try {
             const currentUserRef = doc(db, 'users', userProfile.id);
@@ -303,10 +307,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             await Promise.all([
                 updateDoc(currentUserRef, {
                     following: arrayUnion(targetUserId),
-                    followingCount: userProfile.followingCount + 1
+                    followingCount: increment(1)
                 }),
                 updateDoc(targetUserRef, {
-                    followers: arrayUnion(userProfile.id)
+                    followers: arrayUnion(userProfile.id),
+                    followersCount: increment(1)
                 })
             ]);
 
@@ -317,19 +322,34 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     followingCount: userProfile.followingCount + 1
                 }
             });
+
+            set((state) => ({
+                users: state.users.map((user) =>
+                    user.id === targetUserId
+                        ? {
+                              ...user,
+                              followers: [
+                                  ...(user.followers || []),
+                                  userProfile.id
+                              ],
+                              followersCount: (user.followersCount || 0) + 1
+                          }
+                        : user
+                )
+            }));
         } catch (error: any) {
             console.error('Follow Error:', error.message);
             set({ error: error.message });
         } finally {
-            set({ loadingFollow: false });
+            set({ loadingFollowId: null });
         }
     },
 
-    unfollowUser: async (targetUserId) => {
+    unfollowUser: async (targetUserId: string) => {
         const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
-        set({ loadingUnfollow: true });
+        set({ loadingUnfollowId: targetUserId });
 
         try {
             const currentUserRef = doc(db, 'users', userProfile.id);
@@ -338,10 +358,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             await Promise.all([
                 updateDoc(currentUserRef, {
                     following: arrayRemove(targetUserId),
-                    followingCount: Math.max(0, userProfile.followingCount - 1)
+                    followingCount: increment(-1)
                 }),
                 updateDoc(targetUserRef, {
-                    followers: arrayRemove(userProfile.id)
+                    followers: arrayRemove(userProfile.id),
+                    followersCount: increment(-1)
                 })
             ]);
 
@@ -354,11 +375,28 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     followingCount: Math.max(0, userProfile.followingCount - 1)
                 }
             });
+
+            set((state) => ({
+                users: state.users.map((user) =>
+                    user.id === targetUserId
+                        ? {
+                              ...user,
+                              followers: user.followers?.filter(
+                                  (id) => id !== userProfile.id
+                              ),
+                              followersCount: Math.max(
+                                  0,
+                                  (user.followersCount || 1) - 1
+                              )
+                          }
+                        : user
+                )
+            }));
         } catch (error: any) {
             console.error('Unfollow Error:', error.message);
             set({ error: error.message });
         } finally {
-            set({ loadingUnfollow: false });
+            set({ loadingUnfollowId: null });
         }
     },
 
