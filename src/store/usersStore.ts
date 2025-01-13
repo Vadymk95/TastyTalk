@@ -100,18 +100,30 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     setFollowersSearchQuery: (query: string) => {
+        const currentQuery = get().followersSearchQuery;
+
+        if (currentQuery === query) return;
+
         set({ followersSearchQuery: query });
 
-        if (get().isFollowersInitialized) {
+        if (query.trim() !== '') {
             get().debouncedFetchFollowers();
+        } else {
+            get().fetchFollowers(true);
         }
     },
 
     setFollowingSearchQuery: (query: string) => {
+        const currentQuery = get().followingSearchQuery;
+
+        if (currentQuery === query) return;
+
         set({ followingSearchQuery: query });
 
-        if (get().isFollowingInitialized) {
+        if (query.trim() !== '') {
             get().debouncedFetchFollowing();
+        } else {
+            get().fetchFollowing(true);
         }
     },
 
@@ -384,8 +396,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 set({
                     followers: [],
                     followersLastVisible: null,
-                    followersHasMore: true,
-                    isFollowersInitialized: false
+                    followersHasMore: true
                 });
             }
 
@@ -531,8 +542,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 set({
                     following: [],
                     followingLastVisible: null,
-                    followingHasMore: true,
-                    isFollowingInitialized: false
+                    followingHasMore: true
                 });
             }
 

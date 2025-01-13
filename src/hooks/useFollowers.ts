@@ -12,19 +12,20 @@ export const useFollowers = (userId: string) => {
         loading,
         error,
         setCurrentUserId,
-        currentUserId
+        currentUserId,
+        isFollowersInitialized
     } = useUsersStore();
 
     useEffect(() => {
         if (userId) {
             setCurrentUserId(userId);
 
-            if (followers.length === 0) {
+            if (isFollowersInitialized) {
                 fetchFollowers(true);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setCurrentUserId, userId]);
+    }, [setCurrentUserId, userId, isFollowersInitialized]);
 
     const loadMore = () => {
         if (followersHasMore && !loading && currentUserId) {
