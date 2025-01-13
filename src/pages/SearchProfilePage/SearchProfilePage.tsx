@@ -81,7 +81,11 @@ const SearchProfilePage: FC = () => {
 
                 <ul className="space-y-4 mt-4">
                     {filteredUsers.map((user) => (
-                        <User key={user.id} user={user} />
+                        <User
+                            key={user.id}
+                            user={user}
+                            fromSearchProfilesPage
+                        />
                     ))}
                 </ul>
 

@@ -65,8 +65,14 @@ interface UsersState {
     fetchFollowers: (reset?: boolean) => Promise<void>;
     fetchMoreFollowers: () => Promise<void>;
 
-    followUser: (targetUserId: string) => Promise<void>;
-    unfollowUser: (targetUserId: string) => Promise<void>;
+    followUser: (
+        targetUserId: string,
+        fromSearchProfilesPage?: boolean
+    ) => Promise<void>;
+    unfollowUser: (
+        targetUserId: string,
+        fromSearchProfilesPage?: boolean
+    ) => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     setCurrentUserId: (userId: string) => void;
@@ -294,7 +300,10 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({ loading: false });
         }
     },
-    followUser: async (targetUserId: string) => {
+    followUser: async (
+        targetUserId: string,
+        fromSearchProfilesPage: boolean = false
+    ) => {
         const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
@@ -345,6 +354,13 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                         : user
                 )
             }));
+
+            if (fromSearchProfilesPage) {
+                set({
+                    isFollowingInitialized: false,
+                    isFollowersInitialized: false
+                });
+            }
         } catch (error: any) {
             console.error('Follow Error:', error.message);
             set({ error: error.message });
@@ -353,7 +369,10 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
-    unfollowUser: async (targetUserId: string) => {
+    unfollowUser: async (
+        targetUserId: string,
+        fromSearchProfilesPage: boolean = false
+    ) => {
         const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
@@ -408,6 +427,13 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                         : user
                 )
             }));
+
+            if (fromSearchProfilesPage) {
+                set({
+                    isFollowingInitialized: false,
+                    isFollowersInitialized: false
+                });
+            }
         } catch (error: any) {
             console.error('Unfollow Error:', error.message);
             set({ error: error.message });
