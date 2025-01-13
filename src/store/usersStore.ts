@@ -442,12 +442,26 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 });
             }
 
+            if (ids.length === 0) {
+                set({
+                    followers: [],
+                    followersHasMore: false
+                });
+                return;
+            }
+
             const usersRef = collection(db, 'users');
             let filterQuery;
 
             if (normalizedQuery) {
-                // Firestore ограничивает 'in' до 10 элементов
                 const batchIds = ids.slice(0, 10);
+                if (batchIds.length === 0) {
+                    set({
+                        followers: [],
+                        followersHasMore: false
+                    });
+                    return;
+                }
                 filterQuery = query(
                     usersRef,
                     where('id', 'in', batchIds),
@@ -459,6 +473,13 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 );
             } else {
                 const batchIds = ids.slice(0, 10);
+                if (batchIds.length === 0) {
+                    set({
+                        followers: [],
+                        followersHasMore: false
+                    });
+                    return;
+                }
                 filterQuery = query(
                     usersRef,
                     where('id', 'in', batchIds),
@@ -580,6 +601,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 return;
             }
 
+            const ids: string[] = userDoc.data()?.following || [];
+
             if (reset) {
                 set({
                     following: [],
@@ -588,13 +611,26 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 });
             }
 
-            const ids: string[] = userDoc.data()?.following || [];
+            if (ids.length === 0) {
+                set({
+                    following: [],
+                    followingHasMore: false
+                });
+                return;
+            }
 
             const usersRef = collection(db, 'users');
             let filterQuery;
 
             if (normalizedQuery) {
                 const batchIds = ids.slice(0, 10);
+                if (batchIds.length === 0) {
+                    set({
+                        following: [],
+                        followingHasMore: false
+                    });
+                    return;
+                }
                 filterQuery = query(
                     usersRef,
                     where('id', 'in', batchIds),
@@ -606,6 +642,13 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 );
             } else {
                 const batchIds = ids.slice(0, 10);
+                if (batchIds.length === 0) {
+                    set({
+                        following: [],
+                        followingHasMore: false
+                    });
+                    return;
+                }
                 filterQuery = query(
                     usersRef,
                     where('id', 'in', batchIds),
