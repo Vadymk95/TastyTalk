@@ -40,6 +40,8 @@ interface UsersState {
 
     currentUserId: string | null;
 
+    loadingFollow: boolean;
+    loadingUnfollow: boolean;
     loading: boolean;
     error: string | null;
 
@@ -88,6 +90,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
     currentUserId: null,
 
+    loadingFollow: false,
+    loadingUnfollow: false,
     loading: false,
     error: null,
 
@@ -290,7 +294,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
-        set({ loading: true });
+        set({ loadingFollow: true });
 
         try {
             const currentUserRef = doc(db, 'users', userProfile.id);
@@ -317,7 +321,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             console.error('Follow Error:', error.message);
             set({ error: error.message });
         } finally {
-            set({ loading: false });
+            set({ loadingFollow: false });
         }
     },
 
@@ -325,7 +329,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         const { userProfile } = useAuthStore.getState();
         if (!userProfile) return;
 
-        set({ loading: true });
+        set({ loadingUnfollow: true });
 
         try {
             const currentUserRef = doc(db, 'users', userProfile.id);
@@ -354,7 +358,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             console.error('Unfollow Error:', error.message);
             set({ error: error.message });
         } finally {
-            set({ loading: false });
+            set({ loadingUnfollow: false });
         }
     },
 

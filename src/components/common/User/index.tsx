@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ export const User: FC<UserProps> = ({ user }) => {
     const { followUser, unfollowUser } = useUsersStore();
     const { t } = useTranslation();
     const { isMe, userProfile } = useAuthStore();
+    const [isLoading, setIsLoading] = useState(false);
     const isMobile = isMobileDevice();
     const me = isMe(user.username);
     const followingSet = useMemo(
@@ -26,14 +27,23 @@ export const User: FC<UserProps> = ({ user }) => {
 
     const isFollowing = followingSet.has(user.id);
 
-    const handleOnSubscribe = (
+    const handleOnSubscribe = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
+        if (isLoading) return;
+
         event.stopPropagation();
-        if (isFollowing) {
-            unfollowUser(user.id);
-        } else {
-            followUser(user.id);
+        setIsLoading(true);
+        try {
+            if (isFollowing) {
+                await unfollowUser(user.id);
+            } else {
+                await followUser(user.id);
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -64,6 +74,7 @@ export const User: FC<UserProps> = ({ user }) => {
                     variant={isFollowing ? 'primary' : 'secondary'}
                     onClick={(event) => handleOnSubscribe(event)}
                     size={isMobile ? 'small' : 'medium'}
+                    disabled={isLoading}
                 >
                     {t(`General.${isFollowing ? 'unfollow' : 'follow'}`)}
                 </Button>
