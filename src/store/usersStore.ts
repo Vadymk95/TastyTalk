@@ -9,8 +9,8 @@ import {
     limit,
     orderBy,
     query,
-    runTransaction,
     startAfter,
+    updateDoc,
     where
 } from 'firebase/firestore';
 import debounce from 'lodash/debounce';
@@ -313,24 +313,16 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             const currentUserRef = doc(db, 'users', userProfile.id);
             const targetUserRef = doc(db, 'users', targetUserId);
 
-            await runTransaction(db, async (transaction) => {
-                const currentUserSnap = await transaction.get(currentUserRef);
-                const targetUserSnap = await transaction.get(targetUserRef);
-
-                if (!currentUserSnap.exists() || !targetUserSnap.exists()) {
-                    throw new Error('User does not exist');
-                }
-
-                transaction.update(currentUserRef, {
+            await Promise.all([
+                updateDoc(currentUserRef, {
                     following: arrayUnion(targetUserId),
                     followingCount: increment(1)
-                });
-
-                transaction.update(targetUserRef, {
-                    followers: arrayUnion(userProfile.id),
+                }),
+                updateDoc(targetUserRef, {
+                    followers: arrayRemove(userProfile.id),
                     followersCount: increment(1)
-                });
-            });
+                })
+            ]);
 
             useAuthStore.setState({
                 userProfile: {
@@ -382,24 +374,16 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             const currentUserRef = doc(db, 'users', userProfile.id);
             const targetUserRef = doc(db, 'users', targetUserId);
 
-            await runTransaction(db, async (transaction) => {
-                const currentUserSnap = await transaction.get(currentUserRef);
-                const targetUserSnap = await transaction.get(targetUserRef);
-
-                if (!currentUserSnap.exists() || !targetUserSnap.exists()) {
-                    throw new Error('User does not exist');
-                }
-
-                transaction.update(currentUserRef, {
+            await Promise.all([
+                updateDoc(currentUserRef, {
                     following: arrayRemove(targetUserId),
                     followingCount: increment(-1)
-                });
-
-                transaction.update(targetUserRef, {
+                }),
+                updateDoc(targetUserRef, {
                     followers: arrayRemove(userProfile.id),
                     followersCount: increment(-1)
-                });
-            });
+                })
+            ]);
 
             useAuthStore.setState({
                 userProfile: {
