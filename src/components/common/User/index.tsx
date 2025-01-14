@@ -18,7 +18,8 @@ export const User: FC<UserProps> = ({
     fromSearchProfilesPage = false
 }) => {
     const navigate = useNavigate();
-    const { followUser, unfollowUser } = useUsersStore();
+    const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
+        useUsersStore();
     const { t } = useTranslation();
     const { isMe, userProfile } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,7 @@ export const User: FC<UserProps> = ({
     const handleOnSubscribe = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
-        if (isLoading) return;
+        if (isLoading || loadingFollow || loadingUnfollow) return;
 
         event.stopPropagation();
         setIsLoading(true);
