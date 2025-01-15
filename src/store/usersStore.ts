@@ -460,18 +460,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             const ids: string[] = userDoc.data()?.followers || [];
 
-            if (reset) {
-                set({
-                    followers: [],
-                    followersLastVisible: null,
-                    followersHasMore: true
-                });
-            }
-
             if (ids.length === 0) {
                 set({
                     followers: [],
-                    followersHasMore: false
+                    followersHasMore: false,
+                    isFollowersInitialized: true
                 });
                 return;
             }
@@ -483,7 +476,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 const batchIds = ids.slice(0, 10);
                 if (batchIds.length === 0) {
                     set({
-                        followers: [],
+                        isFollowersInitialized: true,
                         followersHasMore: false
                     });
                     return;
@@ -498,11 +491,12 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     limit(10)
                 );
             } else {
-                const batchIds = ids.slice(0, 10);
+                const startIndex = reset ? 0 : followers.length;
+                const batchIds = ids.slice(startIndex, startIndex + 10);
                 if (batchIds.length === 0) {
                     set({
-                        followers: [],
-                        followersHasMore: false
+                        followersHasMore: false,
+                        isFollowersInitialized: true
                     });
                     return;
                 }
@@ -629,18 +623,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
             const ids: string[] = userDoc.data()?.following || [];
 
-            if (reset) {
-                set({
-                    following: [],
-                    followingLastVisible: null,
-                    followingHasMore: true
-                });
-            }
-
             if (ids.length === 0) {
                 set({
                     following: [],
-                    followingHasMore: false
+                    followingHasMore: false,
+                    isFollowingInitialized: true
                 });
                 return;
             }
@@ -652,7 +639,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 const batchIds = ids.slice(0, 10);
                 if (batchIds.length === 0) {
                     set({
-                        following: [],
+                        isFollowingInitialized: true,
                         followingHasMore: false
                     });
                     return;
@@ -667,11 +654,12 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     limit(10)
                 );
             } else {
-                const batchIds = ids.slice(0, 10);
+                const startIndex = reset ? 0 : following.length;
+                const batchIds = ids.slice(startIndex, startIndex + 10);
                 if (batchIds.length === 0) {
                     set({
-                        following: [],
-                        followingHasMore: false
+                        followingHasMore: false,
+                        isFollowingInitialized: true
                     });
                     return;
                 }
