@@ -48,13 +48,13 @@ interface UsersState {
     loading: boolean;
     error: string | null;
 
-    setAllSearchQuery: (query: string) => void;
-    setFollowersSearchQuery: (query: string) => void;
-    setFollowingSearchQuery: (query: string) => void;
-
     debouncedFetchUsers: () => void;
     debouncedFetchFollowers: () => void;
     debouncedFetchFollowing: () => void;
+
+    setAllSearchQuery: (query: string) => void;
+    setFollowersSearchQuery: (query: string) => void;
+    setFollowingSearchQuery: (query: string) => void;
 
     fetchUsers: (reset?: boolean) => Promise<void>;
     fetchMoreUsers: () => Promise<void>;
@@ -106,6 +106,23 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     loading: false,
     error: null,
 
+    debouncedFetchFollowers: debounce(() => {
+        const { fetchFollowers, currentUserId } = get();
+        if (!currentUserId) return;
+        fetchFollowers(true);
+    }, 300),
+
+    debouncedFetchFollowing: debounce(() => {
+        const { fetchFollowing, currentUserId } = get();
+        if (!currentUserId) return;
+        fetchFollowing(true);
+    }, 300),
+
+    debouncedFetchUsers: debounce(() => {
+        const { fetchUsers } = get();
+        fetchUsers(true);
+    }, 300),
+
     setAllSearchQuery: (query: string) => {
         set({ allSearchQuery: query });
 
@@ -141,23 +158,6 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             get().fetchFollowing(true);
         }
     },
-
-    debouncedFetchFollowers: debounce(() => {
-        const { fetchFollowers, currentUserId } = get();
-        if (!currentUserId) return;
-        fetchFollowers(true);
-    }, 300),
-
-    debouncedFetchFollowing: debounce(() => {
-        const { fetchFollowing, currentUserId } = get();
-        if (!currentUserId) return;
-        fetchFollowing(true);
-    }, 300),
-
-    debouncedFetchUsers: debounce(() => {
-        const { fetchUsers } = get();
-        fetchUsers(true);
-    }, 300),
 
     fetchUsers: async (reset = false) => {
         const { allSearchQuery, users, allLastVisible, allHasMore } = get();
@@ -300,6 +300,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             set({ loading: false });
         }
     },
+
     followUser: async (
         targetUserId: string,
         fromSearchProfilesPage: boolean = false
@@ -319,7 +320,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     followingCount: increment(1)
                 }),
                 updateDoc(targetUserRef, {
-                    followers: arrayRemove(userProfile.id),
+                    followers: arrayUnion(userProfile.id),
                     followersCount: increment(1)
                 })
             ]);
