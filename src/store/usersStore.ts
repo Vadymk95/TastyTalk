@@ -38,6 +38,8 @@ interface UsersState {
     followingLastVisible: any;
     followingHasMore: boolean;
     isFollowingInitialized: boolean;
+    bufferedFollowingIds: string[];
+    currentFollowingQueryId: number | null;
 
     currentUserId: string | null;
     loadingFollowId: string | null;
@@ -96,6 +98,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     followingLastVisible: null,
     followingHasMore: true,
     isFollowingInitialized: false,
+    bufferedFollowingIds: [],
+    currentFollowingQueryId: null,
 
     currentUserId: null,
     loadingFollowId: null,
@@ -634,29 +638,64 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             }
 
             const usersRef = collection(db, 'users');
-            let filterQuery;
 
             if (normalizedQuery) {
-                const batchIds = ids.slice(0, 10);
-                if (batchIds.length === 0) {
-                    set({
-                        isFollowingInitialized: true,
-                        followingHasMore: false
-                    });
-                    return;
+                let matchingUsers: UserProfile[] = [];
+                const batchSize = 10;
+                const maxBatches = Math.ceil(ids.length / batchSize);
+
+                for (let i = 0; i < maxBatches; i++) {
+                    const batchIds = ids.slice(
+                        i * batchSize,
+                        (i + 1) * batchSize
+                    );
+                    if (batchIds.length === 0) continue;
+
+                    // Firestore 'in' запросы ограничены 10 ID
+                    const q = query(
+                        usersRef,
+                        where('id', 'in', batchIds),
+                        where('verified', '==', true),
+                        where('usernameLower', '>=', normalizedQuery),
+                        where(
+                            'usernameLower',
+                            '<=',
+                            normalizedQuery + '\uf8ff'
+                        ),
+                        orderBy('usernameLower'),
+                        limit(10 - matchingUsers.length) // Ограничиваем количество результатов
+                    );
+
+                    const snapshot = await getDocs(q);
+
+                    const fetchedFollowing = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data()
+                    })) as UserProfile[];
+
+                    // Фильтруем пользователей по `usernameLower`
+                    const filteredUsers = fetchedFollowing.filter((user) =>
+                        user.usernameLower.includes(normalizedQuery)
+                    );
+
+                    matchingUsers.push(...filteredUsers);
+
+                    // Если достигли 10 совпадений, прекращаем поиск
+                    if (matchingUsers.length >= 10) {
+                        break;
+                    }
                 }
-                filterQuery = query(
-                    usersRef,
-                    where('id', 'in', batchIds),
-                    where('verified', '==', true),
-                    where('usernameLower', '>=', normalizedQuery),
-                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
-                    orderBy('usernameLower'),
-                    limit(10)
-                );
+
+                set({
+                    following: matchingUsers.slice(0, 10), // Ограничиваем до 10
+                    followingLastVisible: null, // Нет пагинации в режиме поиска
+                    followingHasMore: false, // Не поддерживаем пагинацию в режиме поиска
+                    isFollowingInitialized: true
+                });
             } else {
                 const startIndex = reset ? 0 : following.length;
                 const batchIds = ids.slice(startIndex, startIndex + 10);
+
                 if (batchIds.length === 0) {
                     set({
                         followingHasMore: false,
@@ -664,7 +703,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     });
                     return;
                 }
-                filterQuery = query(
+
+                const q = query(
                     usersRef,
                     where('id', 'in', batchIds),
                     where('verified', '==', true),
@@ -674,24 +714,24 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                         ? []
                         : [startAfter(followingLastVisible)])
                 );
+
+                const snapshot = await getDocs(q);
+
+                const fetchedFollowing = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                })) as UserProfile[];
+
+                set({
+                    following: reset
+                        ? fetchedFollowing
+                        : [...following, ...fetchedFollowing],
+                    followingLastVisible:
+                        snapshot.docs[snapshot.docs.length - 1] || null,
+                    followingHasMore: fetchedFollowing.length === 10,
+                    isFollowingInitialized: true
+                });
             }
-
-            const snapshot = await getDocs(filterQuery);
-
-            const fetchedFollowing = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            })) as UserProfile[];
-
-            set({
-                following: reset
-                    ? fetchedFollowing
-                    : [...following, ...fetchedFollowing],
-                followingLastVisible:
-                    snapshot.docs[snapshot.docs.length - 1] || null,
-                followingHasMore: fetchedFollowing.length === 10,
-                isFollowingInitialized: true
-            });
         } catch (error: any) {
             console.error('Error fetching following:', error.message);
             set({ error: error.message });
