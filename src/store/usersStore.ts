@@ -32,6 +32,9 @@ interface UsersState {
     followersLastVisible: any;
     followersHasMore: boolean;
     isFollowersInitialized: boolean;
+    bufferedFollowersIds: string[];
+    currentFollowersQueryId: number | null;
+    followersSearchLastBatchIndex: number;
 
     following: UserProfile[];
     followingSearchQuery: string;
@@ -93,6 +96,9 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     followersLastVisible: null,
     followersHasMore: true,
     isFollowersInitialized: false,
+    bufferedFollowersIds: [],
+    currentFollowersQueryId: null,
+    followersSearchLastBatchIndex: 0,
 
     following: [],
     followingSearchQuery: '',
@@ -142,7 +148,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
         if (currentQuery === query) return;
 
-        set({ followersSearchQuery: query });
+        set({ followersSearchQuery: query, followersSearchLastBatchIndex: 0 });
 
         if (query.trim() !== '') {
             get().debouncedFetchFollowers();
@@ -439,17 +445,17 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             followers,
             followersLastVisible,
             followersHasMore,
-            currentUserId
+            currentUserId,
+            followersSearchLastBatchIndex
         } = get();
         const normalizedQuery = followersSearchQuery.trim().toLowerCase();
 
-        if (!currentUserId) return;
-
         if (
-            !reset &&
-            normalizedQuery === '' &&
-            !followersHasMore &&
-            followers.length > 0
+            (!reset &&
+                normalizedQuery === '' &&
+                !followersHasMore &&
+                followers.length > 0) ||
+            !currentUserId
         ) {
             return;
         }
@@ -461,7 +467,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {
-                set({ error: 'User not found', loading: false });
+                set({
+                    error: 'User not found',
+                    loading: false,
+                    followersSearchLastBatchIndex: 0
+                });
                 return;
             }
 
@@ -471,35 +481,75 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 set({
                     followers: [],
                     followersHasMore: false,
-                    isFollowersInitialized: true
+                    isFollowersInitialized: true,
+                    followersSearchLastBatchIndex: 0
                 });
                 return;
             }
 
-            const usersRef = collection(db, 'users');
-            let filterQuery;
+            const usersRefCollection = collection(db, 'users');
 
             if (normalizedQuery) {
-                const batchIds = ids.slice(0, 10);
-                if (batchIds.length === 0) {
-                    set({
-                        isFollowersInitialized: true,
-                        followersHasMore: false
-                    });
-                    return;
+                let matchingUsers: UserProfile[] = [];
+                const batchSize = 10;
+                const maxBatches = Math.ceil(ids.length / batchSize);
+                let currentBatchIndex = followersSearchLastBatchIndex;
+
+                for (let i = currentBatchIndex; i < maxBatches; i++) {
+                    const batchIds = ids.slice(
+                        i * batchSize,
+                        (i + 1) * batchSize
+                    );
+                    if (batchIds.length === 0) continue;
+
+                    const q = query(
+                        usersRefCollection,
+                        where('id', 'in', batchIds),
+                        where('verified', '==', true),
+                        where('usernameLower', '>=', normalizedQuery),
+                        where(
+                            'usernameLower',
+                            '<=',
+                            normalizedQuery + '\uf8ff'
+                        ),
+                        orderBy('usernameLower'),
+                        limit(10 - matchingUsers.length)
+                    );
+
+                    const snapshot = await getDocs(q);
+
+                    const fetchedFollowers = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data()
+                    })) as UserProfile[];
+
+                    const filteredUsers = fetchedFollowers.filter((user) =>
+                        user.usernameLower.includes(normalizedQuery)
+                    );
+
+                    matchingUsers.push(...filteredUsers);
+
+                    currentBatchIndex = i + 1;
+
+                    if (matchingUsers.length >= 10) {
+                        break;
+                    }
                 }
-                filterQuery = query(
-                    usersRef,
-                    where('id', 'in', batchIds),
-                    where('verified', '==', true),
-                    where('usernameLower', '>=', normalizedQuery),
-                    where('usernameLower', '<=', normalizedQuery + '\uf8ff'),
-                    orderBy('usernameLower'),
-                    limit(10)
-                );
+
+                set({
+                    followers: reset
+                        ? matchingUsers.slice(0, 10)
+                        : [...followers, ...matchingUsers.slice(0, 10)],
+                    followersHasMore:
+                        matchingUsers.length >= 10 &&
+                        currentBatchIndex < maxBatches,
+                    followersSearchLastBatchIndex: currentBatchIndex,
+                    isFollowersInitialized: true
+                });
             } else {
                 const startIndex = reset ? 0 : followers.length;
                 const batchIds = ids.slice(startIndex, startIndex + 10);
+
                 if (batchIds.length === 0) {
                     set({
                         followersHasMore: false,
@@ -507,8 +557,9 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                     });
                     return;
                 }
-                filterQuery = query(
-                    usersRef,
+
+                const q = query(
+                    usersRefCollection,
                     where('id', 'in', batchIds),
                     where('verified', '==', true),
                     orderBy('username'),
@@ -517,24 +568,24 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                         ? []
                         : [startAfter(followersLastVisible)])
                 );
+
+                const snapshot = await getDocs(q);
+
+                const fetchedFollowers = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                })) as UserProfile[];
+
+                set({
+                    followers: reset
+                        ? fetchedFollowers
+                        : [...followers, ...fetchedFollowers],
+                    followersLastVisible:
+                        snapshot.docs[snapshot.docs.length - 1] || null,
+                    followersHasMore: fetchedFollowers.length === 10,
+                    isFollowersInitialized: true
+                });
             }
-
-            const snapshot = await getDocs(filterQuery);
-
-            const fetchedFollowers = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            })) as UserProfile[];
-
-            set({
-                followers: reset
-                    ? fetchedFollowers
-                    : [...followers, ...fetchedFollowers],
-                followersLastVisible:
-                    snapshot.docs[snapshot.docs.length - 1] || null,
-                followersHasMore: fetchedFollowers.length === 10,
-                isFollowersInitialized: true
-            });
         } catch (error: any) {
             console.error('Error fetching followers:', error.message);
             set({ error: error.message });
