@@ -40,6 +40,7 @@ interface UsersState {
     isFollowingInitialized: boolean;
     bufferedFollowingIds: string[];
     currentFollowingQueryId: number | null;
+    followingSearchLastBatchIndex: number;
 
     currentUserId: string | null;
     loadingFollowId: string | null;
@@ -100,6 +101,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     isFollowingInitialized: false,
     bufferedFollowingIds: [],
     currentFollowingQueryId: null,
+    followingSearchLastBatchIndex: 0,
 
     currentUserId: null,
     loadingFollowId: null,
@@ -154,7 +156,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
         if (currentQuery === query) return;
 
-        set({ followingSearchQuery: query });
+        set({ followingSearchQuery: query, followingSearchLastBatchIndex: 0 });
 
         if (query.trim() !== '') {
             get().debouncedFetchFollowing();
@@ -600,17 +602,17 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             following,
             followingLastVisible,
             followingHasMore,
-            currentUserId
+            currentUserId,
+            followingSearchLastBatchIndex
         } = get();
         const normalizedQuery = followingSearchQuery.trim().toLowerCase();
 
-        if (!currentUserId) return;
-
         if (
-            !reset &&
-            normalizedQuery === '' &&
-            !followingHasMore &&
-            following.length > 0
+            (!reset &&
+                normalizedQuery === '' &&
+                !followingHasMore &&
+                following.length > 0) ||
+            !currentUserId
         ) {
             return;
         }
@@ -622,7 +624,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             const userDoc = await getDoc(userRef);
 
             if (!userDoc.exists()) {
-                set({ error: 'User not found', loading: false });
+                set({
+                    error: 'User not found',
+                    loading: false,
+                    followingSearchLastBatchIndex: 0
+                });
                 return;
             }
 
@@ -632,19 +638,21 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 set({
                     following: [],
                     followingHasMore: false,
-                    isFollowingInitialized: true
+                    isFollowingInitialized: true,
+                    followingSearchLastBatchIndex: 0
                 });
                 return;
             }
 
-            const usersRef = collection(db, 'users');
+            const usersRefCollection = collection(db, 'users');
 
             if (normalizedQuery) {
                 let matchingUsers: UserProfile[] = [];
                 const batchSize = 10;
                 const maxBatches = Math.ceil(ids.length / batchSize);
+                let currentBatchIndex = followingSearchLastBatchIndex;
 
-                for (let i = 0; i < maxBatches; i++) {
+                for (let i = currentBatchIndex; i < maxBatches; i++) {
                     const batchIds = ids.slice(
                         i * batchSize,
                         (i + 1) * batchSize
@@ -653,7 +661,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
                     // Firestore 'in' запросы ограничены 10 ID
                     const q = query(
-                        usersRef,
+                        usersRefCollection,
                         where('id', 'in', batchIds),
                         where('verified', '==', true),
                         where('usernameLower', '>=', normalizedQuery),
@@ -680,19 +688,29 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
                     matchingUsers.push(...filteredUsers);
 
+                    // Обновляем индекс батча
+                    currentBatchIndex = i + 1;
+
                     // Если достигли 10 совпадений, прекращаем поиск
                     if (matchingUsers.length >= 10) {
                         break;
                     }
                 }
 
+                // Обновляем состояние
                 set({
-                    following: matchingUsers.slice(0, 10), // Ограничиваем до 10
-                    followingLastVisible: null, // Нет пагинации в режиме поиска
-                    followingHasMore: false, // Не поддерживаем пагинацию в режиме поиска
+                    following: reset
+                        ? matchingUsers.slice(0, 10)
+                        : [...following, ...matchingUsers.slice(0, 10)],
+                    followingHasMore:
+                        matchingUsers.length >= 10 &&
+                        currentBatchIndex < maxBatches,
+                    followingSearchLastBatchIndex: currentBatchIndex,
                     isFollowingInitialized: true
                 });
             } else {
+                // **Режим пагинации: загрузка подписок порциями**
+
                 const startIndex = reset ? 0 : following.length;
                 const batchIds = ids.slice(startIndex, startIndex + 10);
 
@@ -705,7 +723,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
                 }
 
                 const q = query(
-                    usersRef,
+                    usersRefCollection,
                     where('id', 'in', batchIds),
                     where('verified', '==', true),
                     orderBy('username'),
@@ -741,7 +759,14 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     },
 
     fetchMoreFollowing: async () => {
-        const { followingHasMore, following, currentUserId } = get();
+        const {
+            followingHasMore,
+            following,
+            currentUserId,
+            followingSearchQuery,
+            followingSearchLastBatchIndex
+        } = get();
+        const normalizedQuery = followingSearchQuery.trim().toLowerCase();
 
         if (!followingHasMore || !currentUserId) return;
 
@@ -757,34 +782,100 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             }
 
             const ids: string[] = userDoc.data()?.following || [];
-            const currentCount = following.length;
-            const nextBatchIds = ids.slice(currentCount, currentCount + 10); // Следующая порция ID
+            const usersRefCollection = collection(db, 'users');
 
-            if (nextBatchIds.length === 0) {
-                set({ followingHasMore: false, loading: false });
-                return;
+            if (normalizedQuery) {
+                // **Кейс 1: Активный поисковый запрос**
+                let matchingUsers: UserProfile[] = [];
+                const batchSize = 10;
+                const maxBatches = Math.ceil(ids.length / batchSize);
+                let currentBatchIndex = followingSearchLastBatchIndex;
+
+                for (let i = currentBatchIndex; i < maxBatches; i++) {
+                    const batchIds = ids.slice(
+                        i * batchSize,
+                        (i + 1) * batchSize
+                    );
+                    if (batchIds.length === 0) continue;
+
+                    // Firestore 'in' запросы ограничены 10 ID
+                    const q = query(
+                        usersRefCollection,
+                        where('id', 'in', batchIds),
+                        where('verified', '==', true),
+                        where('usernameLower', '>=', normalizedQuery),
+                        where(
+                            'usernameLower',
+                            '<=',
+                            normalizedQuery + '\uf8ff'
+                        ),
+                        orderBy('usernameLower'),
+                        limit(10 - matchingUsers.length) // Ограничиваем количество результатов
+                    );
+
+                    const snapshot = await getDocs(q);
+
+                    const fetchedFollowing = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data()
+                    })) as UserProfile[];
+
+                    // Дополнительная фильтрация на клиенте
+                    const filteredUsers = fetchedFollowing.filter((user) =>
+                        user.usernameLower.includes(normalizedQuery)
+                    );
+
+                    matchingUsers.push(...filteredUsers);
+
+                    // Обновляем индекс батча
+                    currentBatchIndex = i + 1;
+
+                    // Если достигли 10 совпадений, прекращаем поиск
+                    if (matchingUsers.length >= 10) {
+                        break;
+                    }
+                }
+
+                // Обновляем состояние
+                set({
+                    following: [...following, ...matchingUsers.slice(0, 10)],
+                    followingHasMore:
+                        matchingUsers.length >= 10 &&
+                        currentBatchIndex < maxBatches,
+                    followingSearchLastBatchIndex: currentBatchIndex,
+                    isFollowingInitialized: true
+                });
+            } else {
+                // **Кейс 2: Пустой поисковый запрос (исходная логика)**
+                const startIndex = following.length;
+                const nextBatchIds = ids.slice(startIndex, startIndex + 10); // Следующая порция ID
+
+                if (nextBatchIds.length === 0) {
+                    set({ followingHasMore: false, loading: false });
+                    return;
+                }
+
+                const usersRef = collection(db, 'users');
+                const filterQuery = query(
+                    usersRef,
+                    where('id', 'in', nextBatchIds),
+                    where('verified', '==', true),
+                    orderBy('usernameLower'), // Опционально, если необходимо
+                    limit(10)
+                );
+
+                const snapshot = await getDocs(filterQuery);
+
+                const fetchedFollowing = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                })) as UserProfile[];
+
+                set({
+                    following: [...following, ...fetchedFollowing],
+                    followingHasMore: fetchedFollowing.length === 10
+                });
             }
-
-            const usersRef = collection(db, 'users');
-            const filterQuery = query(
-                usersRef,
-                where('id', 'in', nextBatchIds),
-                where('verified', '==', true),
-                orderBy('usernameLower'), // Опционально, если необходимо
-                limit(10)
-            );
-
-            const snapshot = await getDocs(filterQuery);
-
-            const fetchedFollowing = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            })) as UserProfile[];
-
-            set({
-                following: [...following, ...fetchedFollowing],
-                followingHasMore: fetchedFollowing.length === 10
-            });
         } catch (error: any) {
             console.error('Error fetching more following:', error.message);
             set({ error: error.message });
@@ -795,7 +886,17 @@ export const useUsersStore = create<UsersState>((set, get) => ({
 
     setCurrentUserId: (userId: string) => {
         if (get().currentUserId !== userId) {
-            set({ currentUserId: userId });
+            set({
+                currentUserId: userId,
+                bufferedFollowingIds: [],
+                currentFollowingQueryId: null,
+                following: [],
+                followingLastVisible: null,
+                followingHasMore: true,
+                isFollowingInitialized: false,
+                followingSearchLastBatchIndex: 0,
+                error: null
+            });
         }
     }
 }));
