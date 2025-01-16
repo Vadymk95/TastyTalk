@@ -1,13 +1,13 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { UserList } from '@root/components/common/UserList';
 import { useFollowers } from '@root/hooks/useFollowers';
-import { useAuthStore } from '@root/store/authStore';
-import { useTranslation } from 'react-i18next';
+import { useUsersStore } from '@root/store/usersStore';
 
 const FollowersPage: FC = () => {
     const { t } = useTranslation();
-    const { userProfile } = useAuthStore();
+    const { viewedUser } = useUsersStore();
     const {
         followers,
         followersSearchQuery,
@@ -15,7 +15,7 @@ const FollowersPage: FC = () => {
         loadMore,
         loading,
         error
-    } = useFollowers(userProfile?.id || '');
+    } = useFollowers(viewedUser?.id || '');
 
     return (
         <UserList

@@ -83,6 +83,7 @@ interface UsersState {
     ) => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
+    setViewedUser: (user: UserProfile) => void;
     setCurrentUserId: (userId: string) => void;
 }
 
@@ -324,10 +325,10 @@ export const useUsersStore = create<UsersState>()(
 
                     if (!snapshot.empty) {
                         const user = snapshot.docs[0].data() as UserProfile;
-                        set({ error: null });
+                        set({ viewedUser: user, error: null });
                         return user;
                     } else {
-                        set({ error: 'User not found' });
+                        set({ error: 'User not found', viewedUser: null });
                         return null;
                     }
                 } catch (error: any) {
@@ -335,7 +336,7 @@ export const useUsersStore = create<UsersState>()(
                         'Error fetching user by username:',
                         error.message
                     );
-                    set({ error: error.message });
+                    set({ error: error.message, viewedUser: null });
                     return null;
                 } finally {
                     set({ loading: false });
@@ -999,6 +1000,12 @@ export const useUsersStore = create<UsersState>()(
                 } finally {
                     set({ loading: false });
                 }
+            },
+
+            setViewedUser: (user: UserProfile) => {
+                if (get().viewedUser?.id === user.id) return;
+
+                set({ viewedUser: user });
             },
 
             setCurrentUserId: (userId: string) => {
