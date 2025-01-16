@@ -348,7 +348,8 @@ export const useUsersStore = create<UsersState>()(
                 fromAnotherPage: boolean = false
             ) => {
                 const { userProfile } = useAuthStore.getState();
-                if (!userProfile) return;
+                const { viewedUser } = get();
+                if (!userProfile || !viewedUser) return;
 
                 set({ loadingFollowId: targetUserId });
 
@@ -391,7 +392,19 @@ export const useUsersStore = create<UsersState>()(
                                           (user.followersCount || 0) + 1
                                   }
                                 : user
-                        )
+                        ),
+                        viewedUser:
+                            viewedUser && viewedUser.id === targetUserId
+                                ? {
+                                      ...viewedUser,
+                                      followers: [
+                                          ...(viewedUser.followers || []),
+                                          userProfile.id
+                                      ],
+                                      followersCount:
+                                          (viewedUser.followersCount || 0) + 1
+                                  }
+                                : viewedUser
                     }));
 
                     if (fromAnotherPage) {
@@ -413,7 +426,8 @@ export const useUsersStore = create<UsersState>()(
                 fromAnotherPage: boolean = false
             ) => {
                 const { userProfile } = useAuthStore.getState();
-                if (!userProfile) return;
+                const { viewedUser } = get();
+                if (!userProfile || !viewedUser) return;
 
                 set({ loadingUnfollowId: targetUserId });
 
@@ -459,7 +473,20 @@ export const useUsersStore = create<UsersState>()(
                                       )
                                   }
                                 : user
-                        )
+                        ),
+                        viewedUser:
+                            viewedUser && viewedUser.id === targetUserId
+                                ? {
+                                      ...viewedUser,
+                                      followers: viewedUser.followers?.filter(
+                                          (id) => id !== userProfile.id
+                                      ),
+                                      followersCount: Math.max(
+                                          0,
+                                          (viewedUser.followersCount || 1) - 1
+                                      )
+                                  }
+                                : viewedUser
                     }));
 
                     if (fromAnotherPage) {
