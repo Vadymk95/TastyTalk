@@ -17,8 +17,6 @@ const FollowingPage: FC = () => {
         error
     } = useFollowing(viewedUser?.id || '');
 
-    console.log('viewedUser?.id', viewedUser);
-
     return (
         <UserList
             title={t('FollowingPage.title')}

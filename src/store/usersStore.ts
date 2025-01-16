@@ -75,11 +75,11 @@ interface UsersState {
 
     followUser: (
         targetUserId: string,
-        fromSearchProfilesPage?: boolean
+        fromAnotherPage?: boolean
     ) => Promise<void>;
     unfollowUser: (
         targetUserId: string,
-        fromSearchProfilesPage?: boolean
+        fromAnotherPage?: boolean
     ) => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
@@ -345,7 +345,7 @@ export const useUsersStore = create<UsersState>()(
 
             followUser: async (
                 targetUserId: string,
-                fromSearchProfilesPage: boolean = false
+                fromAnotherPage: boolean = false
             ) => {
                 const { userProfile } = useAuthStore.getState();
                 if (!userProfile) return;
@@ -394,7 +394,7 @@ export const useUsersStore = create<UsersState>()(
                         )
                     }));
 
-                    if (fromSearchProfilesPage) {
+                    if (fromAnotherPage) {
                         set({
                             isFollowingInitialized: false,
                             isFollowersInitialized: false
@@ -410,7 +410,7 @@ export const useUsersStore = create<UsersState>()(
 
             unfollowUser: async (
                 targetUserId: string,
-                fromSearchProfilesPage: boolean = false
+                fromAnotherPage: boolean = false
             ) => {
                 const { userProfile } = useAuthStore.getState();
                 if (!userProfile) return;
@@ -462,7 +462,7 @@ export const useUsersStore = create<UsersState>()(
                         )
                     }));
 
-                    if (fromSearchProfilesPage) {
+                    if (fromAnotherPage) {
                         set({
                             isFollowingInitialized: false,
                             isFollowersInitialized: false
