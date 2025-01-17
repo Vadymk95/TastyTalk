@@ -47,6 +47,11 @@ interface UsersState {
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     setViewedUser: (user: UserProfile) => void;
+
+    incrementFollowersCount: (userId: string) => Promise<void>;
+    decrementFollowersCount: (userId: string) => Promise<void>;
+    incrementFollowingCount: (userId: string) => Promise<void>;
+    decrementFollowingCount: (userId: string) => Promise<void>;
 }
 
 export const useUsersStore = create<UsersState>()(
@@ -383,6 +388,96 @@ export const useUsersStore = create<UsersState>()(
                 if (get().viewedUser?.id === user.id) return;
 
                 set({ viewedUser: user });
+            },
+
+            incrementFollowersCount: async (userId: string) => {
+                try {
+                    const userRef = doc(db, 'users', userId);
+                    await updateDoc(userRef, {
+                        followersCount: increment(1)
+                    });
+                    set((state) => ({
+                        users: state.users.map((user) =>
+                            user.id === userId
+                                ? {
+                                      ...user,
+                                      followersCount: user.followersCount + 1
+                                  }
+                                : user
+                        )
+                    }));
+                } catch (error) {
+                    console.error('Error incrementing followers count:', error);
+                }
+            },
+
+            decrementFollowersCount: async (userId: string) => {
+                try {
+                    const userRef = doc(db, 'users', userId);
+                    await updateDoc(userRef, {
+                        followersCount: increment(-1)
+                    });
+                    set((state) => ({
+                        users: state.users.map((user) =>
+                            user.id === userId
+                                ? {
+                                      ...user,
+                                      followersCount: Math.max(
+                                          user.followersCount - 1,
+                                          0
+                                      )
+                                  }
+                                : user
+                        )
+                    }));
+                } catch (error) {
+                    console.error('Error decrementing followers count:', error);
+                }
+            },
+
+            incrementFollowingCount: async (userId: string) => {
+                try {
+                    const userRef = doc(db, 'users', userId);
+                    await updateDoc(userRef, {
+                        followingCount: increment(1)
+                    });
+                    set((state) => ({
+                        users: state.users.map((user) =>
+                            user.id === userId
+                                ? {
+                                      ...user,
+                                      followingCount: user.followingCount + 1
+                                  }
+                                : user
+                        )
+                    }));
+                } catch (error) {
+                    console.error('Error incrementing following count:', error);
+                }
+            },
+
+            decrementFollowingCount: async (userId: string) => {
+                try {
+                    const userRef = doc(db, 'users', userId);
+                    await updateDoc(userRef, {
+                        followingCount: increment(-1)
+                    });
+                    set((state) => ({
+                        users: state.users.map((user) =>
+                            user.id === userId
+                                ? {
+                                      ...user,
+                                      followingCount: Math.max(
+                                          user.followingCount - 1,
+                                          0
+                                      )
+                                  }
+                                : user
+                        )
+                    }));
+                } catch (error) {
+                    console.error('Error decrementing following count:', error);
+                }
             }
         }),
         {
