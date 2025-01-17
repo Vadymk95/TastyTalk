@@ -10,10 +10,9 @@ import { UserProfile } from '@root/types';
 
 interface UserProps {
     user: UserProfile;
-    fromAnotherPage?: boolean;
 }
 
-export const User: FC<UserProps> = ({ user, fromAnotherPage = false }) => {
+export const User: FC<UserProps> = ({ user }) => {
     const navigate = useNavigate();
     const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
         useUsersStore();
@@ -38,9 +37,9 @@ export const User: FC<UserProps> = ({ user, fromAnotherPage = false }) => {
         setIsLoading(true);
         try {
             if (isFollowing) {
-                await unfollowUser(user.id, fromAnotherPage);
+                await unfollowUser(user.id);
             } else {
-                await followUser(user.id, fromAnotherPage);
+                await followUser(user.id);
             }
         } catch (error) {
             console.error(error);

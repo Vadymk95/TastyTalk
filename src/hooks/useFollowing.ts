@@ -1,19 +1,20 @@
-import { useUsersStore } from '@root/store/usersStore';
 import { useEffect } from 'react';
+
+import { useFollowingStore } from '@root/store/followingStore';
 
 export const useFollowing = (userId: string) => {
     const {
         following,
-        followingSearchQuery,
-        setFollowingSearchQuery,
+        searchQuery,
+        setSearchQuery,
         fetchFollowing,
-        followingHasMore,
+        hasMore,
         loading,
         error,
         setCurrentUserId,
         currentUserId,
         fetchMoreFollowing
-    } = useUsersStore();
+    } = useFollowingStore();
 
     useEffect(() => {
         if (userId) {
@@ -23,15 +24,15 @@ export const useFollowing = (userId: string) => {
     }, [setCurrentUserId, userId, fetchFollowing]);
 
     const loadMore = () => {
-        if (followingHasMore && !loading && currentUserId) {
+        if (hasMore && !loading && currentUserId) {
             fetchMoreFollowing();
         }
     };
 
     return {
         following,
-        followingSearchQuery,
-        setFollowingSearchQuery,
+        searchQuery,
+        setSearchQuery,
         loadMore,
         loading,
         error

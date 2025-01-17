@@ -1,19 +1,20 @@
-import { useUsersStore } from '@root/store/usersStore';
 import { useEffect } from 'react';
+
+import { useFollowersStore } from '@root/store/followersStore';
 
 export const useFollowers = (userId: string) => {
     const {
         followers,
-        followersSearchQuery,
-        setFollowersSearchQuery,
+        searchQuery,
+        setSearchQuery,
         fetchFollowers,
         fetchMoreFollowers,
-        followersHasMore,
+        hasMore,
         loading,
         error,
         setCurrentUserId,
         currentUserId
-    } = useUsersStore();
+    } = useFollowersStore();
 
     useEffect(() => {
         if (userId) {
@@ -23,15 +24,15 @@ export const useFollowers = (userId: string) => {
     }, [setCurrentUserId, userId, fetchFollowers]);
 
     const loadMore = () => {
-        if (followersHasMore && !loading && currentUserId) {
+        if (hasMore && !loading && currentUserId) {
             fetchMoreFollowers();
         }
     };
 
     return {
         followers,
-        followersSearchQuery,
-        setFollowersSearchQuery,
+        searchQuery,
+        setSearchQuery,
         loadMore,
         loading,
         error

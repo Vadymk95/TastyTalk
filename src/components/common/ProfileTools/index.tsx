@@ -31,9 +31,9 @@ export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
     ) => {
         event.stopPropagation();
         if (isFollowing) {
-            unfollowUser(profile.id, true);
+            unfollowUser(profile.id);
         } else {
-            followUser(profile.id, true);
+            followUser(profile.id);
         }
     };
 

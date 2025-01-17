@@ -8,22 +8,16 @@ import { useUsersStore } from '@root/store/usersStore';
 const FollowersPage: FC = () => {
     const { t } = useTranslation();
     const { viewedUser } = useUsersStore();
-    const {
-        followers,
-        followersSearchQuery,
-        setFollowersSearchQuery,
-        loadMore,
-        loading,
-        error
-    } = useFollowers(viewedUser?.id || '');
+    const { followers, searchQuery, setSearchQuery, loadMore, loading, error } =
+        useFollowers(viewedUser?.id || '');
 
     return (
         <UserList
             title={t('FollowersPage.title')}
             description={t('FollowersPage.description')}
             users={followers}
-            searchQuery={followersSearchQuery}
-            setSearchQuery={setFollowersSearchQuery}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
             loadMore={loadMore}
             loading={loading}
             error={error}
