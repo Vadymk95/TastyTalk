@@ -48,10 +48,22 @@ interface UsersState {
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     setViewedUser: (user: UserProfile) => void;
 
-    incrementFollowersCount: (userId: string) => Promise<void>;
-    decrementFollowersCount: (userId: string) => Promise<void>;
-    incrementFollowingCount: (userId: string) => Promise<void>;
-    decrementFollowingCount: (userId: string) => Promise<void>;
+    incrementFollowersCount: (
+        userId: string,
+        followingId: string
+    ) => Promise<void>;
+    decrementFollowersCount: (
+        userId: string,
+        followingId: string
+    ) => Promise<void>;
+    incrementFollowingCount: (
+        userId: string,
+        followingId: string
+    ) => Promise<void>;
+    decrementFollowingCount: (
+        userId: string,
+        followingId: string
+    ) => Promise<void>;
 }
 
 export const useUsersStore = create<UsersState>()(
@@ -257,53 +269,23 @@ export const useUsersStore = create<UsersState>()(
 
                     await Promise.all([
                         updateDoc(currentUserRef, {
-                            following: arrayUnion(targetUserId),
-                            followingCount: increment(1)
+                            following: arrayUnion(targetUserId)
                         }),
                         updateDoc(targetUserRef, {
-                            followers: arrayUnion(userProfile.id),
-                            followersCount: increment(1)
+                            followers: arrayUnion(userProfile.id)
                         })
                     ]);
 
-                    useAuthStore.setState({
-                        userProfile: {
-                            ...userProfile,
-                            following: [
-                                ...(userProfile.following || []),
-                                targetUserId
-                            ],
-                            followingCount: userProfile.followingCount + 1
-                        }
-                    });
-
-                    set((state) => ({
-                        users: state.users.map((user) =>
-                            user.id === targetUserId
-                                ? {
-                                      ...user,
-                                      followers: [
-                                          ...(user.followers || []),
-                                          userProfile.id
-                                      ],
-                                      followersCount:
-                                          (user.followersCount || 0) + 1
-                                  }
-                                : user
+                    await Promise.all([
+                        get().incrementFollowingCount(
+                            userProfile.id,
+                            targetUserId
                         ),
-                        viewedUser:
-                            viewedUser && viewedUser.id === targetUserId
-                                ? {
-                                      ...viewedUser,
-                                      followers: [
-                                          ...(viewedUser.followers || []),
-                                          userProfile.id
-                                      ],
-                                      followersCount:
-                                          (viewedUser.followersCount || 0) + 1
-                                  }
-                                : viewedUser
-                    }));
+                        get().incrementFollowersCount(
+                            targetUserId,
+                            userProfile.id
+                        )
+                    ]);
                 } catch (error: any) {
                     console.error('Follow Error:', error.message);
                     set({ error: error.message });
@@ -325,57 +307,23 @@ export const useUsersStore = create<UsersState>()(
 
                     await Promise.all([
                         updateDoc(currentUserRef, {
-                            following: arrayRemove(targetUserId),
-                            followingCount: increment(-1)
+                            following: arrayRemove(targetUserId)
                         }),
                         updateDoc(targetUserRef, {
-                            followers: arrayRemove(userProfile.id),
-                            followersCount: increment(-1)
+                            followers: arrayRemove(userProfile.id)
                         })
                     ]);
 
-                    useAuthStore.setState({
-                        userProfile: {
-                            ...userProfile,
-                            following: userProfile.following?.filter(
-                                (id) => id !== targetUserId
-                            ),
-                            followingCount: Math.max(
-                                0,
-                                userProfile.followingCount - 1
-                            )
-                        }
-                    });
-
-                    set((state) => ({
-                        users: state.users.map((user) =>
-                            user.id === targetUserId
-                                ? {
-                                      ...user,
-                                      followers: user.followers?.filter(
-                                          (id) => id !== userProfile.id
-                                      ),
-                                      followersCount: Math.max(
-                                          0,
-                                          (user.followersCount || 1) - 1
-                                      )
-                                  }
-                                : user
+                    await Promise.all([
+                        get().decrementFollowingCount(
+                            userProfile.id,
+                            targetUserId
                         ),
-                        viewedUser:
-                            viewedUser && viewedUser.id === targetUserId
-                                ? {
-                                      ...viewedUser,
-                                      followers: viewedUser.followers?.filter(
-                                          (id) => id !== userProfile.id
-                                      ),
-                                      followersCount: Math.max(
-                                          0,
-                                          (viewedUser.followersCount || 1) - 1
-                                      )
-                                  }
-                                : viewedUser
-                    }));
+                        get().decrementFollowersCount(
+                            targetUserId,
+                            userProfile.id
+                        )
+                    ]);
                 } catch (error: any) {
                     console.error('Unfollow Error:', error.message);
                     set({ error: error.message });
@@ -390,32 +338,58 @@ export const useUsersStore = create<UsersState>()(
                 set({ viewedUser: user });
             },
 
-            incrementFollowersCount: async (userId: string) => {
+            incrementFollowersCount: async (
+                userId: string,
+                followerId: string
+            ) => {
                 try {
                     const userRef = doc(db, 'users', userId);
                     await updateDoc(userRef, {
-                        followersCount: increment(1)
+                        followersCount: increment(1),
+                        followers: arrayUnion(followerId)
                     });
                     set((state) => ({
                         users: state.users.map((user) =>
                             user.id === userId
                                 ? {
                                       ...user,
-                                      followersCount: user.followersCount + 1
+                                      followersCount: user.followersCount + 1,
+                                      followers: [
+                                          ...(user.followers || []),
+                                          followerId
+                                      ]
                                   }
                                 : user
                         )
                     }));
+
+                    const { userProfile } = useAuthStore.getState();
+                    if (userProfile && userProfile.id === userId) {
+                        useAuthStore.setState({
+                            userProfile: {
+                                ...userProfile,
+                                followersCount: userProfile.followersCount + 1,
+                                followers: [
+                                    ...(userProfile.followers || []),
+                                    followerId
+                                ]
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Error incrementing followers count:', error);
                 }
             },
 
-            decrementFollowersCount: async (userId: string) => {
+            decrementFollowersCount: async (
+                userId: string,
+                followerId: string
+            ) => {
                 try {
                     const userRef = doc(db, 'users', userId);
                     await updateDoc(userRef, {
-                        followersCount: increment(-1)
+                        followersCount: increment(-1),
+                        followers: arrayRemove(followerId)
                     });
                     set((state) => ({
                         users: state.users.map((user) =>
@@ -425,42 +399,87 @@ export const useUsersStore = create<UsersState>()(
                                       followersCount: Math.max(
                                           user.followersCount - 1,
                                           0
+                                      ),
+                                      followers: user.followers?.filter(
+                                          (id) => id !== followerId
                                       )
                                   }
                                 : user
                         )
                     }));
+
+                    const { userProfile } = useAuthStore.getState();
+                    if (userProfile && userProfile.id === userId) {
+                        useAuthStore.setState({
+                            userProfile: {
+                                ...userProfile,
+                                followersCount: Math.max(
+                                    userProfile.followersCount - 1,
+                                    0
+                                ),
+                                followers: userProfile.followers?.filter(
+                                    (id) => id !== followerId
+                                )
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Error decrementing followers count:', error);
                 }
             },
 
-            incrementFollowingCount: async (userId: string) => {
+            incrementFollowingCount: async (
+                userId: string,
+                followingId: string
+            ) => {
                 try {
                     const userRef = doc(db, 'users', userId);
                     await updateDoc(userRef, {
-                        followingCount: increment(1)
+                        followingCount: increment(1),
+                        following: arrayUnion(followingId)
                     });
                     set((state) => ({
                         users: state.users.map((user) =>
                             user.id === userId
                                 ? {
                                       ...user,
-                                      followingCount: user.followingCount + 1
+                                      followingCount: user.followingCount + 1,
+                                      following: [
+                                          ...(user.following || []),
+                                          followingId
+                                      ]
                                   }
                                 : user
                         )
                     }));
+
+                    const { userProfile } = useAuthStore.getState();
+                    if (userProfile && userProfile.id === userId) {
+                        useAuthStore.setState({
+                            userProfile: {
+                                ...userProfile,
+                                followingCount: userProfile.followingCount + 1,
+                                following: [
+                                    ...(userProfile.following || []),
+                                    followingId
+                                ]
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Error incrementing following count:', error);
                 }
             },
 
-            decrementFollowingCount: async (userId: string) => {
+            decrementFollowingCount: async (
+                userId: string,
+                followingId: string
+            ) => {
                 try {
                     const userRef = doc(db, 'users', userId);
                     await updateDoc(userRef, {
-                        followingCount: increment(-1)
+                        followingCount: increment(-1),
+                        following: arrayRemove(followingId)
                     });
                     set((state) => ({
                         users: state.users.map((user) =>
@@ -470,11 +489,30 @@ export const useUsersStore = create<UsersState>()(
                                       followingCount: Math.max(
                                           user.followingCount - 1,
                                           0
+                                      ),
+                                      following: user.following?.filter(
+                                          (id) => id !== followingId
                                       )
                                   }
                                 : user
                         )
                     }));
+
+                    const { userProfile } = useAuthStore.getState();
+                    if (userProfile && userProfile.id === userId) {
+                        useAuthStore.setState({
+                            userProfile: {
+                                ...userProfile,
+                                followingCount: Math.max(
+                                    userProfile.followingCount - 1,
+                                    0
+                                ),
+                                following: userProfile.following?.filter(
+                                    (id) => id !== followingId
+                                )
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Error decrementing following count:', error);
                 }
