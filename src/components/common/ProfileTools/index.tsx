@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { Button } from '@root/components/ui/Button';
 import { routes } from '@root/router/routes';
-import { useAuthStore, useUsersStore } from '@root/store';
+import { useAuthStore, useFollowingStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,8 @@ interface ProfileToolsProps {
 export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
     const { t } = useTranslation();
     const { username } = useParams();
-    const { followUser, unfollowUser } = useUsersStore();
+    const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
+        useFollowingStore();
     const { isMe, userProfile } = useAuthStore();
     const me = isMe(username || '');
     const followingSet = useMemo(
@@ -30,6 +31,9 @@ export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.stopPropagation();
+
+        if (loadingFollow || loadingUnfollow) return;
+
         if (isFollowing) {
             unfollowUser(profile.id);
         } else {

@@ -1,4 +1,6 @@
 import {
+    arrayRemove,
+    arrayUnion,
     collection,
     doc,
     getDoc,
@@ -7,6 +9,7 @@ import {
     orderBy,
     query,
     startAfter,
+    updateDoc,
     where
 } from 'firebase/firestore';
 import debounce from 'lodash/debounce';
@@ -14,6 +17,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { db } from '@root/firebase/firebaseConfig';
+import { useAuthStore } from '@root/store/authStore';
+import { useUsersStore } from '@root/store/usersStore';
 import { UserProfile } from '@root/types';
 
 interface FollowingState {
@@ -28,12 +33,18 @@ interface FollowingState {
     bufferedIds: string[];
     currentQueryId: number | null;
     searchLastBatchIndex: number;
+    loadingFollowId: string | null;
+    loadingUnfollowId: string | null;
+    loadingFollow: boolean;
+    loadingUnfollow: boolean;
 
     debouncedFetch: () => void;
     setSearchQuery: (query: string) => void;
     fetchFollowing: (reset?: boolean) => Promise<void>;
     fetchMoreFollowing: () => Promise<void>;
     setCurrentUserId: (userId: string) => void;
+    followUser: (targetUserId: string) => Promise<void>;
+    unfollowUser: (targetUserId: string) => Promise<void>;
 }
 
 export const useFollowingStore = create<FollowingState>()(
@@ -50,6 +61,10 @@ export const useFollowingStore = create<FollowingState>()(
             bufferedIds: [],
             currentQueryId: null,
             searchLastBatchIndex: 0,
+            loadingFollowId: null,
+            loadingUnfollowId: null,
+            loadingFollow: false,
+            loadingUnfollow: false,
 
             debouncedFetch: debounce(() => {
                 const { fetchFollowing, currentUserId } = get();
@@ -390,6 +405,78 @@ export const useFollowingStore = create<FollowingState>()(
                         searchLastBatchIndex: 0,
                         error: null
                     });
+                }
+            },
+
+            followUser: async (targetUserId: string) => {
+                const { userProfile } = useAuthStore.getState();
+                const {
+                    viewedUser,
+                    incrementFollowingCount,
+                    incrementFollowersCount
+                } = useUsersStore.getState();
+                if (!userProfile || !viewedUser) return;
+
+                set({ loadingFollowId: targetUserId });
+
+                try {
+                    const currentUserRef = doc(db, 'users', userProfile.id);
+                    const targetUserRef = doc(db, 'users', targetUserId);
+
+                    await Promise.all([
+                        updateDoc(currentUserRef, {
+                            following: arrayUnion(targetUserId)
+                        }),
+                        updateDoc(targetUserRef, {
+                            followers: arrayUnion(userProfile.id)
+                        })
+                    ]);
+
+                    await Promise.all([
+                        incrementFollowingCount(userProfile.id, targetUserId),
+                        incrementFollowersCount(targetUserId, userProfile.id)
+                    ]);
+                } catch (error: any) {
+                    console.error('Follow Error:', error.message);
+                    set({ error: error.message });
+                } finally {
+                    set({ loadingFollowId: null });
+                }
+            },
+
+            unfollowUser: async (targetUserId: string) => {
+                const { userProfile } = useAuthStore.getState();
+                const {
+                    viewedUser,
+                    decrementFollowingCount,
+                    decrementFollowersCount
+                } = useUsersStore.getState();
+                if (!userProfile || !viewedUser) return;
+
+                set({ loadingUnfollowId: targetUserId });
+
+                try {
+                    const currentUserRef = doc(db, 'users', userProfile.id);
+                    const targetUserRef = doc(db, 'users', targetUserId);
+
+                    await Promise.all([
+                        updateDoc(currentUserRef, {
+                            following: arrayRemove(targetUserId)
+                        }),
+                        updateDoc(targetUserRef, {
+                            followers: arrayRemove(userProfile.id)
+                        })
+                    ]);
+
+                    await Promise.all([
+                        decrementFollowingCount(userProfile.id, targetUserId),
+                        decrementFollowersCount(targetUserId, userProfile.id)
+                    ]);
+                } catch (error: any) {
+                    console.error('Unfollow Error:', error.message);
+                    set({ error: error.message });
+                } finally {
+                    set({ loadingUnfollowId: null });
                 }
             }
         }),

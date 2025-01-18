@@ -28,11 +28,6 @@ interface UsersState {
     hasMore: boolean;
     isInitialized: boolean;
 
-    loadingFollowId: string | null;
-    loadingUnfollowId: string | null;
-
-    loadingFollow: boolean;
-    loadingUnfollow: boolean;
     loading: boolean;
     error: string | null;
 
@@ -41,9 +36,6 @@ interface UsersState {
 
     fetchUsers: (reset?: boolean) => Promise<void>;
     fetchMoreUsers: () => Promise<void>;
-
-    followUser: (targetUserId: string) => Promise<void>;
-    unfollowUser: (targetUserId: string) => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     setViewedUser: (user: UserProfile) => void;
@@ -76,11 +68,6 @@ export const useUsersStore = create<UsersState>()(
             hasMore: true,
             isInitialized: false,
 
-            loadingFollowId: null,
-            loadingUnfollowId: null,
-
-            loadingFollow: false,
-            loadingUnfollow: false,
             loading: false,
             error: null,
 
@@ -253,82 +240,6 @@ export const useUsersStore = create<UsersState>()(
                     return null;
                 } finally {
                     set({ loading: false });
-                }
-            },
-
-            followUser: async (targetUserId: string) => {
-                const { userProfile } = useAuthStore.getState();
-                const { viewedUser } = get();
-                if (!userProfile || !viewedUser) return;
-
-                set({ loadingFollowId: targetUserId });
-
-                try {
-                    const currentUserRef = doc(db, 'users', userProfile.id);
-                    const targetUserRef = doc(db, 'users', targetUserId);
-
-                    await Promise.all([
-                        updateDoc(currentUserRef, {
-                            following: arrayUnion(targetUserId)
-                        }),
-                        updateDoc(targetUserRef, {
-                            followers: arrayUnion(userProfile.id)
-                        })
-                    ]);
-
-                    await Promise.all([
-                        get().incrementFollowingCount(
-                            userProfile.id,
-                            targetUserId
-                        ),
-                        get().incrementFollowersCount(
-                            targetUserId,
-                            userProfile.id
-                        )
-                    ]);
-                } catch (error: any) {
-                    console.error('Follow Error:', error.message);
-                    set({ error: error.message });
-                } finally {
-                    set({ loadingFollowId: null });
-                }
-            },
-
-            unfollowUser: async (targetUserId: string) => {
-                const { userProfile } = useAuthStore.getState();
-                const { viewedUser } = get();
-                if (!userProfile || !viewedUser) return;
-
-                set({ loadingUnfollowId: targetUserId });
-
-                try {
-                    const currentUserRef = doc(db, 'users', userProfile.id);
-                    const targetUserRef = doc(db, 'users', targetUserId);
-
-                    await Promise.all([
-                        updateDoc(currentUserRef, {
-                            following: arrayRemove(targetUserId)
-                        }),
-                        updateDoc(targetUserRef, {
-                            followers: arrayRemove(userProfile.id)
-                        })
-                    ]);
-
-                    await Promise.all([
-                        get().decrementFollowingCount(
-                            userProfile.id,
-                            targetUserId
-                        ),
-                        get().decrementFollowersCount(
-                            targetUserId,
-                            userProfile.id
-                        )
-                    ]);
-                } catch (error: any) {
-                    console.error('Unfollow Error:', error.message);
-                    set({ error: error.message });
-                } finally {
-                    set({ loadingUnfollowId: null });
                 }
             },
 

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProfilePhoto } from '@root/components/common/ProfilePhoto';
 import { Button } from '@root/components/ui/Button';
 import { getProfileRoute, isMobileDevice } from '@root/helpers';
-import { useAuthStore, useUsersStore } from '@root/store';
+import { useAuthStore, useFollowingStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 interface UserProps {
@@ -15,7 +15,7 @@ interface UserProps {
 export const User: FC<UserProps> = ({ user }) => {
     const navigate = useNavigate();
     const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
-        useUsersStore();
+        useFollowingStore();
     const { t } = useTranslation();
     const { isMe, userProfile } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
