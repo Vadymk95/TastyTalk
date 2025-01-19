@@ -1,6 +1,4 @@
 import {
-    arrayRemove,
-    arrayUnion,
     collection,
     doc,
     getDoc,
@@ -8,8 +6,9 @@ import {
     limit,
     orderBy,
     query,
+    runTransaction,
     startAfter,
-    updateDoc,
+    Timestamp,
     where
 } from 'firebase/firestore';
 import debounce from 'lodash/debounce';
@@ -414,17 +413,25 @@ export const useFollowingStore = create<FollowingState>()(
                 set({ loadingFollow: true });
 
                 try {
-                    const currentUserRef = doc(db, 'users', userProfile.id);
-                    const targetUserRef = doc(db, 'users', targetUserId);
+                    const followsCollection = collection(db, 'follows');
+                    const currentUserId = userProfile.id;
+                    const followDocId = `${currentUserId}_${targetUserId}`;
+                    const followDocRef = doc(followsCollection, followDocId);
 
-                    await Promise.all([
-                        updateDoc(currentUserRef, {
-                            following: arrayUnion(targetUserId)
-                        }),
-                        updateDoc(targetUserRef, {
-                            followers: arrayUnion(userProfile.id)
-                        })
-                    ]);
+                    await runTransaction(db, async (transaction) => {
+                        const followDoc = await transaction.get(followDocRef);
+                        if (followDoc.exists()) {
+                            throw new Error(
+                                'You are already following this user.'
+                            );
+                        }
+
+                        transaction.set(followDocRef, {
+                            followerId: currentUserId,
+                            followingId: targetUserId,
+                            timestamp: Timestamp.now()
+                        });
+                    });
 
                     await Promise.all([
                         incrementFollowingCount(userProfile.id, targetUserId),
@@ -448,21 +455,23 @@ export const useFollowingStore = create<FollowingState>()(
                 set({ loadingUnfollow: true });
 
                 try {
-                    const currentUserRef = doc(db, 'users', userProfile.id);
-                    const targetUserRef = doc(db, 'users', targetUserId);
+                    const followsCollection = collection(db, 'follows');
+                    const currentUserId = userProfile.id;
+                    const followDocId = `${currentUserId}_${targetUserId}`;
+                    const followDocRef = doc(followsCollection, followDocId);
+
+                    await runTransaction(db, async (transaction) => {
+                        const followDoc = await transaction.get(followDocRef);
+                        if (!followDoc.exists()) {
+                            throw new Error('You are not following this user.');
+                        }
+
+                        transaction.delete(followDocRef);
+                    });
 
                     await Promise.all([
-                        updateDoc(currentUserRef, {
-                            following: arrayRemove(targetUserId)
-                        }),
-                        updateDoc(targetUserRef, {
-                            followers: arrayRemove(userProfile.id)
-                        })
-                    ]);
-
-                    await Promise.all([
-                        decrementFollowingCount(userProfile.id, targetUserId),
-                        decrementFollowersCount(targetUserId, userProfile.id)
+                        decrementFollowingCount(currentUserId, targetUserId),
+                        decrementFollowersCount(targetUserId, currentUserId)
                     ]);
                 } catch (error: any) {
                     console.error('Unfollow Error:', error.message);
