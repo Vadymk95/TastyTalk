@@ -33,8 +33,6 @@ interface FollowingState {
     bufferedIds: string[];
     currentQueryId: number | null;
     searchLastBatchIndex: number;
-    loadingFollowId: string | null;
-    loadingUnfollowId: string | null;
     loadingFollow: boolean;
     loadingUnfollow: boolean;
 
@@ -61,8 +59,6 @@ export const useFollowingStore = create<FollowingState>()(
             bufferedIds: [],
             currentQueryId: null,
             searchLastBatchIndex: 0,
-            loadingFollowId: null,
-            loadingUnfollowId: null,
             loadingFollow: false,
             loadingUnfollow: false,
 
@@ -410,14 +406,12 @@ export const useFollowingStore = create<FollowingState>()(
 
             followUser: async (targetUserId: string) => {
                 const { userProfile } = useAuthStore.getState();
-                const {
-                    viewedUser,
-                    incrementFollowingCount,
-                    incrementFollowersCount
-                } = useUsersStore.getState();
-                if (!userProfile || !viewedUser) return;
+                const { incrementFollowingCount, incrementFollowersCount } =
+                    useUsersStore.getState();
 
-                set({ loadingFollowId: targetUserId });
+                if (!userProfile) return;
+
+                set({ loadingFollow: true });
 
                 try {
                     const currentUserRef = doc(db, 'users', userProfile.id);
@@ -440,20 +434,18 @@ export const useFollowingStore = create<FollowingState>()(
                     console.error('Follow Error:', error.message);
                     set({ error: error.message });
                 } finally {
-                    set({ loadingFollowId: null });
+                    set({ loadingFollow: false });
                 }
             },
 
             unfollowUser: async (targetUserId: string) => {
                 const { userProfile } = useAuthStore.getState();
-                const {
-                    viewedUser,
-                    decrementFollowingCount,
-                    decrementFollowersCount
-                } = useUsersStore.getState();
-                if (!userProfile || !viewedUser) return;
+                const { decrementFollowingCount, decrementFollowersCount } =
+                    useUsersStore.getState();
 
-                set({ loadingUnfollowId: targetUserId });
+                if (!userProfile) return;
+
+                set({ loadingUnfollow: true });
 
                 try {
                     const currentUserRef = doc(db, 'users', userProfile.id);
@@ -476,7 +468,7 @@ export const useFollowingStore = create<FollowingState>()(
                     console.error('Unfollow Error:', error.message);
                     set({ error: error.message });
                 } finally {
-                    set({ loadingUnfollowId: null });
+                    set({ loadingUnfollow: false });
                 }
             }
         }),
