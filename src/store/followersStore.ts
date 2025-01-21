@@ -135,12 +135,15 @@ export const useFollowersStore = create<FollowersState>()(
                         const batches = chunkArray(followerIds, 10);
                         let currentBatchIndex = searchLastBatchIndex;
 
-                        for (
-                            let i = currentBatchIndex;
-                            i < batches.length;
-                            i++
-                        ) {
-                            const batch = batches[i];
+                        // Определяем количество батчей, которые будем обрабатывать параллельно
+                        const MAX_CONCURRENT_BATCHES = 5; // Настройка максимального числа параллельных запросов
+                        const batchesToFetch = batches.slice(
+                            currentBatchIndex,
+                            currentBatchIndex + MAX_CONCURRENT_BATCHES
+                        );
+
+                        // Создаём массив промисов для параллельных запросов
+                        const usersPromises = batchesToFetch.map((batch) => {
                             const usersQuery = query(
                                 collection(db, 'users'),
                                 where('id', 'in', batch),
@@ -154,25 +157,30 @@ export const useFollowersStore = create<FollowersState>()(
                                 orderBy('usernameLower'),
                                 limit(10 - fetchedUsers.length)
                             );
+                            return getDocs(usersQuery);
+                        });
 
-                            const usersSnapshot = await getDocs(usersQuery);
-                            const users = usersSnapshot.docs.map((doc) => ({
+                        // Выполняем все запросы параллельно
+                        const usersSnapshots = await Promise.all(usersPromises);
+
+                        usersSnapshots.forEach((snapshot) => {
+                            const users = snapshot.docs.map((doc) => ({
                                 id: doc.id,
                                 ...doc.data()
                             })) as UserProfile[];
 
-                            // Фильтрация на клиенте, если необходимо
+                            // Фильтрация на клиенте для дополнительной точности
                             const filteredUsers = users.filter((user) =>
                                 user.usernameLower.includes(normalizedQuery)
                             );
 
                             fetchedUsers.push(...filteredUsers);
+                        });
 
-                            currentBatchIndex = i + 1;
+                        // Обновляем индекс батча
+                        currentBatchIndex += batchesToFetch.length;
 
-                            if (fetchedUsers.length >= 10) break;
-                        }
-
+                        // Обновляем состояние
                         set({
                             followers: reset
                                 ? fetchedUsers.slice(0, 10)
@@ -188,23 +196,23 @@ export const useFollowersStore = create<FollowersState>()(
                         // Без поиска, просто получаем профили пользователей
                         const batches = chunkArray(followerIds, 10);
 
-                        for (const batch of batches) {
-                            const usersQuery = query(
-                                collection(db, 'users'),
-                                where('id', 'in', batch),
-                                where('verified', '==', true),
-                                orderBy('usernameLower'), // Если нужно
-                                limit(10)
-                            );
+                        // Обработка только одного батча
+                        const batch = batches[0]; // Берём первый (и единственный) батч
+                        const usersQuery = query(
+                            collection(db, 'users'),
+                            where('id', 'in', batch),
+                            where('verified', '==', true),
+                            orderBy('usernameLower'), // Если нужно
+                            limit(10)
+                        );
 
-                            const usersSnapshot = await getDocs(usersQuery);
-                            const users = usersSnapshot.docs.map((doc) => ({
-                                id: doc.id,
-                                ...doc.data()
-                            })) as UserProfile[];
+                        const usersSnapshot = await getDocs(usersQuery);
+                        const users = usersSnapshot.docs.map((doc) => ({
+                            id: doc.id,
+                            ...doc.data()
+                        })) as UserProfile[];
 
-                            fetchedUsers.push(...users);
-                        }
+                        fetchedUsers.push(...users);
 
                         set({
                             followers: reset
@@ -272,12 +280,15 @@ export const useFollowersStore = create<FollowersState>()(
                         const batches = chunkArray(followerIds, 10);
                         let currentBatchIndex = searchLastBatchIndex;
 
-                        for (
-                            let i = currentBatchIndex;
-                            i < batches.length;
-                            i++
-                        ) {
-                            const batch = batches[i];
+                        // Определяем количество батчей, которые будем обрабатывать параллельно
+                        const MAX_CONCURRENT_BATCHES = 5; // Настройка максимального числа параллельных запросов
+                        const batchesToFetch = batches.slice(
+                            currentBatchIndex,
+                            currentBatchIndex + MAX_CONCURRENT_BATCHES
+                        );
+
+                        // Создаём массив промисов для параллельных запросов
+                        const usersPromises = batchesToFetch.map((batch) => {
                             const usersQuery = query(
                                 collection(db, 'users'),
                                 where('id', 'in', batch),
@@ -291,25 +302,30 @@ export const useFollowersStore = create<FollowersState>()(
                                 orderBy('usernameLower'),
                                 limit(10 - fetchedUsers.length)
                             );
+                            return getDocs(usersQuery);
+                        });
 
-                            const usersSnapshot = await getDocs(usersQuery);
-                            const users = usersSnapshot.docs.map((doc) => ({
+                        // Выполняем все запросы параллельно
+                        const usersSnapshots = await Promise.all(usersPromises);
+
+                        usersSnapshots.forEach((snapshot) => {
+                            const users = snapshot.docs.map((doc) => ({
                                 id: doc.id,
                                 ...doc.data()
                             })) as UserProfile[];
 
-                            // Фильтрация на клиенте, если необходимо
+                            // Фильтрация на клиенте для дополнительной точности
                             const filteredUsers = users.filter((user) =>
                                 user.usernameLower.includes(normalizedQuery)
                             );
 
                             fetchedUsers.push(...filteredUsers);
+                        });
 
-                            currentBatchIndex = i + 1;
+                        // Обновляем индекс батча
+                        currentBatchIndex += batchesToFetch.length;
 
-                            if (fetchedUsers.length >= 10) break;
-                        }
-
+                        // Обновляем состояние
                         set({
                             followers: [...followers, ...fetchedUsers],
                             lastVisible: newLastVisible || null,
@@ -323,23 +339,23 @@ export const useFollowersStore = create<FollowersState>()(
                         // Без поиска, просто получаем профили пользователей
                         const batches = chunkArray(followerIds, 10);
 
-                        for (const batch of batches) {
-                            const usersQuery = query(
-                                collection(db, 'users'),
-                                where('id', 'in', batch),
-                                where('verified', '==', true),
-                                orderBy('usernameLower'), // Если нужно
-                                limit(10)
-                            );
+                        // Обработка только одного батча
+                        const batch = batches[0]; // Берём первый (и единственный) батч
+                        const usersQuery = query(
+                            collection(db, 'users'),
+                            where('id', 'in', batch),
+                            where('verified', '==', true),
+                            orderBy('usernameLower'), // Если нужно
+                            limit(10)
+                        );
 
-                            const usersSnapshot = await getDocs(usersQuery);
-                            const users = usersSnapshot.docs.map((doc) => ({
-                                id: doc.id,
-                                ...doc.data()
-                            })) as UserProfile[];
+                        const usersSnapshot = await getDocs(usersQuery);
+                        const users = usersSnapshot.docs.map((doc) => ({
+                            id: doc.id,
+                            ...doc.data()
+                        })) as UserProfile[];
 
-                            fetchedUsers.push(...users);
-                        }
+                        fetchedUsers.push(...users);
 
                         set({
                             followers: [...followers, ...fetchedUsers],
