@@ -111,8 +111,6 @@ export interface UserProfile {
     country?: string;
     socialNetworks?: { name: string; profileName: string }[];
     profileImage?: string | null | File;
-    followers?: string[];
-    following?: string[];
     verified: boolean;
     subscriptionPlan: SubscriptionPlan;
     recipesCount: number;
@@ -123,5 +121,3 @@ export interface UserProfile {
     showName?: boolean;
     createdAt: Date;
 }
-
-export type RelationshipType = 'followers' | 'following';
