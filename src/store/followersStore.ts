@@ -1,7 +1,5 @@
 import {
     collection,
-    doc,
-    getDoc,
     getDocs,
     limit,
     orderBy,
@@ -14,6 +12,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { db } from '@root/firebase/firebaseConfig';
+import { chunkArray } from '@root/helpers/chunkArray';
 import { UserProfile } from '@root/types';
 
 interface FollowersState {
@@ -85,36 +84,42 @@ export const useFollowersStore = create<FollowersState>()(
                 } = get();
                 const normalizedQuery = searchQuery.trim().toLowerCase();
 
-                if (
-                    (!reset &&
-                        normalizedQuery === '' &&
-                        !hasMore &&
-                        followers.length > 0) ||
-                    !currentUserId
-                ) {
+                if ((!reset && !hasMore) || !currentUserId) {
                     return;
                 }
 
                 set({ loading: true, error: null });
 
                 try {
-                    const userRef = doc(db, 'users', currentUserId);
-                    const userDoc = await getDoc(userRef);
+                    // Формируем запрос к коллекции 'follows'
+                    let followsQuery = query(
+                        collection(db, 'follows'),
+                        where('followingId', '==', currentUserId),
+                        orderBy('timestamp', 'desc'),
+                        limit(10)
+                    );
 
-                    if (!userDoc.exists()) {
-                        set({
-                            error: 'User not found',
-                            loading: false,
-                            searchLastBatchIndex: 0
-                        });
-                        return;
+                    if (!reset && lastVisible) {
+                        followsQuery = query(
+                            collection(db, 'follows'),
+                            where('followingId', '==', currentUserId),
+                            orderBy('timestamp', 'desc'),
+                            startAfter(lastVisible),
+                            limit(10)
+                        );
                     }
 
-                    const ids: string[] = userDoc.data()?.followers || [];
+                    const followsSnapshot = await getDocs(followsQuery);
+                    const newLastVisible =
+                        followsSnapshot.docs[followsSnapshot.docs.length - 1];
 
-                    if (ids.length === 0) {
+                    const followerIds = followsSnapshot.docs.map(
+                        (doc) => doc.data().followerId
+                    );
+
+                    if (followerIds.length === 0) {
                         set({
-                            followers: [],
+                            followers: reset ? [] : followers,
                             hasMore: false,
                             isInitialized: true,
                             searchLastBatchIndex: 0
@@ -122,24 +127,23 @@ export const useFollowersStore = create<FollowersState>()(
                         return;
                     }
 
-                    const usersRefCollection = collection(db, 'users');
+                    // Получаем профили пользователей на основе followerIds
+                    let fetchedUsers: UserProfile[] = [];
 
                     if (normalizedQuery) {
-                        let matchingUsers: UserProfile[] = [];
-                        const batchSize = 10;
-                        const maxBatches = Math.ceil(ids.length / batchSize);
+                        // Фильтрация по поисковому запросу
+                        const batches = chunkArray(followerIds, 10);
                         let currentBatchIndex = searchLastBatchIndex;
 
-                        for (let i = currentBatchIndex; i < maxBatches; i++) {
-                            const batchIds = ids.slice(
-                                i * batchSize,
-                                (i + 1) * batchSize
-                            );
-                            if (batchIds.length === 0) continue;
-
-                            const q = query(
-                                usersRefCollection,
-                                where('id', 'in', batchIds),
+                        for (
+                            let i = currentBatchIndex;
+                            i < batches.length;
+                            i++
+                        ) {
+                            const batch = batches[i];
+                            const usersQuery = query(
+                                collection(db, 'users'),
+                                where('id', 'in', batch),
                                 where('verified', '==', true),
                                 where('usernameLower', '>=', normalizedQuery),
                                 where(
@@ -148,80 +152,68 @@ export const useFollowersStore = create<FollowersState>()(
                                     normalizedQuery + '\uf8ff'
                                 ),
                                 orderBy('usernameLower'),
-                                limit(10 - matchingUsers.length)
+                                limit(10 - fetchedUsers.length)
                             );
 
-                            const snapshot = await getDocs(q);
+                            const usersSnapshot = await getDocs(usersQuery);
+                            const users = usersSnapshot.docs.map((doc) => ({
+                                id: doc.id,
+                                ...doc.data()
+                            })) as UserProfile[];
 
-                            const fetchedFollowers = snapshot.docs.map(
-                                (doc) => ({
-                                    id: doc.id,
-                                    ...doc.data()
-                                })
-                            ) as UserProfile[];
-
-                            const filteredUsers = fetchedFollowers.filter(
-                                (user) =>
-                                    user.usernameLower.includes(normalizedQuery)
+                            // Фильтрация на клиенте, если необходимо
+                            const filteredUsers = users.filter((user) =>
+                                user.usernameLower.includes(normalizedQuery)
                             );
 
-                            matchingUsers.push(...filteredUsers);
+                            fetchedUsers.push(...filteredUsers);
 
                             currentBatchIndex = i + 1;
 
-                            if (matchingUsers.length >= 10) {
-                                break;
-                            }
+                            if (fetchedUsers.length >= 10) break;
                         }
 
                         set({
                             followers: reset
-                                ? matchingUsers.slice(0, 10)
-                                : [...followers, ...matchingUsers.slice(0, 10)],
+                                ? fetchedUsers.slice(0, 10)
+                                : [...followers, ...fetchedUsers.slice(0, 10)],
+                            lastVisible: newLastVisible || null,
                             hasMore:
-                                matchingUsers.length >= 10 &&
-                                currentBatchIndex < maxBatches,
-                            searchLastBatchIndex: currentBatchIndex,
-                            isInitialized: true
+                                followsSnapshot.docs.length === 10 &&
+                                currentBatchIndex < batches.length,
+                            isInitialized: true,
+                            searchLastBatchIndex: currentBatchIndex
                         });
                     } else {
-                        const startIndex = reset ? 0 : followers.length;
-                        const batchIds = ids.slice(startIndex, startIndex + 10);
+                        // Без поиска, просто получаем профили пользователей
+                        const batches = chunkArray(followerIds, 10);
 
-                        if (batchIds.length === 0) {
-                            set({
-                                hasMore: false,
-                                isInitialized: true
-                            });
-                            return;
+                        for (const batch of batches) {
+                            const usersQuery = query(
+                                collection(db, 'users'),
+                                where('id', 'in', batch),
+                                where('verified', '==', true),
+                                orderBy('usernameLower'), // Если нужно
+                                limit(10)
+                            );
+
+                            const usersSnapshot = await getDocs(usersQuery);
+                            const users = usersSnapshot.docs.map((doc) => ({
+                                id: doc.id,
+                                ...doc.data()
+                            })) as UserProfile[];
+
+                            fetchedUsers.push(...users);
                         }
-
-                        const q = query(
-                            usersRefCollection,
-                            where('id', 'in', batchIds),
-                            where('verified', '==', true),
-                            orderBy('username'),
-                            limit(10),
-                            ...(reset || !lastVisible
-                                ? []
-                                : [startAfter(lastVisible)])
-                        );
-
-                        const snapshot = await getDocs(q);
-
-                        const fetchedFollowers = snapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            ...doc.data()
-                        })) as UserProfile[];
 
                         set({
                             followers: reset
-                                ? fetchedFollowers
-                                : [...followers, ...fetchedFollowers],
-                            lastVisible:
-                                snapshot.docs[snapshot.docs.length - 1] || null,
-                            hasMore: fetchedFollowers.length === 10,
-                            isInitialized: true
+                                ? fetchedUsers.slice(0, 10)
+                                : [...followers, ...fetchedUsers.slice(0, 10)],
+                            lastVisible: newLastVisible || null,
+                            hasMore: followsSnapshot.docs.length === 10,
+                            isInitialized: true,
+                            searchLastBatchIndex: 0 // Не используется при отсутствии поиска
                         });
                     }
                 } catch (error: any) {
@@ -233,53 +225,130 @@ export const useFollowersStore = create<FollowersState>()(
             },
 
             fetchMoreFollowers: async () => {
-                const { hasMore, followers, currentUserId } = get();
+                const {
+                    hasMore,
+                    followers,
+                    lastVisible,
+                    currentUserId,
+                    searchQuery,
+                    searchLastBatchIndex
+                } = get();
+                const normalizedQuery = searchQuery.trim().toLowerCase();
 
                 if (!hasMore || !currentUserId) return;
 
                 set({ loading: true, error: null });
 
                 try {
-                    const userRef = doc(db, 'users', currentUserId);
-                    const userDoc = await getDoc(userRef);
-
-                    if (!userDoc.exists()) {
-                        set({ error: 'User not found', loading: false });
-                        return;
-                    }
-
-                    const ids: string[] = userDoc.data()?.followers || [];
-                    const currentCount = followers.length;
-                    const nextBatchIds = ids.slice(
-                        currentCount,
-                        currentCount + 10
-                    ); // Следующая порция ID
-
-                    if (nextBatchIds.length === 0) {
-                        set({ hasMore: false, loading: false });
-                        return;
-                    }
-
-                    const usersRef = collection(db, 'users');
-                    const filterQuery = query(
-                        usersRef,
-                        where('id', 'in', nextBatchIds),
-                        where('verified', '==', true),
-                        orderBy('usernameLower'), // Опционально, если необходимо
+                    // Формируем запрос к коллекции 'follows' для следующих документов
+                    let followsQuery = query(
+                        collection(db, 'follows'),
+                        where('followingId', '==', currentUserId),
+                        orderBy('timestamp', 'desc'),
+                        startAfter(lastVisible),
                         limit(10)
                     );
 
-                    const snapshot = await getDocs(filterQuery);
+                    const followsSnapshot = await getDocs(followsQuery);
+                    const newLastVisible =
+                        followsSnapshot.docs[followsSnapshot.docs.length - 1];
 
-                    const fetchedFollowers = snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        ...doc.data()
-                    })) as UserProfile[];
+                    const followerIds = followsSnapshot.docs.map(
+                        (doc) => doc.data().followerId
+                    );
 
-                    set({
-                        followers: [...followers, ...fetchedFollowers],
-                        hasMore: fetchedFollowers.length === 10
-                    });
+                    if (followerIds.length === 0) {
+                        set({
+                            hasMore: false,
+                            isInitialized: true
+                        });
+                        return;
+                    }
+
+                    let fetchedUsers: UserProfile[] = [];
+
+                    if (normalizedQuery) {
+                        // Фильтрация по поисковому запросу
+                        const batches = chunkArray(followerIds, 10);
+                        let currentBatchIndex = searchLastBatchIndex;
+
+                        for (
+                            let i = currentBatchIndex;
+                            i < batches.length;
+                            i++
+                        ) {
+                            const batch = batches[i];
+                            const usersQuery = query(
+                                collection(db, 'users'),
+                                where('id', 'in', batch),
+                                where('verified', '==', true),
+                                where('usernameLower', '>=', normalizedQuery),
+                                where(
+                                    'usernameLower',
+                                    '<=',
+                                    normalizedQuery + '\uf8ff'
+                                ),
+                                orderBy('usernameLower'),
+                                limit(10 - fetchedUsers.length)
+                            );
+
+                            const usersSnapshot = await getDocs(usersQuery);
+                            const users = usersSnapshot.docs.map((doc) => ({
+                                id: doc.id,
+                                ...doc.data()
+                            })) as UserProfile[];
+
+                            // Фильтрация на клиенте, если необходимо
+                            const filteredUsers = users.filter((user) =>
+                                user.usernameLower.includes(normalizedQuery)
+                            );
+
+                            fetchedUsers.push(...filteredUsers);
+
+                            currentBatchIndex = i + 1;
+
+                            if (fetchedUsers.length >= 10) break;
+                        }
+
+                        set({
+                            followers: [...followers, ...fetchedUsers],
+                            lastVisible: newLastVisible || null,
+                            hasMore:
+                                followsSnapshot.docs.length === 10 &&
+                                currentBatchIndex < batches.length,
+                            isInitialized: true,
+                            searchLastBatchIndex: currentBatchIndex
+                        });
+                    } else {
+                        // Без поиска, просто получаем профили пользователей
+                        const batches = chunkArray(followerIds, 10);
+
+                        for (const batch of batches) {
+                            const usersQuery = query(
+                                collection(db, 'users'),
+                                where('id', 'in', batch),
+                                where('verified', '==', true),
+                                orderBy('usernameLower'), // Если нужно
+                                limit(10)
+                            );
+
+                            const usersSnapshot = await getDocs(usersQuery);
+                            const users = usersSnapshot.docs.map((doc) => ({
+                                id: doc.id,
+                                ...doc.data()
+                            })) as UserProfile[];
+
+                            fetchedUsers.push(...users);
+                        }
+
+                        set({
+                            followers: [...followers, ...fetchedUsers],
+                            lastVisible: newLastVisible || null,
+                            hasMore: followsSnapshot.docs.length === 10,
+                            isInitialized: true,
+                            searchLastBatchIndex: 0 // Не используется при отсутствии поиска
+                        });
+                    }
                 } catch (error: any) {
                     console.error(
                         'Error fetching more followers:',
