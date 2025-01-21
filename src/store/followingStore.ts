@@ -2,6 +2,7 @@ import {
     collection,
     doc,
     getDocs,
+    increment,
     limit,
     orderBy,
     query,
@@ -418,6 +419,7 @@ export const useFollowingStore = create<FollowingState>()(
                     const followDocId = `${currentUserId}_${targetUserId}`;
                     const followDocRef = doc(followsCollection, followDocId);
 
+                    // Запуск транзакции Firestore
                     await runTransaction(db, async (transaction) => {
                         const followDoc = await transaction.get(followDocRef);
                         if (followDoc.exists()) {
@@ -431,11 +433,22 @@ export const useFollowingStore = create<FollowingState>()(
                             followingId: targetUserId,
                             timestamp: Timestamp.now()
                         });
+
+                        const currentUserRef = doc(db, 'users', currentUserId);
+                        transaction.update(currentUserRef, {
+                            followingCount: increment(1)
+                        });
+
+                        const targetUserRef = doc(db, 'users', targetUserId);
+                        transaction.update(targetUserRef, {
+                            followersCount: increment(1)
+                        });
                     });
 
+                    // Обновление счётчиков в состоянии пользователей
                     await Promise.all([
-                        incrementFollowingCount(userProfile.id, targetUserId),
-                        incrementFollowersCount(targetUserId, userProfile.id)
+                        incrementFollowingCount(currentUserId),
+                        incrementFollowersCount(targetUserId)
                     ]);
                 } catch (error: any) {
                     console.error('Follow Error:', error.message);
@@ -460,18 +473,33 @@ export const useFollowingStore = create<FollowingState>()(
                     const followDocId = `${currentUserId}_${targetUserId}`;
                     const followDocRef = doc(followsCollection, followDocId);
 
+                    // Запуск транзакции Firestore
                     await runTransaction(db, async (transaction) => {
                         const followDoc = await transaction.get(followDocRef);
                         if (!followDoc.exists()) {
                             throw new Error('You are not following this user.');
                         }
 
+                        // Удаление документа followDoc
                         transaction.delete(followDocRef);
+
+                        // Обновление счётчика и массива following для текущего пользователя
+                        const currentUserRef = doc(db, 'users', currentUserId);
+                        transaction.update(currentUserRef, {
+                            followingCount: increment(-1)
+                        });
+
+                        // Обновление счётчика и массива followers для целевого пользователя
+                        const targetUserRef = doc(db, 'users', targetUserId);
+                        transaction.update(targetUserRef, {
+                            followersCount: increment(-1)
+                        });
                     });
 
+                    // Обновление счётчиков в состоянии пользователей
                     await Promise.all([
-                        decrementFollowingCount(currentUserId, targetUserId),
-                        decrementFollowersCount(targetUserId, currentUserId)
+                        decrementFollowingCount(currentUserId),
+                        decrementFollowersCount(targetUserId)
                     ]);
                 } catch (error: any) {
                     console.error('Unfollow Error:', error.message);

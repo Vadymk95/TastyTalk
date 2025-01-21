@@ -1,15 +1,10 @@
 import {
-    arrayRemove,
-    arrayUnion,
     collection,
-    doc,
     getDocs,
-    increment,
     limit,
     orderBy,
     query,
     startAfter,
-    updateDoc,
     where
 } from 'firebase/firestore';
 import debounce from 'lodash/debounce';
@@ -40,22 +35,10 @@ interface UsersState {
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
     setViewedUser: (user: UserProfile) => void;
 
-    incrementFollowersCount: (
-        userId: string,
-        followingId: string
-    ) => Promise<void>;
-    decrementFollowersCount: (
-        userId: string,
-        followingId: string
-    ) => Promise<void>;
-    incrementFollowingCount: (
-        userId: string,
-        followingId: string
-    ) => Promise<void>;
-    decrementFollowingCount: (
-        userId: string,
-        followingId: string
-    ) => Promise<void>;
+    incrementFollowersCount: (userId: string) => Promise<void>;
+    decrementFollowersCount: (userId: string) => Promise<void>;
+    incrementFollowingCount: (userId: string) => Promise<void>;
+    decrementFollowingCount: (userId: string) => Promise<void>;
 }
 
 export const useUsersStore = create<UsersState>()(
@@ -249,26 +232,14 @@ export const useUsersStore = create<UsersState>()(
                 set({ viewedUser: user });
             },
 
-            incrementFollowersCount: async (
-                userId: string,
-                followerId: string
-            ) => {
+            incrementFollowersCount: async (userId: string) => {
                 try {
-                    const userRef = doc(db, 'users', userId);
-                    await updateDoc(userRef, {
-                        followersCount: increment(1),
-                        followers: arrayUnion(followerId)
-                    });
                     set((state) => ({
                         users: state.users.map((user) =>
                             user.id === userId
                                 ? {
                                       ...user,
-                                      followersCount: user.followersCount + 1,
-                                      followers: [
-                                          ...(user.followers || []),
-                                          followerId
-                                      ]
+                                      followersCount: user.followersCount + 1
                                   }
                                 : user
                         )
@@ -279,11 +250,7 @@ export const useUsersStore = create<UsersState>()(
                         useAuthStore.setState({
                             userProfile: {
                                 ...userProfile,
-                                followersCount: userProfile.followersCount + 1,
-                                followers: [
-                                    ...(userProfile.followers || []),
-                                    followerId
-                                ]
+                                followersCount: userProfile.followersCount + 1
                             }
                         });
                     }
@@ -292,16 +259,8 @@ export const useUsersStore = create<UsersState>()(
                 }
             },
 
-            decrementFollowersCount: async (
-                userId: string,
-                followerId: string
-            ) => {
+            decrementFollowersCount: async (userId: string) => {
                 try {
-                    const userRef = doc(db, 'users', userId);
-                    await updateDoc(userRef, {
-                        followersCount: increment(-1),
-                        followers: arrayRemove(followerId)
-                    });
                     set((state) => ({
                         users: state.users.map((user) =>
                             user.id === userId
@@ -310,9 +269,6 @@ export const useUsersStore = create<UsersState>()(
                                       followersCount: Math.max(
                                           user.followersCount - 1,
                                           0
-                                      ),
-                                      followers: user.followers?.filter(
-                                          (id) => id !== followerId
                                       )
                                   }
                                 : user
@@ -327,9 +283,6 @@ export const useUsersStore = create<UsersState>()(
                                 followersCount: Math.max(
                                     userProfile.followersCount - 1,
                                     0
-                                ),
-                                followers: userProfile.followers?.filter(
-                                    (id) => id !== followerId
                                 )
                             }
                         });
@@ -339,26 +292,14 @@ export const useUsersStore = create<UsersState>()(
                 }
             },
 
-            incrementFollowingCount: async (
-                userId: string,
-                followingId: string
-            ) => {
+            incrementFollowingCount: async (userId: string) => {
                 try {
-                    const userRef = doc(db, 'users', userId);
-                    await updateDoc(userRef, {
-                        followingCount: increment(1),
-                        following: arrayUnion(followingId)
-                    });
                     set((state) => ({
                         users: state.users.map((user) =>
                             user.id === userId
                                 ? {
                                       ...user,
-                                      followingCount: user.followingCount + 1,
-                                      following: [
-                                          ...(user.following || []),
-                                          followingId
-                                      ]
+                                      followingCount: user.followingCount + 1
                                   }
                                 : user
                         )
@@ -369,11 +310,7 @@ export const useUsersStore = create<UsersState>()(
                         useAuthStore.setState({
                             userProfile: {
                                 ...userProfile,
-                                followingCount: userProfile.followingCount + 1,
-                                following: [
-                                    ...(userProfile.following || []),
-                                    followingId
-                                ]
+                                followingCount: userProfile.followingCount + 1
                             }
                         });
                     }
@@ -382,16 +319,8 @@ export const useUsersStore = create<UsersState>()(
                 }
             },
 
-            decrementFollowingCount: async (
-                userId: string,
-                followingId: string
-            ) => {
+            decrementFollowingCount: async (userId: string) => {
                 try {
-                    const userRef = doc(db, 'users', userId);
-                    await updateDoc(userRef, {
-                        followingCount: increment(-1),
-                        following: arrayRemove(followingId)
-                    });
                     set((state) => ({
                         users: state.users.map((user) =>
                             user.id === userId
@@ -400,9 +329,6 @@ export const useUsersStore = create<UsersState>()(
                                       followingCount: Math.max(
                                           user.followingCount - 1,
                                           0
-                                      ),
-                                      following: user.following?.filter(
-                                          (id) => id !== followingId
                                       )
                                   }
                                 : user
@@ -417,9 +343,6 @@ export const useUsersStore = create<UsersState>()(
                                 followingCount: Math.max(
                                     userProfile.followingCount - 1,
                                     0
-                                ),
-                                following: userProfile.following?.filter(
-                                    (id) => id !== followingId
                                 )
                             }
                         });

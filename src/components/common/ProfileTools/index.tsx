@@ -17,13 +17,18 @@ interface ProfileToolsProps {
 export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
     const { t } = useTranslation();
     const { username } = useParams();
-    const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
-        useFollowingStore();
-    const { isMe, userProfile } = useAuthStore();
+    const {
+        followUser,
+        unfollowUser,
+        loadingFollow,
+        loadingUnfollow,
+        following
+    } = useFollowingStore();
+    const { isMe } = useAuthStore();
     const me = isMe(username || '');
     const followingSet = useMemo(
-        () => new Set(userProfile?.following || []),
-        [userProfile?.following]
+        () => new Set(following.map((f) => f.id) || []),
+        [following]
     );
     const isFollowing = followingSet.has(profile.id);
 

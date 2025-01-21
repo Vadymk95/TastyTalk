@@ -14,16 +14,21 @@ interface UserProps {
 
 export const User: FC<UserProps> = ({ user }) => {
     const navigate = useNavigate();
-    const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
-        useFollowingStore();
+    const {
+        followUser,
+        unfollowUser,
+        loadingFollow,
+        loadingUnfollow,
+        following
+    } = useFollowingStore();
     const { t } = useTranslation();
-    const { isMe, userProfile } = useAuthStore();
+    const { isMe } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
     const isMobile = isMobileDevice();
     const me = isMe(user.username);
     const followingSet = useMemo(
-        () => new Set(userProfile?.following || []),
-        [userProfile?.following]
+        () => new Set(following.map((f) => f.id) || []),
+        [following]
     );
 
     const isFollowing = followingSet.has(user.id);
