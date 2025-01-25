@@ -108,22 +108,56 @@ export const useFollowingStore = create<FollowingState>()(
                 set({ loading: true, error: null });
 
                 try {
-                    // Формируем запрос к коллекции 'follows'
-                    let followsQuery = query(
-                        collection(db, 'follows'),
-                        where('followerId', '==', currentUserId),
-                        orderBy('timestamp', 'desc'),
-                        limit(10)
-                    );
+                    let followsQuery;
 
-                    if (!reset && lastVisible) {
+                    if (normalizedQuery) {
+                        // Серверный поиск по usernameLower
+                        followsQuery = query(
+                            collection(db, 'follows'),
+                            where('followerId', '==', currentUserId),
+                            where('usernameLower', '>=', normalizedQuery),
+                            where(
+                                'usernameLower',
+                                '<=',
+                                normalizedQuery + '\uf8ff'
+                            ),
+                            orderBy('usernameLower'),
+                            limit(10)
+                        );
+
+                        if (!reset && lastVisible) {
+                            followsQuery = query(
+                                collection(db, 'follows'),
+                                where('followerId', '==', currentUserId),
+                                where('usernameLower', '>=', normalizedQuery),
+                                where(
+                                    'usernameLower',
+                                    '<=',
+                                    normalizedQuery + '\uf8ff'
+                                ),
+                                orderBy('usernameLower'),
+                                startAfter(lastVisible),
+                                limit(10)
+                            );
+                        }
+                    } else {
+                        // Без поиска, обычная пагинация
                         followsQuery = query(
                             collection(db, 'follows'),
                             where('followerId', '==', currentUserId),
                             orderBy('timestamp', 'desc'),
-                            startAfter(lastVisible),
                             limit(10)
                         );
+
+                        if (!reset && lastVisible) {
+                            followsQuery = query(
+                                collection(db, 'follows'),
+                                where('followerId', '==', currentUserId),
+                                orderBy('timestamp', 'desc'),
+                                startAfter(lastVisible),
+                                limit(10)
+                            );
+                        }
                     }
 
                     const followsSnapshot = await getDocs(followsQuery);
@@ -144,21 +178,9 @@ export const useFollowingStore = create<FollowingState>()(
                         return;
                     }
 
-                    // Получаем статусы подписок для followIds
-                    const followStatuses =
-                        await get().getFollowStatuses(followIds);
-
-                    // Фильтруем только тех, кто действительно прошёл поиск (если есть)
-                    let filteredFollowIds = followIds;
-                    if (normalizedQuery) {
-                        filteredFollowIds = followIds.filter(
-                            (id) => followStatuses[id]
-                        );
-                    }
-
-                    // Получаем профили пользователей на основе отфильтрованных followIds
+                    // Получаем профили пользователей на основе followIds
                     const usersStore = useUsersStore.getState();
-                    const usersPromises = filteredFollowIds.map((id) =>
+                    const usersPromises = followIds.map((id) =>
                         usersStore.fetchUserById(id)
                     );
                     const fetchedUsers = await Promise.all(usersPromises);
@@ -205,14 +227,33 @@ export const useFollowingStore = create<FollowingState>()(
                 set({ loading: true, error: null });
 
                 try {
-                    // Формируем запрос к коллекции 'follows' для следующих документов
-                    let followsQuery = query(
-                        collection(db, 'follows'),
-                        where('followerId', '==', currentUserId),
-                        orderBy('timestamp', 'desc'),
-                        startAfter(lastVisible),
-                        limit(10)
-                    );
+                    let followsQuery;
+
+                    if (normalizedQuery) {
+                        // Продолжение серверного поиска по usernameLower
+                        followsQuery = query(
+                            collection(db, 'follows'),
+                            where('followerId', '==', currentUserId),
+                            where('usernameLower', '>=', normalizedQuery),
+                            where(
+                                'usernameLower',
+                                '<=',
+                                normalizedQuery + '\uf8ff'
+                            ),
+                            orderBy('usernameLower'),
+                            startAfter(lastVisible),
+                            limit(10)
+                        );
+                    } else {
+                        // Продолжение обычной пагинации
+                        followsQuery = query(
+                            collection(db, 'follows'),
+                            where('followerId', '==', currentUserId),
+                            orderBy('timestamp', 'desc'),
+                            startAfter(lastVisible),
+                            limit(10)
+                        );
+                    }
 
                     const followsSnapshot = await getDocs(followsQuery);
                     const newLastVisible =
@@ -230,21 +271,9 @@ export const useFollowingStore = create<FollowingState>()(
                         return;
                     }
 
-                    // Получаем статусы подписок для followIds
-                    const followStatuses =
-                        await get().getFollowStatuses(followIds);
-
-                    // Фильтруем только тех, кто действительно прошёл поиск (если есть)
-                    let filteredFollowIds = followIds;
-                    if (normalizedQuery) {
-                        filteredFollowIds = followIds.filter(
-                            (id) => followStatuses[id]
-                        );
-                    }
-
-                    // Получаем профили пользователей на основе отфильтрованных followIds
+                    // Получаем профили пользователей на основе followIds
                     const usersStore = useUsersStore.getState();
-                    const usersPromises = filteredFollowIds.map((id) =>
+                    const usersPromises = followIds.map((id) =>
                         usersStore.fetchUserById(id)
                     );
                     const fetchedUsers = await Promise.all(usersPromises);
