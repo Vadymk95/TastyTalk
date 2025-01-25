@@ -16,7 +16,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { db } from '@root/firebase/firebaseConfig';
-import { chunkArray } from '@root/helpers/chunkArray';
+import { chunkArray } from '@root/helpers';
 import { useAuthStore } from '@root/store/authStore';
 import { useUsersStore } from '@root/store/usersStore';
 import { UserProfile } from '@root/types';
@@ -35,6 +35,7 @@ interface FollowingState {
     searchLastBatchIndex: number;
     loadingFollow: boolean;
     loadingUnfollow: boolean;
+    followStatusCache: { [key: string]: boolean };
 
     debouncedFetch: () => void;
     setSearchQuery: (query: string) => void;
@@ -43,6 +44,9 @@ interface FollowingState {
     setCurrentUserId: (userId: string) => void;
     followUser: (targetUserId: string) => Promise<void>;
     unfollowUser: (targetUserId: string) => Promise<void>;
+    getFollowStatuses: (
+        userIds: string[]
+    ) => Promise<{ [key: string]: boolean }>;
 }
 
 export const useFollowingStore = create<FollowingState>()(
@@ -61,6 +65,7 @@ export const useFollowingStore = create<FollowingState>()(
             searchLastBatchIndex: 0,
             loadingFollow: false,
             loadingUnfollow: false,
+            followStatusCache: {},
 
             debouncedFetch: debounce(() => {
                 const { fetchFollowing, currentUserId } = get();
@@ -139,103 +144,43 @@ export const useFollowingStore = create<FollowingState>()(
                         return;
                     }
 
-                    // Получаем профили пользователей на основе followIds
-                    let fetchedUsers: UserProfile[] = [];
+                    // Получаем статусы подписок для followIds
+                    const followStatuses =
+                        await get().getFollowStatuses(followIds);
 
+                    // Фильтруем только тех, кто действительно прошёл поиск (если есть)
+                    let filteredFollowIds = followIds;
                     if (normalizedQuery) {
-                        // Фильтрация по поисковому запросу
-                        const batches = chunkArray(followIds, 10);
-                        let currentBatchIndex = searchLastBatchIndex;
-
-                        // Определяем количество батчей, которые будем обрабатывать параллельно
-                        const MAX_CONCURRENT_BATCHES = 5; // Настройка максимального числа параллельных запросов
-                        const batchesToFetch = batches.slice(
-                            currentBatchIndex,
-                            currentBatchIndex + MAX_CONCURRENT_BATCHES
+                        filteredFollowIds = followIds.filter(
+                            (id) => followStatuses[id]
                         );
-
-                        // Создаём массив промисов для параллельных запросов
-                        const usersPromises = batchesToFetch.map((batch) => {
-                            const usersQuery = query(
-                                collection(db, 'users'),
-                                where('id', 'in', batch),
-                                where('verified', '==', true),
-                                where('usernameLower', '>=', normalizedQuery),
-                                where(
-                                    'usernameLower',
-                                    '<=',
-                                    normalizedQuery + '\uf8ff'
-                                ),
-                                orderBy('usernameLower'),
-                                limit(10 - fetchedUsers.length)
-                            );
-                            return getDocs(usersQuery);
-                        });
-
-                        // Выполняем все запросы параллельно
-                        const usersSnapshots = await Promise.all(usersPromises);
-
-                        usersSnapshots.forEach((snapshot) => {
-                            const users = snapshot.docs.map((doc) => ({
-                                id: doc.id,
-                                ...doc.data()
-                            })) as UserProfile[];
-
-                            // Фильтрация на клиенте для дополнительной точности
-                            const filteredUsers = users.filter((user) =>
-                                user.usernameLower.includes(normalizedQuery)
-                            );
-
-                            fetchedUsers.push(...filteredUsers);
-                        });
-
-                        // Обновляем индекс батча
-                        currentBatchIndex += batchesToFetch.length;
-
-                        // Обновляем состояние
-                        set({
-                            following: reset
-                                ? fetchedUsers.slice(0, 10)
-                                : [...following, ...fetchedUsers.slice(0, 10)],
-                            lastVisible: newLastVisible || null,
-                            hasMore:
-                                followsSnapshot.docs.length === 10 &&
-                                currentBatchIndex < batches.length,
-                            isInitialized: true,
-                            searchLastBatchIndex: currentBatchIndex
-                        });
-                    } else {
-                        // Без поиска, просто получаем профили пользователей
-                        const batches = chunkArray(followIds, 10);
-
-                        // Обработка только одного батча
-                        const batch = batches[0]; // Берём первый (и единственный) батч
-                        const usersQuery = query(
-                            collection(db, 'users'),
-                            where('id', 'in', batch),
-                            where('verified', '==', true),
-                            orderBy('usernameLower'), // Если нужно
-                            limit(10)
-                        );
-
-                        const usersSnapshot = await getDocs(usersQuery);
-                        const users = usersSnapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            ...doc.data()
-                        })) as UserProfile[];
-
-                        fetchedUsers.push(...users);
-
-                        set({
-                            following: reset
-                                ? fetchedUsers.slice(0, 10)
-                                : [...following, ...fetchedUsers.slice(0, 10)],
-                            lastVisible: newLastVisible || null,
-                            hasMore: followsSnapshot.docs.length === 10,
-                            isInitialized: true,
-                            searchLastBatchIndex: 0 // Не используется при отсутствии поиска
-                        });
                     }
+
+                    // Получаем профили пользователей на основе отфильтрованных followIds
+                    const usersStore = useUsersStore.getState();
+                    const usersPromises = filteredFollowIds.map((id) =>
+                        usersStore.fetchUserById(id)
+                    );
+                    const fetchedUsers = await Promise.all(usersPromises);
+
+                    set({
+                        following: reset
+                            ? (fetchedUsers.filter(
+                                  (user) => user !== null
+                              ) as UserProfile[])
+                            : [
+                                  ...following,
+                                  ...(fetchedUsers.filter(
+                                      (user) => user !== null
+                                  ) as UserProfile[])
+                              ],
+                        lastVisible: newLastVisible || null,
+                        hasMore: followsSnapshot.docs.length === 10,
+                        isInitialized: true,
+                        searchLastBatchIndex: reset
+                            ? 0
+                            : searchLastBatchIndex + 1
+                    });
                 } catch (error: any) {
                     console.error('Error fetching following:', error.message);
                     set({ error: error.message });
@@ -285,98 +230,37 @@ export const useFollowingStore = create<FollowingState>()(
                         return;
                     }
 
-                    let fetchedUsers: UserProfile[] = [];
+                    // Получаем статусы подписок для followIds
+                    const followStatuses =
+                        await get().getFollowStatuses(followIds);
 
+                    // Фильтруем только тех, кто действительно прошёл поиск (если есть)
+                    let filteredFollowIds = followIds;
                     if (normalizedQuery) {
-                        // Фильтрация по поисковому запросу
-                        const batches = chunkArray(followIds, 10);
-                        let currentBatchIndex = searchLastBatchIndex;
-
-                        // Определяем количество батчей, которые будем обрабатывать параллельно
-                        const MAX_CONCURRENT_BATCHES = 5; // Настройка максимального числа параллельных запросов
-                        const batchesToFetch = batches.slice(
-                            currentBatchIndex,
-                            currentBatchIndex + MAX_CONCURRENT_BATCHES
+                        filteredFollowIds = followIds.filter(
+                            (id) => followStatuses[id]
                         );
-
-                        // Создаём массив промисов для параллельных запросов
-                        const usersPromises = batchesToFetch.map((batch) => {
-                            const usersQuery = query(
-                                collection(db, 'users'),
-                                where('id', 'in', batch),
-                                where('verified', '==', true),
-                                where('usernameLower', '>=', normalizedQuery),
-                                where(
-                                    'usernameLower',
-                                    '<=',
-                                    normalizedQuery + '\uf8ff'
-                                ),
-                                orderBy('usernameLower'),
-                                limit(10 - fetchedUsers.length)
-                            );
-                            return getDocs(usersQuery);
-                        });
-
-                        // Выполняем все запросы параллельно
-                        const usersSnapshots = await Promise.all(usersPromises);
-
-                        usersSnapshots.forEach((snapshot) => {
-                            const users = snapshot.docs.map((doc) => ({
-                                id: doc.id,
-                                ...doc.data()
-                            })) as UserProfile[];
-
-                            // Фильтрация на клиенте для дополнительной точности
-                            const filteredUsers = users.filter((user) =>
-                                user.usernameLower.includes(normalizedQuery)
-                            );
-
-                            fetchedUsers.push(...filteredUsers);
-                        });
-
-                        // Обновляем индекс батча
-                        currentBatchIndex += batchesToFetch.length;
-
-                        // Обновляем состояние
-                        set({
-                            following: [...following, ...fetchedUsers],
-                            lastVisible: newLastVisible || null,
-                            hasMore:
-                                followsSnapshot.docs.length === 10 &&
-                                currentBatchIndex < batches.length,
-                            isInitialized: true,
-                            searchLastBatchIndex: currentBatchIndex
-                        });
-                    } else {
-                        // Без поиска, просто получаем профили пользователей
-                        const batches = chunkArray(followIds, 10);
-
-                        // Обработка только одного батча
-                        const batch = batches[0]; // Берём первый (и единственный) батч
-                        const usersQuery = query(
-                            collection(db, 'users'),
-                            where('id', 'in', batch),
-                            where('verified', '==', true),
-                            orderBy('usernameLower'), // Если нужно
-                            limit(10)
-                        );
-
-                        const usersSnapshot = await getDocs(usersQuery);
-                        const users = usersSnapshot.docs.map((doc) => ({
-                            id: doc.id,
-                            ...doc.data()
-                        })) as UserProfile[];
-
-                        fetchedUsers.push(...users);
-
-                        set({
-                            following: [...following, ...fetchedUsers],
-                            lastVisible: newLastVisible || null,
-                            hasMore: followsSnapshot.docs.length === 10,
-                            isInitialized: true,
-                            searchLastBatchIndex: 0 // Не используется при отсутствии поиска
-                        });
                     }
+
+                    // Получаем профили пользователей на основе отфильтрованных followIds
+                    const usersStore = useUsersStore.getState();
+                    const usersPromises = filteredFollowIds.map((id) =>
+                        usersStore.fetchUserById(id)
+                    );
+                    const fetchedUsers = await Promise.all(usersPromises);
+
+                    set({
+                        following: [
+                            ...following,
+                            ...(fetchedUsers.filter(
+                                (user) => user !== null
+                            ) as UserProfile[])
+                        ],
+                        lastVisible: newLastVisible || null,
+                        hasMore: followsSnapshot.docs.length === 10,
+                        isInitialized: true,
+                        searchLastBatchIndex: searchLastBatchIndex + 1
+                    });
                 } catch (error: any) {
                     console.error(
                         'Error fetching more following:',
@@ -399,6 +283,7 @@ export const useFollowingStore = create<FollowingState>()(
                         hasMore: true,
                         isInitialized: false,
                         searchLastBatchIndex: 0,
+                        followStatusCache: {},
                         error: null
                     });
                 }
@@ -415,9 +300,11 @@ export const useFollowingStore = create<FollowingState>()(
 
                 try {
                     const followsCollection = collection(db, 'follows');
+                    const usersCollection = collection(db, 'users');
                     const currentUserId = userProfile.id;
                     const followDocId = `${currentUserId}_${targetUserId}`;
                     const followDocRef = doc(followsCollection, followDocId);
+                    const targetUserRef = doc(usersCollection, targetUserId);
 
                     // Запуск транзакции Firestore
                     await runTransaction(db, async (transaction) => {
@@ -428,10 +315,27 @@ export const useFollowingStore = create<FollowingState>()(
                             );
                         }
 
+                        const targetUserDoc =
+                            await transaction.get(targetUserRef);
+                        if (!targetUserDoc.exists()) {
+                            throw new Error('Target user does not exist.');
+                        }
+
+                        const targetUserData = targetUserDoc.data();
+                        const usernameLower = targetUserData?.usernameLower;
+
+                        if (!usernameLower) {
+                            throw new Error(
+                                'Target user does not have usernameLower.'
+                            );
+                        }
+
+                        // Создаём документ follow с добавленным полем usernameLower
                         transaction.set(followDocRef, {
                             followerId: currentUserId,
                             followingId: targetUserId,
-                            timestamp: Timestamp.now()
+                            timestamp: Timestamp.now(),
+                            usernameLower: usernameLower // Добавляем поле usernameLower
                         });
 
                         const currentUserRef = doc(db, 'users', currentUserId);
@@ -439,7 +343,6 @@ export const useFollowingStore = create<FollowingState>()(
                             followingCount: increment(1)
                         });
 
-                        const targetUserRef = doc(db, 'users', targetUserId);
                         transaction.update(targetUserRef, {
                             followersCount: increment(1)
                         });
@@ -450,6 +353,14 @@ export const useFollowingStore = create<FollowingState>()(
                         incrementFollowingCount(currentUserId),
                         incrementFollowersCount(targetUserId)
                     ]);
+
+                    // Обновление кэша статусов подписки
+                    set((state) => ({
+                        followStatusCache: {
+                            ...state.followStatusCache,
+                            [targetUserId]: true
+                        }
+                    }));
                 } catch (error: any) {
                     console.error('Follow Error:', error.message);
                     set({ error: error.message });
@@ -501,17 +412,97 @@ export const useFollowingStore = create<FollowingState>()(
                         decrementFollowingCount(currentUserId),
                         decrementFollowersCount(targetUserId)
                     ]);
+
+                    // Обновление кэша статусов подписки
+                    set((state) => ({
+                        followStatusCache: {
+                            ...state.followStatusCache,
+                            [targetUserId]: false
+                        }
+                    }));
                 } catch (error: any) {
                     console.error('Unfollow Error:', error.message);
                     set({ error: error.message });
                 } finally {
                     set({ loadingUnfollow: false });
                 }
+            },
+
+            getFollowStatuses: async (userIds: string[]) => {
+                const { currentUserId, followStatusCache } = get();
+                if (!currentUserId) return {};
+
+                // Фильтруем userIds, которые уже есть в кэше
+                const idsToCheck = userIds.filter(
+                    (id) => !(id in followStatusCache)
+                );
+                if (idsToCheck.length === 0) {
+                    // Все статусы уже есть в кэше
+                    const statuses: { [key: string]: boolean } = {};
+                    userIds.forEach((id) => {
+                        statuses[id] = followStatusCache[id];
+                    });
+                    return statuses;
+                }
+
+                // Разбиваем на батчи по 10 элементов
+                const batches = chunkArray(idsToCheck, 10);
+
+                const statuses: { [key: string]: boolean } = {};
+
+                for (const batch of batches) {
+                    const followsQuery = query(
+                        collection(db, 'follows'),
+                        where('followerId', '==', currentUserId),
+                        where('followingId', 'in', batch)
+                    );
+
+                    const followsSnapshot = await getDocs(followsQuery);
+
+                    // Обновляем кэш и результат
+                    followsSnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        statuses[data.followingId] = true;
+                        // Обновляем кэш
+                        set((state) => ({
+                            followStatusCache: {
+                                ...state.followStatusCache,
+                                [data.followingId]: true
+                            }
+                        }));
+                    });
+
+                    // Для тех, кто не найден в результате, устанавливаем false
+                    batch.forEach((id) => {
+                        if (!(id in statuses)) {
+                            statuses[id] = false;
+                            // Обновляем кэш
+                            set((state) => ({
+                                followStatusCache: {
+                                    ...state.followStatusCache,
+                                    [id]: false
+                                }
+                            }));
+                        }
+                    });
+                }
+
+                // Для всех userIds, включая те, что уже были в кэше
+                const finalStatuses: { [key: string]: boolean } = {};
+                userIds.forEach((id) => {
+                    finalStatuses[id] =
+                        id in statuses ? statuses[id] : followStatusCache[id];
+                });
+
+                return finalStatuses;
             }
         }),
         {
             name: 'following-storage',
-            partialize: (state) => ({ following: state.following })
+            partialize: (state) => ({
+                following: state.following,
+                followStatusCache: state.followStatusCache
+            })
         }
     )
 );

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 
+import { useFollowingStore } from '@root/store/followingStore';
 import { useUsersStore } from '@root/store/usersStore';
 
 export const useUsers = () => {
@@ -12,8 +13,20 @@ export const useUsers = () => {
         fetchMoreUsers,
         error
     } = useUsersStore();
+    const { getFollowStatuses, followStatusCache } = useFollowingStore();
 
     const observerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const checkFollowStatuses = async () => {
+            const userIds = users.map((user) => user.id);
+            await getFollowStatuses([...userIds]);
+        };
+
+        if (users.length > 0) {
+            checkFollowStatuses();
+        }
+    }, [users, getFollowStatuses]);
 
     const filteredUsers = useMemo(() => {
         return users.filter((user) =>
@@ -61,6 +74,7 @@ export const useUsers = () => {
         setSearchQuery,
         loading,
         error,
-        observerRef
+        observerRef,
+        followStatusCache
     };
 };

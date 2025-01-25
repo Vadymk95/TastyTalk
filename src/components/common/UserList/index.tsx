@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { User } from '@root/components/common/User';
 import { Back, SearchInput } from '@root/components/ui';
+import { useFollowingStore } from '@root/store/followingStore';
 import { UserProfile } from '@root/types';
 
 type UserListProps = {
@@ -28,6 +29,7 @@ export const UserList: FC<UserListProps> = ({
     error
 }) => {
     const { t } = useTranslation();
+    const { getFollowStatuses, followStatusCache } = useFollowingStore();
     const observerRef = useRef<HTMLDivElement>(null);
 
     const filteredUsers = useMemo(() => {
@@ -36,6 +38,17 @@ export const UserList: FC<UserListProps> = ({
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [users]);
+
+    useEffect(() => {
+        const checkFollowStatuses = async () => {
+            const userIds = filteredUsers.map((user) => user.id);
+            await getFollowStatuses([...userIds]);
+        };
+
+        if (filteredUsers.length > 0) {
+            checkFollowStatuses();
+        }
+    }, [filteredUsers, getFollowStatuses]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -81,7 +94,11 @@ export const UserList: FC<UserListProps> = ({
 
                 <ul className="space-y-4 mt-4">
                     {filteredUsers.map((user) => (
-                        <User key={user.id} user={user} />
+                        <User
+                            key={user.id}
+                            user={user}
+                            isFollowing={followStatusCache[user.id] || false}
+                        />
                     ))}
                 </ul>
 

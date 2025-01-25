@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,28 +10,18 @@ import { UserProfile } from '@root/types';
 
 interface UserProps {
     user: UserProfile;
+    isFollowing: boolean;
 }
 
-export const User: FC<UserProps> = ({ user }) => {
+export const User: FC<UserProps> = ({ user, isFollowing }) => {
     const navigate = useNavigate();
-    const {
-        followUser,
-        unfollowUser,
-        loadingFollow,
-        loadingUnfollow,
-        following
-    } = useFollowingStore();
+    const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
+        useFollowingStore();
     const { t } = useTranslation();
     const { isMe } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
     const isMobile = isMobileDevice();
     const me = isMe(user.username);
-    const followingSet = useMemo(
-        () => new Set(following.map((f) => f.id) || []),
-        [following]
-    );
-
-    const isFollowing = followingSet.has(user.id);
 
     const handleOnSubscribe = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>

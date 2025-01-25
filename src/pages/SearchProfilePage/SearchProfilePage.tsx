@@ -13,7 +13,8 @@ const SearchProfilePage: FC = () => {
         setSearchQuery,
         loading,
         error,
-        observerRef
+        observerRef,
+        followStatusCache
     } = useUsers();
 
     return (
@@ -36,7 +37,11 @@ const SearchProfilePage: FC = () => {
 
                 <ul className="space-y-4 mt-4">
                     {filteredUsers.map((user) => (
-                        <User key={user.id} user={user} />
+                        <User
+                            key={user.id}
+                            user={user}
+                            isFollowing={followStatusCache[user.id] || false}
+                        />
                     ))}
                 </ul>
 

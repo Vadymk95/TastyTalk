@@ -1,5 +1,7 @@
 import {
     collection,
+    doc,
+    getDoc,
     getDocs,
     limit,
     orderBy,
@@ -33,6 +35,7 @@ interface UsersState {
     fetchMoreUsers: () => Promise<void>;
 
     fetchUserByUsername: (username: string) => Promise<UserProfile | null>;
+    fetchUserById: (userId: string) => Promise<UserProfile | null>;
     setViewedUser: (user: UserProfile) => void;
 
     incrementFollowersCount: (userId: string) => Promise<void>;
@@ -223,6 +226,36 @@ export const useUsersStore = create<UsersState>()(
                     return null;
                 } finally {
                     set({ loading: false });
+                }
+            },
+
+            fetchUserById: async (userId: string) => {
+                try {
+                    const existingUser = get().users.find(
+                        (user) => user.id === userId
+                    );
+                    if (existingUser) {
+                        return existingUser;
+                    }
+
+                    const userDocRef = doc(db, 'users', userId);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data() as UserProfile;
+                        const user: UserProfile = {
+                            ...userData,
+                            id: userDoc.id
+                        };
+                        set((state) => ({
+                            users: [...state.users, user]
+                        }));
+                        return user;
+                    } else {
+                        return null;
+                    }
+                } catch (error: any) {
+                    console.error('Error fetching user by ID:', error.message);
+                    return null;
                 }
             },
 
