@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
@@ -22,15 +22,22 @@ export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
         unfollowUser,
         loadingFollow,
         loadingUnfollow,
-        following
+
+        getFollowStatuses,
+        followStatusCache
     } = useFollowingStore();
     const { isMe } = useAuthStore();
     const me = isMe(username || '');
-    const followingSet = useMemo(
-        () => new Set(following.map((f) => f.id) || []),
-        [following]
-    );
-    const isFollowing = followingSet.has(profile.id);
+
+    useEffect(() => {
+        const checkFollowStatuses = async () => {
+            await getFollowStatuses([profile.id]);
+        };
+
+        if (profile.id) {
+            checkFollowStatuses();
+        }
+    }, [profile.id, getFollowStatuses]);
 
     const handleOnSubscribe = (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -39,7 +46,7 @@ export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
 
         if (loadingFollow || loadingUnfollow) return;
 
-        if (isFollowing) {
+        if (followStatusCache[profile.id] || false) {
             unfollowUser(profile.id);
         } else {
             followUser(profile.id);
@@ -61,9 +68,15 @@ export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
             {!me && (
                 <Button
                     onClick={handleOnSubscribe}
-                    variant={isFollowing ? 'primary' : 'accent'}
+                    variant={
+                        followStatusCache[profile.id] || false
+                            ? 'primary'
+                            : 'accent'
+                    }
                 >
-                    {t(`General.${isFollowing ? 'unfollow' : 'follow'}`)}
+                    {t(
+                        `General.${followStatusCache[profile.id] || false ? 'unfollow' : 'follow'}`
+                    )}
                 </Button>
             )}
         </div>
