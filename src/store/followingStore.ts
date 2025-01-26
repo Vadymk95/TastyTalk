@@ -352,6 +352,8 @@ export const useFollowingStore = create<FollowingState>()(
 
                         const targetUserData = targetUserDoc.data();
                         const usernameLower = targetUserData?.usernameLower;
+                        const followerUsernameLower =
+                            userProfile?.usernameLower;
 
                         if (!usernameLower) {
                             throw new Error(
@@ -364,7 +366,8 @@ export const useFollowingStore = create<FollowingState>()(
                             followerId: currentUserId,
                             followingId: targetUserId,
                             timestamp: Timestamp.now(),
-                            usernameLower: usernameLower // Добавляем поле usernameLower
+                            usernameLower: usernameLower,
+                            followerUsernameLower: followerUsernameLower
                         });
 
                         const currentUserRef = doc(db, 'users', currentUserId);
