@@ -131,7 +131,9 @@ export const EditProfileForm: FC = () => {
         socialNetworks: userProfile?.socialNetworks || [],
         profileImage: userProfile?.profileImage || null,
         email: userProfile?.email || '',
-        phoneNumber: '+' + userProfile?.phoneNumber || '',
+        phoneNumber: userProfile?.phoneNumber
+            ? '+' + userProfile?.phoneNumber
+            : '',
         showCountry: userProfile?.showCountry || false,
         showName: userProfile?.showName || false
     };
@@ -175,254 +177,263 @@ export const EditProfileForm: FC = () => {
             initialValues={initialValues}
             onSubmit={onSubmit}
         >
-            {({ setFieldValue, values }) => (
-                <Form className="plate">
-                    <h2 className="text-xl font-semibold text-primary mb-4">
-                        {t('Forms.EditProfileForm.personalInfo')}
-                    </h2>
+            {({ setFieldValue, values, dirty }) => {
+                return (
+                    <Form className="plate">
+                        <h2 className="text-xl font-semibold text-primary mb-4">
+                            {t('Forms.EditProfileForm.personalInfo')}
+                        </h2>
 
-                    <section className="inline-flex sm:flex-col w-full items-center gap-8">
-                        <div>
-                            <PhotoUpload
-                                src={values.profileImage as string}
-                                onFileSelect={(file) =>
-                                    setFieldValue('profileImage', file)
-                                }
-                            />
-                        </div>
+                        <section className="inline-flex sm:flex-col w-full items-center gap-8">
+                            <div>
+                                <PhotoUpload
+                                    src={values.profileImage as string}
+                                    onFileSelect={(file) =>
+                                        setFieldValue('profileImage', file)
+                                    }
+                                />
+                            </div>
 
-                        <div className="w-full space-y-8">
-                            <Input
-                                type="text"
-                                isRequired
-                                name="firstName"
-                                placeholder={t(
-                                    'Forms.EditProfileForm.firstName'
-                                )}
-                                label={t('Forms.EditProfileForm.firstName')}
-                            />
-
-                            <Input
-                                isRequired
-                                name="lastName"
-                                type="text"
-                                placeholder={t(
-                                    'Forms.EditProfileForm.lastName'
-                                )}
-                                label={t('Forms.EditProfileForm.lastName')}
-                            />
-
-                            <Checkbox
-                                name="showName"
-                                onChange={(checked) =>
-                                    setFieldValue('showName', checked)
-                                }
-                                label={t(
-                                    'Forms.EditProfileForm.nameCheckboxLabel'
-                                )}
-                                checked={!!values.showName}
-                            />
-
-                            <UsernameInput
-                                checkUsernameAvailability={
-                                    checkUsernameAvailability
-                                }
-                                validationSchema={usernameValidationSchema}
-                                isRequired
-                                name="username"
-                                label={t('Forms.EditProfileForm.username')}
-                                currentUsername={userProfile?.username || ''}
-                            />
-
-                            <Input
-                                name="email"
-                                label={t('Forms.EditProfileForm.email')}
-                                disabled
-                            />
-
-                            {userProfile?.phoneNumber ? (
+                            <div className="w-full space-y-8">
                                 <Input
-                                    name="phoneNumber"
-                                    label={t(
-                                        'Forms.EditProfileForm.phoneNumber'
+                                    type="text"
+                                    isRequired
+                                    name="firstName"
+                                    placeholder={t(
+                                        'Forms.EditProfileForm.firstName'
                                     )}
+                                    label={t('Forms.EditProfileForm.firstName')}
+                                />
+
+                                <Input
+                                    isRequired
+                                    name="lastName"
+                                    type="text"
+                                    placeholder={t(
+                                        'Forms.EditProfileForm.lastName'
+                                    )}
+                                    label={t('Forms.EditProfileForm.lastName')}
+                                />
+
+                                <Checkbox
+                                    name="showName"
+                                    onChange={(checked) =>
+                                        setFieldValue('showName', checked)
+                                    }
+                                    label={t(
+                                        'Forms.EditProfileForm.nameCheckboxLabel'
+                                    )}
+                                    checked={!!values.showName}
+                                />
+
+                                <UsernameInput
+                                    checkUsernameAvailability={
+                                        checkUsernameAvailability
+                                    }
+                                    validationSchema={usernameValidationSchema}
+                                    isRequired
+                                    name="username"
+                                    label={t('Forms.EditProfileForm.username')}
+                                    currentUsername={
+                                        userProfile?.username || ''
+                                    }
+                                />
+
+                                <Input
+                                    name="email"
+                                    label={t('Forms.EditProfileForm.email')}
                                     disabled
                                 />
-                            ) : (
-                                <div className="w-full">
-                                    <PhoneNumberInput
-                                        setCode={handleSetCode}
-                                        code={countryCode}
-                                        className="input-wrapper"
+
+                                {userProfile?.phoneNumber ? (
+                                    <Input
                                         name="phoneNumber"
                                         label={t(
                                             'Forms.EditProfileForm.phoneNumber'
                                         )}
-                                        placeholder={t(
-                                            'Forms.EditProfileForm.phoneNumber'
-                                        )}
+                                        disabled
                                     />
-                                </div>
-                            )}
-                        </div>
-                    </section>
-
-                    <section className="space-y-6">
-                        <h3 className="text-lg font-medium text-primary mt-8">
-                            {t('Forms.EditProfileForm.additionalInfo')}
-                        </h3>
-
-                        <Textarea
-                            name="bio"
-                            placeholder={t('Forms.EditProfileForm.bio')}
-                            label={t('Forms.EditProfileForm.bio')}
-                            maxLength={200}
-                        />
-
-                        <div>
-                            <label className="block">
-                                {t('Forms.EditProfileForm.country')}
-                            </label>
-
-                            <FormikSelect
-                                searchable
-                                name="country"
-                                value={initialValues.country}
-                                options={options}
-                                placeholder={t(
-                                    'Forms.EditProfileForm.selectCountry'
+                                ) : (
+                                    <div className="w-full">
+                                        <PhoneNumberInput
+                                            setCode={handleSetCode}
+                                            code={countryCode}
+                                            className="input-wrapper"
+                                            name="phoneNumber"
+                                            label={t(
+                                                'Forms.EditProfileForm.phoneNumber'
+                                            )}
+                                            placeholder={t(
+                                                'Forms.EditProfileForm.phoneNumber'
+                                            )}
+                                        />
+                                    </div>
                                 )}
+                            </div>
+                        </section>
+
+                        <section className="space-y-6">
+                            <h3 className="text-lg font-medium text-primary mt-8">
+                                {t('Forms.EditProfileForm.additionalInfo')}
+                            </h3>
+
+                            <Textarea
+                                name="bio"
+                                placeholder={t('Forms.EditProfileForm.bio')}
+                                label={t('Forms.EditProfileForm.bio')}
+                                maxLength={200}
                             />
 
-                            {values.country && (
-                                <Checkbox
-                                    className="mt-4"
-                                    name="showCountry"
-                                    onChange={(checked) =>
-                                        setFieldValue('showCountry', checked)
-                                    }
-                                    label={t(
-                                        'Forms.EditProfileForm.countryCheckboxLabel'
-                                    )}
-                                    checked={!!values.showCountry}
-                                />
-                            )}
-                        </div>
+                            <div>
+                                <label className="block">
+                                    {t('Forms.EditProfileForm.country')}
+                                </label>
 
-                        <FieldArray
-                            name="socialNetworks"
-                            render={(arrayHelpers) => (
-                                <div>
-                                    <label className="block mb-2 text-primary">
-                                        <p>
-                                            {t(
-                                                'Forms.EditProfileForm.socialNetworks'
-                                            )}
-                                        </p>
-                                        <span className="label text-xs">
-                                            {t(
-                                                'Forms.EditProfileForm.socialNetworksDescription'
-                                            )}
-                                        </span>
-                                    </label>
-                                    {(values.socialNetworks || []).map(
-                                        (_, index) => (
-                                            <div
-                                                key={index}
-                                                className="flex sm:block items-center gap-4 mb-4"
-                                            >
-                                                <Input
-                                                    type="text"
-                                                    className="sm:mr-9 sm:mb-6"
-                                                    name={`socialNetworks.${index}.name`}
-                                                    placeholder={t(
-                                                        'Forms.EditProfileForm.socialNetworkPlaceholder'
-                                                    )}
-                                                    label={t(
-                                                        'Forms.EditProfileForm.socialNetworkName'
-                                                    )}
-                                                    isRequired
-                                                    size="small"
-                                                />
-                                                <div className="flex items-end flex-1">
+                                <FormikSelect
+                                    searchable
+                                    name="country"
+                                    value={initialValues.country}
+                                    options={options}
+                                    placeholder={t(
+                                        'Forms.EditProfileForm.selectCountry'
+                                    )}
+                                />
+
+                                {values.country && (
+                                    <Checkbox
+                                        className="mt-4"
+                                        name="showCountry"
+                                        onChange={(checked) =>
+                                            setFieldValue(
+                                                'showCountry',
+                                                checked
+                                            )
+                                        }
+                                        label={t(
+                                            'Forms.EditProfileForm.countryCheckboxLabel'
+                                        )}
+                                        checked={!!values.showCountry}
+                                    />
+                                )}
+                            </div>
+
+                            <FieldArray
+                                name="socialNetworks"
+                                render={(arrayHelpers) => (
+                                    <div>
+                                        <label className="block mb-2 text-primary">
+                                            <p>
+                                                {t(
+                                                    'Forms.EditProfileForm.socialNetworks'
+                                                )}
+                                            </p>
+                                            <span className="label text-xs">
+                                                {t(
+                                                    'Forms.EditProfileForm.socialNetworksDescription'
+                                                )}
+                                            </span>
+                                        </label>
+                                        {(values.socialNetworks || []).map(
+                                            (_, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex sm:block items-center gap-4 mb-4"
+                                                >
                                                     <Input
                                                         type="text"
-                                                        name={`socialNetworks.${index}.profileName`}
+                                                        className="sm:mr-9 sm:mb-6"
+                                                        name={`socialNetworks.${index}.name`}
                                                         placeholder={t(
-                                                            'Forms.EditProfileForm.socialNetworkUsernamePlaceholder'
+                                                            'Forms.EditProfileForm.socialNetworkPlaceholder'
                                                         )}
                                                         label={t(
-                                                            'Forms.EditProfileForm.socialNetworkUsername'
+                                                            'Forms.EditProfileForm.socialNetworkName'
                                                         )}
                                                         isRequired
-                                                        className="flex-1 mr-2"
                                                         size="small"
                                                     />
-                                                    <Button
-                                                        type="button"
-                                                        className="flex-all-center"
-                                                        size="small"
-                                                        variant="close"
-                                                        onClick={() =>
-                                                            arrayHelpers.remove(
-                                                                index
-                                                            )
-                                                        }
-                                                    >
-                                                        <FontAwesomeIcon
-                                                            icon={faXmark}
-                                                            size="xl"
+                                                    <div className="flex items-end flex-1">
+                                                        <Input
+                                                            type="text"
+                                                            name={`socialNetworks.${index}.profileName`}
+                                                            placeholder={t(
+                                                                'Forms.EditProfileForm.socialNetworkUsernamePlaceholder'
+                                                            )}
+                                                            label={t(
+                                                                'Forms.EditProfileForm.socialNetworkUsername'
+                                                            )}
+                                                            isRequired
+                                                            className="flex-1 mr-2"
+                                                            size="small"
                                                         />
-                                                    </Button>
+                                                        <Button
+                                                            type="button"
+                                                            className="flex-all-center"
+                                                            size="small"
+                                                            variant="close"
+                                                            onClick={() =>
+                                                                arrayHelpers.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                        >
+                                                            <FontAwesomeIcon
+                                                                icon={faXmark}
+                                                                size="xl"
+                                                            />
+                                                        </Button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    )}
-                                    <Button
-                                        type="button"
-                                        size="small"
-                                        disabled={
-                                            (values.socialNetworks || [])
-                                                .length >= 5
-                                        }
-                                        onClick={() =>
-                                            arrayHelpers.push({
-                                                name: '',
-                                                profileName: ''
-                                            })
-                                        }
-                                        className="mt-4"
-                                    >
-                                        {t(
-                                            'Forms.EditProfileForm.addSocialNetwork'
+                                            )
                                         )}
-                                    </Button>
-                                </div>
-                            )}
-                        />
-
-                        <div className="flex justify-end">
-                            <Button
-                                variant="secondary"
-                                type="submit"
-                                disabled={loading}
-                            >
-                                {t('Forms.EditProfileForm.save')}
-                            </Button>
-                        </div>
-
-                        {showSuccess && (
-                            <SuccessCard
-                                successMessage={t(
-                                    'Forms.EditProfileForm.successMessage'
+                                        <Button
+                                            type="button"
+                                            size="small"
+                                            disabled={
+                                                (values.socialNetworks || [])
+                                                    .length >= 5
+                                            }
+                                            onClick={() =>
+                                                arrayHelpers.push({
+                                                    name: '',
+                                                    profileName: ''
+                                                })
+                                            }
+                                            className="mt-4"
+                                        >
+                                            {t(
+                                                'Forms.EditProfileForm.addSocialNetwork'
+                                            )}
+                                        </Button>
+                                    </div>
                                 )}
                             />
-                        )}
 
-                        {error && <ErrorCard errorMessage={editProfileError} />}
-                    </section>
-                </Form>
-            )}
+                            <div className="flex justify-end">
+                                <Button
+                                    variant="secondary"
+                                    type="submit"
+                                    disabled={loading || !dirty}
+                                >
+                                    {t('Forms.EditProfileForm.save')}
+                                </Button>
+                            </div>
+
+                            {showSuccess && (
+                                <SuccessCard
+                                    successMessage={t(
+                                        'Forms.EditProfileForm.successMessage'
+                                    )}
+                                />
+                            )}
+
+                            {error && (
+                                <ErrorCard errorMessage={editProfileError} />
+                            )}
+                        </section>
+                    </Form>
+                );
+            }}
         </Formik>
     );
 };

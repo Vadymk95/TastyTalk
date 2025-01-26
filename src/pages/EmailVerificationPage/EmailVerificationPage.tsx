@@ -67,7 +67,7 @@ const EmailVerificationPage: FC = () => {
 
     useEffect(() => {
         if (userProfile?.verified && !checking) {
-            navigate(routes.home);
+            navigate(routes.greeting);
         }
     }, [checking, userProfile?.verified, navigate]);
 

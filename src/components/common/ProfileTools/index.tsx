@@ -1,10 +1,10 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
 import { Button } from '@root/components/ui/Button';
 import { routes } from '@root/router/routes';
-import { useAuthStore, useUsersStore } from '@root/store';
+import { useAuthStore, useFollowingStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -17,20 +17,36 @@ interface ProfileToolsProps {
 export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
     const { t } = useTranslation();
     const { username } = useParams();
-    const { followUser, unfollowUser } = useUsersStore();
-    const { isMe, userProfile } = useAuthStore();
+    const {
+        followUser,
+        unfollowUser,
+        loadingFollow,
+        loadingUnfollow,
+
+        getFollowStatuses,
+        followStatusCache
+    } = useFollowingStore();
+    const { isMe } = useAuthStore();
     const me = isMe(username || '');
-    const followingSet = useMemo(
-        () => new Set(userProfile?.following || []),
-        [userProfile?.following]
-    );
-    const isFollowing = followingSet.has(profile.id);
+
+    useEffect(() => {
+        const checkFollowStatuses = async () => {
+            await getFollowStatuses([profile.id]);
+        };
+
+        if (profile.id) {
+            checkFollowStatuses();
+        }
+    }, [profile.id, getFollowStatuses]);
 
     const handleOnSubscribe = (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.stopPropagation();
-        if (isFollowing) {
+
+        if (loadingFollow || loadingUnfollow) return;
+
+        if (followStatusCache[profile.id] || false) {
             unfollowUser(profile.id);
         } else {
             followUser(profile.id);
@@ -52,9 +68,15 @@ export const ProfileTools: FC<ProfileToolsProps> = ({ profile }) => {
             {!me && (
                 <Button
                     onClick={handleOnSubscribe}
-                    variant={isFollowing ? 'primary' : 'accent'}
+                    variant={
+                        followStatusCache[profile.id] || false
+                            ? 'primary'
+                            : 'accent'
+                    }
                 >
-                    {t(`General.${isFollowing ? 'unfollow' : 'follow'}`)}
+                    {t(
+                        `General.${followStatusCache[profile.id] || false ? 'unfollow' : 'follow'}`
+                    )}
                 </Button>
             )}
         </div>

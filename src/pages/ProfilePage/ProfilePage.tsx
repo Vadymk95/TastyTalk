@@ -17,7 +17,7 @@ const ProfilePage: FC = () => {
     const { username } = useParams();
     const navigate = useNavigate();
     const { userProfile, loading, error, hasPaidPlan } = useAuthStore();
-    const { fetchUserByUsername } = useUsersStore();
+    const { fetchUserByUsername, setViewedUser } = useUsersStore();
     const { t } = useTranslation();
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -37,6 +37,7 @@ const ProfilePage: FC = () => {
 
             if (userProfile && userProfile.username === username) {
                 setProfile(userProfile);
+                setViewedUser(userProfile);
                 return;
             }
 
@@ -50,7 +51,7 @@ const ProfilePage: FC = () => {
         };
 
         loadProfile();
-    }, [username, userProfile, fetchUserByUsername, navigate]);
+    }, [username, userProfile, fetchUserByUsername, navigate, setViewedUser]);
 
     if (loading || !profile) {
         return <Loader />;

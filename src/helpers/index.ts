@@ -1,3 +1,4 @@
+export { chunkArray } from './chunkArray';
 export { convertFileToBase64 } from './convertFileToBase64';
 export { extractYouTubeVideoId } from './extractYouTubeVideoId';
 export { generateUsername } from './generateUsername';

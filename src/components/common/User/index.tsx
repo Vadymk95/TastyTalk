@@ -1,39 +1,45 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { ProfilePhoto } from '@root/components/common/ProfilePhoto';
 import { Button } from '@root/components/ui/Button';
 import { getProfileRoute, isMobileDevice } from '@root/helpers';
-import { useAuthStore, useUsersStore } from '@root/store';
+import { useAuthStore, useFollowingStore } from '@root/store';
 import { UserProfile } from '@root/types';
 
 interface UserProps {
     user: UserProfile;
+    isFollowing: boolean;
 }
 
-export const User: FC<UserProps> = ({ user }) => {
+export const User: FC<UserProps> = ({ user, isFollowing }) => {
     const navigate = useNavigate();
-    const { followUser, unfollowUser } = useUsersStore();
+    const { followUser, unfollowUser, loadingFollow, loadingUnfollow } =
+        useFollowingStore();
     const { t } = useTranslation();
-    const { isMe, userProfile } = useAuthStore();
+    const { isMe } = useAuthStore();
+    const [isLoading, setIsLoading] = useState(false);
     const isMobile = isMobileDevice();
     const me = isMe(user.username);
-    const followingSet = useMemo(
-        () => new Set(userProfile?.following || []),
-        [userProfile?.following]
-    );
 
-    const isFollowing = followingSet.has(user.id);
-
-    const handleOnSubscribe = (
+    const handleOnSubscribe = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
+        if (isLoading || loadingFollow || loadingUnfollow) return;
+
         event.stopPropagation();
-        if (isFollowing) {
-            unfollowUser(user.id);
-        } else {
-            followUser(user.id);
+        setIsLoading(true);
+        try {
+            if (isFollowing) {
+                await unfollowUser(user.id);
+            } else {
+                await followUser(user.id);
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -64,6 +70,7 @@ export const User: FC<UserProps> = ({ user }) => {
                     variant={isFollowing ? 'primary' : 'secondary'}
                     onClick={(event) => handleOnSubscribe(event)}
                     size={isMobile ? 'small' : 'medium'}
+                    disabled={isLoading}
                 >
                     {t(`General.${isFollowing ? 'unfollow' : 'follow'}`)}
                 </Button>
