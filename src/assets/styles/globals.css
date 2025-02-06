@@ -12,8 +12,10 @@
 @import './components/badges.css';
 @import './components/dnd.css';
 @import './components/modal.css';
+@import './components/section.css';
 
-html, body {
+html,
+body {
     @apply h-full;
 }
 

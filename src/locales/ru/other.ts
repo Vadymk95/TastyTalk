@@ -226,6 +226,9 @@ export const other = {
         selected: 'Выбрано',
         oops: 'Упс!',
         enterPhoneNumber: 'Введите номер телефона',
-        send: 'Отправить'
+        send: 'Отправить',
+        show: 'Показать',
+        showMore: 'Показать еще',
+        hide: 'Скрыть'
     }
 };

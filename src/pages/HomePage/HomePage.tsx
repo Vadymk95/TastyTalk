@@ -1,6 +1,10 @@
 import { FC } from 'react';
 
-import { MainFilterBlock, TopWeekSection } from '@root/components/common';
+import {
+    AIRecipesSection,
+    MainFilterBlock,
+    TopWeekSection
+} from '@root/components/common';
 
 export const HomePage: FC = () => {
     return (
@@ -10,9 +14,7 @@ export const HomePage: FC = () => {
             <div className="flex flex-col gap-4 mt-4">
                 <TopWeekSection />
 
-                <TopWeekSection />
-
-                <TopWeekSection />
+                <AIRecipesSection />
             </div>
         </div>
     );

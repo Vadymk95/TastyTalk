@@ -3,21 +3,21 @@ import { useTranslation } from 'react-i18next';
 
 import { Section } from '@root/components/ui/Section';
 
-import { faFire } from '@fortawesome/free-solid-svg-icons';
+import { faRobot } from '@fortawesome/free-solid-svg-icons';
 
 const testList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
 
-export const TopWeekSection: FC = () => {
+export const AIRecipesSection: FC = () => {
     const { t } = useTranslation();
     const onShowMore = () => {};
 
     return (
         <Section
-            title={t('TopWeekSection.title')}
+            title={t('AIRecipesSection.title')}
             list={testList}
             onShowMore={onShowMore}
-            icon={faFire}
-            sectionKey="topWeek"
+            icon={faRobot}
+            sectionKey="aiRecipes"
         />
     );
 };

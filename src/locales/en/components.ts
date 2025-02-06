@@ -81,5 +81,11 @@ export const components = {
             'This application might not work correctly inside an embedded browser or Telegram. Google Sign-In is not supported in embedded browsers',
         description2:
             'Please open TastyTalks in your default browser for the best experience.'
+    },
+    TopWeekSection: {
+        title: 'Top of the Week'
+    },
+    AIRecipesSection: {
+        title: 'AI Recipes'
     }
 };

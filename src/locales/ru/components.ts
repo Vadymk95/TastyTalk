@@ -83,5 +83,11 @@ export const components = {
         description1:
             'Этот контент не может быть отображен внутри приложения или Телеграм. Вход с Google не поддерживается во встроенных окнах.',
         description2: 'Пожалуйста, откройте TastyTalks в браузере.'
+    },
+    TopWeekSection: {
+        title: 'Топ недели'
+    },
+    AIRecipesSection: {
+        title: 'Рекомендации AI'
     }
 };
