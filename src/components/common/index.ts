@@ -27,3 +27,4 @@ export { RulesAndPrivacy } from './RulesAndPrivacy';
 export { User } from './User';
 export { UserList } from './UserList';
 export { Video } from './Video';
+export { TopWeekSection } from './TopWeekSection';
