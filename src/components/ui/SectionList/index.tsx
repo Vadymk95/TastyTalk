@@ -8,7 +8,7 @@ interface IProps {
 
 export const SectionList: FC<IProps> = ({ list }) => {
     return (
-        <ul className="flex gap-2">
+        <ul className="flex gap-3">
             {list.map((item, index) => (
                 <SectionItem key={index} item={item} />
             ))}
