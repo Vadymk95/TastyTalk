@@ -1,9 +1,10 @@
 import { FC } from 'react';
 
 import { SectionItem } from '@root/components/ui/SectionItem';
+import { Recipe } from '@root/types';
 
 interface IProps {
-    list: any[];
+    list: Recipe[];
 }
 
 export const SectionList: FC<IProps> = ({ list }) => {
