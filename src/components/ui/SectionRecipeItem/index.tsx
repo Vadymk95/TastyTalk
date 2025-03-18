@@ -5,11 +5,13 @@ import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DifficultyMap } from '@root/components/common/DifficultyMap';
 import { RecipePreviewModal } from '@root/components/modals/RecipePreviewModal';
-import { Badge } from '@root/components/ui/Badge';
+import { Badge, Image } from '@root/components/ui';
 import { ModalsEnum } from '@root/constants/modals';
 import { getCategoryColor } from '@root/helpers/getCategoryColor';
 import { useModalStore } from '@root/store/modalStore';
 import { Recipe } from '@root/types';
+
+import noRecipeImage from '@root/assets/images/no-recipe.webp';
 
 interface IProps {
     recipe: Recipe;
@@ -30,7 +32,13 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
                 onClick={handlePreview}
                 className="rounded-xl border p-2 shadow-sm hover:shadow-md transition duration-300 cursor-pointer"
             >
-                <div className="w-full h-[150px] bg-secondary rounded-md"></div>
+                <div className="w-full h-[150px] bg-secondary rounded-md overflow-hidden">
+                    <Image
+                        src={noRecipeImage}
+                        alt={t('Alts.noRecipeImage')}
+                        className="object-contain"
+                    />
+                </div>
                 <div className="flex flex-col mt-2 gap-2">
                     <h2 className="font-heading text-primary text-sm">
                         {recipe.title}

@@ -231,5 +231,8 @@ export const other = {
         showMore: 'Показать еще',
         hide: 'Скрыть',
         minutes: 'минут'
+    },
+    Alts: {
+        noRecipeImage: 'Изображение отсутствует'
     }
 };

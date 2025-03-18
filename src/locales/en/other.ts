@@ -231,5 +231,8 @@ export const other = {
         showMore: 'Show More',
         hide: 'Hide',
         minutes: 'minutes'
+    },
+    Alts: {
+        noRecipeImage: 'No Recipe Image'
     }
 };
