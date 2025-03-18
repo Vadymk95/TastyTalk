@@ -20,11 +20,12 @@ interface IProps {
 export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
     const { t } = useTranslation();
     const { openModal, closeModal } = useModalStore();
-    const handlePreview = () => openModal(ModalsEnum.RecipePreview);
+    const modalKey = `${ModalsEnum.RecipePreview}-${recipe.id}`;
+    const handlePreview = () => openModal(modalKey);
 
     useEffect(() => {
-        return () => closeModal(ModalsEnum.RecipePreview);
-    }, [closeModal]);
+        return () => closeModal(modalKey);
+    }, [closeModal, modalKey]);
 
     return (
         <>
@@ -77,7 +78,7 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
                 </div>
             </li>
 
-            <RecipePreviewModal recipe={recipe} />
+            <RecipePreviewModal recipe={recipe} modalKey={modalKey} />
         </>
     );
 };
