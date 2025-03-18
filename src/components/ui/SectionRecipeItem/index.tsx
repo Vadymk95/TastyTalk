@@ -53,7 +53,7 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
                         )}
                     </div>
                 </div>
-                <div className="flex gap-2 mt-2">
+                <div className="flex flex-wrap gap-2 mt-2">
                     {recipe.categories &&
                         recipe.categories.map((category) => {
                             const { name, group } = category;
@@ -62,6 +62,7 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
                                 <Badge
                                     categoryColor={categoryColor}
                                     text={name}
+                                    className="text-xs"
                                 />
                             );
                         })}
