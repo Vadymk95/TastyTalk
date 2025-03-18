@@ -1,5 +1,8 @@
 import { FC, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DifficultyMap } from '@root/components/common/DifficultyMap';
 import { RecipePreviewModal } from '@root/components/modals/RecipePreviewModal';
 import { Badge } from '@root/components/ui/Badge';
@@ -13,6 +16,7 @@ interface IProps {
 }
 
 export const SectionItem: FC<IProps> = ({ item }) => {
+    const { t } = useTranslation();
     const { openModal, closeModal } = useModalStore();
     const handlePreview = () => openModal(ModalsEnum.RecipePreview);
 
@@ -24,7 +28,7 @@ export const SectionItem: FC<IProps> = ({ item }) => {
         <>
             <li
                 onClick={handlePreview}
-                className="rounded-xl border p-4 shadow-sm hover:shadow-md transition duration-300 cursor-pointer max-w-[250px]"
+                className="rounded-xl border p-4 shadow-sm hover:shadow-md transition duration-300 cursor-pointer"
             >
                 <div className="w-full h-[150px] bg-secondary rounded-md"></div>
                 <div className="flex flex-col mt-2 gap-2">
@@ -32,12 +36,21 @@ export const SectionItem: FC<IProps> = ({ item }) => {
                         {item.title}
                     </h2>
 
-                    {item.difficulty && (
-                        <DifficultyMap
-                            className="text-xs"
-                            level={item.difficulty}
-                        />
-                    )}
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center text-xs font-heading text-secondary">
+                            <FontAwesomeIcon className="mr-1" icon={faClock} />
+                            <p>
+                                &#126;{item.cookingTime} {t('General.minutes')}
+                            </p>
+                        </div>
+
+                        {item.difficulty && (
+                            <DifficultyMap
+                                className="text-xs"
+                                level={item.difficulty}
+                            />
+                        )}
+                    </div>
                 </div>
                 <div className="flex gap-2 mt-2">
                     {item.categories &&

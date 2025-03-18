@@ -5,7 +5,7 @@ import { Section } from '@root/components/ui/Section';
 
 import { faFire } from '@fortawesome/free-solid-svg-icons';
 
-const testList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
+import { topWeekRecipes } from './data';
 
 export const TopWeekSection: FC = () => {
     const { t } = useTranslation();
@@ -14,7 +14,7 @@ export const TopWeekSection: FC = () => {
     return (
         <Section
             title={t('TopWeekSection.title')}
-            list={testList}
+            list={topWeekRecipes}
             onShowMore={onShowMore}
             icon={faFire}
             sectionKey="topWeek"

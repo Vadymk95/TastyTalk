@@ -229,6 +229,7 @@ export const other = {
         send: 'Отправить',
         show: 'Показать',
         showMore: 'Показать еще',
-        hide: 'Скрыть'
+        hide: 'Скрыть',
+        minutes: 'минут'
     }
 };

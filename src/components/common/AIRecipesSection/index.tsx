@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Section } from '@root/components/ui/Section';
 
 import { faRobot } from '@fortawesome/free-solid-svg-icons';
-import { exampleRecipe } from '../../forms/CreateRecipeWithAIForm/example';
 
-const testList = [exampleRecipe];
+import { aiRecommendationRecipes } from './data';
 
 export const AIRecipesSection: FC = () => {
     const { t } = useTranslation();
@@ -15,7 +14,7 @@ export const AIRecipesSection: FC = () => {
     return (
         <Section
             title={t('AIRecipesSection.title')}
-            list={testList}
+            list={aiRecommendationRecipes}
             onShowMore={onShowMore}
             icon={faRobot}
             sectionKey="aiRecipes"

@@ -9,9 +9,9 @@ interface IProps {
 
 export const SectionList: FC<IProps> = ({ list }) => {
     return (
-        <ul className="flex gap-3">
-            {list.map((item, index) => (
-                <SectionItem key={index} item={item} />
+        <ul className="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))]">
+            {list.map((item) => (
+                <SectionItem key={item.id} item={item} />
             ))}
         </ul>
     );

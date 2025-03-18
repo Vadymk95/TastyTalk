@@ -229,6 +229,7 @@ export const other = {
         send: 'Send',
         show: 'Show',
         showMore: 'Show More',
-        hide: 'Hide'
+        hide: 'Hide',
+        minutes: 'minutes'
     }
 };
