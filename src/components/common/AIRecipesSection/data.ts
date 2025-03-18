@@ -1,5 +1,23 @@
 import { Difficulty, Recipe } from '@root/types';
 
+const categoryPool = [
+    {
+        id: 'asian',
+        name: 'Asian Cuisine',
+        group: 'worldCuisine'
+    },
+    {
+        id: 'lent',
+        name: 'Lenten',
+        group: 'dietaryPreference'
+    },
+    {
+        id: 'long',
+        name: 'Long (over 60 minutes)',
+        group: 'cookingFeatures'
+    }
+];
+
 // Массив для "Рекомендация ИИ" (aiGenerated: true)
 export const aiRecommendationRecipes: Recipe[] = Array.from(
     { length: 10 },
@@ -9,23 +27,7 @@ export const aiRecommendationRecipes: Recipe[] = Array.from(
         difficulty: ['easy', 'medium', 'hard'][
             Math.floor(Math.random() * 3)
         ] as Difficulty,
-        categories: [
-            {
-                id: 'asian',
-                name: 'Asian Cuisine',
-                group: 'worldCuisine'
-            },
-            {
-                id: 'lent',
-                name: 'Lenten',
-                group: 'dietaryPreference'
-            },
-            {
-                id: 'long',
-                name: 'Long (over 60 minutes)',
-                group: 'cookingFeatures'
-            }
-        ],
+        categories: categoryPool.slice(0, Math.floor(Math.random() * 3) + 1),
         cookingTime: `${25 + index * 3}`, // пример: 25, 28, 31, ...
         description:
             index % 2 === 1

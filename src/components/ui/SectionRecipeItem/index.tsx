@@ -33,7 +33,7 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
                 onClick={handlePreview}
                 className="rounded-xl border p-2 shadow-sm hover:shadow-md transition duration-300 cursor-pointer"
             >
-                <div className="w-full h-[150px] bg-secondary rounded-md overflow-hidden">
+                <div className="w-full bg-secondary rounded-md overflow-hidden">
                     <Image
                         src={noRecipeImage}
                         alt={t('Alts.noRecipeImage')}
