@@ -11,9 +11,19 @@ export const aiRecommendationRecipes: Recipe[] = Array.from(
         ] as Difficulty,
         categories: [
             {
-                id: 'ai-rec',
-                name: 'Рекомендация ИИ',
-                group: 'ai'
+                id: 'asian',
+                name: 'Asian Cuisine',
+                group: 'worldCuisine'
+            },
+            {
+                id: 'lent',
+                name: 'Lenten',
+                group: 'dietaryPreference'
+            },
+            {
+                id: 'long',
+                name: 'Long (over 60 minutes)',
+                group: 'cookingFeatures'
             }
         ],
         cookingTime: `${25 + index * 3}`, // пример: 25, 28, 31, ...

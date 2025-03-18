@@ -11,9 +11,14 @@ export const topWeekRecipes: Recipe[] = Array.from(
         ] as Difficulty,
         categories: [
             {
-                id: 'top-week',
-                name: 'Топ недели',
-                group: 'week'
+                id: 'asian',
+                name: 'Asian Cuisine',
+                group: 'worldCuisine'
+            },
+            {
+                id: 'lent',
+                name: 'Lenten',
+                group: 'dietaryPreference'
             }
         ],
         cookingTime: `${30 + index * 5}`, // пример: 30, 35, 40, ...

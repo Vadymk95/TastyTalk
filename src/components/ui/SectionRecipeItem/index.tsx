@@ -28,7 +28,7 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
         <>
             <li
                 onClick={handlePreview}
-                className="rounded-xl border p-4 shadow-sm hover:shadow-md transition duration-300 cursor-pointer"
+                className="rounded-xl border p-2 shadow-sm hover:shadow-md transition duration-300 cursor-pointer"
             >
                 <div className="w-full h-[150px] bg-secondary rounded-md"></div>
                 <div className="flex flex-col mt-2 gap-2">
