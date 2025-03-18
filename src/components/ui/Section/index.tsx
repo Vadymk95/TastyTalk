@@ -49,7 +49,7 @@ export const Section: FC<IProps> = ({
 
             {isHidden ? null : (
                 <>
-                    <div className="mt-2">
+                    <div className="my-2">
                         <SectionList list={list} />
                     </div>
 

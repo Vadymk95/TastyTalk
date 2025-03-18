@@ -12,10 +12,10 @@ import { useModalStore } from '@root/store/modalStore';
 import { Recipe } from '@root/types';
 
 interface IProps {
-    item: Recipe;
+    recipe: Recipe;
 }
 
-export const SectionItem: FC<IProps> = ({ item }) => {
+export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
     const { t } = useTranslation();
     const { openModal, closeModal } = useModalStore();
     const handlePreview = () => openModal(ModalsEnum.RecipePreview);
@@ -33,28 +33,29 @@ export const SectionItem: FC<IProps> = ({ item }) => {
                 <div className="w-full h-[150px] bg-secondary rounded-md"></div>
                 <div className="flex flex-col mt-2 gap-2">
                     <h2 className="font-heading text-primary text-sm">
-                        {item.title}
+                        {recipe.title}
                     </h2>
 
                     <div className="flex justify-between items-center">
                         <div className="flex items-center text-xs font-heading text-secondary">
                             <FontAwesomeIcon className="mr-1" icon={faClock} />
                             <p>
-                                &#126;{item.cookingTime} {t('General.minutes')}
+                                &#126;{recipe.cookingTime}{' '}
+                                {t('General.minutes')}
                             </p>
                         </div>
 
-                        {item.difficulty && (
+                        {recipe.difficulty && (
                             <DifficultyMap
                                 className="text-xs"
-                                level={item.difficulty}
+                                level={recipe.difficulty}
                             />
                         )}
                     </div>
                 </div>
                 <div className="flex gap-2 mt-2">
-                    {item.categories &&
-                        item.categories.map((category) => {
+                    {recipe.categories &&
+                        recipe.categories.map((category) => {
                             const { name, group } = category;
                             const categoryColor = getCategoryColor(group);
                             return (
@@ -67,7 +68,7 @@ export const SectionItem: FC<IProps> = ({ item }) => {
                 </div>
             </li>
 
-            <RecipePreviewModal recipe={item} />
+            <RecipePreviewModal recipe={recipe} />
         </>
     );
 };

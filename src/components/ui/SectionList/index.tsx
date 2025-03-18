@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { SectionItem } from '@root/components/ui/SectionItem';
+import { SectionRecipeItem } from '@root/components/ui/SectionRecipeItem';
 import { Recipe } from '@root/types';
 
 interface IProps {
@@ -11,7 +11,7 @@ export const SectionList: FC<IProps> = ({ list }) => {
     return (
         <ul className="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))]">
             {list.map((item) => (
-                <SectionItem key={item.id} item={item} />
+                <SectionRecipeItem key={item.id} recipe={item} />
             ))}
         </ul>
     );

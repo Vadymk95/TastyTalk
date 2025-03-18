@@ -21,7 +21,7 @@ export { RadioButton } from './RadioButton';
 export { ScrollIndicator } from './ScrollIndicator';
 export { SearchInput } from './SearchInput';
 export { Section } from './Section';
-export { SectionItem } from './SectionItem';
+export { SectionRecipeItem } from './SectionRecipeItem';
 export { SectionList } from './SectionList';
 export { Select } from './Select';
 export { Stepper } from './Stepper';
