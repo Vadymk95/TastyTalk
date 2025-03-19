@@ -16,7 +16,7 @@ export const Categories: FC<CategoriesProps> = ({ list, className }) => {
     return (
         <ul className={`inline-flex gap-2 items-center flex-wrap ${className}`}>
             {!!list &&
-                list.map(({ id }, index) => {
+                list.map(({ id }) => {
                     const category = categories.find((cat) => cat.id === id);
 
                     if (!category) return null;
@@ -26,7 +26,7 @@ export const Categories: FC<CategoriesProps> = ({ list, className }) => {
                     const categoryColor = getCategoryColor(group);
 
                     return (
-                        <li key={index}>
+                        <li key={id}>
                             <Badge categoryColor={categoryColor} text={name} />
                         </li>
                     );

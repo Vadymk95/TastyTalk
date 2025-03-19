@@ -77,6 +77,7 @@ const ProfilePage: FC = () => {
                     variant="secondary"
                     activeTab={currentTab}
                     setActiveTab={setCurrentTab}
+                    className="mb-6"
                 />
             )}
 

@@ -21,7 +21,7 @@ export const other = {
         backToFinalStep: 'Вернуться к последнему шагу',
         completeStep: 'Завершить шаг',
         checkStep: 'Проверить шаг',
-        incompleteStep: 'Шаг не завершен',
+        incompleted: 'Шаг не завершен',
         completed: 'Завершено',
         step: 'Шаг',
         Steps: {
@@ -226,6 +226,13 @@ export const other = {
         selected: 'Выбрано',
         oops: 'Упс!',
         enterPhoneNumber: 'Введите номер телефона',
-        send: 'Отправить'
+        send: 'Отправить',
+        show: 'Показать',
+        showMore: 'Показать еще',
+        hide: 'Скрыть',
+        minutes: 'минут'
+    },
+    Alts: {
+        noRecipeImage: 'Изображение отсутствует'
     }
 };

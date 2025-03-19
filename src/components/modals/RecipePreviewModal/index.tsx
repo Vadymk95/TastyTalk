@@ -9,15 +9,21 @@ import { Recipe as RecipeType } from '@root/types';
 
 type RecipePreviewModalProps = {
     recipe: RecipeType;
+    modalKey?: string;
 };
 
-export const RecipePreviewModal: FC<RecipePreviewModalProps> = ({ recipe }) => {
+export const RecipePreviewModal: FC<RecipePreviewModalProps> = ({
+    recipe,
+    modalKey
+}) => {
     const { t } = useTranslation();
     const { isModalOpen, closeModal } = useModalStore();
-    const isRecipePreviewModalOpen = isModalOpen.recipePreview;
+    const isRecipePreviewModalOpen = modalKey
+        ? isModalOpen[modalKey]
+        : isModalOpen.recipePreview;
 
     const handleCloseRecipePreviewModal = () =>
-        closeModal(ModalsEnum.RecipePreview);
+        closeModal(modalKey ? modalKey : ModalsEnum.RecipePreview);
 
     return (
         <Modal

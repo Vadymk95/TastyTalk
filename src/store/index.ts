@@ -2,6 +2,7 @@ export { useAuthStore } from './authStore';
 export { useFollowersStore } from './followersStore';
 export { useFollowingStore } from './followingStore';
 export { useLanguageStore } from './languageStore';
+export { useLocalStorageStore } from './localStore';
 export { useModalStore } from './modalStore';
 export { useRecipeStore } from './recipeStore';
 export { useTemporaryRecipeStore } from './temporaryRecipeStore';

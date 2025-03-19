@@ -27,7 +27,7 @@ export const DifficultyMap: FC<DifficultyMapProps> = ({ level, className }) => {
 
     if (level === 'medium') {
         return (
-            <p className="flex items-center text-accent gap-2">
+            <p className={`flex items-center text-accent gap-2 ${className}`}>
                 <span>{t('Recipe.difficulty')}</span>
                 <span className="flex items-center gap-0.5">
                     <FontAwesomeIcon icon={faFire} />
@@ -39,7 +39,7 @@ export const DifficultyMap: FC<DifficultyMapProps> = ({ level, className }) => {
 
     if (level === 'hard') {
         return (
-            <p className="flex items-center text-primary gap-2">
+            <p className={`flex items-center text-primary gap-2 ${className}`}>
                 <span>{t('Recipe.difficulty')}</span>
                 <span className="flex items-center gap-0.5">
                     <FontAwesomeIcon icon={faFire} />

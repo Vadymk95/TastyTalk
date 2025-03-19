@@ -81,5 +81,18 @@ export const components = {
             'This application might not work correctly inside an embedded browser or Telegram. Google Sign-In is not supported in embedded browsers',
         description2:
             'Please open TastyTalks in your default browser for the best experience.'
+    },
+    TopWeekSection: {
+        title: 'Top of the Week'
+    },
+    AIRecipesSection: {
+        title: 'AI Recipes'
+    },
+    WelcomeSection: {
+        title: 'Welcome to TastyTalks!',
+        description:
+            'This is a simple recipe app where you can create, find and share recipes or meal plans.',
+        cta: 'Try creating your own recipe right now!',
+        createRecipe: 'Create Recipe'
     }
 };

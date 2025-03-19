@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 type ModalState = {
-    isModalOpen: { [key: string]: boolean };
+    isModalOpen: Record<string, boolean>;
     openModal: (modalId: string) => void;
     closeModal: (modalId: string) => void;
 };

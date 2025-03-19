@@ -1,3 +1,4 @@
+export { AIRecipesSection } from './AIRecipesSection';
 export { Categories } from './Categories';
 export { DifficultyMap } from './DifficultyMap';
 export { ErrorBoundary } from './ErrorBoundary';
@@ -24,6 +25,8 @@ export { Recipe } from './Recipe';
 export { RecipeTypingEffect } from './RecipeTypingEffect';
 export { Rules } from './Rules';
 export { RulesAndPrivacy } from './RulesAndPrivacy';
+export { TopWeekSection } from './TopWeekSection';
 export { User } from './User';
 export { UserList } from './UserList';
 export { Video } from './Video';
+export { WelcomeSection } from './WelcomeSection';

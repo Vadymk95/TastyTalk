@@ -21,7 +21,7 @@ export const other = {
         backToFinalStep: 'Back to Final Step',
         completeStep: 'Complete Step',
         checkStep: 'Check Step',
-        incompleteStep: 'Incomplete Step',
+        incompleted: 'Incomplete Step',
         completed: 'Completed',
         step: 'Step',
         Steps: {
@@ -226,6 +226,13 @@ export const other = {
         selected: 'Selected',
         oops: 'Oops!',
         enterPhoneNumber: 'Enter a number',
-        send: 'Send'
+        send: 'Send',
+        show: 'Show',
+        showMore: 'Show More',
+        hide: 'Hide',
+        minutes: 'minutes'
+    },
+    Alts: {
+        noRecipeImage: 'No Recipe Image'
     }
 };

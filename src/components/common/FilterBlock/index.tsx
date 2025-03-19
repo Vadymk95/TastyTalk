@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 export const FilterBlock: FC = () => {
     return (
-        <div>
+        <section>
             <h2>Filter Block</h2>
-        </div>
+        </section>
     );
 };
