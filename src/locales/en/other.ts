@@ -21,7 +21,7 @@ export const other = {
         backToFinalStep: 'Back to Final Step',
         completeStep: 'Complete Step',
         checkStep: 'Check Step',
-        incompleteStep: 'Incomplete Step',
+        incompleted: 'Incomplete Step',
         completed: 'Completed',
         step: 'Step',
         Steps: {

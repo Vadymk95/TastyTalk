@@ -87,5 +87,12 @@ export const components = {
     },
     AIRecipesSection: {
         title: 'AI Recipes'
+    },
+    WelcomeSection: {
+        title: 'Welcome to TastyTalks!',
+        description:
+            'This is a simple recipe app where you can create, find and share recipes or meal plans.',
+        cta: 'Try creating your own recipe right now!',
+        createRecipe: 'Create Recipe'
     }
 };

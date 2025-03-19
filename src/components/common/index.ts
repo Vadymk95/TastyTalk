@@ -29,3 +29,4 @@ export { TopWeekSection } from './TopWeekSection';
 export { User } from './User';
 export { UserList } from './UserList';
 export { Video } from './Video';
+export { WelcomeSection } from './WelcomeSection';

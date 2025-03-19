@@ -89,5 +89,12 @@ export const components = {
     },
     AIRecipesSection: {
         title: 'Рекомендации AI'
+    },
+    WelcomeSection: {
+        title: 'Добро пожаловать в TastyTalks!',
+        description:
+            'Это простое приложение для рецептов, где вы можете создавать, находить и делиться рецептами или планами питания.',
+        cta: 'Попробуй создай свой рецепт прямо сейчас!',
+        createRecipe: 'Создать рецепт'
     }
 };
