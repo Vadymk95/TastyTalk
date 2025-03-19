@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 
 import { Image } from '@root/components/ui/Image';
 import { routes } from '@root/router/routes';
+import { useAuthStore } from '@root/store/authStore';
 
 import logo from '@root/assets/images/logo.svg';
 
 export const WelcomeSection: FC = () => {
     const { t } = useTranslation();
+    const { user, initialized } = useAuthStore();
+    const isAuth = !!user;
 
     return (
         <section className="flex flex-col items-center justify-center h-[calc(100vh-112px)] py-8">
@@ -21,16 +24,20 @@ export const WelcomeSection: FC = () => {
                 {t('WelcomeSection.description')}
             </p>
 
-            <h2 className="text-3xl md:text-lg text-center text-neutral mt-10">
-                {t('WelcomeSection.cta')}
-            </h2>
+            {initialized && isAuth && (
+                <>
+                    <h2 className="text-3xl md:text-lg text-center text-neutral mt-10">
+                        {t('WelcomeSection.cta')}
+                    </h2>
 
-            <Link
-                to={routes.recipesCreate}
-                className="link-primary text-2xl nav-link rounded-lg px-6 py-4 bg-primary flex-all-center my-8"
-            >
-                <span>{t('WelcomeSection.createRecipe')}</span>
-            </Link>
+                    <Link
+                        to={routes.recipesCreate}
+                        className="link-primary text-2xl nav-link rounded-lg px-6 py-4 bg-primary flex-all-center my-8"
+                    >
+                        <span>{t('WelcomeSection.createRecipe')}</span>
+                    </Link>
+                </>
+            )}
         </section>
     );
 };
