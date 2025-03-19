@@ -72,6 +72,7 @@ export const SectionRecipeItem: FC<IProps> = ({ recipe }) => {
                                     categoryColor={categoryColor}
                                     text={name}
                                     className="text-xs"
+                                    key={categoryColor}
                                 />
                             );
                         })}
