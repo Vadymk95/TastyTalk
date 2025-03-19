@@ -12,7 +12,7 @@ export const HomePage: FC = () => {
         <>
             <WelcomeSection />
 
-            <div className="plate">
+            <div className="plate mt-4">
                 <MainFilterBlock />
 
                 <div className="flex flex-col gap-4 mt-4">
